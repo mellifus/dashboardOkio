@@ -10,7 +10,7 @@
 
 ## Global Constraints
 
-- No git repository exists in this project (`git status` fails with "not a git repository"). Steps below skip `git commit` — verify manually in-browser at the end of each task instead. If the user initializes git later, these tasks can be committed individually at that point.
+- Git was initialized for this project on 2026-08-04 with a single baseline commit of all existing files (previously there was no repository at all). Each task should be committed on completion per the normal subagent-driven-development flow. There is still no remote — everything stays local.
 - Spanish (Argentina, voseo) UI copy throughout — sentence case for labels/buttons, UPPERCASE only for tiny structural eyebrow labels. No new copy in this plan violates that.
 - Reuse existing design tokens (`--accent`, `--warning-bg`, `--warning-border`, `--warning-text`, `--danger-bg`, `--danger-text`, `--gray-*`, `--radius-*`) — do not invent new colors.
 - Reuse existing interaction patterns — inline expanding panels (like "Nuevo turno"), not modals/popovers/overlays. This codebase has none of those today and this feature doesn't introduce the first one.
@@ -202,7 +202,7 @@ In `renderVals()`, after the existing `const dayLabelFor = ...` line (already de
       dayLabel: dayLabelFor(selectedAppointmentRaw.day),
       timeLabel: fmtTime(selectedAppointmentRaw.start),
       isMarkable: selectedAppointmentRaw.status === 'confirmed',
-      isAwaitingLog: selectedAppointmentRaw.status === 'completed' && !selectedAppointmentRaw.sessionLogged,
+      isAwaitingLog: selectedAppointmentRaw.status === 'completed' && !selectedAppointmentRaw.sessionLogged && s.loggingApptId !== selectedAppointmentRaw.id,
       isLogged: selectedAppointmentRaw.status === 'completed' && !!selectedAppointmentRaw.sessionLogged,
     } : null;
     const hasSelectedAppointment = !!selectedAppointment;

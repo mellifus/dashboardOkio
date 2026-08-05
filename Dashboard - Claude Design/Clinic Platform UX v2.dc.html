@@ -303,6 +303,9 @@
             <button style="background:var(--accent);color:var(--text-on-accent);border:none;padding:8px 15px;border-radius:var(--radius-pill);font-size:12.5px;font-weight:600;cursor:pointer">Reservar turno</button>
             <button style="background:var(--surface-card);color:var(--gray-18);border:1px solid var(--gray-11);padding:8px 15px;border-radius:var(--radius-pill);font-size:12.5px;font-weight:600;cursor:pointer">Mensaje</button>
           </div>
+          <sc-if value="{{ selectedClient.hasAdverseReactionHistory }}" hint-placeholder-val="{{ false }}">
+            <div onClick="{{ onOpenReactionHistory }}" style="display:flex;align-items:center;gap:8px;background:var(--warning-bg);border:1px solid var(--warning-border);border-radius:9px;padding:9px 14px;margin-bottom:16px;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--warning-text)">⚠ Reacción adversa registrada — ver Historial</div>
+          </sc-if>
           <div style="display:flex;gap:4px;border-bottom:1px solid var(--gray-8);margin-bottom:18px">
             <sc-for list="{{ clientTabs }}" as="tab" hint-placeholder-count="5">
               <div onClick="{{ tab.onClick }}" style="padding:9px 14px;cursor:pointer;font-size:13px;font-weight:{{ tab.weight }};color:{{ tab.color }};border-bottom:2px solid {{ tab.borderColor }}">{{ tab.label }}</div>
@@ -964,7 +967,9 @@ class Component extends DCLogic {
 
     const clients = s.clients.map(c => ({...c, initials: initials(c.name), onClick: () => this.selectClient(c.id), rowBg: c.id === s.selectedClientId ? 'var(--accent-tint-soft)' : 'transparent'}));
     const selectedClientRaw = s.clients.find(c => c.id === s.selectedClientId) || s.clients[0];
-    const selectedClient = {...selectedClientRaw, initials: initials(selectedClientRaw.name)};
+    const hasAdverseReactionHistory = (selectedClientRaw.history || []).some(h => h.adverseReaction && h.adverseReaction.flag);
+    const selectedClient = {...selectedClientRaw, initials: initials(selectedClientRaw.name), hasAdverseReactionHistory};
+    const onOpenReactionHistory = () => this.setClientTab('history');
     const tabDefs = [{id:'overview', label:'Resumen'}, {id:'history', label:'Historial'}, {id:'photos', label:'Fotos'}, {id:'notes', label:'Notas'}, {id:'consent', label:'Consentimiento'}];
     const clientTabs = tabDefs.map(t => ({...t, onClick: () => this.setClientTab(t.id),
       weight: t.id === s.activeClientTab ? 650 : 500,
@@ -1067,7 +1072,7 @@ class Component extends DCLogic {
       isFollowupsView: s.activeView === 'followups', isAnalyticsView: s.activeView === 'analytics',
       dayColumns, hourLabels, needsAttention, needsAttentionCount: needsAttention.length, noNeedsAttention: needsAttention.length === 0,
       weekTotal: apptsWithMeta.length, weekWaiting: apptsWithMeta.filter(a => a.status === 'waiting').length,
-      clients, selectedClient, clientTabs,
+      clients, selectedClient, clientTabs, onOpenReactionHistory,
       isTabOverview: s.activeClientTab === 'overview', isTabHistory: s.activeClientTab === 'history',
       isTabNotes: s.activeClientTab === 'notes', isTabPhotos: s.activeClientTab === 'photos', isTabConsent: s.activeClientTab === 'consent',
       photoSlots: this.photoSlots, consentDocs: this.consentDocs,

@@ -316,10 +316,46 @@
             <div style="font-size:13px;line-height:1.7;color:var(--gray-17)">{{ selectedClient.overview }}</div>
           </sc-if>
           <sc-if value="{{ isTabHistory }}" hint-placeholder-val="{{ false }}">
-            <sc-for list="{{ selectedClient.history }}" as="h" hint-placeholder-count="3">
+            <sc-for list="{{ historyEntries }}" as="h" hint-placeholder-count="3">
               <div style="padding:11px 0;border-top:1px solid var(--gray-7);font-size:13px">
-                <div style="font-weight:600">{{ h.treatment }} — {{ h.date }}</div>
-                <div style="color:var(--gray-14);font-size:12.5px">{{ h.practitioner }} · {{ h.notes }}</div>
+                <sc-if value="{{ h.isViewing }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;align-items:flex-start;gap:8px">
+                    <div style="flex:1;min-width:0">
+                      <div style="font-weight:600">{{ h.treatment }} — {{ h.date }} <sc-if value="{{ h.isEdited }}" hint-placeholder-val="{{ false }}"><span style="font-weight:500;color:var(--gray-13);font-size:11.5px">(editado)</span></sc-if></div>
+                      <div style="color:var(--gray-14);font-size:12.5px">{{ h.practitioner }} · {{ h.notes }}</div>
+                      <sc-if value="{{ h.hasReaction }}" hint-placeholder-val="{{ false }}">
+                        <div style="margin-top:6px;display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--warning-text);background:var(--warning-bg);border:1px solid var(--warning-border);padding:3px 9px;border-radius:6px">⚠ Reacción adversa — {{ h.reactionDescription }}</div>
+                      </sc-if>
+                      <sc-if value="{{ h.hasFollowUp }}" hint-placeholder-val="{{ false }}">
+                        <div style="margin-top:5px;font-size:11.5px;font-weight:600;color:var(--accent-strong)">Seguimiento sugerido: {{ h.followUpDue }}</div>
+                      </sc-if>
+                    </div>
+                    <div onClick="{{ h.onEditClick }}" style="font-size:11px;color:var(--gray-13);cursor:pointer;flex-shrink:0">Editar</div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ h.isEditingThis }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;flex-direction:column;gap:10px">
+                    <div style="font-weight:600">{{ h.treatment }} — {{ h.date }}</div>
+                    <div>
+                      <div style="font-size:11.5px;font-weight:600;color:var(--gray-15);margin-bottom:5px">Notas clínicas</div>
+                      <textarea value="{{ historyEditDraft.notes }}" onChange="{{ onHistoryNotesChange }}" rows="3" style="width:100%;box-sizing:border-box;padding:8px 11px;border:1px solid var(--gray-9);border-radius:var(--radius-md);font-size:12.5px;background:var(--gray-2);color:var(--gray-19);resize:vertical"></textarea>
+                    </div>
+                    <div>
+                      <div style="font-size:11.5px;font-weight:600;color:var(--gray-15);margin-bottom:5px">Reacción adversa</div>
+                      <div style="display:flex;gap:6px;max-width:220px">
+                        <button onClick="{{ onHistoryReactionNo }}" style="flex:1;padding:7px;border-radius:var(--radius-md);font-size:12px;font-weight:600;cursor:pointer;{{ historyReactionNoStyle }}">No</button>
+                        <button onClick="{{ onHistoryReactionYes }}" style="flex:1;padding:7px;border-radius:var(--radius-md);font-size:12px;font-weight:600;cursor:pointer;{{ historyReactionYesStyle }}">Sí</button>
+                      </div>
+                    </div>
+                    <sc-if value="{{ historyEditDraft.hasReaction }}" hint-placeholder-val="{{ false }}">
+                      <textarea value="{{ historyEditDraft.reactionDescription }}" onChange="{{ onHistoryReactionDescChange }}" rows="2" placeholder="Descripción de la reacción" style="width:100%;box-sizing:border-box;padding:8px 11px;border:1px solid var(--warning-border);border-radius:var(--radius-md);font-size:12.5px;background:var(--warning-bg);color:var(--gray-19);resize:vertical"></textarea>
+                    </sc-if>
+                    <div style="display:flex;gap:9px">
+                      <button onClick="{{ onCancelEditHistory }}" style="background:var(--surface-card);color:var(--gray-17);border:1px solid var(--gray-10);padding:7px 13px;border-radius:var(--radius-pill);font-size:12px;font-weight:600;cursor:pointer">Cancelar</button>
+                      <button onClick="{{ h.onSave }}" style="margin-left:auto;background:var(--accent);color:var(--text-on-accent);border:none;padding:7px 15px;border-radius:var(--radius-pill);font-size:12px;font-weight:600;cursor:pointer">Guardar</button>
+                    </div>
+                  </div>
+                </sc-if>
               </div>
             </sc-for>
           </sc-if>
@@ -625,6 +661,8 @@ class Component extends DCLogic {
     loggingApptId: null,
     sessionDraft: {notes:'', hasReaction:false, reactionDescription:'', followUpChoice:'', followUpCustom:''},
     toast: null,
+    editingHistoryIndex: null,
+    historyEditDraft: {notes:'', hasReaction:false, reactionDescription:''},
     appointments: [
       {id:1, day:0, staffId:1, staffName:'Ana Torres', client:'Elena Vidal', treatment:'Botox – frente', start:9.5, dur:0.75, status:'confirmed'},
       {id:2, day:0, staffId:1, staffName:'Ana Torres', client:'Marco Díaz', treatment:'Consulta', start:11, dur:0.5, status:'unconfirmed'},
@@ -831,6 +869,37 @@ class Component extends DCLogic {
   toggleWorkflow() { this.setState(s => ({workflowOpen: !s.workflowOpen})); }
   approveSend(id) { this.setState(s => ({sentThreadIds: s.sentThreadIds.includes(id) ? s.sentThreadIds : [...s.sentThreadIds, id]})); }
 
+  currentClientHistoryEntry(index) {
+    const c = this.state.clients.find(c => c.id === this.state.selectedClientId);
+    return c ? c.history[index] : {};
+  }
+  emptyHistoryEditDraft(entry) {
+    return {notes: entry.notes, hasReaction: !!(entry.adverseReaction && entry.adverseReaction.flag), reactionDescription: (entry.adverseReaction && entry.adverseReaction.description) || ''};
+  }
+  startEditHistory(index) {
+    const entry = this.currentClientHistoryEntry(index);
+    this.setState({editingHistoryIndex: index, historyEditDraft: this.emptyHistoryEditDraft(entry)});
+  }
+  cancelEditHistory() { this.setState({editingHistoryIndex: null}); }
+  updateHistoryEditDraft(patch) { this.setState(s => ({historyEditDraft: {...s.historyEditDraft, ...patch}})); }
+  saveEditHistory(index) {
+    this.setState(s => {
+      const d = s.historyEditDraft;
+      return {
+        clients: s.clients.map(c => c.id !== s.selectedClientId ? c : {
+          ...c,
+          history: c.history.map((h, i) => i !== index ? h : {
+            ...h,
+            notes: d.notes,
+            adverseReaction: {flag: d.hasReaction, description: d.hasReaction ? d.reactionDescription : ''},
+            edited: {isEdited: true, editedAt: 'recién'},
+          }),
+        }),
+        editingHistoryIndex: null,
+      };
+    });
+  }
+
   emptyApptDraft() { return {clientId:'', clientName:'', clientSearch:'', treatment:'', staffId:'', day:'', start:'', dur:0.5}; }
   toggleNewApptPanel() { this.setState(s => ({newApptPanelOpen: !s.newApptPanelOpen, selectedAppointmentId: null, loggingApptId: null})); }
   cancelNewAppt() { this.setState({newApptPanelOpen: false, newApptDraft: this.emptyApptDraft()}); }
@@ -969,6 +1038,28 @@ class Component extends DCLogic {
     const selectedClientRaw = s.clients.find(c => c.id === s.selectedClientId) || s.clients[0];
     const hasAdverseReactionHistory = (selectedClientRaw.history || []).some(h => h.adverseReaction && h.adverseReaction.flag);
     const selectedClient = {...selectedClientRaw, initials: initials(selectedClientRaw.name), hasAdverseReactionHistory};
+    const followupById = (id) => s.followups.find(f => f.id === id);
+    const historyEntries = (selectedClient.history || []).map((h, i) => {
+      const reaction = h.adverseReaction || {};
+      const followUp = h.followUpId != null ? followupById(h.followUpId) : null;
+      const edited = h.edited || {};
+      return {
+        ...h, index: i,
+        hasReaction: !!reaction.flag, reactionDescription: reaction.description || '',
+        hasFollowUp: !!followUp, followUpDue: followUp ? followUp.due : '',
+        isEdited: !!edited.isEdited, editedAt: edited.editedAt || '',
+        isEditingThis: s.editingHistoryIndex === i, isViewing: s.editingHistoryIndex !== i,
+        onEditClick: () => this.startEditHistory(i),
+        onSave: () => this.saveEditHistory(i),
+      };
+    });
+    const onHistoryNotesChange = (e) => this.updateHistoryEditDraft({notes: e.target.value});
+    const onHistoryReactionNo = () => this.updateHistoryEditDraft({hasReaction:false, reactionDescription:''});
+    const onHistoryReactionYes = () => this.updateHistoryEditDraft({hasReaction:true});
+    const onHistoryReactionDescChange = (e) => this.updateHistoryEditDraft({reactionDescription: e.target.value});
+    const historyReactionNoStyle = !s.historyEditDraft.hasReaction ? 'background:var(--gray-7);color:var(--gray-19);border:none' : 'background:var(--surface-card);color:var(--gray-15);border:1px solid var(--gray-10)';
+    const historyReactionYesStyle = s.historyEditDraft.hasReaction ? 'background:var(--danger-bg);color:var(--danger-text);border:none' : 'background:var(--surface-card);color:var(--gray-15);border:1px solid var(--gray-10)';
+    const onCancelEditHistory = () => this.cancelEditHistory();
     const onOpenReactionHistory = () => this.setClientTab('history');
     const tabDefs = [{id:'overview', label:'Resumen'}, {id:'history', label:'Historial'}, {id:'photos', label:'Fotos'}, {id:'notes', label:'Notas'}, {id:'consent', label:'Consentimiento'}];
     const clientTabs = tabDefs.map(t => ({...t, onClick: () => this.setClientTab(t.id),
@@ -1091,6 +1182,7 @@ class Component extends DCLogic {
       onCancelSessionForm, onSubmitSessionLog, sessionDraft: s.sessionDraft, onSessionNotesChange, onReactionNo, onReactionYes,
       onReactionDescChange, reactionNoStyle, reactionYesStyle, followUpPills, isFollowUpCustom, onFollowUpCustomChange,
       hasToast, toastText, onDismissToast,
+      historyEntries, historyEditDraft: s.historyEditDraft, onHistoryNotesChange, onHistoryReactionNo, onHistoryReactionYes, onHistoryReactionDescChange, historyReactionNoStyle, historyReactionYesStyle, onCancelEditHistory,
     };
   }
 }

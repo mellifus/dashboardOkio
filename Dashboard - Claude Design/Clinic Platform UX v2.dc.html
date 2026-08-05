@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<style>
+  :root{
+    --gray-1:oklch(100% 0 0);--gray-2:oklch(99.5% 0.002 240);--gray-3:oklch(98.5% 0.003 250);--gray-4:oklch(98% 0.003 240);--gray-5:oklch(97% 0.003 250);--gray-6:oklch(96% 0.003 260);--gray-7:oklch(94% 0.003 260);--gray-8:oklch(93% 0.004 260);--gray-9:oklch(91% 0.004 260);--gray-10:oklch(90% 0.004 260);--gray-11:oklch(88% 0.004 260);--gray-12:oklch(62% 0.006 260);--gray-13:oklch(58% 0.006 260);--gray-14:oklch(55% 0.006 260);--gray-15:oklch(52% 0.006 260);--gray-16:oklch(50% 0.006 260);--gray-17:oklch(45% 0.008 260);--gray-18:oklch(30% 0.01 260);--gray-19:oklch(18% 0.01 260);
+    --ink-sidebar:oklch(13% 0.015 260);--ink-sidebar-text:oklch(65% 0.015 260);--ink-sidebar-text-strong:oklch(97% 0.005 260);--ink-sidebar-border:oklch(24% 0.015 260);--ink-sidebar-muted:oklch(50% 0.015 260);
+    --okio-primary:#003F36;
+    --accent:#003F36;
+    --accent-strong:oklch(from var(--accent) calc(l * 0.75) c h);
+    --accent-tint:oklch(from var(--accent) 93% calc(c * 0.3) h);
+    --accent-tint-soft:oklch(from var(--accent) 97% calc(c * 0.2) h);
+    --accent-tint-border:oklch(from var(--accent) 88% calc(c * 0.4) h);
+    --accent-tint-border-2:oklch(from var(--accent) 90% calc(c * 0.3) h);
+    --accent-dot-inactive:oklch(40% 0.01 260);
+    --accent-shadow:oklch(from var(--accent) l c h / 0.35);
+    --warning:oklch(58% 0.16 55);--warning-bg:oklch(96% 0.03 55);--warning-bg-strong:oklch(97.5% 0.02 55);--warning-border:oklch(88% 0.05 55);--warning-text:oklch(35% 0.13 45);--warning-text-strong:oklch(40% 0.13 45);--warning-text-body:oklch(32% 0.05 45);
+    --danger:oklch(56% 0.18 25);--danger-bg:oklch(94% 0.03 25);--danger-text:oklch(45% 0.16 25);
+    --success:oklch(58% 0.14 145);--success-bg:oklch(58% 0.14 145 / 0.12);
+    --info:oklch(56% 0.15 230);
+    --surface-page:var(--gray-4);--surface-card:var(--gray-1);--surface-sidebar:var(--ink-sidebar);--surface-input:var(--gray-5);
+    --text-primary:var(--gray-19);--text-secondary:var(--gray-17);--text-muted:var(--gray-14);--text-faint:var(--gray-12);--text-on-accent:var(--gray-1);--text-on-dark:var(--ink-sidebar-text);
+    --border-subtle:var(--gray-7);--border-default:var(--gray-9);--border-strong:var(--gray-11);
+    --radius-sm:6px;--radius-md:7px;--radius-lg:8px;--radius-xl:9px;--radius-2xl:10px;--radius-3xl:12px;--radius-pill:999px;--radius-full:50%;
+    --shadow-card:0 1px 3px oklch(20% 0.01 260 / 0.04);--shadow-button-accent:0 1px 2px var(--accent-shadow);
+  }
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  ::-webkit-scrollbar{width:8px;height:8px}
+  ::-webkit-scrollbar-thumb{background:var(--gray-11);border-radius:4px}
+  input::placeholder,textarea::placeholder{color:var(--gray-12)}
+  textarea{font-family:inherit}
+</style>
+</helmet>
+<div style="display:grid;grid-template-columns:230px 1fr;height:100vh;background:var(--surface-page);color:var(--text-primary);font-size:14px;letter-spacing:-0.005em">
+
+  <div style="background:var(--surface-sidebar);color:var(--text-on-dark);display:flex;flex-direction:column;padding:18px 12px">
+    <div style="display:flex;align-items:center;gap:9px;padding:4px 8px 22px">
+      <div style="width:22px;height:22px;border-radius:6px;background:var(--accent)"></div>
+      <div style="font-weight:600;font-size:14px;color:var(--ink-sidebar-text-strong);letter-spacing:-0.01em">Okio</div>
+    </div>
+    <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="5">
+      <div onClick="{{ item.onClick }}" style="display:flex;align-items:center;gap:10px;padding:8px 10px;margin-bottom:2px;cursor:pointer;background:{{ item.bg }};color:{{ item.color }};border-radius:7px;font-weight:{{ item.weight }};font-size:13.5px">
+        <span style="width:5px;height:5px;border-radius:50%;background:{{ item.dot }};flex-shrink:0"></span>
+        <span>{{ item.label }}</span>
+        <sc-if value="{{ item.badge }}" hint-placeholder-val="{{ false }}">
+          <span style="margin-left:auto;background:oklch(from var(--accent) l c h / 0.22);color:oklch(from var(--accent) 80% 0.09 h);font-size:10.5px;font-weight:600;padding:1px 7px;border-radius:10px">{{ item.badge }}</span>
+        </sc-if>
+      </div>
+    </sc-for>
+    <div style="margin-top:auto;padding:14px 10px 4px;border-top:1px solid var(--ink-sidebar-border);font-size:12px;color:var(--ink-sidebar-muted)">Configuración · Personal</div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;min-width:0">
+    <div style="display:flex;align-items:center;gap:16px;padding:13px 26px;background:var(--gray-2);border-bottom:1px solid var(--gray-8)">
+      <div style="font-weight:600;font-size:14.5px;letter-spacing:-0.01em">{{ currentViewLabel }}</div>
+      <input placeholder="Buscar clientes, turnos…" style="margin-left:auto;width:280px;padding:7px 12px;border:1px solid var(--gray-9);border-radius:7px;font-size:13px;background:var(--gray-5);color:var(--gray-19)"></input>
+      <div style="width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:600">MR</div>
+    </div>
+
+    <div style="flex:1;min-height:0;overflow:auto;padding:22px 26px">
+
+    <sc-if value="{{ isCalendarView }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;gap:20px;align-items:flex-start">
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:baseline;margin-bottom:4px">
+            <div style="font-size:19px;font-weight:650;letter-spacing:-0.015em">Semana del 27 de julio al 1 de agosto</div>
+            <button onClick="{{ onToggleNewAppt }}" style="margin-left:auto;background:var(--accent);color:var(--text-on-accent);border:none;padding:9px 15px;border-radius:var(--radius-pill);font-size:13px;font-weight:600;cursor:pointer;box-shadow:var(--shadow-button-accent)">+ Nuevo turno</button>
+          </div>
+          <div style="font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:16px">Lun–Sáb · 9:00–19:00</div>
+          <div style="display:flex;background:var(--surface-card);border:1px solid var(--gray-9);border-radius:12px;overflow-x:auto;box-shadow:var(--shadow-card)">
+            <div style="width:52px;flex-shrink:0;position:relative;height:640px;border-right:1px solid var(--gray-8)">
+              <sc-for list="{{ hourLabels }}" as="h" hint-placeholder-count="10">
+                <div style="position:absolute;top:{{ h.top }}px;left:0;right:0;font-size:10.5px;color:var(--gray-16);padding:2px 8px;transform:translateY(-6px)">{{ h.label }}</div>
+              </sc-for>
+            </div>
+            <sc-for list="{{ dayColumns }}" as="col" hint-placeholder-count="7">
+              <div style="flex:1;min-width:118px;border-right:1px solid var(--gray-8)">
+                <div style="padding:10px 10px;font-weight:600;font-size:12px;border-bottom:1px solid var(--gray-8);background:var(--gray-3);color:{{ col.headerColor }};text-align:center">{{ col.label }} {{ col.date }}</div>
+                <sc-if value="{{ col.closed }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:relative;height:640px;background:repeating-linear-gradient(45deg, var(--gray-7) 0 8px, var(--gray-5) 8px 16px);display:flex;align-items:center;justify-content:center">
+                    <span style="font-size:11px;font-weight:650;color:var(--gray-13);text-transform:uppercase;letter-spacing:0.04em;background:var(--gray-2);padding:4px 10px;border-radius:6px">Cerrado</span>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ col.open }}" hint-placeholder-val="{{ true }}">
+                  <div onClick="{{ col.onTrackClick }}" style="position:relative;height:640px;cursor:pointer;background:repeating-linear-gradient(to bottom, var(--gray-7) 0 1px, transparent 1px 64px)">
+                    <sc-for list="{{ col.appts }}" as="appt" hint-placeholder-count="2">
+                      <div onClick="{{ appt.stopClick }}" style="position:absolute;top:{{ appt.top }}px;height:{{ appt.height }}px;left:5px;right:5px;background:{{ appt.bg }};border-left:{{ appt.leftBorder }};border-radius:5px;padding:4px 6px;overflow:hidden;font-size:10.5px;color:{{ appt.color }}">
+                        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:3px">
+                          <span style="font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ appt.timeLabel }}</span>
+                          <span style="width:6px;height:6px;border-radius:50%;background:{{ appt.staffColor }};flex-shrink:0;margin-top:2px" title="{{ appt.staffName }}"></span>
+                        </div>
+                        <div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ appt.client }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="width:280px;flex-shrink:0;display:flex;flex-direction:column;gap:14px">
+          <div style="background:var(--surface-card);border:1px solid var(--gray-9);border-radius:12px;padding:16px;box-shadow:var(--shadow-card)">
+            <div style="font-weight:650;font-size:13px;margin-bottom:10px;letter-spacing:-0.01em">Requiere atención ({{ needsAttentionCount }})</div>
+            <sc-for list="{{ needsAttention }}" as="appt" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-top:1px solid var(--gray-7)">
+                <div style="flex:1;min-width:0">
+                  <div style="font-weight:600;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ appt.client }}</div>
+                  <div style="font-size:11.5px;color:var(--gray-14)">{{ appt.dayLabel }} · {{ appt.timeLabel }} · {{ appt.staffName }}</div>
+                </div>
+                <button onClick="{{ appt.onConfirm }}" style="border:none;background:var(--accent);color:var(--text-on-accent);font-size:11px;font-weight:600;padding:5px 11px;border-radius:var(--radius-pill);cursor:pointer;white-space:nowrap">Confirmar</button>
+              </div>
+            </sc-for>
+            <sc-if value="{{ noNeedsAttention }}" hint-placeholder-val="{{ false }}">
+              <div style="font-size:12px;color:var(--gray-14);padding:6px 0">Todo al día.</div>
+            </sc-if>
+          </div>
+          <div style="background:var(--surface-card);border:1px solid var(--gray-9);border-radius:12px;padding:16px;box-shadow:var(--shadow-card)">
+            <div style="font-weight:650;font-size:13px;margin-bottom:10px;letter-spacing:-0.01em">Resumen de la semana</div>
+            <div style="display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0;border-top:1px solid var(--gray-7)"><span style="color:var(--gray-17)">Turnos totales</span><span style="font-weight:600;font-variant-numeric:tabular-nums">{{ weekTotal }}</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0;border-top:1px solid var(--gray-7)"><span style="color:var(--gray-17)">Sin confirmar</span><span style="font-weight:600;font-variant-numeric:tabular-nums">{{ needsAttentionCount }}</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0;border-top:1px solid var(--gray-7)"><span style="color:var(--gray-17)">Esperando al cliente</span><span style="font-weight:600;font-variant-numeric:tabular-nums">{{ weekWaiting }}</span></div>
+          </div>
+
+          <div style="background:var(--surface-card);border:1px solid var(--gray-9);border-radius:12px;box-shadow:var(--shadow-card);overflow:hidden">
+            <div onClick="{{ onToggleNewAppt }}" style="padding:16px;cursor:pointer;display:flex;align-items:center">
+              <div style="font-weight:650;font-size:13px;letter-spacing:-0.01em">Nuevo turno</div>
+              <div style="margin-left:auto;color:var(--gray-14);font-size:12px">{{ newApptToggleIcon }}</div>
+            </div>
+            <sc-if value="{{ newApptPanelOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:0 16px 16px;display:flex;flex-direction:column;gap:12px">
+                <div>
+                  <div style="font-size:11.5px;font-weight:600;color:var(--gray-15);margin-bottom:5px">Cliente</div>
+                  <input value="{{ newApptDraft.clientSearch }}" onChange="{{ onClientSearchChange }}" placeholder="Buscar clienta…" style="width:100%;box-sizing:border-box;padding:8px 11px;border:1px solid var(--gray-9);border-radius:var(--radius-md);font-size:13px;background:var(--gray-2);color:var(--gray-19)"></input>
+                  <sc-if value="{{ hasClientResults }}" hint-placeholder-val="{{ false }}">
+                    <div style="border:1px solid var(--gray-9);border-radius:var(--radius-md);margin-top:4px;overflow:hidden">
+                      <sc-for list="{{ clientSearchResults }}" as="cr" hint-placeholder-count="3">
+                        <div onClick="{{ cr.onSelect }}" style="padding:8px 11px;font-size:12.5px;cursor:pointer;border-top:1px solid var(--gray-7)">{{ cr.name }}</div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ newApptDraft.clientName }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin-top:6px;font-size:12.5px;color:var(--accent-strong);font-weight:600">✓ {{ newApptDraft.clientName }}</div>
+                  </sc-if>
+                </div>
+
+                <div>
+                  <div style="font-size:11.5px;font-weight:600;color:var(--gray-15);margin-bottom:5px">Tratamiento</div>
+                  <select value="{{ newApptDraft.treatment }}" onChange="{{ onTreatmentChange }}" style="width:100%;box-sizing:border-box;padding:8px 11px;border:1px solid var(--gray-9);border-radius:var(--radius-md);font-size:13px;background:var(--gray-2);color:var(--gray-19)">
+                    <option value="">Elegí un tratamiento…</option>
+                    <sc-for list="{{ treatmentOptions }}" as="tr" hint-placeholder-count="8">
+                      <option value="{{ tr }}">{{ tr }}</option>
+                    </sc-for>
+                  </select>
+                </div>
+
+                <div>
+                  <div style="font-size:11.5px;font-weight:600;color:var(--gray-15);margin-bottom:5px">Profesional</div>
+                  <select value="{{ newApptDraft.staffId }}" onChange="{{ onStaffChange }}" style="width:100%;box-sizing:border-box;padding:8px 11px;border:1px solid var(--gray-9);border-radius:var(--radius-md);font-size:13px;background:var(--gray-2);color:var(--gray-19)">
+                    <option value="">Elegí…</option>
+                    <sc-for list="{{ staffOptions }}" as="st" hint-placeholder-count="4">
+                      <option value="{{ st.id }}">{{ st.name }}</option>
+                    </sc-for>
+                  </select>
+                </div>
+
+                <div>
+                  <div style="font-size:11.5px;font-weight:600;color:var(--gray-15);margin-bottom:5px">Día</div>
+                  <select value="{{ newApptDraft.day }}" onChange="{{ onDayChange }}" style="width:100%;box-sizing:border-box;padding:8px 11px;border:1px solid var(--gray-9);border-radius:var(--radius-md);font-size:13px;background:var(--gray-2);color:var(--gray-19)">
+                    <option value="">Elegí…</option>
+                    <sc-for list="{{ dayOptions }}" as="d" hint-placeholder-count="6">
+                      <option value="{{ d.id }}">{{ d.label }} {{ d.date }}</option>
+                    </sc-for>
+                  </select>
+                </div>
+
+                <div>
+                  <div style="font-size:11.5px;font-weight:600;color:var(--gray-15);margin-bottom:5px">Hora</div>
+                  <select value="{{ newApptDraft.start }}" onChange="{{ onStartChange }}" style="width:100%;box-sizing:border-box;padding:8px 11px;border:1px solid var(--gray-9);border-radius:var(--radius-md);font-size:13px;background:var(--gray-2);color:var(--gray-19)">
+                    <option value="">Elegí…</option>
+                    <sc-for list="{{ timeOptions }}" as="tm" hint-placeholder-count="20">
+                      <option value="{{ tm.value }}">{{ tm.label }}</option>
+                    </sc-for>
+                  </select>
+                </div>
+
+                <div>
+                  <div style="font-size:11.5px;font-weight:600;color:var(--gray-15);margin-bottom:5px">Duración</div>
+                  <select value="{{ newApptDraft.dur }}" onChange="{{ onDurChange }}" style="width:100%;box-sizing:border-box;padding:8px 11px;border:1px solid var(--gray-9);border-radius:var(--radius-md);font-size:13px;background:var(--gray-2);color:var(--gray-19)">
+                    <sc-for list="{{ durationOptions }}" as="du" hint-placeholder-count="4">
+                      <option value="{{ du.value }}">{{ du.label }}</option>
+                    </sc-for>
+                  </select>
+                </div>
+
+                <sc-if value="{{ conflictWarning }}" hint-placeholder-val="{{ false }}">
+                  <div style="font-size:12px;color:var(--warning-text);background:var(--warning-bg);border:1px solid var(--warning-border);border-radius:8px;padding:9px 12px">⚠ {{ conflictWarning }}</div>
+                </sc-if>
+
+                <div style="display:flex;gap:9px">
+                  <button onClick="{{ onCancelNewAppt }}" style="background:var(--surface-card);color:var(--gray-17);border:1px solid var(--gray-10);padding:8px 14px;border-radius:var(--radius-pill);font-size:12.5px;font-weight:600;cursor:pointer">Cancelar</button>
+                  <button onClick="{{ onSubmitAppt }}" disabled="{{ submitDisabled }}" style="margin-left:auto;background:{{ submitBg }};color:var(--text-on-accent);border:none;padding:8px 16px;border-radius:var(--radius-pill);font-size:12.5px;font-weight:600;cursor:{{ submitCursor }}">Crear turno</button>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isClientsView }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;gap:20px;align-items:flex-start;height:100%">
+        <div style="width:260px;flex-shrink:0;background:var(--surface-card);border:1px solid var(--gray-9);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-card)">
+          <sc-for list="{{ clients }}" as="c" hint-placeholder-count="5">
+            <div onClick="{{ c.onClick }}" style="padding:13px 15px;border-top:1px solid var(--gray-7);cursor:pointer;background:{{ c.rowBg }}">
+              <div style="font-weight:600;font-size:13px">{{ c.name }}</div>
+              <div style="font-size:11.5px;color:var(--gray-14)">Última visita {{ c.lastVisit }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="flex:1;min-width:0;background:var(--surface-card);border:1px solid var(--gray-9);border-radius:12px;padding:22px;box-shadow:var(--shadow-card)">
+          <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:18px">
+            <div style="width:52px;height:52px;border-radius:50%;background:var(--accent-tint);color:var(--accent-strong);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:650">{{ selectedClient.initials }}</div>
+            <div style="flex:1">
+              <div style="font-size:17px;font-weight:650;letter-spacing:-0.015em">{{ selectedClient.name }}</div>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:3px">
+                <span style="font-size:12.5px;color:var(--gray-14)">{{ selectedClient.phone }}</span>
+                <sc-if value="{{ selectedClient.isVIP }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-size:9px;font-weight:700;color:var(--accent-strong);background:var(--accent-tint);padding:2px 8px;border-radius:var(--radius-pill);text-transform:uppercase;letter-spacing:0.03em">VIP</span>
+                </sc-if>
+                <sc-if value="{{ selectedClient.isNew }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-size:9px;font-weight:700;color:var(--gray-16);background:var(--gray-6);padding:2px 8px;border-radius:var(--radius-pill);text-transform:uppercase;letter-spacing:0.03em">Nuevo</span>
+                </sc-if>
+              </div>
+              <div style="font-size:12.5px;color:var(--gray-14);margin-top:4px">Próximo turno: {{ selectedClient.nextVisit }}</div>
+            </div>
+            <button style="background:var(--accent);color:var(--text-on-accent);border:none;padding:8px 15px;border-radius:var(--radius-pill);font-size:12.5px;font-weight:600;cursor:pointer">Reservar turno</button>
+            <button style="background:var(--surface-card);color:var(--gray-18);border:1px solid var(--gray-11);padding:8px 15px;border-radius:var(--radius-pill);font-size:12.5px;font-weight:600;cursor:pointer">Mensaje</button>
+          </div>
+          <div style="display:flex;gap:4px;border-bottom:1px solid var(--gray-8);margin-bottom:18px">
+            <sc-for list="{{ clientTabs }}" as="tab" hint-placeholder-count="5">
+              <div onClick="{{ tab.onClick }}" style="padding:9px 14px;cursor:pointer;font-size:13px;font-weight:{{ tab.weight }};color:{{ tab.color }};border-bottom:2px solid {{ tab.borderColor }}">{{ tab.label }}</div>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{ isTabOverview }}" hint-placeholder-val="{{ true }}">
+            <div style="font-size:13px;line-height:1.7;color:var(--gray-17)">{{ selectedClient.overview }}</div>
+          </sc-if>
+          <sc-if value="{{ isTabHistory }}" hint-placeholder-val="{{ false }}">
+            <sc-for list="{{ selectedClient.history }}" as="h" hint-placeholder-count="3">
+              <div style="padding:11px 0;border-top:1px solid var(--gray-7);font-size:13px">
+                <div style="font-weight:600">{{ h.treatment }} — {{ h.date }}</div>
+                <div style="color:var(--gray-14);font-size:12.5px">{{ h.practitioner }} · {{ h.notes }}</div>
+              </div>
+            </sc-for>
+          </sc-if>
+          <sc-if value="{{ isTabNotes }}" hint-placeholder-val="{{ false }}">
+            <sc-for list="{{ selectedClient.notes }}" as="n" hint-placeholder-count="2">
+              <div style="padding:11px 0;border-top:1px solid var(--gray-7);font-size:13px">
+                <div style="color:var(--gray-14);font-size:11.5px">{{ n.date }} · {{ n.author }}</div>
+                <div style="margin-top:2px">{{ n.text }}</div>
+              </div>
+            </sc-for>
+          </sc-if>
+          <sc-if value="{{ isTabPhotos }}" hint-placeholder-val="{{ false }}">
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+              <sc-for list="{{ photoSlots }}" as="p" hint-placeholder-count="4">
+                <div style="aspect-ratio:1;border-radius:9px;background:repeating-linear-gradient(45deg, var(--gray-7) 0 8px, var(--gray-5) 8px 16px);display:flex;align-items:center;justify-content:center;font-size:10.5px;font-family:ui-monospace,monospace;color:var(--gray-15);text-align:center;padding:6px">{{ p.label }}</div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ isTabConsent }}" hint-placeholder-val="{{ false }}">
+            <sc-for list="{{ consentDocs }}" as="d" hint-placeholder-count="2">
+              <div style="display:flex;justify-content:space-between;padding:11px 0;border-top:1px solid var(--gray-7);font-size:13px">
+                <span>{{ d.name }}</span>
+                <span style="font-size:11.5px;font-weight:600;{{ d.statusStyle }}">{{ d.status }}</span>
+              </div>
+            </sc-for>
+            <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--gray-7);font-size:11.5px;color:var(--gray-14);line-height:1.5">Este consentimiento cubre la relación con la clienta. El acuerdo de tratamiento de datos entre la clínica y el proveedor de la plataforma se gestiona por separado.</div>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isConversationsView }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;gap:16px;height:100%;min-width:1020px;overflow-x:auto">
+
+        <div style="width:260px;flex-shrink:0;display:flex;flex-direction:column;background:var(--surface-card);border:1px solid var(--gray-9);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-card)">
+          <div style="padding:14px 14px 10px;border-bottom:1px solid var(--gray-8)">
+            <div style="font-weight:650;font-size:14px;letter-spacing:-0.01em;margin-bottom:6px">Centro de Solicitudes</div>
+            <div style="font-size:11px;font-weight:600;color:var(--accent-strong);margin-bottom:10px">✦ {{ pulseText }}</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px">
+              <sc-for list="{{ filters }}" as="f" hint-placeholder-count="8">
+                <div onClick="{{ f.onClick }}" style="padding:5px 11px;border-radius:var(--radius-pill);font-size:11px;font-weight:600;cursor:pointer;background:{{ f.bg }};color:{{ f.color }};border:{{ f.border }}">{{ f.label }}</div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="flex:1;overflow:auto">
+            <sc-for list="{{ threads }}" as="t" hint-placeholder-count="6">
+              <div onClick="{{ t.onClick }}" style="padding:12px 14px;border-top:1px solid var(--gray-7);cursor:pointer;background:{{ t.rowBg }}">
+                <div style="display:flex;align-items:center;gap:7px;margin-bottom:5px">
+                  <span style="width:6px;height:6px;border-radius:50%;background:{{ t.category.color }};flex-shrink:0"></span>
+                  <span style="font-size:10px;font-weight:700;color:{{ t.category.color }};text-transform:uppercase;letter-spacing:0.03em">{{ t.category.label }}</span>
+                  <sc-if value="{{ t.confidence }}" hint-placeholder-val="{{ false }}">
+                    <span style="margin-left:auto;font-size:9.5px;font-weight:600;color:var(--gray-15)">{{ t.confidence }}% IA</span>
+                  </sc-if>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
+                  <span style="font-weight:{{ t.weight }};font-size:13.5px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ t.name }}</span>
+                  <sc-if value="{{ t.isVIP }}" hint-placeholder-val="{{ false }}">
+                    <span style="font-size:9px;font-weight:700;color:var(--accent-strong);background:var(--accent-tint);padding:1px 7px;border-radius:var(--radius-pill)">VIP</span>
+                  </sc-if>
+                </div>
+                <div style="font-size:11.5px;color:var(--gray-16);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:7px">{{ t.metaLine }}</div>
+                <div style="display:flex;align-items:center;gap:6px">
+                  <span style="font-size:9.5px;color:var(--gray-16)">{{ t.channel }} · {{ t.waitingTime }}</span>
+                  <span style="margin-left:auto;font-size:9.5px;font-weight:600;padding:2px 7px;border-radius:6px;background:{{ t.workflowStatusBg }};color:{{ t.workflowStatusColor }}">{{ t.workflowStatus }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden;background:var(--surface-card);border:1px solid var(--gray-9);border-radius:12px;box-shadow:var(--shadow-card)">
+          <sc-if value="{{ selectedThread.priorityBanner }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:10px 20px;background:var(--warning-bg);border-bottom:1px solid var(--warning-border);color:var(--warning-text);font-size:12.5px;font-weight:600">⚠ {{ selectedThread.priorityBanner }}</div>
+          </sc-if>
+          <div style="padding:16px 22px;border-bottom:1px solid var(--gray-8);display:flex;align-items:center;gap:9px">
+            <span style="width:7px;height:7px;border-radius:50%;background:{{ selectedThread.category.color }}"></span>
+            <span style="font-size:11px;font-weight:700;color:{{ selectedThread.category.color }};text-transform:uppercase;letter-spacing:0.04em">{{ selectedThread.category.label }}</span>
+            <div style="width:1px;height:14px;background:var(--gray-9)"></div>
+            <div style="font-weight:650;font-size:14.5px;letter-spacing:-0.01em">{{ selectedThread.name }}</div>
+            <span style="font-size:11px;color:var(--gray-14)">{{ selectedThread.channel }}</span>
+            <span style="margin-left:auto;font-size:10px;font-weight:600;padding:3px 9px;border-radius:6px;background:{{ selectedThread.workflowStatusBg }};color:{{ selectedThread.workflowStatusColor }}">{{ selectedThread.workflowStatus }}</span>
+          </div>
+          <div style="display:flex;gap:8px;padding:14px 22px;border-bottom:1px solid var(--gray-8);flex-wrap:wrap">
+            <sc-for list="{{ selectedThread.quickActions }}" as="qa" hint-placeholder-count="3">
+              <button style="background:var(--accent);color:var(--text-on-accent);border:none;padding:8px 15px;border-radius:var(--radius-pill);font-size:12.5px;font-weight:600;cursor:pointer">{{ qa.label }}</button>
+            </sc-for>
+          </div>
+
+          <div style="flex:1;min-height:0;display:flex;overflow:hidden">
+
+            <div style="flex:1;min-width:380px;display:flex;flex-direction:column;overflow:hidden">
+              <div style="padding:16px 22px 0;font-size:10.5px;font-weight:700;color:var(--gray-15);text-transform:uppercase;letter-spacing:0.04em;flex-shrink:0">Conversación ({{ selectedThread.channel }})</div>
+              <div style="flex:1;min-height:0;overflow:auto;padding:10px 22px 18px;display:flex;flex-direction:column;justify-content:flex-end;gap:10px">
+                <sc-for list="{{ selectedThread.messages }}" as="m" hint-placeholder-count="3">
+                  <div style="display:flex;{{ m.rowDirection }};align-items:flex-end;gap:8px">
+                    <div style="width:24px;height:24px;border-radius:50%;background:{{ m.avatarBg }};color:{{ m.avatarColor }};flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700">{{ m.avatarInitials }}</div>
+                    <div style="max-width:70%;padding:9px 13px;border-radius:{{ m.bubbleRadius }};background:{{ m.bubbleBg }};color:{{ m.bubbleColor }};border:{{ m.bubbleBorder }};font-size:13px;line-height:1.45">{{ m.text }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="padding:14px 22px;border-top:1px solid var(--gray-8)">
+                <sc-if value="{{ selectedThread.aiSuggestion }}" hint-placeholder-val="{{ false }}">
+                  <div style="font-size:10.5px;font-weight:700;color:var(--accent-strong);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px">Sugerencia de la IA — editá o aprobá</div>
+                </sc-if>
+                <textarea value="{{ draftReply }}" onChange="{{ onDraftChange }}" placeholder="Escribí tu respuesta…" style="width:100%;min-height:60px;box-sizing:border-box;padding:9px 12px;border:1px solid var(--gray-9);border-radius:var(--radius-md);font-size:13px;color:var(--gray-19);background:var(--gray-2);resize:vertical"></textarea>
+                <div style="display:flex;gap:8px;margin-top:9px">
+                  <button onClick="{{ selectedThread.onApproveSend }}" style="background:var(--accent);color:var(--text-on-accent);border:none;padding:8px 15px;border-radius:var(--radius-pill);font-size:12.5px;font-weight:600;cursor:pointer">Aprobar y enviar por {{ selectedThread.channel }}</button>
+                  <button onClick="{{ selectedThread.onDiscardDraft }}" style="background:var(--surface-card);color:var(--gray-17);border:1px solid var(--gray-10);padding:8px 15px;border-radius:var(--radius-pill);font-size:12.5px;cursor:pointer">Descartar sugerencia</button>
+                </div>
+              </div>
+            </div>
+
+            <div style="width:300px;flex-shrink:0;border-left:1px solid var(--gray-8);overflow:auto;padding:18px;display:flex;flex-direction:column;gap:16px">
+
+              <sc-if value="{{ selectedThread.hasCopilot }}" hint-placeholder-val="{{ false }}">
+                <div>
+                  <div style="display:flex;align-items:center;gap:7px;margin-bottom:10px">
+                    <span style="width:7px;height:7px;border-radius:50%;background:var(--accent)"></span>
+                    <span style="font-size:10.5px;font-weight:700;color:var(--accent-strong);text-transform:uppercase;letter-spacing:0.05em">Copiloto IA</span>
+                  </div>
+                  <sc-if value="{{ selectedThread.summary }}" hint-placeholder-val="{{ false }}">
+                    <div style="font-size:12.5px;color:var(--gray-17);line-height:1.5;margin-bottom:10px">{{ selectedThread.summary }}</div>
+                  </sc-if>
+                  <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+                    <span style="font-size:11px;font-weight:650;color:var(--accent-strong);background:var(--accent-tint-soft);border:1px solid var(--accent-tint-border);padding:3px 9px;border-radius:6px">{{ selectedThread.confidence }}% confianza</span>
+                    <span style="font-size:10.5px;font-weight:600;color:var(--gray-14)">{{ selectedThread.approvalLabel }}</span>
+                  </div>
+                  <sc-if value="{{ selectedThread.upsell }}" hint-placeholder-val="{{ false }}">
+                    <div style="font-size:11.5px;color:var(--gray-15);margin-bottom:8px">↑ {{ selectedThread.upsell }}</div>
+                  </sc-if>
+                  <sc-if value="{{ selectedThread.hasWorkflow }}" hint-placeholder-val="{{ false }}">
+                    <div onClick="{{ onToggleWorkflow }}" style="cursor:pointer;font-size:10.5px;font-weight:700;color:var(--gray-15);text-transform:uppercase;letter-spacing:0.04em;margin-top:6px">Ver pasos sugeridos {{ workflowArrow }}</div>
+                    <sc-if value="{{ workflowOpen }}" hint-placeholder-val="{{ false }}">
+                      <sc-for list="{{ selectedThread.workflow }}" as="w" hint-placeholder-count="4">
+                        <div style="font-size:12px;color:var(--gray-18);padding:2px 0">{{ w.n }}. {{ w.step }}</div>
+                      </sc-for>
+                    </sc-if>
+                  </sc-if>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ selectedThread.apptCard }}" hint-placeholder-val="{{ false }}">
+                <div style="border:1px solid var(--gray-10);background:var(--gray-3);border-radius:10px;padding:14px 15px">
+                  <div style="font-size:10px;font-weight:700;color:var(--gray-16);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">Agenda — turno actual</div>
+                  <div style="font-size:14px;font-weight:650;margin-bottom:2px">{{ selectedThread.apptCard.when }} · {{ selectedThread.apptCard.time }}</div>
+                  <div style="font-size:12px;color:var(--gray-17);margin-bottom:10px">{{ selectedThread.apptCard.treatment }} · {{ selectedThread.apptCard.professional }}</div>
+                  <div style="font-size:10px;font-weight:700;color:var(--gray-16);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:7px">Horarios alternativos</div>
+                  <div style="display:flex;gap:6px;flex-wrap:wrap">
+                    <sc-for list="{{ selectedThread.apptCard.alternatives }}" as="alt" hint-placeholder-count="3">
+                      <div style="background:var(--gray-1);border:1px solid var(--gray-9);border-radius:6px;padding:6px 10px;font-size:11.5px;font-weight:600;color:var(--gray-18)">{{ alt.day }} {{ alt.time }}</div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ selectedThread.productsCard }}" hint-placeholder-val="{{ false }}">
+                <div style="border:1px solid var(--gray-10);background:var(--gray-3);border-radius:10px;padding:14px 15px">
+                  <div style="font-size:10px;font-weight:700;color:var(--gray-16);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">Presupuesto</div>
+                  <sc-for list="{{ selectedThread.productsCard }}" as="p" hint-placeholder-count="2">
+                    <div style="display:flex;justify-content:space-between;font-size:12.5px;padding:5px 0;border-top:1px solid var(--gray-8)"><span>{{ p.name }}</span><span style="font-weight:600">{{ p.price }}</span></div>
+                  </sc-for>
+                  <button style="margin-top:10px;background:var(--accent);color:var(--text-on-accent);border:none;padding:7px 13px;border-radius:var(--radius-pill);font-size:12px;font-weight:600;cursor:pointer">Enviar link de presupuesto</button>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ selectedThread.protocolCard }}" hint-placeholder-val="{{ false }}">
+                <div style="border:1px solid var(--warning-border);background:var(--warning-bg-strong);border-radius:10px;padding:14px 15px">
+                  <div style="font-size:10px;font-weight:700;color:var(--warning-text-strong);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">{{ selectedThread.protocolCard.title }}</div>
+                  <sc-for list="{{ selectedThread.protocolCard.steps }}" as="step" hint-placeholder-count="4">
+                    <div style="font-size:12px;color:var(--warning-text-body);padding:3px 0">• {{ step }}</div>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isFollowupsView }}" hint-placeholder-val="{{ false }}">
+      <div style="font-size:19px;font-weight:650;letter-spacing:-0.015em;margin-bottom:16px">Cola de seguimientos</div>
+      <div style="display:flex;flex-direction:column;gap:20px">
+
+        <sc-if value="{{ hasSpacingAlerts }}" hint-placeholder-val="{{ false }}">
+          <div style="border:1px solid var(--warning-border);background:var(--warning-bg-strong);border-radius:12px;padding:14px 18px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+              <div style="font-weight:650;font-size:13px;letter-spacing:-0.01em">Alertas de espaciado</div>
+              <span style="font-size:9px;font-weight:700;color:var(--warning-text-strong);background:var(--gray-1);border:1px solid var(--warning-border);padding:2px 7px;border-radius:6px;text-transform:uppercase;letter-spacing:0.04em">Ejemplo</span>
+            </div>
+            <sc-for list="{{ spacingAlerts }}" as="a" hint-placeholder-count="1">
+              <div style="padding:7px 0;border-top:1px solid var(--warning-border);font-size:12.5px;color:var(--warning-text-body)">⚠ <span style="font-weight:600">{{ a.client }} — {{ a.treatment }}</span>: {{ a.spacingWarning }}</div>
+            </sc-for>
+            <div style="font-size:11px;color:var(--gray-14);margin-top:8px">Regla ilustrativa configurada por la clínica — a validar con el equipo clínico antes de usarse en producción.</div>
+          </div>
+        </sc-if>
+
+        <div>
+          <div style="font-size:11.5px;font-weight:700;color:var(--warning);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:7px">Vencidos ({{ overdueCount }})</div>
+          <div style="background:var(--surface-card);border:1px solid var(--gray-9);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-card)">
+            <sc-for list="{{ overdueFollowups }}" as="f" hint-placeholder-count="2">
+              <div style="padding:13px 18px;border-top:1px solid var(--gray-7)">
+                <div style="display:flex;align-items:center;gap:12px">
+                  <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:13px">{{ f.client }} — {{ f.treatment }}</div><div style="font-size:11.5px;color:var(--gray-14)">{{ f.trigger }} · {{ f.due }}</div></div>
+                  <span style="font-size:12px;font-weight:600;{{ f.statusStyle }}">{{ f.statusLabel }}</span>
+                  <button onClick="{{ f.onSend }}" style="background:var(--accent);color:var(--text-on-accent);border:none;padding:6px 14px;border-radius:var(--radius-pill);font-size:12px;font-weight:600;cursor:pointer">Enviar</button>
+                  <button onClick="{{ f.onSkip }}" style="background:var(--surface-card);border:1px solid var(--gray-10);padding:6px 14px;border-radius:var(--radius-pill);font-size:12px;cursor:pointer">Omitir</button>
+                </div>
+                <sc-if value="{{ f.spacingWarning }}" hint-placeholder-val="{{ false }}">
+                  <div style="font-size:11.5px;color:var(--warning-text);font-weight:600;margin-top:6px">⚠ {{ f.spacingWarning }}</div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:11.5px;font-weight:700;color:var(--gray-16);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:7px">Vencen hoy ({{ todayFollowupsCount }})</div>
+          <div style="background:var(--surface-card);border:1px solid var(--gray-9);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-card)">
+            <sc-for list="{{ todayFollowups }}" as="f" hint-placeholder-count="3">
+              <div style="padding:13px 18px;border-top:1px solid var(--gray-7)">
+                <div style="display:flex;align-items:center;gap:12px">
+                  <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:13px">{{ f.client }} — {{ f.treatment }}</div><div style="font-size:11.5px;color:var(--gray-14)">{{ f.trigger }} · {{ f.due }}</div></div>
+                  <span style="font-size:12px;font-weight:600;{{ f.statusStyle }}">{{ f.statusLabel }}</span>
+                  <button onClick="{{ f.onSend }}" style="background:var(--accent);color:var(--text-on-accent);border:none;padding:6px 14px;border-radius:var(--radius-pill);font-size:12px;font-weight:600;cursor:pointer">Enviar</button>
+                  <button onClick="{{ f.onSkip }}" style="background:var(--surface-card);border:1px solid var(--gray-10);padding:6px 14px;border-radius:var(--radius-pill);font-size:12px;cursor:pointer">Omitir</button>
+                </div>
+                <sc-if value="{{ f.spacingWarning }}" hint-placeholder-val="{{ false }}">
+                  <div style="font-size:11.5px;color:var(--warning-text);font-weight:600;margin-top:6px">⚠ {{ f.spacingWarning }}</div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:11.5px;font-weight:700;color:var(--gray-16);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:7px">Programados ({{ scheduledCount }})</div>
+          <div style="background:var(--surface-card);border:1px solid var(--gray-9);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-card)">
+            <sc-for list="{{ scheduledFollowups }}" as="f" hint-placeholder-count="2">
+              <div style="display:flex;align-items:center;gap:12px;padding:13px 18px;border-top:1px solid var(--gray-7)">
+                <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:13px">{{ f.client }} — {{ f.treatment }}</div><div style="font-size:11.5px;color:var(--gray-14)">{{ f.trigger }} · {{ f.due }}</div></div>
+                <span style="font-size:12px;color:var(--gray-14)">{{ f.due }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isAnalyticsView }}" hint-placeholder-val="{{ false }}">
+      <div style="font-size:19px;font-weight:650;letter-spacing:-0.015em;margin-bottom:16px">Resumen del negocio</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px">
+        <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+          <div style="background:var(--surface-card);border:1px solid var(--gray-9);border-radius:12px;padding:18px;box-shadow:var(--shadow-card)">
+            <div style="font-size:11px;color:var(--gray-15);font-weight:650;text-transform:uppercase;letter-spacing:0.04em">{{ k.label }}</div>
+            <div style="font-size:25px;font-weight:650;margin-top:7px;letter-spacing:-0.02em;font-variant-numeric:tabular-nums">{{ k.value }}</div>
+            <div style="font-size:12px;color:var(--accent-strong);margin-top:5px;font-weight:600">{{ k.sub }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div style="background:var(--surface-card);border:1px solid var(--gray-9);border-radius:12px;padding:18px;box-shadow:var(--shadow-card)">
+          <div style="font-weight:650;font-size:13px;margin-bottom:14px;letter-spacing:-0.01em">Tratamientos más solicitados</div>
+          <sc-for list="{{ topTreatments }}" as="t" hint-placeholder-count="5">
+            <div style="margin-bottom:11px">
+              <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>{{ t.name }}</span><span style="font-weight:600;font-variant-numeric:tabular-nums">{{ t.pct }}%</span></div>
+              <div style="height:6px;background:var(--gray-7);border-radius:3px"><div style="height:100%;width:{{ t.pct }}%;background:var(--accent);border-radius:3px"></div></div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="background:var(--surface-card);border:1px solid var(--gray-9);border-radius:12px;padding:18px;box-shadow:var(--shadow-card)">
+          <div style="font-weight:650;font-size:13px;margin-bottom:14px;letter-spacing:-0.01em">Ocupación del personal</div>
+          <sc-for list="{{ staffUtil }}" as="s" hint-placeholder-count="4">
+            <div style="margin-bottom:11px">
+              <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>{{ s.name }}</span><span style="font-weight:600;font-variant-numeric:tabular-nums">{{ s.pct }}%</span></div>
+              <div style="height:6px;background:var(--gray-7);border-radius:3px"><div style="height:100%;width:{{ s.pct }}%;background:var(--accent);border-radius:3px"></div></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    activeView: 'calendar',
+    activeClientTab: 'overview',
+    selectedClientId: 'c1',
+    selectedThreadId: 't2',
+    threadFilter: 'all',
+    draftReply: 'Buenas noticias — tenemos un horario libre este jueves a las 15:00 para una consulta de relleno. ¿Querés que te lo reserve?',
+    workflowOpen: false,
+    sentThreadIds: [],
+    newApptPanelOpen: false,
+    newApptDraft: {clientId: '', clientName: '', clientSearch: '', treatment: '', staffId: '', day: '', start: '', dur: 0.5},
+    appointments: [
+      {id:1, day:0, staffId:1, staffName:'Ana Torres', client:'Elena Vidal', treatment:'Botox – frente', start:9.5, dur:0.75, status:'confirmed'},
+      {id:2, day:0, staffId:1, staffName:'Ana Torres', client:'Marco Díaz', treatment:'Consulta', start:11, dur:0.5, status:'unconfirmed'},
+      {id:3, day:2, staffId:1, staffName:'Ana Torres', client:'Carla Núñez', treatment:'Depilación láser', start:14, dur:1, status:'confirmed'},
+      {id:4, day:1, staffId:2, staffName:'Marta Ruiz', client:'Sofía Ramos', treatment:'Relleno – labios', start:10, dur:1, status:'confirmed'},
+      {id:5, day:3, staffId:2, staffName:'Marta Ruiz', client:'Julia Ortiz', treatment:'Peeling químico', start:13, dur:0.5, status:'waiting'},
+      {id:6, day:4, staffId:2, staffName:'Marta Ruiz', client:'Nora Blanco', treatment:'Botox – patas de gallo', start:16, dur:0.5, status:'unconfirmed'},
+      {id:7, day:0, staffId:3, staffName:'Dra. Sofía León', client:'Diego Paz', treatment:'Consulta – rinoplastia', start:9, dur:1, status:'confirmed'},
+      {id:8, day:1, staffId:3, staffName:'Dra. Sofía León', client:'Irene Castro', treatment:'Relleno – pómulos', start:12, dur:1, status:'confirmed'},
+      {id:9, day:2, staffId:3, staffName:'Dra. Sofía León', client:'Pablo Serra', treatment:'Control de seguimiento', start:17, dur:0.5, status:'unconfirmed'},
+      {id:10, day:3, staffId:4, staffName:'Lucía Gómez', client:'Vera Molina', treatment:'Microneedling', start:10.5, dur:1, status:'confirmed'},
+      {id:11, day:5, staffId:4, staffName:'Lucía Gómez', client:'Hugo Bravo', treatment:'Láser – piernas', start:15, dur:1.5, status:'waiting'},
+    ],
+    followups: [
+      {id:1, client:'Julia Ortiz', treatment:'Peeling químico', trigger:'3 días post-tratamiento', due:'2 días de atraso', bucket:'overdue', status:'pending'},
+      {id:2, client:'Hugo Bravo', treatment:'Láser – piernas', trigger:'Recordatorio sesión 2 de 6', due:'1 día de atraso', bucket:'overdue', status:'pending'},
+      {id:3, client:'Sofía Ramos', treatment:'Relleno – labios', trigger:'Control 1 semana post-relleno', due:'Hoy', bucket:'today', status:'pending'},
+      {id:4, client:'Carla Núñez', treatment:'Depilación láser', trigger:'Recordatorio de renovación de turno', due:'Hoy', bucket:'today', status:'pending', lastSessionDaysAgo:9},
+      {id:5, client:'Diego Paz', treatment:'Consulta', trigger:'Recordatorio pre-procedimiento', due:'Hoy', bucket:'today', status:'pending'},
+      {id:6, client:'Elena Vidal', treatment:'Botox – frente', trigger:'Recordatorio de retratamiento a las 12 semanas', due:'En 4 días', bucket:'scheduled', status:'pending'},
+      {id:7, client:'Vera Molina', treatment:'Microneedling', trigger:'Recordatorio de próxima sesión', due:'En 6 días', bucket:'scheduled', status:'pending'},
+    ],
+  };
+
+  navItems = [
+    {id:'calendar', label:'Agenda'},
+    {id:'clients', label:'Clientes'},
+    {id:'conversations', label:'Centro de Solicitudes'},
+    {id:'followups', label:'Seguimientos'},
+    {id:'analytics', label:'Analítica'},
+  ];
+
+  staffColorMap = {1:'oklch(56% 0.13 280)', 2:'oklch(56% 0.15 230)', 3:'oklch(55% 0.11 200)', 4:'oklch(58% 0.14 320)'};
+  staffList = [{id:1, name:'Ana Torres'}, {id:2, name:'Marta Ruiz'}, {id:3, name:'Dra. Sofía León'}, {id:4, name:'Lucía Gómez'}];
+  dayDefs = [
+    {id:0, label:'Lun', date:'27'}, {id:1, label:'Mar', date:'28'}, {id:2, label:'Mié', date:'29'},
+    {id:3, label:'Jue', date:'30'}, {id:4, label:'Vie', date:'31'}, {id:5, label:'Sáb', date:'1'},
+    {id:6, label:'Dom', date:'2', closed:true},
+  ];
+
+  spacingRules = [
+    {treatment:'Depilación láser', minDays:14, note:'Riesgo de irritación cutánea si se repite antes de este plazo.'},
+  ];
+
+  clientsData = [
+    {id:'c1', name:'Elena Vidal', phone:'+34 611 203 981', isVIP:true, isNew:false, lastVisit:'12 jul', nextVisit:'5 de agosto, 10:00 — Retratamiento de Botox',
+      overview:'Clienta habitual desde 2023. Prefiere turnos por la mañana. Sensible a la crema anestésica (usa alternativa). Referida por Sofía Ramos.',
+      history:[{treatment:'Botox – frente', date:'12 de julio de 2026', practitioner:'Ana Torres', notes:'Sin complicaciones, dosis estándar'},{treatment:'Relleno – labios', date:'2 de abril de 2026', practitioner:'Marta Ruiz', notes:'0.5ml, se solicitó resultado natural'}],
+      notes:[{date:'12 de julio de 2026', author:'Ana Torres', text:'Preguntó sobre combinar con un peeling en la próxima visita.'},{date:'2 de abril de 2026', author:'Marta Ruiz', text:'Leve hematoma, se resolvió en 3 días.'}]},
+    {id:'c2', name:'Marco Díaz', phone:'+34 622 118 402', isVIP:false, isNew:true, lastVisit:'—', nextVisit:'30 de julio, 11:00 — Consulta',
+      overview:'Cliente nuevo, consultó por WhatsApp sobre una consulta de rejuvenecimiento facial. Sin historial previo.',
+      history:[], notes:[{date:'28 de julio de 2026', author:'Recepción', text:'Reservó por WhatsApp luego de una conversación con la IA.'}]},
+    {id:'c3', name:'Sofía Ramos', phone:'+34 655 902 774', isVIP:true, isNew:false, lastVisit:'20 jun', nextVisit:'30 de julio, 10:00 — Control de relleno',
+      overview:'Clienta de largo plazo, con tratamientos de mantenimiento mensuales. Prefiere específicamente a Marta Ruiz.',
+      history:[{treatment:'Relleno – labios', date:'20 de junio de 2026', practitioner:'Marta Ruiz', notes:'Retoque, 0.3ml'}],
+      notes:[{date:'20 de junio de 2026', author:'Marta Ruiz', text:'Muy conforme con los resultados, refirió a una amiga (Elena Vidal).'}]},
+    {id:'c4', name:'Irene Castro', phone:'+34 633 771 220', isVIP:false, isNew:false, lastVisit:'15 jul', nextVisit:'—',
+      overview:'Clienta ocasional, reserva de forma estacional antes de eventos.',
+      history:[{treatment:'Relleno – pómulos', date:'15 de julio de 2026', practitioner:'Dra. Sofía León', notes:'1ml, aumento de pómulos'}],
+      notes:[]},
+    {id:'c5', name:'Vera Molina', phone:'+34 699 445 018', isVIP:false, isNew:false, lastVisit:'2 jul', nextVisit:'30 de julio, 10:30 — Microneedling',
+      overview:'Tiene un paquete de 6 sesiones de microneedling, quedan 2 sesiones.',
+      history:[{treatment:'Microneedling', date:'2 de julio de 2026', practitioner:'Lucía Gómez', notes:'Sesión 4 de 6'}],
+      notes:[{date:'2 de julio de 2026', author:'Lucía Gómez', text:'Buen progreso en la textura, continuar según lo planeado.'}]},
+  ];
+
+  photoSlots = [{label:'antes — frente'},{label:'después — frente'},{label:'antes — perfil'},{label:'después — perfil'}];
+  consentDocs = [{name:'Formulario de consentimiento de tratamiento', status:'Firmado', statusStyle:'color:var(--accent-strong)'},{name:'Cuestionario de historia clínica', status:'Firmado', statusStyle:'color:var(--accent-strong)'},{name:'Autorización de fotos', status:'Pendiente', statusStyle:'color:var(--warning)'}];
+
+  threadsData = [
+    {id:'t1', name:'Elena Vidal', avatar:'EV', channel:'WhatsApp', unread:true,
+      waitingTime:'12 min', priority:'high', apptStatus:'Hoy 14:30', isVIP:true, isNewLead:false, intent:'Reprogramar turno', status:'human',
+      category:{label:'Reprogramación', color:'oklch(58% 0.16 55)'}, workflowStatus:'Listo para aprobar', metaLine:'Mañana 10:00 · se encontraron horarios alternativos',
+      summary:'La clienta quiere mover su turno de Botox de mañana al viernes.', upsell:'Sugerir agregar un peeling químico a la visita reprogramada (+$150).',
+      messages:[{from:'client', text:'¿Puedo mover mi turno para el viernes?'}], aiSuggestion:'El viernes hay disponibilidad a las 10:00 y a las 15:30 con Ana Torres — ¿querés que lo mueva a uno de esos horarios?',
+      confidence:98, waitingApproval:true,
+      workflow:['Buscar el turno','Verificar disponibilidad del profesional','Sugerir alternativas','Confirmar la reserva'],
+      quickActions:['Reprogramar turno','Cobrar seña','Asignar profesional'],
+      contextCard:{type:'appointment', appt:{when:'Mañana', time:'10:00', treatment:'Botox', professional:'Ana Torres'},
+        alternatives:[{day:'Viernes', time:'10:00'},{day:'Viernes', time:'15:30'},{day:'Sábado', time:'11:00'}]},
+      priorityBanner:null,
+      client:{hasClient:true, phone:'+34 611 203 981', vip:true, preferredProfessional:'Ana Torres'}},
+    {id:'t2', name:'Camila Reyes', avatar:'CR', channel:'Instagram', unread:true,
+      waitingTime:'2 min', priority:'high', apptStatus:'Sin turno', isVIP:false, isNewLead:true, intent:'Consulta de precio — relleno de labios', status:'ai',
+      category:{label:'Consulta de precio', color:'oklch(56% 0.15 230)'}, workflowStatus:'Esperando aprobación', metaLine:'Oportunidad de $420',
+      summary:'Nuevo contacto de Instagram preguntando por el precio del relleno de labios — alta intención de reservar.', upsell:'Ofrecer un combo de relleno + lip flip.',
+      messages:[{from:'client', text:'Hola, ¿hacen relleno de labios? ¿Cuánto sale?'},{from:'ai', text:'¡Sí! El relleno de labios arranca en $420 por 1ml, lo hacen nuestras inyectoras. ¿Querés reservar una consulta?'}],
+      aiSuggestion:'Buenas noticias — tenemos un horario libre este jueves a las 15:00 para una consulta de relleno. ¿Querés que te lo reserve?',
+      confidence:96, waitingApproval:false,
+      workflow:['Verificar disponibilidad','Ofrecer alternativas','Confirmar turno','Enviar recordatorio'],
+      quickActions:['Crear presupuesto','Recomendar tratamiento','Reservar consulta'],
+      contextCard:{type:'products', items:[{name:'Relleno de labios — 1ml', price:'$420'},{name:'Lip flip', price:'$180'}]},
+      priorityBanner:null,
+      client:{hasClient:false}},
+    {id:'t3', name:'Marco Díaz', avatar:'MD', channel:'WhatsApp', unread:false,
+      waitingTime:'1 h', priority:'low', apptStatus:'Hoy 11:00', isVIP:false, isNewLead:false, intent:'Llegada tarde', status:'human',
+      category:{label:'Seguimiento', color:'oklch(58% 0.14 145)'}, workflowStatus:'Recibido', metaLine:'Llegada tarde — no requiere acción',
+      summary:null, upsell:null,
+      messages:[{from:'client', text:'¡Voy a llegar 10 min tarde, disculpá!'},{from:'staff', text:'¡No hay problema, nos vemos pronto!'}], aiSuggestion:null,
+      confidence:null, waitingApproval:false, workflow:[],
+      quickActions:['Ver perfil del cliente','Agregar nota interna'],
+      contextCard:null, priorityBanner:null,
+      client:{hasClient:true, phone:'+34 622 118 402', vip:false, preferredProfessional:'—'}},
+    {id:'t4', name:'Nora Blanco', avatar:'NB', channel:'WhatsApp', unread:false,
+      waitingTime:'Resuelto', priority:'low', apptStatus:'Mañana 16:00', isVIP:false, isNewLead:false, intent:'Recordatorio confirmado', status:'ai',
+      category:{label:'Seguimiento', color:'oklch(58% 0.14 145)'}, workflowStatus:'Resuelto', metaLine:'Confirmado por WhatsApp',
+      summary:'La clienta confirmó el recordatorio de mañana — no requiere acción.', upsell:null,
+      messages:[{from:'ai', text:'Recordatorio: tu turno es mañana a las 16:00. Respondé SÍ para confirmar.'},{from:'client', text:'SÍ'}], aiSuggestion:null,
+      confidence:99, waitingApproval:false,
+      workflow:['Registrar confirmación','Actualizar agenda'],
+      quickActions:['Ver perfil del cliente'],
+      contextCard:null, priorityBanner:null,
+      client:{hasClient:true, phone:'+34 644 552 019', vip:false, preferredProfessional:'Marta Ruiz'}},
+    {id:'t5', name:'Irene Castro', avatar:'IC', channel:'WhatsApp', unread:true,
+      waitingTime:'6 min', priority:'high', apptStatus:'Completado el 15 jul', isVIP:false, isNewLead:false, intent:'Consulta post-tratamiento', status:'human',
+      category:{label:'Consulta médica', color:'oklch(56% 0.18 25)'}, workflowStatus:'Requiere revisión inmediata', metaLine:'Posible complicación · asignado a la Dra. Sofía León',
+      summary:'La clienta reporta calor e hinchazón un día después del relleno de pómulos — posible complicación.', upsell:null,
+      messages:[{from:'client', text:'Hola, siento el pómulo hinchado y caliente desde ayer, ¿es normal?'}],
+      aiSuggestion:'Puede ser una reacción normal a corto plazo, pero el calor + la hinchazón después de 24h deberían revisarse — se recomienda contactar a la Dra. Sofía León antes de responder.',
+      confidence:83, waitingApproval:true,
+      workflow:['Marcar como consulta médica','Notificar al profesional asignado','Recomendar escalamiento'],
+      quickActions:['Escalar al médico','Notificar al profesional','Abrir protocolo de tratamiento'],
+      contextCard:{type:'protocol', title:'Protocolo de hinchazón post-relleno', steps:['Confirmar el momento de inicio y los síntomas','Indicar compresas frías, evitar calor/ejercicio','Escalar si la hinchazón persiste más de 48h o aparece fiebre','Ofrecer un control presencial con el profesional tratante']},
+      priorityBanner:'Prioridad alta — posible complicación post-tratamiento. Recomendado: escalar a la Dra. Sofía León antes de responder.',
+      client:{hasClient:true, phone:'+34 633 771 220', vip:false, preferredProfessional:'Dra. Sofía León'}},
+    {id:'t6', name:'+34 611 222 333', avatar:'?', channel:'Instagram', unread:true,
+      waitingTime:'5 min', priority:'medium', apptStatus:'Sin turno', isVIP:false, isNewLead:true, intent:'Consulta de horario de atención', status:'ai',
+      category:{label:'Nuevo contacto', color:'oklch(58% 0.14 145)'}, workflowStatus:'Sin calificar', metaLine:'Consulta de horario de atención',
+      summary:'Contacto anónimo de Instagram preguntando por el horario de atención — todavía sin intención de reserva.', upsell:null,
+      messages:[{from:'client', text:'¿Cuál es el horario de atención?'},{from:'ai', text:'Atendemos de lunes a sábado, de 9:00 a 19:00. ¿Querés reservar un turno?'}],
+      aiSuggestion:'Atendemos de lunes a sábado de 9:00 a 19:00. ¿Querés que revise la disponibilidad de esta semana?',
+      confidence:91, waitingApproval:false,
+      workflow:['Responder pregunta frecuente','Ofrecer reserva','Capturar datos de contacto'],
+      quickActions:['Crear cliente y reservar','Asignar a humano'],
+      contextCard:null, priorityBanner:null,
+      client:{hasClient:false}},
+  ];
+
+  filters = [
+    {id:'all', label:'Todas'}, {id:'waiting', label:'Requiere aprobación'}, {id:'ai', label:'Gestionado por IA'}, {id:'human', label:'Asignado a humano'},
+    {id:'followup', label:'Seguimiento'}, {id:'today', label:'Turno hoy'}, {id:'lead', label:'Nuevo contacto'}, {id:'vip', label:'Clientes VIP'},
+  ];
+
+  kpisData = [
+    {label:'Ingresos este mes', value:'$18.420', sub:'+12% vs. el mes pasado'},
+    {label:'Turnos reservados', value:'214', sub:'96% de la capacidad'},
+    {label:'Tasa de ausentismo', value:'4.2%', sub:'-1.1pt vs. el mes pasado'},
+    {label:'Retención de clientes', value:'68%', sub:'+3pt vs. el mes pasado'},
+  ];
+  topTreatmentsData = [{name:'Botox', pct:32},{name:'Relleno', pct:24},{name:'Depilación láser', pct:18},{name:'Microneedling', pct:14},{name:'Peelings', pct:12}];
+  staffUtilData = [{name:'Ana Torres', pct:88},{name:'Marta Ruiz', pct:74},{name:'Dra. Sofía León', pct:92},{name:'Lucía Gómez', pct:65}];
+
+  setView(v) { this.setState({activeView: v}); }
+  confirmAppt(id) { this.setState(s => ({appointments: s.appointments.map(a => a.id === id ? {...a, status:'confirmed'} : a)})); }
+  selectClient(id) { this.setState({selectedClientId: id, activeClientTab:'overview'}); }
+  setClientTab(tab) { this.setState({activeClientTab: tab}); }
+  selectThread(id) {
+    const t = this.threadsData.find(t => t.id === id);
+    this.setState({selectedThreadId: id, draftReply: (t && t.aiSuggestion) || '', workflowOpen: false});
+  }
+  setFilter(id) { this.setState({threadFilter: id}); }
+  actOnFollowup(id, status) { this.setState(s => ({followups: s.followups.map(f => f.id === id ? {...f, status} : f)})); }
+  setDraftReply(v) { this.setState({draftReply: v}); }
+  discardDraft() { this.setState({draftReply: ''}); }
+  toggleWorkflow() { this.setState(s => ({workflowOpen: !s.workflowOpen})); }
+  approveSend(id) { this.setState(s => ({sentThreadIds: s.sentThreadIds.includes(id) ? s.sentThreadIds : [...s.sentThreadIds, id]})); }
+
+  emptyApptDraft() { return {clientId:'', clientName:'', clientSearch:'', treatment:'', staffId:'', day:'', start:'', dur:0.5}; }
+  toggleNewApptPanel() { this.setState(s => ({newApptPanelOpen: !s.newApptPanelOpen})); }
+  cancelNewAppt() { this.setState({newApptPanelOpen: false, newApptDraft: this.emptyApptDraft()}); }
+  updateNewApptDraft(patch) { this.setState(s => ({newApptDraft: {...s.newApptDraft, ...patch}})); }
+  selectApptClient(id, name) { this.updateNewApptDraft({clientId: id, clientName: name, clientSearch: ''}); }
+  handleSlotClick(day, e) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const relY = e.clientY - rect.top;
+    const rawHour = 9 + relY / 64;
+    const snapped = Math.max(9, Math.min(18.5, Math.round(rawHour * 2) / 2));
+    this.setState(s => ({
+      newApptPanelOpen: true,
+      newApptDraft: {...(s.newApptPanelOpen ? s.newApptDraft : this.emptyApptDraft()), day: String(day), start: String(snapped)},
+    }));
+  }
+  submitNewAppt() {
+    const d = this.state.newApptDraft;
+    if (!d.clientId || !d.treatment || !d.staffId || d.day === '' || d.start === '') return;
+    const staff = this.staffList.find(st => st.id === Number(d.staffId));
+    const nextId = Math.max(0, ...this.state.appointments.map(a => a.id)) + 1;
+    const newAppt = {id: nextId, day: Number(d.day), staffId: Number(d.staffId), staffName: staff ? staff.name : '', client: d.clientName, treatment: d.treatment, start: Number(d.start), dur: Number(d.dur), status: 'confirmed'};
+    this.setState(s => ({appointments: [...s.appointments, newAppt], newApptDraft: this.emptyApptDraft()}));
+  }
+
+  renderVals() {
+    const s = this.state;
+    const initials = (name) => name.split(' ').filter(w => /^[A-ZÁÉÍÓÚÑ]/.test(w)).slice(0,2).map(w => w[0]).join('').toUpperCase() || name.slice(0,2).toUpperCase();
+
+    const statusStyle = (status) => {
+      if (status === 'confirmed') return {bg:'var(--accent-tint-soft)', leftBorder:'3px solid var(--accent)', color:'var(--gray-19)'};
+      if (status === 'unconfirmed') return {bg:'var(--gray-2)', leftBorder:'3px dashed var(--accent)', color:'var(--gray-18)'};
+      return {bg:'var(--gray-6)', leftBorder:'3px solid var(--gray-11)', color:'var(--gray-17)'};
+    };
+    const fmtTime = (start) => {
+      const h = Math.floor(start), m = (start % 1) === 0.5 ? '30' : '00';
+      return `${String(h).padStart(2,'0')}:${m}`;
+    };
+    const dayLabelFor = (d) => { const def = this.dayDefs.find(x => x.id === d); return def ? `${def.label} ${def.date}` : ''; };
+    const apptsWithMeta = s.appointments.map(a => {
+      const st = statusStyle(a.status);
+      return {...a, top: (a.start - 9) * 64, height: a.dur * 64 - 4, bg: st.bg, leftBorder: st.leftBorder, color: st.color,
+        timeLabel: fmtTime(a.start), dayLabel: dayLabelFor(a.day),
+        staffColor: this.staffColorMap[a.staffId] || 'var(--gray-11)',
+        onConfirm: a.status === 'unconfirmed' ? () => this.confirmAppt(a.id) : null,
+        stopClick: (e) => e.stopPropagation()};
+    });
+
+    const treatmentOptions = [...new Set(s.appointments.map(a => a.treatment))].sort((a, b) => a.localeCompare(b));
+    const staffOptions = this.staffList;
+    const dayOptions = this.dayDefs.filter(d => !d.closed);
+    const timeOptions = [];
+    for (let h = 9; h <= 18.5; h += 0.5) timeOptions.push({value: h, label: fmtTime(h)});
+    const durationOptions = [{value:0.5,label:'30 min'},{value:0.75,label:'45 min'},{value:1,label:'60 min'},{value:1.5,label:'90 min'}];
+
+    const draft = s.newApptDraft;
+    const clientSearchResults = (!draft.clientId && draft.clientSearch.trim())
+      ? this.clientsData.filter(c => c.name.toLowerCase().includes(draft.clientSearch.trim().toLowerCase())).map(c => ({...c, onSelect: () => this.selectApptClient(c.id, c.name)}))
+      : [];
+    const hasClientResults = clientSearchResults.length > 0;
+
+    let conflictWarning = null;
+    if (draft.staffId && draft.day !== '' && draft.start !== '') {
+      const dStaffId = Number(draft.staffId), dDay = Number(draft.day), dStart = Number(draft.start), dDur = Number(draft.dur) || 0.5;
+      const clash = s.appointments.find(a => a.staffId === dStaffId && a.day === dDay && dStart < a.start + a.dur && a.start < dStart + dDur);
+      if (clash) conflictWarning = `${clash.staffName} ya tiene un turno a las ${fmtTime(clash.start)} ese día.`;
+    }
+
+    const submitDisabled = !(draft.clientId && draft.treatment && draft.staffId && draft.day !== '' && draft.start !== '');
+    const submitBg = submitDisabled ? 'var(--gray-10)' : 'var(--accent)';
+    const submitCursor = submitDisabled ? 'not-allowed' : 'pointer';
+    const onToggleNewAppt = () => this.toggleNewApptPanel();
+    const onCancelNewAppt = () => this.cancelNewAppt();
+    const newApptToggleIcon = s.newApptPanelOpen ? '▴' : '▾';
+    const onClientSearchChange = (e) => this.updateNewApptDraft({clientSearch: e.target.value, clientId: '', clientName: ''});
+    const onTreatmentChange = (e) => this.updateNewApptDraft({treatment: e.target.value});
+    const onStaffChange = (e) => this.updateNewApptDraft({staffId: e.target.value});
+    const onDayChange = (e) => this.updateNewApptDraft({day: e.target.value});
+    const onStartChange = (e) => this.updateNewApptDraft({start: e.target.value});
+    const onDurChange = (e) => this.updateNewApptDraft({dur: e.target.value});
+    const onSubmitAppt = () => this.submitNewAppt();
+    const dayColumns = this.dayDefs.map(d => ({...d, headerColor: d.closed ? 'var(--gray-13)' : 'var(--gray-18)', open: !d.closed, appts: apptsWithMeta.filter(a => a.day === d.id), onTrackClick: d.closed ? null : (e) => this.handleSlotClick(d.id, e)}));
+    const needsAttention = apptsWithMeta.filter(a => a.status === 'unconfirmed');
+    const hourLabels = [];
+    for (let h = 9; h <= 19; h++) hourLabels.push({label: String(h).padStart(2,'0') + ':00', top: (h - 9) * 64});
+
+    const badgeCounts = {calendar: needsAttention.length || null, conversations: this.threadsData.filter(t => t.unread).length || null};
+    const navItems = this.navItems.map(n => ({
+      ...n, onClick: () => this.setView(n.id),
+      bg: n.id === s.activeView ? 'oklch(22% 0.03 260)' : 'transparent',
+      color: n.id === s.activeView ? 'var(--ink-sidebar-text-strong)' : 'var(--ink-sidebar-text)',
+      dot: n.id === s.activeView ? 'var(--accent)' : 'var(--accent-dot-inactive)',
+      weight: n.id === s.activeView ? 650 : 500,
+      badge: badgeCounts[n.id] ?? null,
+    }));
+    const viewLabels = {calendar:'Agenda', clients:'Clientes', conversations:'Centro de Solicitudes', followups:'Seguimientos', analytics:'Analítica'};
+
+    const clients = this.clientsData.map(c => ({...c, initials: initials(c.name), onClick: () => this.selectClient(c.id), rowBg: c.id === s.selectedClientId ? 'var(--accent-tint-soft)' : 'transparent'}));
+    const selectedClientRaw = this.clientsData.find(c => c.id === s.selectedClientId) || this.clientsData[0];
+    const selectedClient = {...selectedClientRaw, initials: initials(selectedClientRaw.name)};
+    const tabDefs = [{id:'overview', label:'Resumen'}, {id:'history', label:'Historial'}, {id:'photos', label:'Fotos'}, {id:'notes', label:'Notas'}, {id:'consent', label:'Consentimiento'}];
+    const clientTabs = tabDefs.map(t => ({...t, onClick: () => this.setClientTab(t.id),
+      weight: t.id === s.activeClientTab ? 650 : 500,
+      color: t.id === s.activeClientTab ? 'var(--gray-19)' : 'var(--gray-14)',
+      borderColor: t.id === s.activeClientTab ? 'var(--accent)' : 'transparent'}));
+
+    const filterPred = {
+      all: () => true,
+      waiting: t => t.waitingApproval,
+      ai: t => t.status === 'ai',
+      human: t => t.status === 'human',
+      followup: t => t.intent && t.intent.toLowerCase().includes('seguimiento'),
+      today: t => t.apptStatus && t.apptStatus.toLowerCase().includes('hoy'),
+      lead: t => t.isNewLead,
+      vip: t => t.isVIP,
+    }[s.threadFilter] || (() => true);
+    const priorityWeight = {high:0, medium:1, low:2};
+    const statusPillStyle = {
+      ai: {bg:'var(--accent-tint)', color:'var(--accent-strong)'},
+      human: {bg:'var(--gray-7)', color:'var(--gray-17)'},
+    };
+    const workflowStatusStyle = (label, sent) => {
+      if (sent) return {bg:'var(--success-bg)', color:'var(--success)'};
+      if (!label) return {bg:'var(--gray-7)', color:'var(--gray-17)'};
+      if (/inmediata|urgente/i.test(label)) return {bg:'var(--danger-bg)', color:'var(--danger-text)'};
+      if (/esperando|listo/i.test(label)) return {bg:'var(--accent-tint)', color:'var(--accent-strong)'};
+      return {bg:'var(--gray-7)', color:'var(--gray-17)'};
+    };
+    const filters = this.filters.map(f => ({...f, onClick: () => this.setFilter(f.id),
+      bg: f.id === s.threadFilter ? 'var(--accent)' : 'transparent',
+      color: f.id === s.threadFilter ? 'var(--text-on-accent)' : 'var(--gray-17)',
+      border: f.id === s.threadFilter ? '1px solid var(--accent)' : '1px solid var(--gray-9)'}));
+
+    const threads = this.threadsData
+      .filter(filterPred)
+      .sort((a, b) => priorityWeight[a.priority] - priorityWeight[b.priority])
+      .map(t => {
+        const sent = s.sentThreadIds.includes(t.id);
+        const wsLabel = sent ? 'Enviado' : t.workflowStatus;
+        const ws = workflowStatusStyle(t.workflowStatus, sent);
+        return {...t, workflowStatus: wsLabel, onClick: () => this.selectThread(t.id), rowBg: t.id === s.selectedThreadId ? 'var(--accent-tint-soft)' : 'transparent',
+          weight: t.unread ? 700 : 500, workflowStatusBg: ws.bg, workflowStatusColor: ws.color};
+      });
+    const selectedThreadRaw = this.threadsData.find(t => t.id === s.selectedThreadId) || this.threadsData[0];
+    const sentSel = s.sentThreadIds.includes(selectedThreadRaw.id);
+    const wsSelLabel = sentSel ? 'Enviado' : selectedThreadRaw.workflowStatus;
+    const wsSel = workflowStatusStyle(selectedThreadRaw.workflowStatus, sentSel);
+    const quickActions = selectedThreadRaw.quickActions.map(label => ({label}));
+    const workflow = (selectedThreadRaw.workflow || []).map((step, i) => ({step, n: i + 1}));
+    const c = selectedThreadRaw.client;
+    const cc = selectedThreadRaw.contextCard;
+    const messages = selectedThreadRaw.messages.map(m => {
+      const isClient = m.from === 'client';
+      const isAi = m.from === 'ai';
+      return {
+        ...m,
+        rowDirection: isClient ? 'flex-direction:row' : 'flex-direction:row-reverse',
+        avatarInitials: isClient ? selectedThreadRaw.avatar : (isAi ? 'IA' : 'MR'),
+        avatarBg: isClient ? 'var(--gray-8)' : (isAi ? 'var(--accent-tint)' : 'var(--accent)'),
+        avatarColor: isClient ? 'var(--gray-17)' : (isAi ? 'var(--accent-strong)' : 'var(--text-on-accent)'),
+        bubbleRadius: isClient ? '4px 14px 14px 14px' : '14px 4px 14px 14px',
+        bubbleBg: isClient ? 'var(--gray-6)' : (isAi ? 'var(--accent-tint-soft)' : 'var(--gray-1)'),
+        bubbleColor: 'var(--gray-19)',
+        bubbleBorder: isClient ? 'none' : (isAi ? '1px solid var(--accent-tint-border)' : '1px solid var(--gray-9)'),
+      };
+    });
+    const selectedThread = {...selectedThreadRaw, workflowStatus: wsSelLabel, workflowStatusBg: wsSel.bg, workflowStatusColor: wsSel.color,
+      messages,
+      hasCopilot: selectedThreadRaw.confidence != null, hasWorkflow: workflow.length > 0,
+      quickActions, workflow,
+      approvalLabel: selectedThreadRaw.waitingApproval ? 'Esperando aprobación' : 'Resuelto automáticamente',
+      apptCard: cc && cc.type === 'appointment' ? {...cc.appt, alternatives: cc.alternatives} : null,
+      productsCard: cc && cc.type === 'products' ? cc.items : null,
+      protocolCard: cc && cc.type === 'protocol' ? {title: cc.title, steps: cc.steps} : null,
+      client: c.hasClient ? {...c, vipBadge: c.vip ? 'VIP' : null} : c,
+      onApproveSend: () => this.approveSend(selectedThreadRaw.id),
+      onDiscardDraft: () => this.discardDraft(),
+    };
+    const onDraftChange = (e) => this.setDraftReply(e.target.value);
+    const onToggleWorkflow = () => this.toggleWorkflow();
+    const workflowArrow = s.workflowOpen ? '▴' : '▾';
+
+    const pulseText = `${this.threadsData.filter(t=>t.unread).length} conversaciones sin leer · ${this.threadsData.filter(t=>t.waitingApproval).length} esperando tu aprobación`;
+
+    const followupsWithMeta = s.followups.map(f => {
+      const label = f.status === 'sent' ? 'Enviado' : (f.status === 'skipped' ? 'Omitido' : 'Pendiente');
+      const style = f.status === 'sent' ? 'color:var(--accent-strong)' : (f.status === 'skipped' ? 'color:var(--gray-14)' : 'color:var(--warning)');
+      const rule = this.spacingRules.find(r => r.treatment === f.treatment);
+      const spacingWarning = (rule && f.lastSessionDaysAgo != null && f.lastSessionDaysAgo < rule.minDays)
+        ? `Han pasado ${f.lastSessionDaysAgo} días desde la última sesión — regla configurada: esperar al menos ${rule.minDays} días. ${rule.note}`
+        : null;
+      return {...f, statusLabel: label, statusStyle: style, spacingWarning, onSend: () => this.actOnFollowup(f.id, 'sent'), onSkip: () => this.actOnFollowup(f.id, 'skipped')};
+    });
+    const spacingAlerts = followupsWithMeta.filter(f => f.spacingWarning);
+
+    return {
+      navItems, currentViewLabel: viewLabels[s.activeView],
+      isCalendarView: s.activeView === 'calendar', isClientsView: s.activeView === 'clients',
+      isConversationsView: s.activeView === 'conversations',
+      isFollowupsView: s.activeView === 'followups', isAnalyticsView: s.activeView === 'analytics',
+      dayColumns, hourLabels, needsAttention, needsAttentionCount: needsAttention.length, noNeedsAttention: needsAttention.length === 0,
+      weekTotal: apptsWithMeta.length, weekWaiting: apptsWithMeta.filter(a => a.status === 'waiting').length,
+      clients, selectedClient, clientTabs,
+      isTabOverview: s.activeClientTab === 'overview', isTabHistory: s.activeClientTab === 'history',
+      isTabNotes: s.activeClientTab === 'notes', isTabPhotos: s.activeClientTab === 'photos', isTabConsent: s.activeClientTab === 'consent',
+      photoSlots: this.photoSlots, consentDocs: this.consentDocs,
+      threads, selectedThread, filters, pulseText,
+      draftReply: s.draftReply, onDraftChange, onToggleWorkflow, workflowOpen: s.workflowOpen, workflowArrow,
+      overdueFollowups: followupsWithMeta.filter(f => f.bucket === 'overdue'), overdueCount: followupsWithMeta.filter(f => f.bucket === 'overdue').length,
+      todayFollowups: followupsWithMeta.filter(f => f.bucket === 'today'), todayFollowupsCount: followupsWithMeta.filter(f => f.bucket === 'today').length,
+      scheduledFollowups: followupsWithMeta.filter(f => f.bucket === 'scheduled'), scheduledCount: followupsWithMeta.filter(f => f.bucket === 'scheduled').length,
+      spacingAlerts, hasSpacingAlerts: spacingAlerts.length > 0,
+      kpis: this.kpisData, topTreatments: this.topTreatmentsData, staffUtil: this.staffUtilData,
+      newApptPanelOpen: s.newApptPanelOpen, newApptToggleIcon, newApptDraft: draft, treatmentOptions, staffOptions, dayOptions, timeOptions, durationOptions,
+      clientSearchResults, hasClientResults, conflictWarning, submitDisabled, submitBg, submitCursor,
+      onToggleNewAppt, onCancelNewAppt, onClientSearchChange, onTreatmentChange,
+      onStaffChange, onDayChange, onStartChange, onDurChange, onSubmitAppt,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

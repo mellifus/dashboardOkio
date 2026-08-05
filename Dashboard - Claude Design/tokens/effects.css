@@ -1,0 +1,13 @@
+:root {
+  --radius-sm: 6px;
+  --radius-md: 7px;
+  --radius-lg: 8px;
+  --radius-xl: 9px;
+  --radius-2xl: 10px;
+  --radius-3xl: 12px;
+  --radius-pill: 999px;
+  --radius-full: 50%;
+
+  --shadow-card: 0 1px 3px oklch(20% 0.01 260 / 0.04);
+  --shadow-button-accent: 0 1px 2px var(--accent-shadow);
+}

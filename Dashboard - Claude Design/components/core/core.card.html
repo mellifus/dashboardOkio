@@ -1,0 +1,48 @@
+<!-- @dsCard group="Components" viewport="700x520" name="Core" subtitle="Button, Badge, Dot, Avatar, Card" -->
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;background:var(--surface-page);font-family:var(--font-sans)}</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { Button, Badge, Dot, Avatar, Card } = window.Okio;
+function Demo() {
+  return (
+    <div style={{padding:20,display:"flex",flexDirection:"column",gap:16}}>
+      <div style={{display:"flex",gap:8,alignItems:"center",flexWrap:"wrap"}}>
+        <Button variant="primary" size="lg" withShadow>+ Nuevo turno</Button>
+        <Button variant="secondary">Editar antes</Button>
+        <Button variant="ghost" size="sm">Omitir</Button>
+        <Button variant="primary" disabled>Confirmar</Button>
+      </div>
+      <div style={{display:"flex",gap:8,alignItems:"center",flexWrap:"wrap"}}>
+        <Badge tone="accent">Listo para aprobar</Badge>
+        <Badge tone="warning">Requiere revisión inmediata</Badge>
+        <Badge tone="neutral">Resuelto</Badge>
+        <Badge tone="accent" uppercase>VIP</Badge>
+        <Badge tone="dark">96% IA</Badge>
+      </div>
+      <div style={{display:"flex",gap:14,alignItems:"center"}}>
+        <div style={{display:"flex",alignItems:"center",gap:6}}><Dot color="oklch(58% 0.16 55)" /><span style={{fontSize:12}}>Reprogramación</span></div>
+        <div style={{display:"flex",alignItems:"center",gap:6}}><Dot color="oklch(56% 0.18 25)" /><span style={{fontSize:12}}>Consulta médica</span></div>
+        <Avatar initials="MR" size={30} />
+        <Avatar size={52} tone="tint" />
+      </div>
+      <div style={{display:"flex",gap:12}}>
+        <Card style={{flex:1}}><div style={{fontWeight:650,fontSize:13}}>Ingresos este mes</div><div style={{fontSize:25,fontWeight:650,marginTop:6}}>$18.420</div></Card>
+        <Card tone="accent" style={{flex:1}}><div style={{fontSize:12,fontWeight:700,color:"var(--accent-strong)",textTransform:"uppercase"}}>Copiloto IA</div><div style={{fontSize:13,marginTop:6}}>Confianza 96%</div></Card>
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<Demo />);
+</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+:root {
+  /* Verified from okiobeauty.com.ar computed styles (see Docs/06_Brand_Identity.md) */
+  --font-serif: "Fraunces", "Cormorant Garamond", Georgia, serif; /* headings, italic for emphasis words */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; /* body/UI */
+  --font-mono: ui-monospace, monospace;
+
+  --tracking-tight: -0.02em;
+  --tracking-snug: -0.015em;
+  --tracking-body: -0.01em;
+  --tracking-fine: -0.005em;
+  --tracking-wide: 0.03em;
+  --tracking-wider: 0.04em;
+  --tracking-widest: 0.05em;
+
+  --text-2xs: 9px;
+  --text-2xs-alt: 9.5px;
+  --text-xs: 10.5px;
+  --text-xs-alt: 11px;
+  --text-sm: 11.5px;
+  --text-sm-alt: 12px;
+  --text-base: 12.5px;
+  --text-base-alt: 13px;
+  --text-md: 13.5px;
+  --text-md-alt: 14px;
+  --text-lg: 14.5px;
+  --text-xl: 15px;
+  --text-2xl: 17px;
+  --text-3xl: 19px;
+  --text-4xl: 25px;
+
+  --weight-regular: 500;
+  --weight-medium: 600;
+  --weight-semibold: 650;
+  --weight-bold: 700;
+
+  --label-caps: uppercase;
+}

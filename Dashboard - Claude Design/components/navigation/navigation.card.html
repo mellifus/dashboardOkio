@@ -1,0 +1,34 @@
+<!-- @dsCard group="Components" viewport="700x220" name="Navigation" subtitle="NavItem, Tabs" -->
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;font-family:var(--font-sans)}</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { NavItem, Tabs } = window.Okio;
+function Demo() {
+  const [tab, setTab] = React.useState("overview");
+  return (
+    <div style={{display:"flex"}}>
+      <div style={{background:"var(--surface-sidebar)",padding:12,width:220}}>
+        <NavItem label="Agenda" />
+        <NavItem label="Centro de Solicitudes" active badge={4} />
+        <NavItem label="Clientes" />
+      </div>
+      <div style={{flex:1,padding:20}}>
+        <Tabs tabs={[{id:"overview",label:"Resumen"},{id:"history",label:"Historial"},{id:"photos",label:"Fotos"}]} activeId={tab} onChange={setTab} />
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<Demo />);
+</script>
+</body>
+</html>

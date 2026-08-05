@@ -1,0 +1,37 @@
+<!-- @dsCard group="Components" viewport="700x360" name="Data" subtitle="StatCard, ProgressBar, ListRow" -->
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;background:var(--surface-page);font-family:var(--font-sans)}</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { StatCard, ProgressBar, ListRow, Badge, Dot } = window.Okio;
+function Demo() {
+  return (
+    <div style={{padding:20,display:"flex",flexDirection:"column",gap:16}}>
+      <div style={{display:"flex",gap:12}}>
+        <StatCard label="Ingresos este mes" value="$18.420" sub="+12% vs. el mes pasado" />
+        <StatCard label="Turnos reservados" value="214" sub="96% de la capacidad" />
+      </div>
+      <div style={{background:"white",border:"1px solid var(--border-default)",borderRadius:12,padding:18}}>
+        <ProgressBar label="Botox" pct={32} />
+        <ProgressBar label="Relleno" pct={24} />
+      </div>
+      <div style={{background:"white",border:"1px solid var(--border-default)",borderRadius:12,overflow:"hidden"}}>
+        <ListRow title="Elena Vidal" subtitle="Última visita 12 jul" trailing={<Badge tone="accent" uppercase>VIP</Badge>} active />
+        <ListRow leading={<Dot color="oklch(58% 0.16 55)" />} title="Camila Reyes" subtitle="Oportunidad de $420" trailing={<Badge tone="accent">Esperando aprobación</Badge>} />
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<Demo />);
+</script>
+</body>
+</html>

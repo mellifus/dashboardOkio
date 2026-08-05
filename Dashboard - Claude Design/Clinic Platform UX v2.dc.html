@@ -856,7 +856,7 @@ class Component extends DCLogic {
       toast: followUpDue ? `Seguimiento agregado · ${followUpDue}` : null,
     }));
   }
-  selectClient(id) { this.setState({selectedClientId: id, activeClientTab:'overview'}); }
+  selectClient(id) { this.setState({selectedClientId: id, activeClientTab:'overview', editingHistoryIndex: null}); }
   setClientTab(tab) { this.setState({activeClientTab: tab}); }
   selectThread(id) {
     const t = this.threadsData.find(t => t.id === id);

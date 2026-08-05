@@ -846,14 +846,16 @@ class Component extends DCLogic {
       adverseReaction: {flag: d.hasReaction, description: d.hasReaction ? d.reactionDescription : ''},
       followUpId: followUpDue ? nextFollowupId : null,
     };
+    const hasMatch = s.clients.some(c => c.name === appt.client);
     this.setState(s2 => ({
       clients: s2.clients.map(c => c.name === appt.client ? {...c, history: [entry, ...c.history]} : c),
-      followups: followUpDue
+      followups: hasMatch && followUpDue
         ? [...s2.followups, {id: nextFollowupId, client: appt.client, treatment: appt.treatment, trigger:'Seguimiento post-tratamiento', due: followUpDue, bucket:'scheduled', status:'pending'}]
         : s2.followups,
-      appointments: s2.appointments.map(a => a.id === appt.id ? {...a, sessionLogged: true} : a),
+      appointments: hasMatch ? s2.appointments.map(a => a.id === appt.id ? {...a, sessionLogged: true} : a) : s2.appointments,
       loggingApptId: null,
-      toast: followUpDue ? `Seguimiento agregado · ${followUpDue}` : null,
+      editingHistoryIndex: null,
+      toast: hasMatch ? (followUpDue ? `Seguimiento agregado · ${followUpDue}` : null) : 'No se pudo registrar: cliente no encontrado',
     }));
   }
   selectClient(id) { this.setState({selectedClientId: id, activeClientTab:'overview', editingHistoryIndex: null}); }

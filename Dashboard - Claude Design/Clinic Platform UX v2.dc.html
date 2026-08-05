@@ -875,7 +875,7 @@ class Component extends DCLogic {
       dayLabel: dayLabelFor(selectedAppointmentRaw.day),
       timeLabel: fmtTime(selectedAppointmentRaw.start),
       isMarkable: selectedAppointmentRaw.status === 'confirmed',
-      isAwaitingLog: selectedAppointmentRaw.status === 'completed' && !selectedAppointmentRaw.sessionLogged,
+      isAwaitingLog: selectedAppointmentRaw.status === 'completed' && !selectedAppointmentRaw.sessionLogged && s.loggingApptId !== selectedAppointmentRaw.id,
       isLogged: selectedAppointmentRaw.status === 'completed' && !!selectedAppointmentRaw.sessionLogged,
     } : null;
     const hasSelectedAppointment = !!selectedAppointment;

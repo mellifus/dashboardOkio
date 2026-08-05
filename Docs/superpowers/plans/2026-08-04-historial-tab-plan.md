@@ -513,6 +513,24 @@ In `renderVals()`, after the `selectedClient` computation, add:
 
 Add `historyEntries, historyEditDraft: s.historyEditDraft, onHistoryNotesChange, onHistoryReactionNo, onHistoryReactionYes, onHistoryReactionDescChange, historyReactionNoStyle, historyReactionYesStyle, onCancelEditHistory` to the object returned at the end of `renderVals()`.
 
+### Step 3b: Reset edit state when switching clients
+
+`editingHistoryIndex` is a bare array index with no client identity attached. Without a reset, switching clients mid-edit (the client sidebar is always visible next to the detail panel — one click) leaves a stale index and draft active: if the newly-selected client happens to have a history entry at that same index, it silently renders in edit mode pre-filled with the *previous* client's draft, and saving would overwrite the new client's entry with the old client's data.
+
+Find the existing `selectClient` method:
+
+```js
+  selectClient(id) { this.setState({selectedClientId: id, activeClientTab:'overview'}); }
+```
+
+Replace with:
+
+```js
+  selectClient(id) { this.setState({selectedClientId: id, activeClientTab:'overview', editingHistoryIndex: null}); }
+```
+
+(`historyEditDraft` doesn't need clearing — `startEditHistory` always reseeds it fresh from the target entry.)
+
 ### Step 4: Replace the Historial tab template
 
 Find:

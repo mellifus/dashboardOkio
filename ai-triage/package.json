@@ -1,0 +1,15 @@
+{
+  "name": "okio-ai-triage",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Primer paso real de IA: triage de mensajes entrantes con aprobación humana.",
+  "scripts": {
+    "start": "node triage.mjs",
+    "test": "node triage.mjs --test"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.125.0",
+    "zod": "^4.6.0"
+  }
+}

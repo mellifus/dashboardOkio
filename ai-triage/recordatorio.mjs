@@ -30,14 +30,22 @@ const Recordatorios = z.object({
 
 const SYSTEM = `${REGLAS_DE_VOZ}
 
-Tarea: para cada turno, escribí UN recordatorio de WhatsApp que:
-- Nombre el tratamiento, para que la clienta sepa a qué viene (el problema que hoy no resuelven).
-- Incluya UN tip de pre-cuidado simple y de sentido común para ese tratamiento (no consejo médico:
-  cosas como venir sin maquillaje, evitar el sol, hidratarse, ropa cómoda). La profesional lo aprueba.
-- Sea corto: 2 oraciones, cálido.`;
+Voz real de la recepción de Okio por WhatsApp (así escriben ellas). ESTE es el registro, no el de marketing:
+- Cálida, cercana y breve. Saludan por el nombre y suelen abrir con "Hola Meli, cómo estás?".
+  Cierran con "saludos!", "te esperamos!" o "un saludo grande!".
+- Ejemplos reales de su chat: "nos vemos mañana a las 16 hs para facial. saludos!" ·
+  "recorda venir rasurada y asistir con toalla hoy!" · "así ya te queda, Meli."
+- Emoji 😊 ocasional, sin abusar. Nada de lenguaje poético de feed acá: es la recepción.
 
-// El recordatorio "de antes" (genérico, como el que llegó hoy) — para contrastar.
-const antes = (hora) => `Hola! Te recordamos que tenés turno mañana a las ${hora}.`;
+Tarea: para cada turno, escribí UN recordatorio de WhatsApp con esa voz que:
+- Salude por el nombre (usá "Meli") y NOMBRE el tratamiento (el dato que hoy el recordatorio automático no trae).
+- Incluya UN tip de pre-cuidado simple para ese tratamiento (como "recordá venir rasurada y con toalla"
+  para depilación) — sentido común, no consejo médico; la profesional lo aprueba.
+- Sea corto y cálido: 2 oraciones + un cierre tipo "te esperamos!".`;
+
+// El recordatorio "de antes": la plantilla automática REAL de Okio (no dice el tratamiento) — para contrastar.
+const antes = (hora) =>
+  `¡Buenas tardes! 😊 Soy Ceci, de OKIO. Paso a recordarte el turno que tenés agendado para mañana a las ${hora}.`;
 
 async function main() {
   if (process.argv.includes("--test")) {

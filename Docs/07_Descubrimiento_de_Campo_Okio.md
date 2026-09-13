@@ -1,8 +1,8 @@
 # 07 — Descubrimiento de Campo: Okio
 
-**Estado:** v1 — 2026-09-11
+**Estado:** v2 — 2026-09-12
 **Owner:** Meli
-**Fuente:** observación directa de Meli **siendo clienta** de Okio, durante su propio turno (peeling facial) el 2026-09-11. No es una encuesta ni una entrevista formal — es lo que vio y escuchó en el lugar.
+**Fuentes:** (1) observación directa de Meli **siendo clienta** durante su turno el 2026-09-11; (2) el historial de WhatsApp Meli↔recepción de Okio (~jul–sep 2026), agregado el 2026-09-12 — ver "Actualización" al final. Ninguna es encuesta/entrevista formal: es evidencia de campo.
 
 ---
 
@@ -54,6 +54,24 @@ Hipótesis de dónde encaja Meli, **a validar con la pregunta de seguimiento**, 
 3. **El pegamento — automatizaciones puntuales.** Lo que ningún tool genérico hace: conectar dos piezas, avisos de stock bajo, recordatorios inteligentes. Fase 2 — no se pone pegamento de IA arriba de un Excel caótico.
 
 **Lectura:** el combo probable = **#1 como entrada** (te hace cercana e imprescindible) + **#2 como diferencial** (donde tu IA agrega lo que el tool de $30 no da). Cuál aplica depende de la pregunta de seguimiento: *"De todo lo disperso, ¿qué es lo que más te hace perder tiempo o plata?"* — "organización interna" es un paraguas con varios dolores abajo, y solo uno vale la pena.
+
+## Actualización 2026-09-12: evidencia del chat de WhatsApp (segunda fuente)
+
+**Fuente nueva:** el historial completo de WhatsApp entre Meli y la recepción de Okio (~jul–sep 2026). Mucho más fuerte que la observación única del 11/09: son semanas de interacción real. (Solo se registran acá patrones operativos; datos personales/médicos y el número quedan fuera del repo.)
+
+**Sube de confianza Media a Alta varios hallazgos:**
+- **Turno sin tratamiento (H1) → recurrente, no anécdota.** Meli preguntó "de qué es el turno?" varias veces en semanas. Matiz clave: los recordatorios AUTOMÁTICOS (plantilla "Buenas tardes, soy Ceci…") no dicen el tratamiento; cuando la recepción tipea a mano, a veces sí lo agrega → **compensan la falla del sistema con trabajo manual.**
+- **Herramientas dispersas / sin fuente única (H2) → confirmado en vivo.** Mandan la lista de turnos por WhatsApp "así no se te hace lío"; hacen de agenda de la clienta a mano. Y se les escapó un turno de su propia agenda ("ayer no advertimos en la agenda…").
+- **Presión de tiempo / capacidad → confirmada y repetida.** "Estamos con la agenda a full y estamos optimizando los horarios"; reprogramaciones manuales constantes.
+
+**Mecanismo del ghosteo (aclara la lección de canal):** la encuesta de Meli fue ruteada por la recepción a un mail de "el área de mkt de Okio" — área equivocada (el tema es operativo, no marketing), y ahí murió. No fue desinterés: fue mal ruteo del canal formal.
+
+**Empieza a responder la pregunta que decide el próximo paso:** este chat NO muestra un flujo de mensajes entrantes desbordado; es una relación operativa (recordatorios, reprogramaciones, pagos, precios de productos). Inclina la balanza hacia **organización interna** por sobre **inbox flood** — aunque el volumen entrante de TODA la clínica (no solo el chat de una clienta) sigue siendo pregunta para la dueña.
+
+**Implicación:** refuerza fuerte el **rol #1 (columna operativa)**. Pitch afinado con esta evidencia:
+> "No te doy una herramienta nueva: automatizo lo que ya hacés a mano cada día (avisar el tratamiento, reacomodar turnos) y te devuelvo ese tiempo."
+
+**Voz:** el chat reveló la voz de **recepción por WhatsApp** (cálida, corta, por el nombre, "saludos!"), distinta de la voz de marketing del feed. Se usó para afinar `ai-triage/recordatorio.mjs` (el "antes" ahora es su plantilla real de recordatorio).
 
 ## Documentos relacionados
 - `00_Product_Constraints.md` — Ítem Abierto #4 (queda respondido por este documento).

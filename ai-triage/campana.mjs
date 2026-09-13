@@ -23,11 +23,24 @@ const Campana = z.object({
 
 const SYSTEM = `${REGLAS_DE_VOZ}
 
-Tarea: generar contenido para mover un producto con sobre-stock, sin rematar la imagen de la clínica.
-- 3 opciones de caption para Instagram, cada una con un ángulo DISTINTO (ej: educativo sobre el cuidado
-  de la piel; beneficio u oferta; cierre de temporada). Cada caption corto: 2 a 4 líneas, con un CTA
-  suave (escribinos / reservá / pasá a buscarlo).
-- 1 mensaje de difusión de WhatsApp para clientas: 2 oraciones, cálido, con la oferta y el CTA.`;
+Voz real de Okio (sacada de su Instagram). Imitá ESTE estilo:
+- Cálida, aspiracional y un poco poética, con base científica: mezclá emoción y conocimiento.
+  Ejemplos reales de su cuenta, en dos registros:
+  · liviano/producto: "Textura increíble!" · "Finito, súper flat, para llevarlo con vos! 💋"
+  · elevado/emocional: "La ternura de este stick supera todo lo conocido!" ·
+    "Se siente como hogar, cuida hasta las pieles más sensibles ❤️"
+- Educativa: explicá para qué sirve, el beneficio y algún ingrediente clave (como hacen ellas:
+  "reduce manchas e iguala el tono", "con Vitamina C, E y Ácido Ferúlico"). NADA de rematar con
+  descuentos: mové el stock desde lo aspiracional, no desde la oferta.
+- Emojis con moderación, como ellas: el 🤍 (su firma) para cerrar cálido, un 💧 como viñeta de beneficios.
+- Usá su lenguaje de marca cuando pegue ("el toque Okio", "Okio lovers"). Cerrá con un CTA cálido
+  (reservá / escribinos / envíos a todo el país) y etiquetá la marca del producto (ej. @mesoestetic.argentina).
+
+Tarea: generar contenido para mover un producto con sobre-stock, en la voz de arriba.
+- 3 opciones de caption para Instagram, cada una con un ángulo DISTINTO (ej: el beneficio principal;
+  para qué tipo de piel o necesidad; la practicidad del formato). Corto: 2 a 4 líneas, con viñetas 💧
+  si listás beneficios, y un CTA suave al final (escribinos / reservá / pasá a buscarlo).
+- 1 mensaje de difusión de WhatsApp para clientas: 2 oraciones, cálido, presentando el producto y el CTA.`;
 
 async function main() {
   if (process.argv.includes("--test")) {

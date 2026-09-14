@@ -1,0 +1,32 @@
+/*
+  Okio — Editorial layer color tokens (Layer 2).
+  Complements the institutional palette in colors.css (forest green, Layer 1).
+
+  See Docs/06_Identidad_de_Marca.md ("Actualización 2026-09-14: modelo de 2 capas").
+  This layer is Okio's SOCIAL / CAMPAIGN register — rose / cream / gold — used on
+  Instagram, campaign pieces and events. It is NOT the product/dashboard palette;
+  the dashboard keeps --okio-primary (green) as its dominant brand color.
+
+  Values measured by pixel sampling of the real @okio.estetica feed (median-cut),
+  filtering out Instagram's own dark UI chrome.
+
+  Namespaced --okio-ed-* so it never overrides the institutional/product tokens.
+  Reuse the shared gold (--okio-accent-gold) and green (--okio-primary) from
+  colors.css instead of redefining them — the gold is the hinge between both layers.
+*/
+:root {
+  /* Editorial palette — rose / cream / gold (social & campaigns) */
+  --okio-ed-rose:        #A7726C; /* primary editorial tone — forms, highlighted text */
+  --okio-ed-rose-deep:   #8E5A5F; /* pills, strong titles */
+  --okio-ed-cream:       #E5DDDA; /* warm piece background */
+  --okio-ed-terracotta:  #B9846C; /* details, color transitions */
+  --okio-ed-taupe:       #CBB29D; /* secondary surfaces, dividers */
+  --okio-ed-brown:       #5D3A33; /* body text — warm brown, never pure black */
+  --okio-ed-rose-tint:   #F3E7E3; /* soft rose surface / callouts */
+
+  /* Signature — shared between both layers.
+     Does NOT include Instagram's magenta→orange story-ring gradient:
+     that is Instagram app UI, not an Okio brand asset — do not reuse it. */
+  --okio-signature-glyph: "\2726"; /* ✦ — brand separator glyph */
+  --okio-radius-pill: 999px;       /* fully-rounded pill buttons, both layers */
+}

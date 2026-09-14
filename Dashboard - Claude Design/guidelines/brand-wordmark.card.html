@@ -1,7 +1,21 @@
-<!-- @dsCard group="Brand" viewport="700x140" name="Wordmark" subtitle="No logo file provided — plain type mark" -->
+<!-- @dsCard group="Brand" viewport="700x140" name="Wordmark" subtitle="Gold lotus + Okio serif — the signature that unites both layers" -->
 <!DOCTYPE html>
-<html><head><link rel="stylesheet" href="../styles.css"><style>body{margin:0;font-family:var(--font-sans);height:100%;display:flex;align-items:center;gap:9px;padding:0 20px;background:var(--surface-sidebar)}</style></head>
+<html><head><link rel="stylesheet" href="../styles.css"><style>
+  body{margin:0;font-family:var(--font-sans);height:100%;display:flex;align-items:center;gap:20px;padding:0 24px;background:var(--okio-primary)}
+  .lotus path{fill:none;stroke:var(--okio-accent-gold);stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+  .word{font-family:var(--font-serif);font-size:34px;color:var(--okio-accent-gold);line-height:.9}
+  .tag{font-size:8px;letter-spacing:.32em;text-transform:uppercase;color:var(--okio-accent-gold);font-weight:600;margin-top:6px}
+  .lock{display:flex;flex-direction:column;align-items:center;line-height:1}
+</style></head>
 <body>
-<div style="width:22px;height:22px;border-radius:6px;background:var(--accent)"></div>
-<div style="font-weight:600;font-size:16px;color:var(--ink-sidebar-text-strong);letter-spacing:-0.01em">Okio</div>
+<svg class="lotus" width="52" height="40" viewBox="0 0 100 78" aria-hidden="true">
+  <path d="M50 8 C57 24 57 42 50 56 C43 42 43 24 50 8 Z"/>
+  <path d="M50 56 C41 49 34 38 34 24 C43 30 49 43 50 56 Z"/>
+  <path d="M50 56 C59 49 66 38 66 24 C57 30 51 43 50 56 Z"/>
+  <path d="M50 58 C37 57 23 50 16 39 C31 38 45 46 50 58 Z"/>
+  <path d="M50 58 C63 57 77 50 84 39 C69 38 55 46 50 58 Z"/>
+  <path d="M22 46 C34 52 44 60 50 66 C56 60 66 52 78 46"/>
+</svg>
+<div class="lock"><span class="word">Okio</span><span class="tag">Estética y Bienestar</span></div>
+<div style="font-size:10px;color:var(--okio-accent-gold-light);max-width:210px;line-height:1.5;margin-left:auto">Lotus redrawn in SVG — replace with Okio's official vector. Do NOT use Instagram's story-ring gradient as a logo element.</div>
 </body></html>

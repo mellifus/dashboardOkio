@@ -36,7 +36,7 @@ None — every component here (`Button`, `Badge`, `Dot`, `Avatar`, `Card`, `NavI
 - `components/data/` — StatCard, ProgressBar, ListRow.
 - `guidelines/` — foundation specimen cards (colors, type, spacing, radius/shadow, wordmark).
 - `ui_kits/clinic-platform/` — click-through recreation of all six screens (Agenda, Centro de Solicitudes, Clientes, Catálogo, Seguimientos, Analítica) built from the components above.
-- `SKILL.md` — portable skill file for use in Claude Code.
+- `.claude/skills/okio-design/SKILL.md` (repo root) — the invocable Claude Code skill (`/okio-design`) that packages this brand system for generating on-brand pieces and code.
 
 ## Caveats & ask
 - No logo file exists anywhere in the source — the sidebar mark is plain type ("Okio") on an accent square. Please share a real logo if one exists.

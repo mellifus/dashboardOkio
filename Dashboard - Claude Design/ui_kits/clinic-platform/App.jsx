@@ -5,7 +5,24 @@ const NAV = [
   { id: "calendar", label: "Agenda" },
   { id: "requests", label: "Centro de Solicitudes" },
   { id: "clients", label: "Clientes" },
+  { id: "catalog", label: "Catálogo" },
+  { id: "seguimientos", label: "Seguimientos" },
   { id: "analytics", label: "Analítica" },
+];
+
+const CATALOG = [
+  { id: "tx1", name: "Botox — frente", cat: "Facial", color: "oklch(58% 0.16 55)", dur: "30 min", price: "$45.000" },
+  { id: "tx2", name: "Relleno de labios", cat: "Facial", color: "oklch(58% 0.16 55)", dur: "45 min", price: "$78.000" },
+  { id: "tx3", name: "Depilación láser — piernas", cat: "Corporal", color: "oklch(56% 0.15 230)", dur: "40 min", price: "$32.000" },
+  { id: "tx4", name: "Limpieza facial profunda", cat: "Facial", color: "oklch(58% 0.16 55)", dur: "60 min", price: "$28.000" },
+  { id: "tx5", name: "SkinRetin", cat: "Tratamiento", color: "var(--accent)", dur: "50 min", price: "$52.000" },
+  { id: "tx6", name: "Mesoterapia capilar", cat: "Corporal", color: "oklch(56% 0.15 230)", dur: "30 min", price: "$38.000" },
+];
+
+const FOLLOWUPS = [
+  { id: "f1", name: "Elena Vidal", treatment: "Botox — frente", since: "hace 12 días", plan: { done: 1, total: 1 }, next: "Control post-aplicación a las 2 semanas", status: "Pendiente", tone: "warning", color: "oklch(58% 0.16 55)" },
+  { id: "f2", name: "Carla Núñez", treatment: "Depilación láser — piernas", since: "hace 5 días", plan: { done: 3, total: 6 }, next: "Reservar la sesión 4 de 6", status: "Al día", tone: "success", color: "oklch(56% 0.15 230)" },
+  { id: "f3", name: "Irene Castro", treatment: "Consulta médica", since: "hace 2 días", plan: { done: 0, total: 1 }, next: "Revisión de posible complicación", status: "Urgente", tone: "danger", color: "oklch(56% 0.18 25)" },
 ];
 
 const THREADS = [
@@ -182,7 +199,83 @@ function AnalyticsView() {
   );
 }
 
-const VIEW_LABEL = { calendar: "Agenda", requests: "Centro de Solicitudes", clients: "Clientes", analytics: "Analítica" };
+function CatalogView() {
+  return (
+    <div style={{ padding: 24 }}>
+      <div style={{ display: "flex", alignItems: "center", marginBottom: 18 }}>
+        <div style={{ fontFamily: "var(--font-serif)", fontSize: 26, fontWeight: 500, letterSpacing: "-0.01em" }}>Catálogo de tratamientos</div>
+        <div style={{ marginLeft: "auto" }}><Button variant="primary" withShadow>+ Nuevo tratamiento</Button></div>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 14 }}>
+        {CATALOG.map((t) => (
+          <Card key={t.id}>
+            <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 8 }}>
+              <Dot color={t.color} size={7} />
+              <span style={{ fontSize: 11, fontWeight: 700, color: t.color, textTransform: "uppercase", letterSpacing: "var(--tracking-wide)" }}>{t.cat}</span>
+            </div>
+            <div style={{ fontFamily: "var(--font-serif)", fontSize: 19, fontWeight: 500, marginBottom: 12 }}>{t.name}</div>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Badge tone="neutral">{t.dur}</Badge>
+              <span style={{ marginLeft: "auto", fontFamily: "var(--font-serif)", fontSize: 20, color: "var(--accent)", fontVariantNumeric: "tabular-nums" }}>{t.price}</span>
+            </div>
+            <div style={{ marginTop: 14, display: "flex", gap: 8 }}>
+              <Button variant="secondary" size="sm">Editar</Button>
+              <Button variant="ghost" size="sm">Ver</Button>
+            </div>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SeguimientosView() {
+  const [selected, setSelected] = React.useState("f2");
+  const f = FOLLOWUPS.find((x) => x.id === selected);
+  const pct = Math.round((f.plan.done / f.plan.total) * 100);
+  return (
+    <div style={{ display: "flex", gap: 16, padding: 24, minWidth: 900 }}>
+      <div style={{ width: 280, background: "white", border: "1px solid var(--border-default)", borderRadius: 12, overflow: "hidden" }}>
+        <div style={{ padding: "14px 14px 10px", borderBottom: "1px solid var(--gray-7)", fontWeight: 650, fontSize: 14 }}>Seguimientos activos (3)</div>
+        {FOLLOWUPS.map((x) => (
+          <ListRow
+            key={x.id}
+            active={x.id === selected}
+            onClick={() => setSelected(x.id)}
+            leading={<Dot color={x.color} />}
+            title={x.name}
+            subtitle={`${x.treatment} · ${x.since}`}
+            trailing={<Badge tone={x.tone}>{x.status}</Badge>}
+          />
+        ))}
+      </div>
+      <div style={{ flex: 1, background: "white", border: "1px solid var(--border-default)", borderRadius: 12, padding: 22 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+          <div style={{ fontFamily: "var(--font-serif)", fontSize: 23, fontWeight: 500 }}>{f.name}</div>
+          <div style={{ marginLeft: "auto" }}><Badge tone={f.tone}>{f.status}</Badge></div>
+        </div>
+        <div style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 18 }}>{f.treatment} · {f.since}</div>
+        <div style={{ marginBottom: 18 }}>
+          <div style={{ fontSize: 11, fontWeight: 650, textTransform: "uppercase", letterSpacing: "var(--tracking-wider)", color: "var(--text-muted)", marginBottom: 8 }}>Plan de tratamiento</div>
+          <ProgressBar label={`Sesión ${f.plan.done} de ${f.plan.total}`} pct={pct} />
+        </div>
+        <Card tone="accent">
+          <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 10 }}>
+            <Dot color="var(--accent)" size={8} />
+            <span style={{ fontSize: 12, fontWeight: 700, color: "var(--accent-strong)", textTransform: "uppercase" }}>Copiloto IA</span>
+          </div>
+          <div style={{ fontSize: 13.5, marginBottom: 12 }}>Próximo paso sugerido: {f.next}.</div>
+          <div style={{ display: "flex", gap: 8 }}>
+            <Button variant="primary">Enviar recordatorio</Button>
+            <Button variant="secondary">Reprogramar</Button>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+const VIEW_LABEL = { calendar: "Agenda", requests: "Centro de Solicitudes", clients: "Clientes", catalog: "Catálogo", seguimientos: "Seguimientos", analytics: "Analítica" };
 
 function App() {
   const [view, setView] = React.useState("requests");
@@ -195,6 +288,8 @@ function App() {
           {view === "calendar" && <CalendarView />}
           {view === "requests" && <RequestsView />}
           {view === "clients" && <ClientsView />}
+          {view === "catalog" && <CatalogView />}
+          {view === "seguimientos" && <SeguimientosView />}
           {view === "analytics" && <AnalyticsView />}
         </div>
       </div>

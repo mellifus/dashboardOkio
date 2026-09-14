@@ -35,10 +35,10 @@ None — every component here (`Button`, `Badge`, `Dot`, `Avatar`, `Card`, `NavI
 - `components/forms/` — SearchInput.
 - `components/data/` — StatCard, ProgressBar, ListRow.
 - `guidelines/` — foundation specimen cards (colors, type, spacing, radius/shadow, wordmark).
-- `ui_kits/clinic-platform/` — click-through recreation of the four core screens (Agenda, Centro de Solicitudes, Clientes, Analítica) built from the components above.
+- `ui_kits/clinic-platform/` — click-through recreation of all six screens (Agenda, Centro de Solicitudes, Clientes, Catálogo, Seguimientos, Analítica) built from the components above.
 - `SKILL.md` — portable skill file for use in Claude Code.
 
 ## Caveats & ask
 - No logo file exists anywhere in the source — the sidebar mark is plain type ("Okio") on an accent square. Please share a real logo if one exists.
 - No icon system exists in the source (see Iconography above) — flag if you want one added.
-- The UI kit covers 4 of the 6 product surfaces (Catálogo and Seguimientos were left out of the click-through to stay focused — the components support them fine, just say the word and I'll add those screens too).
+- The UI kit now covers all 6 product surfaces. Catálogo (treatment grid with categories, duration and price) and Seguimientos (master-detail follow-ups with a treatment-plan ProgressBar and the shared "Copiloto IA" next-step card) were built from the existing components — no new component types were needed. The sample treatments, prices and follow-up states are placeholder data, not Okio's real catalog.

@@ -19,12 +19,41 @@ const CLIENTS = [
   { id: "c2", name: "Sofía Ramos", lastVisit: "20 jun", overview: "Clienta de largo plazo, tratamientos mensuales. Prefiere a Marta Ruiz." },
 ];
 
+function Lotus({ size = 20, stroke = "var(--okio-accent-gold)" }) {
+  return (
+    <svg width={size} height={size * 0.78} viewBox="0 0 100 78" aria-hidden="true"
+      style={{ fill: "none", stroke, strokeWidth: 5, strokeLinecap: "round", strokeLinejoin: "round" }}>
+      <path d="M50 8 C57 24 57 42 50 56 C43 42 43 24 50 8 Z" />
+      <path d="M50 56 C41 49 34 38 34 24 C43 30 49 43 50 56 Z" />
+      <path d="M50 56 C59 49 66 38 66 24 C57 30 51 43 50 56 Z" />
+      <path d="M50 58 C37 57 23 50 16 39 C31 38 45 46 50 58 Z" />
+      <path d="M50 58 C63 57 77 50 84 39 C69 38 55 46 50 58 Z" />
+      <path d="M22 46 C34 52 44 60 50 66 C56 60 66 52 78 46" />
+    </svg>
+  );
+}
+
+// Sidebar = Okio's institutional (green) layer. Scoped nav tokens let the shared
+// NavItem read gold/green active states on the dark-green ground.
+const SIDEBAR_VARS = {
+  background: "var(--okio-primary)",
+  "--ink-sidebar-text": "rgba(235,233,232,0.72)",
+  "--ink-sidebar-text-strong": "#FFFFFF",
+  "--nav-active-bg": "rgba(255,255,255,0.10)",
+  "--nav-active-dot": "var(--okio-accent-gold)",
+  "--nav-badge-bg": "var(--okio-accent-gold)",
+  "--nav-badge-text": "var(--okio-primary)",
+};
+
 function Sidebar({ view, setView }) {
   return (
-    <div style={{ background: "var(--surface-sidebar)", width: 210, display: "flex", flexDirection: "column", padding: "18px 12px", fontFamily: "var(--font-sans)" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 9, padding: "4px 8px 22px" }}>
-        <div style={{ width: 22, height: 22, borderRadius: 6, background: "var(--accent)" }} />
-        <div style={{ fontWeight: 600, fontSize: 14, color: "var(--ink-sidebar-text-strong)" }}>Okio</div>
+    <div style={{ ...SIDEBAR_VARS, width: 210, display: "flex", flexDirection: "column", padding: "18px 12px", fontFamily: "var(--font-sans)" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "4px 8px 24px" }}>
+        <Lotus size={26} />
+        <div style={{ display: "flex", flexDirection: "column", lineHeight: 1 }}>
+          <span style={{ fontFamily: "var(--font-serif)", fontSize: 19, color: "var(--okio-accent-gold)" }}>Okio</span>
+          <span style={{ fontSize: 7.5, letterSpacing: "0.24em", textTransform: "uppercase", color: "var(--okio-accent-gold-light)", fontWeight: 600, marginTop: 3 }}>Estética y Bienestar</span>
+        </div>
       </div>
       {NAV.map((n) => (
         <NavItem key={n.id} label={n.label} active={view === n.id} badge={n.id === "requests" ? 3 : null} onClick={() => setView(n.id)} />
@@ -36,7 +65,7 @@ function Sidebar({ view, setView }) {
 function TopBar({ title }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 16, padding: "13px 26px", borderBottom: "1px solid var(--border-8, var(--gray-8))", fontFamily: "var(--font-sans)" }}>
-      <div style={{ fontWeight: 600, fontSize: 14.5 }}>{title}</div>
+      <div style={{ fontFamily: "var(--font-serif)", fontWeight: 500, fontSize: 20, letterSpacing: "-0.01em" }}>{title}</div>
       <div style={{ marginLeft: "auto" }}>
         <SearchInput placeholder="Buscar clientes, turnos…" />
       </div>
@@ -50,7 +79,7 @@ function CalendarView() {
     <div style={{ display: "flex", gap: 20, padding: 24 }}>
       <div style={{ flex: 1 }}>
         <div style={{ display: "flex", alignItems: "center", marginBottom: 16 }}>
-          <div style={{ fontSize: 19, fontWeight: 650 }}>Martes, 30 de julio</div>
+          <div style={{ fontFamily: "var(--font-serif)", fontSize: 26, fontWeight: 500, letterSpacing: "-0.01em" }}>Martes, 30 de julio</div>
           <div style={{ marginLeft: "auto" }}><Button variant="primary" withShadow>+ Nuevo turno</Button></div>
         </div>
         <div style={{ background: "white", border: "1px solid var(--border-default)", borderRadius: 12, padding: 16, boxShadow: "var(--shadow-card)" }}>
@@ -124,7 +153,7 @@ function ClientsView() {
       <div style={{ flex: 1, background: "white", border: "1px solid var(--border-default)", borderRadius: 12, padding: 22 }}>
         <div style={{ display: "flex", gap: 16, marginBottom: 16 }}>
           <Avatar size={52} tone="tint" />
-          <div style={{ fontSize: 17, fontWeight: 650 }}>{client.name}</div>
+          <div style={{ fontFamily: "var(--font-serif)", fontSize: 23, fontWeight: 500, alignSelf: "center", letterSpacing: "-0.01em" }}>{client.name}</div>
           <div style={{ marginLeft: "auto" }}><Button variant="primary">Reservar turno</Button></div>
         </div>
         <Tabs tabs={[{ id: "overview", label: "Resumen" }, { id: "history", label: "Historial" }]} activeId={tab} onChange={setTab} />

@@ -13,8 +13,8 @@ No external codebase, Figma file, or brand guideline was provided — this syste
 
 ## Visual foundations
 - **Color:** neutral-first. A blue-tinted gray scale (oklch hue 260) for 90% of the UI; one brand accent (deep forest green `--accent`, sourced from `--okio-primary` — see `Docs/06_Brand_Identity.md`) for primary actions, active nav state, links, and anything AI-related. Semantic colors (warning/amber, danger/red, success/green, info/blue) are reserved for request categories and status, never decorative.
-- **Surfaces:** a near-black sidebar (`--surface-sidebar`) is the only dark surface in the product; everything else is white cards on a very light gray page background. No gradients, no glassmorphism, no blur.
-- **Type:** system sans stack (-apple-system/Segoe UI/system-ui). Slightly negative letter-spacing throughout (-0.005 to -0.02em) for a dense, technical feel. Weights are 500/600/650/700 — no light or 800+ weights.
+- **Surfaces:** a forest-green sidebar (`--okio-primary`, Okio's institutional brand color) with a gold lotus + serif wordmark is the only dark surface in the product; everything else is white cards on a very light warm page background. The shared `NavItem` reads scoped `--nav-active-*` / `--ink-sidebar-*` tokens so its active/badge states resolve against the green ground. No gradients, no glassmorphism, no blur.
+- **Type:** Fraunces (serif) for display — page titles, day/section headings, stat values, avatar monograms — and Inter (sans) for body, labels and UI; both loaded from Google Fonts in the UI kit's `index.html`. Slightly negative letter-spacing on display type for a dense, refined feel. Weights are 400/500/600/650/700 — no 800+.
 - **Shadows:** one soft ambient card shadow (`--shadow-card`) everywhere; a slightly stronger colored shadow only under the single primary CTA per screen.
 - **Radius:** small (6-7px) on buttons/pills/inputs, medium (12px) on cards/panels, fully round on avatars/dots. Nothing sharp, nothing pill-shaped except true status pills.
 - **Borders:** hairline 1px borders (not shadows) separate list rows and table cells; cards get both a hairline border and the ambient shadow.

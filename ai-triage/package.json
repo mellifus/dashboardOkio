@@ -6,10 +6,12 @@
   "description": "Primer paso real de IA: triage de mensajes entrantes con aprobación humana.",
   "scripts": {
     "start": "node triage.mjs",
-    "test": "node triage.mjs --test"
+    "test": "node triage.mjs --test",
+    "serve": "node server.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.125.0",
+    "express": "^5.2.1",
     "zod": "^4.6.0"
   }
 }

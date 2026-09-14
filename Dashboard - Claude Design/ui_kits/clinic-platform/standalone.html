@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Okio — Plataforma Clínica</title>
+<!--
+  Self-contained, openable-directly version of the clinic-platform UI kit.
+  The sibling index.html targets Claude Design's DS renderer, which injects
+  window.Okio via a generated _ds_bundle.js that is NOT committed — so index.html
+  is blank when opened standalone. This file inlines the tokens and every
+  component so it renders on its own (double-click / file://). Requires network
+  for the CDN scripts and Google Fonts.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --gray-1: oklch(100% 0 0); --gray-2: oklch(99.5% 0.002 240); --gray-3: oklch(98.5% 0.003 250);
+  --gray-4: oklch(98% 0.003 240); --gray-5: oklch(97% 0.003 250); --gray-6: oklch(96% 0.003 260);
+  --gray-7: oklch(94% 0.003 260); --gray-8: oklch(93% 0.004 260); --gray-9: oklch(91% 0.004 260);
+  --gray-10: oklch(90% 0.004 260); --gray-11: oklch(88% 0.004 260); --gray-12: oklch(62% 0.006 260);
+  --gray-13: oklch(58% 0.006 260); --gray-14: oklch(55% 0.006 260); --gray-15: oklch(52% 0.006 260);
+  --gray-16: oklch(50% 0.006 260); --gray-17: oklch(45% 0.008 260); --gray-18: oklch(30% 0.01 260);
+  --gray-19: oklch(18% 0.01 260);
+  --ink-sidebar: oklch(13% 0.015 260); --ink-sidebar-text: oklch(65% 0.015 260);
+  --ink-sidebar-text-strong: oklch(97% 0.005 260); --ink-sidebar-border: oklch(24% 0.015 260);
+  --ink-sidebar-muted: oklch(50% 0.015 260);
+
+  --okio-primary: #003F36; --okio-bg-cream: #F5F1EC; --okio-accent-gold: #B99269;
+  --okio-accent-gold-light: #C9A583; --okio-secondary-blush: #DED1CB; --okio-text: #3A3A3A;
+  --okio-text-muted: #888888; --okio-text-on-dark: #EBE9E8;
+
+  --accent: var(--okio-primary);
+  --accent-strong: oklch(from var(--accent) calc(l * 0.75) c h);
+  --accent-tint: oklch(from var(--accent) 93% calc(c * 0.3) h);
+  --accent-tint-soft: oklch(from var(--accent) 97% calc(c * 0.2) h);
+  --accent-tint-border: oklch(from var(--accent) 88% calc(c * 0.4) h);
+  --accent-tint-border-2: oklch(from var(--accent) 90% calc(c * 0.3) h);
+  --accent-dot-inactive: oklch(40% 0.01 260);
+  --accent-shadow: oklch(from var(--accent) l c h / 0.35);
+
+  --warning: oklch(58% 0.16 55); --warning-bg-strong: oklch(97.5% 0.02 55); --warning-border: oklch(88% 0.05 55);
+  --danger: oklch(56% 0.18 25); --danger-bg: oklch(94% 0.03 25); --danger-text: oklch(45% 0.16 25);
+  --success: oklch(58% 0.14 145); --success-bg: oklch(58% 0.14 145 / 0.12); --info: oklch(56% 0.15 230);
+
+  --surface-page: var(--gray-4); --surface-card: var(--gray-1); --surface-sidebar: var(--ink-sidebar); --surface-input: var(--gray-5);
+  --text-primary: var(--gray-19); --text-secondary: var(--gray-17); --text-muted: var(--gray-14);
+  --text-faint: var(--gray-12); --text-on-accent: var(--gray-1); --text-on-dark: var(--ink-sidebar-text);
+  --border-subtle: var(--gray-7); --border-default: var(--gray-9); --border-strong: var(--gray-11);
+
+  /* editorial layer (not used by the product UI, kept for completeness) */
+  --okio-ed-rose:#A7726C; --okio-ed-rose-deep:#8E5A5F; --okio-ed-cream:#E5DDDA;
+  --okio-ed-terracotta:#B9846C; --okio-ed-taupe:#CBB29D; --okio-ed-brown:#5D3A33;
+
+  --font-serif: "Fraunces", "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --tracking-tight:-0.02em; --tracking-snug:-0.015em; --tracking-wide:0.03em; --tracking-wider:0.04em; --tracking-widest:0.05em;
+  --text-2xs:9px; --text-xs-alt:11px; --text-sm:11.5px; --text-base:12.5px; --text-base-alt:13px; --text-md:13.5px;
+
+  --radius-sm:6px; --radius-md:7px; --radius-3xl:12px; --radius-pill:999px; --radius-full:50%;
+  --shadow-card: 0 1px 3px oklch(20% 0.01 260 / 0.04);
+  --shadow-button-accent: 0 1px 2px var(--accent-shadow);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--surface-page);font-family:var(--font-sans);color:var(--text-primary)}
+#root{height:100vh}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
+<script type="text/babel" data-presets="react">
+// ---- Components (inlined from Dashboard - Claude Design/components/**) ----
+function Dot({ color = "var(--accent)", size = 6 }) {
+  return <span style={{ display:"inline-block", width:size, height:size, borderRadius:"var(--radius-full)", background:color, flexShrink:0 }} />;
+}
+
+const BADGE_TONES = {
+  accent:{ background:"var(--accent-tint)", color:"var(--accent-strong)" },
+  neutral:{ background:"var(--gray-7)", color:"var(--gray-17)" },
+  warning:{ background:"var(--warning-bg-strong)", color:"oklch(40% 0.13 45)" },
+  danger:{ background:"var(--danger-bg)", color:"var(--danger-text)" },
+  success:{ background:"var(--success-bg)", color:"var(--success)" },
+};
+function Badge({ tone="neutral", uppercase=false, children }) {
+  const t = BADGE_TONES[tone] || BADGE_TONES.neutral;
+  return <span style={{ display:"inline-block", fontFamily:"var(--font-sans)", fontSize:uppercase?"var(--text-2xs)":"var(--text-xs-alt)", fontWeight:700, padding:uppercase?"1px 6px":"2px 7px", borderRadius:uppercase?"var(--radius-pill)":"var(--radius-sm)", textTransform:uppercase?"uppercase":"none", letterSpacing:uppercase?"var(--tracking-wide)":"normal", whiteSpace:"nowrap", ...t }}>{children}</span>;
+}
+
+const BTN_SIZES = { sm:{ padding:"6px 12px", fontSize:"var(--text-sm)" }, md:{ padding:"8px 14px", fontSize:"var(--text-base-alt)" } };
+const BTN_VARIANTS = {
+  primary:{ background:"var(--accent)", color:"var(--text-on-accent)", border:"none" },
+  secondary:{ background:"var(--surface-card)", color:"var(--text-primary)", border:"1px solid var(--border-strong)" },
+  ghost:{ background:"transparent", color:"var(--text-secondary)", border:"none" },
+};
+function Button({ variant="primary", size="md", withShadow=false, children, onClick }) {
+  const v = BTN_VARIANTS[variant] || BTN_VARIANTS.primary;
+  const s = BTN_SIZES[size] || BTN_SIZES.md;
+  return <button onClick={onClick} style={{ fontFamily:"var(--font-sans)", borderRadius:"var(--radius-md)", fontWeight:600, cursor:"pointer", boxShadow: withShadow && variant==="primary" ? "var(--shadow-button-accent)":"none", ...s, ...v }}>{children}</button>;
+}
+
+function Avatar({ initials, size=32, tone="accent" }) {
+  const bg = tone==="accent" ? "var(--accent)" : "var(--accent-tint)";
+  const color = tone==="accent" ? "var(--text-on-accent)" : "var(--accent-strong)";
+  return <div style={{ width:size, height:size, borderRadius:"var(--radius-full)", background:bg, color, display:"flex", alignItems:"center", justifyContent:"center", fontFamily:"var(--font-serif)", fontSize:size<=32?"13px":"17px", fontWeight:500, flexShrink:0 }}>{initials}</div>;
+}
+
+function Card({ padding="18px", tone="default", children, style }) {
+  const tones = {
+    default:{ background:"var(--surface-card)", border:"1px solid var(--border-default)" },
+    accent:{ background:"var(--accent-tint-soft)", border:"1px solid var(--accent-tint-border)" },
+    warning:{ background:"var(--warning-bg-strong)", border:"1px solid var(--warning-border)" },
+  };
+  const t = tones[tone] || tones.default;
+  return <div style={{ borderRadius:"var(--radius-3xl)", boxShadow: tone==="default"?"var(--shadow-card)":"none", padding, fontFamily:"var(--font-sans)", ...t, ...style }}>{children}</div>;
+}
+
+function NavItem({ label, active=false, badge, onClick }) {
+  return (
+    <div onClick={onClick} style={{ display:"flex", alignItems:"center", gap:10, padding:"8px 10px", marginBottom:2, cursor:"pointer", background: active?"var(--nav-active-bg, oklch(22% 0.03 260))":"transparent", color: active?"var(--ink-sidebar-text-strong)":"var(--ink-sidebar-text)", borderRadius:"var(--radius-md)", fontWeight: active?650:500, fontSize:"var(--text-md)", fontFamily:"var(--font-sans)" }}>
+      <span style={{ width:5, height:5, borderRadius:"50%", background: active?"var(--nav-active-dot, var(--accent))":"var(--accent-dot-inactive)", flexShrink:0 }} />
+      <span>{label}</span>
+      {badge!=null && <span style={{ marginLeft:"auto", background:"var(--nav-badge-bg, oklch(from var(--accent) l c h / 0.22))", color:"var(--nav-badge-text, oklch(from var(--accent) 80% 0.09 h))", fontSize:10.5, fontWeight:600, padding:"1px 7px", borderRadius:10 }}>{badge}</span>}
+    </div>
+  );
+}
+
+function Tabs({ tabs, activeId, onChange }) {
+  return (
+    <div style={{ display:"flex", gap:4, borderBottom:"1px solid var(--gray-8)", fontFamily:"var(--font-sans)" }}>
+      {tabs.map((t)=>(
+        <div key={t.id} onClick={()=>onChange(t.id)} style={{ padding:"9px 14px", cursor:"pointer", fontSize:"var(--text-base-alt)", fontWeight: t.id===activeId?650:500, color: t.id===activeId?"var(--text-primary)":"var(--text-muted)", borderBottom:`2px solid ${t.id===activeId?"var(--accent)":"transparent"}` }}>{t.label}</div>
+      ))}
+    </div>
+  );
+}
+
+function SearchInput({ placeholder="Buscar…", width=280 }) {
+  return <input placeholder={placeholder} style={{ width, padding:"7px 12px", border:"1px solid var(--gray-9)", borderRadius:"var(--radius-md)", fontSize:"var(--text-base-alt)", background:"var(--surface-input)", color:"var(--text-primary)", fontFamily:"var(--font-sans)" }} />;
+}
+
+function StatCard({ label, value, sub }) {
+  return (
+    <div style={{ background:"var(--surface-card)", border:"1px solid var(--border-default)", borderRadius:"var(--radius-3xl)", padding:18, boxShadow:"var(--shadow-card)", fontFamily:"var(--font-sans)" }}>
+      <div style={{ fontSize:11, color:"var(--text-muted)", fontWeight:650, textTransform:"uppercase", letterSpacing:"var(--tracking-wider)" }}>{label}</div>
+      <div style={{ fontFamily:"var(--font-serif)", fontSize:27, fontWeight:500, marginTop:7, letterSpacing:"var(--tracking-tight)", fontVariantNumeric:"tabular-nums" }}>{value}</div>
+      {sub && <div style={{ fontSize:12, color:"var(--accent)", marginTop:5, fontWeight:600 }}>{sub}</div>}
+    </div>
+  );
+}
+
+function ProgressBar({ label, pct }) {
+  return (
+    <div style={{ marginBottom:11, fontFamily:"var(--font-sans)" }}>
+      <div style={{ display:"flex", justifyContent:"space-between", fontSize:"var(--text-base)", marginBottom:4 }}>
+        <span>{label}</span><span style={{ fontWeight:600, fontVariantNumeric:"tabular-nums" }}>{pct}%</span>
+      </div>
+      <div style={{ height:6, background:"var(--gray-7)", borderRadius:3 }}><div style={{ height:"100%", width:`${pct}%`, background:"var(--accent)", borderRadius:3 }} /></div>
+    </div>
+  );
+}
+
+function ListRow({ leading, title, subtitle, trailing, active=false, onClick }) {
+  return (
+    <div onClick={onClick} style={{ display:"flex", alignItems:"center", gap:12, padding:"13px 18px", borderTop:"1px solid var(--gray-7)", cursor:onClick?"pointer":"default", background: active?"oklch(from var(--accent) 96.5% 0.01 h)":"transparent", fontFamily:"var(--font-sans)" }}>
+      {leading}
+      <div style={{ flex:1, minWidth:0 }}>
+        <div style={{ fontWeight:600, fontSize:"var(--text-base-alt)", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{title}</div>
+        {subtitle && <div style={{ fontSize:"var(--text-sm)", color:"var(--text-muted)" }}>{subtitle}</div>}
+      </div>
+      {trailing}
+    </div>
+  );
+}
+
+// ---- App (brand-applied clinic platform, 6 surfaces) ----
+const { useState } = React;
+
+function Lotus({ size=20, stroke="var(--okio-accent-gold)" }) {
+  return (
+    <svg width={size} height={size*0.78} viewBox="0 0 100 78" aria-hidden="true" style={{ fill:"none", stroke, strokeWidth:5, strokeLinecap:"round", strokeLinejoin:"round" }}>
+      <path d="M50 8 C57 24 57 42 50 56 C43 42 43 24 50 8 Z" />
+      <path d="M50 56 C41 49 34 38 34 24 C43 30 49 43 50 56 Z" />
+      <path d="M50 56 C59 49 66 38 66 24 C57 30 51 43 50 56 Z" />
+      <path d="M50 58 C37 57 23 50 16 39 C31 38 45 46 50 58 Z" />
+      <path d="M50 58 C63 57 77 50 84 39 C69 38 55 46 50 58 Z" />
+      <path d="M22 46 C34 52 44 60 50 66 C56 60 66 52 78 46" />
+    </svg>
+  );
+}
+
+const NAV = [
+  { id:"calendar", label:"Agenda" },
+  { id:"requests", label:"Centro de Solicitudes" },
+  { id:"clients", label:"Clientes" },
+  { id:"catalog", label:"Catálogo" },
+  { id:"seguimientos", label:"Seguimientos" },
+  { id:"analytics", label:"Analítica" },
+];
+const VIEW_LABEL = { calendar:"Agenda", requests:"Centro de Solicitudes", clients:"Clientes", catalog:"Catálogo", seguimientos:"Seguimientos", analytics:"Analítica" };
+
+const THREADS = [
+  { id:"t1", name:"Elena Vidal", category:"Reprogramación", color:"oklch(58% 0.16 55)", meta:"Mañana 10:00 · horarios alternativos", channel:"WhatsApp", status:"Listo para aprobar", vip:true },
+  { id:"t2", name:"Camila Reyes", category:"Consulta de precio", color:"oklch(56% 0.15 230)", meta:"Oportunidad de $420", channel:"Instagram", status:"Esperando aprobación", vip:false },
+  { id:"t3", name:"Irene Castro", category:"Consulta médica", color:"oklch(56% 0.18 25)", meta:"Posible complicación", channel:"WhatsApp", status:"Requiere revisión inmediata", vip:false },
+];
+const CLIENTS = [
+  { id:"c1", name:"Elena Vidal", lastVisit:"12 jul", overview:"Clienta habitual desde 2023. Prefiere turnos por la mañana. Referida por Sofía Ramos." },
+  { id:"c2", name:"Sofía Ramos", lastVisit:"20 jun", overview:"Clienta de largo plazo, tratamientos mensuales. Prefiere a Marta Ruiz." },
+];
+const CATALOG = [
+  { id:"tx1", name:"Botox — frente", cat:"Facial", color:"oklch(58% 0.16 55)", dur:"30 min", price:"$45.000" },
+  { id:"tx2", name:"Relleno de labios", cat:"Facial", color:"oklch(58% 0.16 55)", dur:"45 min", price:"$78.000" },
+  { id:"tx3", name:"Depilación láser — piernas", cat:"Corporal", color:"oklch(56% 0.15 230)", dur:"40 min", price:"$32.000" },
+  { id:"tx4", name:"Limpieza facial profunda", cat:"Facial", color:"oklch(58% 0.16 55)", dur:"60 min", price:"$28.000" },
+  { id:"tx5", name:"SkinRetin", cat:"Tratamiento", color:"var(--accent)", dur:"50 min", price:"$52.000" },
+  { id:"tx6", name:"Mesoterapia capilar", cat:"Corporal", color:"oklch(56% 0.15 230)", dur:"30 min", price:"$38.000" },
+];
+const FOLLOWUPS = [
+  { id:"f1", name:"Elena Vidal", treatment:"Botox — frente", since:"hace 12 días", plan:{done:1,total:1}, next:"Control post-aplicación a las 2 semanas", status:"Pendiente", tone:"warning", color:"oklch(58% 0.16 55)" },
+  { id:"f2", name:"Carla Núñez", treatment:"Depilación láser — piernas", since:"hace 5 días", plan:{done:3,total:6}, next:"Reservar la sesión 4 de 6", status:"Al día", tone:"success", color:"oklch(56% 0.15 230)" },
+  { id:"f3", name:"Irene Castro", treatment:"Consulta médica", since:"hace 2 días", plan:{done:0,total:1}, next:"Revisión de posible complicación", status:"Urgente", tone:"danger", color:"oklch(56% 0.18 25)" },
+];
+
+const SIDEBAR_VARS = {
+  background:"var(--okio-primary)",
+  "--ink-sidebar-text":"rgba(235,233,232,0.72)",
+  "--ink-sidebar-text-strong":"#FFFFFF",
+  "--nav-active-bg":"rgba(255,255,255,0.10)",
+  "--nav-active-dot":"var(--okio-accent-gold)",
+  "--nav-badge-bg":"var(--okio-accent-gold)",
+  "--nav-badge-text":"var(--okio-primary)",
+};
+
+function Sidebar({ view, setView }) {
+  return (
+    <div style={{ ...SIDEBAR_VARS, width:210, display:"flex", flexDirection:"column", padding:"18px 12px", fontFamily:"var(--font-sans)" }}>
+      <div style={{ display:"flex", alignItems:"center", gap:10, padding:"4px 8px 24px" }}>
+        <Lotus size={26} />
+        <div style={{ display:"flex", flexDirection:"column", lineHeight:1 }}>
+          <span style={{ fontFamily:"var(--font-serif)", fontSize:19, color:"var(--okio-accent-gold)" }}>Okio</span>
+          <span style={{ fontSize:7.5, letterSpacing:"0.24em", textTransform:"uppercase", color:"var(--okio-accent-gold-light)", fontWeight:600, marginTop:3 }}>Estética y Bienestar</span>
+        </div>
+      </div>
+      {NAV.map((n)=>(<NavItem key={n.id} label={n.label} active={view===n.id} badge={n.id==="requests"?3:null} onClick={()=>setView(n.id)} />))}
+    </div>
+  );
+}
+
+function TopBar({ title }) {
+  return (
+    <div style={{ display:"flex", alignItems:"center", gap:16, padding:"13px 26px", borderBottom:"1px solid var(--gray-8)", fontFamily:"var(--font-sans)", background:"white" }}>
+      <div style={{ fontFamily:"var(--font-serif)", fontWeight:500, fontSize:20, letterSpacing:"-0.01em" }}>{title}</div>
+      <div style={{ marginLeft:"auto" }}><SearchInput placeholder="Buscar clientes, turnos…" /></div>
+      <Avatar initials="MR" size={30} />
+    </div>
+  );
+}
+
+function CalendarView() {
+  return (
+    <div style={{ display:"flex", gap:20, padding:24 }}>
+      <div style={{ flex:1 }}>
+        <div style={{ display:"flex", alignItems:"center", marginBottom:16 }}>
+          <div style={{ fontFamily:"var(--font-serif)", fontSize:26, fontWeight:500, letterSpacing:"-0.01em" }}>Martes, 30 de julio</div>
+          <div style={{ marginLeft:"auto" }}><Button variant="primary" withShadow>+ Nuevo turno</Button></div>
+        </div>
+        <div style={{ background:"white", border:"1px solid var(--border-default)", borderRadius:12, padding:16, boxShadow:"var(--shadow-card)" }}>
+          {["Elena Vidal — Botox – frente · 09:30","Marco Díaz — Consulta · 11:00","Carla Núñez — Depilación láser · 14:00"].map((r)=>(
+            <div key={r} style={{ padding:"10px 0", borderTop:"1px solid var(--gray-7)", fontSize:13 }}>{r}</div>
+          ))}
+        </div>
+      </div>
+      <div style={{ width:260 }}>
+        <Card>
+          <div style={{ fontWeight:650, fontSize:13, marginBottom:10 }}>Requiere atención (2)</div>
+          <ListRow title="Marco Díaz" subtitle="11:00 · Ana Torres" trailing={<Button size="sm">Confirmar</Button>} />
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+function RequestsView() {
+  const [selected, setSelected] = useState("t2");
+  const thread = THREADS.find((t)=>t.id===selected);
+  return (
+    <div style={{ display:"flex", gap:16, padding:24, minWidth:900 }}>
+      <div style={{ width:260, background:"white", border:"1px solid var(--border-default)", borderRadius:12, overflow:"hidden" }}>
+        <div style={{ padding:"14px 14px 10px", borderBottom:"1px solid var(--gray-7)", fontWeight:650, fontSize:14 }}>Centro de Solicitudes</div>
+        {THREADS.map((t)=>(
+          <ListRow key={t.id} active={t.id===selected} onClick={()=>setSelected(t.id)} leading={<Dot color={t.color} />}
+            title={<span>{t.name}{t.vip && <span style={{ marginLeft:6 }}><Badge tone="accent" uppercase>VIP</Badge></span>}</span>}
+            subtitle={t.meta} trailing={<Badge tone="accent">{t.status}</Badge>} />
+        ))}
+      </div>
+      <div style={{ flex:1, background:"white", border:"1px solid var(--border-default)", borderRadius:12, padding:20 }}>
+        <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:16 }}>
+          <Dot color={thread.color} size={7} />
+          <span style={{ fontSize:11, fontWeight:700, color:thread.color, textTransform:"uppercase" }}>{thread.category}</span>
+          <div style={{ fontFamily:"var(--font-serif)", fontSize:20, fontWeight:500 }}>{thread.name}</div>
+        </div>
+        <Card tone="accent">
+          <div style={{ display:"flex", alignItems:"center", gap:7, marginBottom:10 }}>
+            <Dot color="var(--accent)" size={8} />
+            <span style={{ fontSize:12, fontWeight:700, color:"var(--accent-strong)", textTransform:"uppercase" }}>Copiloto IA</span>
+          </div>
+          <div style={{ fontSize:13.5, marginBottom:12 }}>Nuevo contacto preguntando por precio — alta intención de reservar.</div>
+          <div style={{ display:"flex", gap:8 }}>
+            <Button variant="primary">Aprobar y enviar por {thread.channel}</Button>
+            <Button variant="secondary">Editar antes</Button>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+function ClientsView() {
+  const [id, setId] = useState("c1");
+  const client = CLIENTS.find((c)=>c.id===id);
+  const [tab, setTab] = useState("overview");
+  return (
+    <div style={{ display:"flex", gap:20, padding:24 }}>
+      <div style={{ width:240, background:"white", border:"1px solid var(--border-default)", borderRadius:12, overflow:"hidden" }}>
+        {CLIENTS.map((c)=>(<ListRow key={c.id} active={c.id===id} onClick={()=>setId(c.id)} title={c.name} subtitle={`Última visita ${c.lastVisit}`} />))}
+      </div>
+      <div style={{ flex:1, background:"white", border:"1px solid var(--border-default)", borderRadius:12, padding:22 }}>
+        <div style={{ display:"flex", gap:16, marginBottom:16 }}>
+          <Avatar size={52} tone="tint" initials={client.name[0]} />
+          <div style={{ fontFamily:"var(--font-serif)", fontSize:23, fontWeight:500, alignSelf:"center", letterSpacing:"-0.01em" }}>{client.name}</div>
+          <div style={{ marginLeft:"auto" }}><Button variant="primary">Reservar turno</Button></div>
+        </div>
+        <Tabs tabs={[{ id:"overview", label:"Resumen" },{ id:"history", label:"Historial" }]} activeId={tab} onChange={setTab} />
+        <div style={{ paddingTop:16, fontSize:13, lineHeight:1.7, color:"var(--text-secondary)" }}>{client.overview}</div>
+      </div>
+    </div>
+  );
+}
+
+function CatalogView() {
+  return (
+    <div style={{ padding:24 }}>
+      <div style={{ display:"flex", alignItems:"center", marginBottom:18 }}>
+        <div style={{ fontFamily:"var(--font-serif)", fontSize:26, fontWeight:500, letterSpacing:"-0.01em" }}>Catálogo de tratamientos</div>
+        <div style={{ marginLeft:"auto" }}><Button variant="primary" withShadow>+ Nuevo tratamiento</Button></div>
+      </div>
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:14 }}>
+        {CATALOG.map((t)=>(
+          <Card key={t.id}>
+            <div style={{ display:"flex", alignItems:"center", gap:7, marginBottom:8 }}>
+              <Dot color={t.color} size={7} />
+              <span style={{ fontSize:11, fontWeight:700, color:t.color, textTransform:"uppercase", letterSpacing:"var(--tracking-wide)" }}>{t.cat}</span>
+            </div>
+            <div style={{ fontFamily:"var(--font-serif)", fontSize:19, fontWeight:500, marginBottom:12 }}>{t.name}</div>
+            <div style={{ display:"flex", alignItems:"center" }}>
+              <Badge tone="neutral">{t.dur}</Badge>
+              <span style={{ marginLeft:"auto", fontFamily:"var(--font-serif)", fontSize:20, color:"var(--accent)", fontVariantNumeric:"tabular-nums" }}>{t.price}</span>
+            </div>
+            <div style={{ marginTop:14, display:"flex", gap:8 }}>
+              <Button variant="secondary" size="sm">Editar</Button>
+              <Button variant="ghost" size="sm">Ver</Button>
+            </div>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SeguimientosView() {
+  const [selected, setSelected] = useState("f2");
+  const f = FOLLOWUPS.find((x)=>x.id===selected);
+  const pct = Math.round((f.plan.done/f.plan.total)*100);
+  return (
+    <div style={{ display:"flex", gap:16, padding:24, minWidth:900 }}>
+      <div style={{ width:280, background:"white", border:"1px solid var(--border-default)", borderRadius:12, overflow:"hidden" }}>
+        <div style={{ padding:"14px 14px 10px", borderBottom:"1px solid var(--gray-7)", fontWeight:650, fontSize:14 }}>Seguimientos activos (3)</div>
+        {FOLLOWUPS.map((x)=>(<ListRow key={x.id} active={x.id===selected} onClick={()=>setSelected(x.id)} leading={<Dot color={x.color} />} title={x.name} subtitle={`${x.treatment} · ${x.since}`} trailing={<Badge tone={x.tone}>{x.status}</Badge>} />))}
+      </div>
+      <div style={{ flex:1, background:"white", border:"1px solid var(--border-default)", borderRadius:12, padding:22 }}>
+        <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:6 }}>
+          <div style={{ fontFamily:"var(--font-serif)", fontSize:23, fontWeight:500 }}>{f.name}</div>
+          <div style={{ marginLeft:"auto" }}><Badge tone={f.tone}>{f.status}</Badge></div>
+        </div>
+        <div style={{ fontSize:13, color:"var(--text-muted)", marginBottom:18 }}>{f.treatment} · {f.since}</div>
+        <div style={{ marginBottom:18 }}>
+          <div style={{ fontSize:11, fontWeight:650, textTransform:"uppercase", letterSpacing:"var(--tracking-wider)", color:"var(--text-muted)", marginBottom:8 }}>Plan de tratamiento</div>
+          <ProgressBar label={`Sesión ${f.plan.done} de ${f.plan.total}`} pct={pct} />
+        </div>
+        <Card tone="accent">
+          <div style={{ display:"flex", alignItems:"center", gap:7, marginBottom:10 }}>
+            <Dot color="var(--accent)" size={8} />
+            <span style={{ fontSize:12, fontWeight:700, color:"var(--accent-strong)", textTransform:"uppercase" }}>Copiloto IA</span>
+          </div>
+          <div style={{ fontSize:13.5, marginBottom:12 }}>Próximo paso sugerido: {f.next}.</div>
+          <div style={{ display:"flex", gap:8 }}>
+            <Button variant="primary">Enviar recordatorio</Button>
+            <Button variant="secondary">Reprogramar</Button>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+function AnalyticsView() {
+  return (
+    <div style={{ padding:24 }}>
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:14, marginBottom:20 }}>
+        <StatCard label="Ingresos este mes" value="$18.420" sub="+12% vs. el mes pasado" />
+        <StatCard label="Turnos reservados" value="214" sub="96% de la capacidad" />
+        <StatCard label="Tasa de ausentismo" value="4.2%" sub="-1.1pt vs. el mes pasado" />
+        <StatCard label="Retención de clientes" value="68%" sub="+3pt vs. el mes pasado" />
+      </div>
+      <div style={{ background:"white", border:"1px solid var(--border-default)", borderRadius:12, padding:18 }}>
+        <div style={{ fontWeight:650, fontSize:13, marginBottom:14 }}>Tratamientos más solicitados</div>
+        <ProgressBar label="Botox" pct={32} />
+        <ProgressBar label="Relleno" pct={24} />
+        <ProgressBar label="Depilación láser" pct={18} />
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  const [view, setView] = useState("requests");
+  return (
+    <div style={{ display:"flex", height:"100vh", background:"var(--surface-page)" }}>
+      <Sidebar view={view} setView={setView} />
+      <div style={{ flex:1, display:"flex", flexDirection:"column", minWidth:0 }}>
+        <TopBar title={VIEW_LABEL[view]} />
+        <div style={{ flex:1, overflow:"auto" }}>
+          {view==="calendar" && <CalendarView />}
+          {view==="requests" && <RequestsView />}
+          {view==="clients" && <ClientsView />}
+          {view==="catalog" && <CatalogView />}
+          {view==="seguimientos" && <SeguimientosView />}
+          {view==="analytics" && <AnalyticsView />}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

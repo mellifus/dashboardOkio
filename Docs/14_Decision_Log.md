@@ -63,6 +63,13 @@ Registro cronológico de cada decisión arquitectónica o de producto, con el ra
 **Razonamiento:** Coherente con D7 — documentación de estrategia de mercado no aporta valor mientras el alcance sea un solo cliente real.
 **Estado:** Ratificada.
 
+### D10 — Foco inicial en WhatsApp; Instagram fuera del MVP
+**Fecha:** 2026-09-16
+**Decisión:** El MVP y la próxima conversación con Okio se enfocan en WhatsApp. La integración de Instagram queda fuera del alcance actual.
+**Razonamiento:** La integración de Instagram requiere permisos específicos de Meta y puede exponer mensajes personales o sensibles. Antes de sumar ese canal hay que validar su utilidad real para recepción, definir el tratamiento de datos y limitar los permisos a lo estrictamente necesario.
+**Alcance que queda:** La demo puede representar mensajes de WhatsApp; no conecta ningún canal real. La integración real de WhatsApp también queda pendiente de validar con Okio y de resolver privacidad, consentimiento, autenticación y protección de tokens.
+**Estado:** Ratificada para el MVP actual; revisar después de hablar con Okio.
+
 ## Abiertas (Explícitamente Sin Decidir)
 
 ### O1 — Layer vs. Platform

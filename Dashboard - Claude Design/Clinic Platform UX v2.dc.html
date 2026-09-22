@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="es-AR">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Okio · Demo de recepción</title>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -36,35 +37,195 @@
   ::-webkit-scrollbar-thumb{background:var(--gray-11);border-radius:4px}
   input::placeholder,textarea::placeholder{color:var(--gray-12)}
   textarea{font-family:inherit}
+  .demo-layout{display:grid;grid-template-columns:230px minmax(0,1fr);min-height:100vh}
+  .demo-split{display:grid;grid-template-columns:minmax(220px,0.8fr) minmax(0,1.6fr);gap:20px;align-items:start;max-width:1100px;margin:auto}
+  .demo-card{background:var(--surface-card);border:1px solid var(--border-default);border-radius:var(--radius-3xl);padding:24px;box-shadow:var(--shadow-card)}
+  .demo-card h1,.demo-card h2{margin:0 0 10px;font-size:23px;font-weight:650;letter-spacing:-.02em}
+  .demo-card h2{font-size:18px}
+  .demo-muted{color:var(--text-secondary);font-size:14px;line-height:1.6}
+  .demo-label{font-size:11px;font-weight:650;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin:0 0 12px}
+  .demo-row{display:block;width:100%;text-align:left;padding:17px;border:1px solid var(--border-default);border-radius:var(--radius-lg);background:var(--surface-card);color:var(--text-primary);font:inherit;cursor:pointer;margin-top:12px;line-height:1.6}
+  .demo-row[aria-pressed="true"]{background:var(--accent-tint-soft);border-color:var(--accent)}
+  .demo-row strong{display:block;font-size:15px}
+  .demo-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+  .demo-button{font:inherit;font-size:14px;font-weight:600;border:1px solid var(--accent);border-radius:var(--radius-pill);padding:10px 17px;cursor:pointer;background:var(--accent);color:var(--text-on-accent)}
+  .demo-secondary{background:var(--surface-card);color:var(--accent)}
+  .demo-button:disabled{opacity:.5;cursor:not-allowed}
+  button:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+  .demo-status{display:inline-block;padding:5px 10px;background:var(--accent-tint);color:var(--accent-strong);border-radius:var(--radius-sm);font-size:13px;font-weight:600}
+  .demo-services{padding:17px 20px;margin:18px 0;background:var(--accent-tint-soft);border-left:3px solid var(--accent);border-radius:var(--radius-md);line-height:1.7}
+  .demo-services ul{margin:5px 0 0;padding-left:20px;font-size:17px;font-weight:600}
+  .demo-message{padding:17px 20px;border:1px solid var(--accent-tint-border);border-radius:var(--radius-3xl);background:var(--accent-tint-soft);white-space:pre-wrap;line-height:1.7;margin:12px 0}
+  .demo-incoming{background:var(--gray-5);border-color:var(--border-default)}
+  .demo-notice{padding:14px 17px;border:1px solid var(--warning-border);border-radius:var(--radius-lg);background:var(--warning-bg);color:var(--warning-text);line-height:1.6}
+  .demo-header{display:flex;align-items:center;gap:16px;padding:15px 26px;background:var(--gray-2);border-bottom:1px solid var(--gray-8);flex-wrap:wrap}
+  .demo-content{padding:28px;min-width:0}
+  .demo-agenda-toolbar{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;max-width:1100px;margin:0 auto 20px}
+  .demo-view-switch{display:flex;gap:6px}
+  .demo-view-switch button[aria-pressed="false"]{background:var(--surface-card);color:var(--accent)}
+  .demo-week{max-width:1100px;margin:0 auto 20px;overflow-x:auto;border:1px solid var(--border-default);border-radius:var(--radius-3xl);background:var(--surface-card)}
+  .demo-week-grid{display:grid;grid-template-columns:repeat(7,minmax(145px,1fr))}
+  .demo-week-day{padding:12px;border-right:1px solid var(--border-subtle);min-height:260px}
+  .demo-week-day:last-child{border-right:none}
+  .demo-week-day h2{font-size:14px;margin:0;padding:4px 0 12px;border-bottom:1px solid var(--border-subtle)}
+  .demo-week-day .demo-row{padding:10px;font-size:13px;overflow-wrap:anywhere}
+  .demo-week-day .demo-row strong{font-size:14px}
+  .demo-week-detail{max-width:1100px;margin:auto}
+  @media(max-width:1050px){.demo-layout{grid-template-columns:180px minmax(0,1fr)}.demo-split{grid-template-columns:1fr}.demo-content{padding:18px}.demo-card{padding:20px}}
+  @media(max-width:600px){.demo-layout{grid-template-columns:1fr}.demo-sidebar{padding:12px!important}.demo-header{padding:14px 18px}.demo-content{padding:14px}.demo-card{padding:18px}}
 </style>
 </helmet>
-<div style="display:grid;grid-template-columns:230px 1fr;height:100vh;background:var(--surface-page);color:var(--text-primary);font-size:14px;letter-spacing:-0.005em">
+<div class="demo-layout" style="background:var(--surface-page);color:var(--text-primary);font-size:14px;letter-spacing:-0.005em">
 
-  <div style="background:var(--surface-sidebar);color:var(--text-on-dark);display:flex;flex-direction:column;padding:18px 12px">
+  <nav aria-label="Principal" class="demo-sidebar" style="background:var(--surface-sidebar);color:var(--text-on-dark);display:flex;flex-direction:column;padding:18px 12px">
     <div style="display:flex;align-items:center;gap:9px;padding:4px 8px 22px">
       <div style="width:22px;height:22px;border-radius:6px;background:var(--accent)"></div>
       <div style="font-weight:600;font-size:14px;color:var(--ink-sidebar-text-strong);letter-spacing:-0.01em">Okio</div>
     </div>
     <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="5">
-      <div onClick="{{ item.onClick }}" style="display:flex;align-items:center;gap:10px;padding:8px 10px;margin-bottom:2px;cursor:pointer;background:{{ item.bg }};color:{{ item.color }};border-radius:7px;font-weight:{{ item.weight }};font-size:13.5px">
+      <button onClick="{{ item.onClick }}" aria-current="{{ item.current }}" style="border:none;text-align:left;font-family:inherit;display:flex;align-items:center;gap:10px;padding:10px;margin-bottom:2px;cursor:pointer;background:{{ item.bg }};color:{{ item.color }};border-radius:7px;font-weight:{{ item.weight }};font-size:13.5px">
         <span style="width:5px;height:5px;border-radius:50%;background:{{ item.dot }};flex-shrink:0"></span>
         <span>{{ item.label }}</span>
         <sc-if value="{{ item.badge }}" hint-placeholder-val="{{ false }}">
           <span style="margin-left:auto;background:oklch(from var(--accent) l c h / 0.22);color:oklch(from var(--accent) 80% 0.09 h);font-size:10.5px;font-weight:600;padding:1px 7px;border-radius:10px">{{ item.badge }}</span>
         </sc-if>
-      </div>
+      </button>
     </sc-for>
-    <div style="margin-top:auto;padding:14px 10px 4px;border-top:1px solid var(--ink-sidebar-border);font-size:12px;color:var(--ink-sidebar-muted)">Configuración · Personal</div>
-  </div>
+    <div style="margin-top:auto;padding:20px 10px 4px;border-top:1px solid var(--ink-sidebar-border);font-size:12px;line-height:1.6;color:var(--ink-sidebar-text)">Okio Estética<br>Córdoba · Recepción</div>
+  </nav>
 
   <div style="display:flex;flex-direction:column;min-width:0">
-    <div style="display:flex;align-items:center;gap:16px;padding:13px 26px;background:var(--gray-2);border-bottom:1px solid var(--gray-8)">
+    <div class="demo-header">
       <div style="font-weight:600;font-size:14.5px;letter-spacing:-0.01em">{{ currentViewLabel }}</div>
-      <input placeholder="Buscar clientes, turnos…" style="margin-left:auto;width:280px;padding:7px 12px;border:1px solid var(--gray-9);border-radius:7px;font-size:13px;background:var(--gray-5);color:var(--gray-19)"></input>
-      <div style="width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--text-on-accent);display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:600">MR</div>
+      <div style="margin-left:auto;font-size:12px;color:var(--text-secondary)">Demo · Datos ficticios · IA y WhatsApp simulados</div>
+      <button class="demo-button demo-secondary" onClick="{{ onDemoReset }}">Reiniciar demo</button>
     </div>
 
-    <div style="flex:1;min-height:0;overflow:auto;padding:22px 26px">
+    <main class="demo-content">
+
+    <!-- Recorrido del miércoles. Las vistas originales quedan ocultas como post-MVP. -->
+    <sc-if value="{{ demoClientsView }}">
+      <div class="demo-split">
+        <section class="demo-card">
+          <p class="demo-label">Clientes</p>
+          <h2>Una ficha por clienta</h2>
+          <sc-for list="{{ demoClients }}" as="c">
+            <button class="demo-row" aria-pressed="{{ c.selected }}" onClick="{{ c.onClick }}"><strong>{{ c.name }}</strong><span class="demo-muted">{{ c.phone }}</span></button>
+          </sc-for>
+        </section>
+        <section class="demo-card">
+          <p class="demo-label">Ficha de la clienta · Datos ficticios</p>
+          <h1>{{ demoClient.name }}</h1>
+          <p class="demo-muted">{{ demoClient.phone }} · Córdoba</p>
+          <div class="demo-services">
+            <div class="demo-label">Próximo turno</div>
+            <strong>{{ demoAppointment.dateLabel }} · {{ demoAppointment.time }}</strong>
+            <ul><sc-for list="{{ demoAppointment.treatments }}" as="t"><li>{{ t }}</li></sc-for></ul>
+          </div>
+          <span class="demo-status" role="status">{{ demoStatus }}</span>
+          <p class="demo-muted">Los tratamientos quedan asociados al turno y se usan para preparar el recordatorio.</p>
+          <div class="demo-actions"><button class="demo-button" onClick="{{ onDemoOpenAppointment }}">Ver turno en Agenda</button></div>
+        </section>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ demoAgendaView }}">
+      <div class="demo-agenda-toolbar">
+        <div><p class="demo-label" style="margin-bottom:5px">Agenda</p><strong>{{ demoAgendaRange }}</strong></div>
+        <div class="demo-view-switch" role="group" aria-label="Vista de Agenda">
+          <button class="demo-button" aria-pressed="{{ demoDayView }}" onClick="{{ onDemoDayView }}">Día</button>
+          <button class="demo-button" aria-pressed="{{ demoWeekView }}" onClick="{{ onDemoWeekView }}">Semana</button>
+        </div>
+      </div>
+      <sc-if value="{{ demoWeekView }}">
+        <section class="demo-week" aria-label="Turnos de la semana del 14 al 20 de septiembre" tabindex="0">
+          <div class="demo-week-grid">
+            <sc-for list="{{ demoWeekDays }}" as="day">
+              <section class="demo-week-day">
+                <h2>{{ day.label }}</h2>
+                <sc-for list="{{ day.appointments }}" as="a">
+                  <button class="demo-row" aria-pressed="{{ a.selected }}" onClick="{{ a.onClick }}"><strong>{{ a.time }}</strong><strong>{{ a.clientName }}</strong><span>{{ a.treatmentLabel }}</span><br><span class="demo-muted">{{ a.statusLabel }}</span></button>
+                </sc-for>
+                <sc-if value="{{ day.empty }}"><p class="demo-muted" style="font-size:12px">Sin turnos de ejemplo</p></sc-if>
+              </section>
+            </sc-for>
+          </div>
+        </section>
+      </sc-if>
+      <div class="{{ demoAgendaLayout }}">
+        <sc-if value="{{ demoDayView }}">
+        <section class="demo-card">
+          <p class="demo-label">{{ demoAppointment.dateLabel }}</p>
+          <h2>Turnos del día</h2>
+          <sc-for list="{{ demoAppointments }}" as="a">
+            <button class="demo-row" aria-pressed="{{ a.selected }}" onClick="{{ a.onClick }}"><strong>{{ a.time }} · {{ a.clientName }}</strong><span>{{ a.treatmentLabel }}</span><br><span class="demo-muted">{{ a.statusLabel }}</span></button>
+          </sc-for>
+        </section>
+        </sc-if>
+        <section class="demo-card">
+          <p class="demo-label">Detalle del turno</p>
+          <h1>{{ demoClient.name }}</h1>
+          <p class="demo-muted">{{ demoAppointment.dateLabel }} · {{ demoAppointment.time }}</p>
+          <span class="demo-status" role="status">{{ demoStatus }}</span>
+          <div class="demo-services"><div class="demo-label">Tratamientos de este turno</div><ul><sc-for list="{{ demoAppointment.treatments }}" as="t"><li>{{ t }}</li></sc-for></ul></div>
+          <p class="demo-muted">WhatsApp · {{ demoClient.phone }}</p>
+          <p class="demo-muted" role="status">{{ demoReminderStatus }}</p>
+          <sc-if value="{{ demoIsMain }}"><div class="demo-actions"><button class="demo-button" onClick="{{ onDemoPrepare }}">{{ demoPrepareLabel }}</button></div></sc-if>
+          <sc-if value="{{ demoIsContext }}"><p class="demo-muted">Turno de contexto. El recorrido de recordatorio está preparado para Luciana Ferreyra.</p></sc-if>
+        </section>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ demoMessagesView }}">
+      <div class="demo-split">
+        <section class="demo-card">
+          <p class="demo-label">Turno vinculado</p>
+          <h2>{{ demoClient.name }}</h2>
+          <p class="demo-muted">{{ demoClient.phone }}</p>
+          <strong>{{ demoAppointment.dateLabel }}<br>{{ demoAppointment.time }}</strong>
+          <div class="demo-services"><ul><sc-for list="{{ demoAppointment.treatments }}" as="t"><li>{{ t }}</li></sc-for></ul></div>
+          <span class="demo-status" role="status">{{ demoStatus }}</span>
+          <p class="demo-muted">{{ demoReminderStatus }}</p>
+          <button class="demo-button demo-secondary" onClick="{{ onDemoOpenAppointment }}">Ver turno en Agenda</button>
+        </section>
+        <section class="demo-card">
+          <p class="demo-label">WhatsApp · Conversación simulada</p>
+          <h1>Recordatorio y confirmación</h1>
+          <sc-if value="{{ demoNoDraft }}"><p class="demo-muted">Prepará el mensaje con el nombre, la fecha, el horario y los tratamientos de este turno.</p><button class="demo-button" onClick="{{ onDemoPrepare }}">Preparar recordatorio</button></sc-if>
+          <sc-if value="{{ demoCanDraft }}">
+            <p class="demo-muted">Copiloto de recepción · Borrador de ejemplo, editable. Revisalo antes de aprobar.</p>
+            <label for="demo-draft" style="display:block;font-weight:600;margin:18px 0 9px">Borrador del recordatorio</label>
+            <textarea id="demo-draft" value="{{ demoDraft }}" onChange="{{ onDemoDraftChange }}" rows="6" style="box-sizing:border-box;width:100%;padding:16px;font-size:16px;line-height:1.65;border:1px solid var(--border-strong);border-radius:var(--radius-lg);color:var(--text-primary);background:var(--surface-card);resize:vertical"></textarea>
+            <sc-if value="{{ demoDraftError }}"><p class="demo-notice" role="status">{{ demoDraftError }}</p></sc-if>
+            <div class="demo-actions"><button class="demo-button" disabled="{{ demoSendDisabled }}" onClick="{{ onDemoSend }}">Aprobar y enviar — simulación</button></div>
+            <p class="demo-muted">Nada se envía a un teléfono real.</p>
+          </sc-if>
+          <sc-if value="{{ demoSent }}">
+            <p class="demo-label" style="margin-top:22px">Recepción · Revisado y aprobado</p>
+            <div class="demo-message">{{ demoSentText }}</div>
+            <p class="demo-muted">Recordatorio enviado · Simulación</p>
+          </sc-if>
+          <sc-if value="{{ demoCanReply }}">
+            <p class="demo-muted" role="status">Sin respuesta de la clienta. El turno sigue sin confirmar.</p>
+            <div class="demo-actions"><button class="demo-button demo-secondary" onClick="{{ onDemoReply }}">Simular respuesta</button></div>
+            <div class="demo-actions"><button class="demo-button demo-secondary" onClick="{{ onDemoUnavailable }}">Simular «No puedo ir»</button></div>
+            <details style="margin-top:18px"><summary class="demo-muted" style="cursor:pointer">Probar una consulta sensible</summary><p class="demo-muted">Ejemplo fijo para comprobar la derivación humana.</p><button class="demo-button demo-secondary" onClick="{{ onDemoSensitive }}">Simular consulta sensible</button></details>
+          </sc-if>
+          <sc-if value="{{ demoReply }}">
+            <p class="demo-label" style="margin-top:22px">Luciana · Respuesta simulada</p>
+            <div class="demo-message demo-incoming">{{ demoReply }}</div>
+          </sc-if>
+          <sc-if value="{{ demoCanConfirm }}"><p class="demo-muted">La clienta confirma. Recepción revisa la respuesta antes de actualizar el turno.</p><button class="demo-button" onClick="{{ onDemoConfirm }}">Registrar confirmación</button></sc-if>
+          <sc-if value="{{ demoUnavailable }}"><div class="demo-notice" role="status"><strong>Requiere atención de recepción</strong><br>La clienta avisó que no puede venir. Recepción debe conversar con ella para resolver si cancela o reprograma. El turno sigue sin confirmar; no se canceló ni se cambió el horario.</div></sc-if>
+          <sc-if value="{{ demoConfirmed }}"><div class="demo-message" role="status"><strong>Confirmación registrada por recepción.</strong><br>El turno ya figura confirmado en Agenda.</div></sc-if>
+          <sc-if value="{{ demoSensitive }}">
+            <div class="demo-notice" role="status"><strong>{{ demoEscalationLabel }}</strong><br>No se genera una respuesta clínica ni se habilita el envío. El turno sigue sin confirmar.</div>
+            <sc-if value="{{ demoCanEscalate }}"><div class="demo-actions"><button class="demo-button" onClick="{{ onDemoEscalate }}">Derivar a una persona</button></div></sc-if>
+          </sc-if>
+          <p class="demo-muted" style="border-top:1px solid var(--border-subtle);padding-top:18px;margin-top:24px">Las consultas clínicas o sensibles requieren revisión humana. El copiloto no da indicaciones médicas.</p>
+        </section>
+      </div>
+    </sc-if>
 
     <sc-if value="{{ isCalendarView }}" hint-placeholder-val="{{ true }}">
       <div style="display:flex;gap:20px;align-items:flex-start">
@@ -538,14 +699,27 @@
       </div>
     </sc-if>
 
-    </div>
+    </main>
   </div>
 </div>
 
 </x-dc>
 <script type="text/x-dc" data-dc-script>
+// Demo acotada: un único caso operativo; el prototipo anterior queda como post-MVP.
+function initialReceptionDemo() {
+  return {
+    view:'clients', agendaView:'day', clientId:'luciana', appointmentId:'demo-1', draft:null,
+    sentText:null, reply:null, escalated:false,
+    appointments:[
+      {id:'demo-2', clientId:'agustina', date:'2026-09-17', dateLabel:'Jueves 17 de septiembre de 2026', reminderDateLabel:'jueves 17 de septiembre', time:'10:00', treatments:['Peeling facial'], status:'confirmed'},
+      {id:'demo-1', clientId:'luciana', date:'2026-09-17', dateLabel:'Jueves 17 de septiembre de 2026', reminderDateLabel:'jueves 17 de septiembre', time:'16:00', treatments:['Peeling facial','Depilación definitiva'], status:'unconfirmed'},
+      {id:'demo-3', clientId:'florencia', date:'2026-09-17', dateLabel:'Jueves 17 de septiembre de 2026', reminderDateLabel:'jueves 17 de septiembre', time:'17:30', treatments:['Depilación definitiva'], status:'confirmed'},
+    ],
+  };
+}
 class Component extends DCLogic {
   state = {
+    demo: initialReceptionDemo(),
     activeView: 'calendar',
     activeClientTab: 'overview',
     selectedClientId: 'c1',
@@ -747,7 +921,97 @@ class Component extends DCLogic {
     this.setState(s => ({appointments: [...s.appointments, newAppt], newApptDraft: this.emptyApptDraft()}));
   }
 
+  demoClientsData = [
+    {id:'luciana', name:'Luciana Ferreyra', phone:'+54 9 351 XXX XXXX'},
+    {id:'agustina', name:'Agustina Romero', phone:'+54 9 351 XXX XXXX'},
+    {id:'florencia', name:'Florencia Sosa', phone:'+54 9 351 XXX XXXX'},
+  ];
+
+  resetReceptionDemo() { this.setState({demo:initialReceptionDemo()}); }
+  updateReceptionDemo(patch) { this.setState(s => ({demo:{...s.demo,...patch}})); }
+  selectDemoClient(clientId, view='clients') {
+    const appt = this.state.demo.appointments.find(a => a.clientId === clientId);
+    if (appt) this.updateReceptionDemo({clientId, appointmentId:appt.id, view});
+  }
+  demoDraftError(text) {
+    const a = this.state.demo.appointments.find(a => a.id === 'demo-1');
+    const required = ['Luciana', a.reminderDateLabel, a.time, ...a.treatments];
+    const missing = required.filter(value => !(text || '').toLocaleLowerCase('es-AR').includes(value.toLocaleLowerCase('es-AR')));
+    return missing.length ? 'Revisá el borrador: debe incluir nombre, fecha, horario y ambos tratamientos. Falta: ' + missing.join(' · ') : '';
+  }
+  prepareDemoReminder() {
+    const d = this.state.demo;
+    const a = d.appointments.find(a => a.id === 'demo-1');
+    const client = this.demoClientsData.find(c => c.id === a.clientId);
+    const draft = d.draft === null ? `Hola ${client.name.split(' ')[0]}, cómo estás? Te recordamos tu turno en Okio para el ${a.reminderDateLabel.toLocaleLowerCase('es-AR')}, a las ${a.time}, para ${a.treatments.join(' y ').toLocaleLowerCase('es-AR')}. Nos confirmás si venís? Gracias!` : d.draft;
+    this.updateReceptionDemo({view:'conversations', clientId:a.clientId, appointmentId:a.id, draft});
+  }
+  sendDemoReminder() {
+    const d = this.state.demo;
+    if (d.sentText !== null || d.reply || this.demoDraftError(d.draft)) return;
+    this.updateReceptionDemo({sentText:d.draft.trim()});
+  }
+  receiveDemoReply(kind) {
+    const d = this.state.demo;
+    const replies = {confirmation:'Sí, confirmo. Nos vemos el jueves!',sensitive:'Hola, tengo la piel irritada. Puedo hacerme el peeling igual?',unavailable:'Hola, me surgió un imprevisto y no puedo ir el jueves.'};
+    if (!d.sentText || d.reply || !Object.hasOwn(replies,kind)) return;
+    // ponytail: respuestas fijas de demo; interpretar texto libre requiere validación posterior.
+    this.updateReceptionDemo({reply:{kind,text:replies[kind]}});
+  }
+  confirmDemoAppointment() {
+    const d = this.state.demo;
+    if (!d.sentText || d.reply?.kind !== 'confirmation') return;
+    this.updateReceptionDemo({appointments:d.appointments.map(a => a.id === 'demo-1' ? {...a,status:'confirmed'} : a)});
+  }
+  escalateDemoReply() {
+    if (this.state.demo.reply?.kind === 'sensitive') this.updateReceptionDemo({escalated:true});
+  }
+  renderReceptionDemo() {
+    const d = this.state.demo;
+    const a = d.appointments.find(a => a.id === d.appointmentId);
+    const client = this.demoClientsData.find(c => c.id === a.clientId);
+    const unavailable = d.reply?.kind === 'unavailable';
+    const statusLabel = appt => (appt.status === 'confirmed' ? 'Confirmado' : 'Sin confirmar') + (appt.id === 'demo-1' && unavailable ? ' · Requiere atención de recepción' : '');
+    const status = statusLabel(a);
+    const main = a.id === 'demo-1';
+    const sent = main && d.sentText !== null;
+    const sensitive = d.reply?.kind === 'sensitive';
+    const views = [{id:'clients',label:'Clientes'},{id:'calendar',label:'Agenda'},{id:'conversations',label:'Centro de Solicitudes'}];
+    const appointments = d.appointments.map(appt => ({...appt,selected:appt.id === a.id,clientName:this.demoClientsData.find(c => c.id === appt.clientId).name,treatmentLabel:appt.treatments.join(' + '),statusLabel:statusLabel(appt),onClick:() => this.selectDemoClient(appt.clientId,'calendar')})).sort((a,b) => a.time.localeCompare(b.time));
+    const weekDays = ['Lun 14','Mar 15','Mié 16','Jue 17','Vie 18','Sáb 19','Dom 20'].map((label,i) => {
+      const dayAppointments = appointments.filter(appt => appt.date === `2026-09-${14+i}`).map(appt => ({...appt,onClick:() => { this.selectDemoClient(appt.clientId,'calendar'); this.updateReceptionDemo({agendaView:'day'}); }}));
+      return {label,appointments:dayAppointments,empty:dayAppointments.length === 0};
+    });
+    return {
+      isCalendarView:false,isClientsView:false,isConversationsView:false,isFollowupsView:false,isAnalyticsView:false,
+      currentViewLabel:views.find(v => v.id === d.view).label,
+      navItems:views.map(v => ({...v,current:d.view === v.id ? 'page' : undefined,weight:600,color:d.view === v.id ? 'var(--ink-sidebar-text-strong)' : 'var(--ink-sidebar-text)',bg:d.view === v.id ? 'var(--ink-sidebar-border)' : 'transparent',dot:d.view === v.id ? 'var(--ink-sidebar-text-strong)' : 'var(--accent-dot-inactive)',onClick:() => v.id === 'conversations' ? this.selectDemoClient('luciana',v.id) : this.updateReceptionDemo({view:v.id})})),
+      demoClientsView:d.view === 'clients',demoAgendaView:d.view === 'calendar',demoMessagesView:d.view === 'conversations',
+      demoClients:this.demoClientsData.map(c => ({...c,selected:c.id === client.id,onClick:() => this.selectDemoClient(c.id)})),
+      demoAppointments:appointments.filter(appt => appt.date === a.date),demoWeekDays:weekDays,
+      demoDayView:d.agendaView === 'day',demoWeekView:d.agendaView === 'week',
+      demoAgendaRange:d.agendaView === 'week' ? '14–20 de septiembre de 2026' : a.dateLabel,
+      demoAgendaLayout:d.agendaView === 'week' ? 'demo-week-detail' : 'demo-split',
+      onDemoDayView:() => this.updateReceptionDemo({agendaView:'day'}),onDemoWeekView:() => this.updateReceptionDemo({agendaView:'week'}),
+      demoClient:client,demoAppointment:a,demoStatus:status,demoIsMain:main,demoIsContext:!main,
+      demoReminderStatus:main ? (sent ? (d.reply ? 'Recordatorio enviado · Simulación' : 'Recordatorio enviado · Sin respuesta · Simulación') : 'Recordatorio pendiente de revisión y envío') : 'Datos de contexto · Turno ficticio',
+      demoPrepareLabel:sent ? 'Ver conversación' : (d.draft === null ? 'Preparar recordatorio' : 'Revisar borrador'),
+      demoNoDraft:d.draft === null && !sent,demoCanDraft:d.draft !== null && !sent && !sensitive,
+      demoDraft:d.draft || '',demoDraftError:this.demoDraftError(d.draft),demoSendDisabled:!!this.demoDraftError(d.draft),
+      demoSent:sent,demoSentText:d.sentText,demoCanReply:sent && !d.reply,demoReply:d.reply?.text,
+      demoCanConfirm:sent && d.reply?.kind === 'confirmation' && a.status !== 'confirmed',demoConfirmed:main && a.status === 'confirmed',
+      demoSensitive:sensitive,demoCanEscalate:sensitive && !d.escalated,demoUnavailable:main && unavailable,
+      demoEscalationLabel:d.escalated ? 'Derivada a revisión humana · Simulación' : 'Consulta sensible · Requiere revisión humana',
+      onDemoReset:() => this.resetReceptionDemo(),onDemoOpenAppointment:() => this.updateReceptionDemo({view:'calendar'}),
+      onDemoPrepare:() => this.prepareDemoReminder(),onDemoDraftChange:e => {if (!this.state.demo.sentText) this.updateReceptionDemo({draft:e.target.value});},
+      onDemoSend:() => this.sendDemoReminder(),onDemoReply:() => this.receiveDemoReply('confirmation'),onDemoConfirm:() => this.confirmDemoAppointment(),
+      onDemoSensitive:() => this.receiveDemoReply('sensitive'),onDemoEscalate:() => this.escalateDemoReply(),
+      onDemoUnavailable:() => this.receiveDemoReply('unavailable'),
+    };
+  }
+
   renderVals() {
+    if (this.state.demo) return this.renderReceptionDemo();
     const s = this.state;
     const initials = (name) => name.split(' ').filter(w => /^[A-ZÁÉÍÓÚÑ]/.test(w)).slice(0,2).map(w => w[0]).join('').toUpperCase() || name.slice(0,2).toUpperCase();
 

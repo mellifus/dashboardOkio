@@ -14,9 +14,9 @@ export function Avatar({ initials, size = 32, tone = "accent" }) {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        fontFamily: "var(--font-sans)",
-        fontSize: size <= 32 ? "11.5px" : "13px",
-        fontWeight: 600,
+        fontFamily: "var(--font-serif)",
+        fontSize: size <= 32 ? "13px" : "17px",
+        fontWeight: 500,
         flexShrink: 0,
       }}
     >

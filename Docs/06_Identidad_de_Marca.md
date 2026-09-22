@@ -1,8 +1,10 @@
 # 06 — Identidad de Marca de Okio
 
-**Estado:** Draft v0.1 — extraído directamente del Instagram real de Okio Estética (dos capturas de grilla de posteos), con paleta de color medida por muestreo de píxeles, no a ojo.
+**Estado:** v1.0 — modelo de 2 capas adoptado (ver "Actualización 2026-09-14" abajo).
 **Owner:** Meli
-**Última actualización:** 2026-08-01
+**Última actualización:** 2026-09-14
+
+> **Resolución (2026-09-14):** el conflicto "¿verde o rosa?" que aparece más abajo en este doc quedó resuelto: **no era una contradicción, son dos capas de una misma marca.** Verde bosque = capa institucional (web, tienda, producto/dashboard). Rosa/crema/dorado = capa editorial (redes, campañas). El dorado `#B99269` y el isotipo del loto las unen. El aro degradé de Instagram NO es de marca (es la UI de "historia" de la app). Detalle completo en la sección "Actualización 2026-09-14" al final. Sistema de diseño visual completo publicado como Artifact + tokens en `Dashboard - Claude Design/tokens/colors-editorial.css`.
 
 ## Propósito
 
@@ -100,7 +102,34 @@ Meli encontró la página web real de Okio (landing page de un evento presencial
 
 **Pendiente:** verificar colores y tipografías reales de la página (no pude por falta de conexión con la extensión de Chrome en esta sesión). Ver Próximos Pasos abajo.
 
+## Actualización 2026-09-14: modelo de 2 capas (decisión de Meli)
+
+Meli trajo de nuevo las capturas de Instagram + el logo con el aro degradé, y compartió screenshots reales de su **Tienda Nube** (`okiobeauty.mitiendanube.com`). Con eso a la vista se resolvió la tensión que este doc arrastraba entre "verde bosque (web) es la verdad" y "rosa (Instagram) es la marca".
+
+**Conclusión: las dos son ciertas. Okio tiene una marca con dos registros/capas, no una correcta y una incorrecta.**
+
+| Capa | Paleta dominante | Dónde se usa | Carácter |
+|---|---|---|---|
+| **1 · Institucional** | Verde bosque `#003F36` + crema + dorado + blush | Web, Tienda Nube, dashboard/producto, footer, transaccional | Sobria, profesional, confiable |
+| **2 · Editorial** | Rosa palo `#A7726C` + crema cálida + terracota + dorado | Instagram, campañas, piezas gráficas, eventos | Sensible, femenina, poética |
+
+**Firma compartida (no cambia entre capas):** isotipo del **loto** en línea dorada, wordmark "Okio" en serif dorado con bajada "ESTÉTICA Y BIENESTAR", dupla tipográfica **Fraunces + Inter**, botones **pill** (`radius:999px`), glifo **✦**. El dorado `#B99269` es la bisagra: aparece en las dos paletas.
+
+**Corrección importante sobre el "aro degradé":** el anillo magenta→naranja→dorado alrededor del avatar de Instagram es la **UI de "historia activa" de la propia app de Instagram**, NO un elemento de marca de Okio. No aparece en ninguna superficie controlada por la marca (tienda, web, logo real). Es exactamente el mismo tipo de error que este doc ya advertía (confundir el *chrome* de IG con la marca) — queda registrado para no repetirlo. No usar ese degradé en logos, piezas ni web.
+
+**Isotipo real:** en la Tienda Nube el logo es una **flor de loto en línea dorada** + "Okio" serif + "ESTÉTICA Y BIENESTAR". La guía y los tokens usan un loto **redibujado en SVG** como representación; reemplazar por el **vector oficial** cuando esté disponible.
+
+**Lo que se produjo en esta iteración:**
+- Sistema de diseño visual navegable (Artifact) con ambas capas, tipografía, logo, componentes y voz.
+- `Dashboard - Claude Design/tokens/colors-editorial.css` — tokens de la capa editorial, prefijo `--okio-ed-*`, importado en `styles.css`. NO pisa la paleta institucional.
+- `guidelines/colors-editorial.card.html` — specimen de la paleta editorial.
+- `guidelines/brand-wordmark.card.html` — actualizado con el loto + wordmark real (antes decía "no logo provided").
+
+**Pendiente:** conseguir el vector oficial del loto (SVG/PNG) para reemplazar la representación; verificar hex exactos de la capa editorial contra un archivo de marca si Okio lo tiene (los actuales son medición de píxeles del feed, muy cercanos pero no oficiales).
+
 ## Documentos Relacionados
 
 - `00_Project_Vision.md` — contexto general del proyecto.
-- Capturas fuente: dos grillas de Instagram de @okio.estetica compartidas por Meli el 2026-08-01.
+- `06_Brand_Identity.md` — versión en inglés (referencia de build).
+- Sistema de diseño visual (Artifact) — guía navegable de las 2 capas.
+- Capturas fuente: grillas de Instagram de @okio.estetica + screenshots de la Tienda Nube, compartidas por Meli (2026-08-01 y 2026-09-14).

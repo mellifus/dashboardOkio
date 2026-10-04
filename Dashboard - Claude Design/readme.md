@@ -1,44 +1,44 @@
-# Okio — Design System
+# Okio design system
 
-Component library extracted from the **Okio** aesthetic-clinic management platform (formerly "Bella Vita"). Source: this project's own flagship screen, `Clinic Platform UX.dc.html` — a Spanish (Argentina) SaaS operating system for aesthetic clinics with six surfaces: Agenda (calendar), Clientes, Centro de Solicitudes (Request Center — AI-assisted inbox), Catálogo, Seguimientos (follow-ups) and Analítica.
+A component library pulled out of the **Okio** aesthetic-clinic management platform (formerly "Bella Vita"). The source is this project's own main screen, `Clinic Platform UX.dc.html`: a Spanish (Argentina) SaaS operating system for aesthetic clinics with six surfaces. Those are Agenda (calendar), Clientes, Centro de Solicitudes (the Request Center, an AI-assisted inbox), Catálogo, Seguimientos (follow-ups) and Analítica.
 
-No external codebase, Figma file, or brand guideline was provided — this system is reverse-engineered from that single DC's inline styles, so it documents exactly the visual vocabulary already in production there, nothing invented beyond it.
+Nobody provided an external codebase, Figma file or brand guideline. The system was reverse-engineered from that one DC's inline styles, so it documents the visual vocabulary already in use there and doesn't invent anything past it.
 
 ## Content fundamentals
-- **Language & voice:** Argentine Spanish (voseo — "vos", "querés", "reservá"). Direct, operational, low-ceremony. Copy reads like something a receptionist or clinic manager would actually say, not marketing copy.
-- **Casing:** Sentence case for labels and buttons ("Reprogramar turno", "Editar antes"); UPPERCASE only for tiny structural eyebrow labels (section headers like "COPILOTO IA", "FLUJO SUGERIDO").
-- **Numbers & money:** Argentine thousands-dot formatting ($18.420), percentages tight to the number (81%, 96%).
-- **Tone toward AI:** the AI is a co-worker, not a chatbot — it "detecta", "sugiere", "recomienda"; the human always "aprueba" or "edita antes de enviar". Never claims to act autonomously on medical or financial matters.
-- **Emoji:** none, except a single ✦ (AI pulse indicator), ✓ (activity timeline), ⚠ (risk/priority banner) — used as small functional glyphs, not decoration.
+- **Language and voice:** Argentine Spanish with voseo ("vos", "querés", "reservá"). Direct and operational, with little ceremony. The copy should sound like something a receptionist or clinic manager would actually say, not like marketing.
+- **Casing:** sentence case for labels and buttons ("Reprogramar turno", "Editar antes"). UPPERCASE only for tiny eyebrow labels such as section headers ("COPILOTO IA", "FLUJO SUGERIDO").
+- **Numbers and money:** Argentine formatting with a dot for thousands ($18.420), and percent signs right after the number (81%, 96%).
+- **How the AI is described:** as a co-worker, not a chatbot. It "detecta", "sugiere" and "recomienda", and a person always "aprueba" or "edita antes de enviar". It never claims to act on its own in medical or financial matters.
+- **Emoji:** none. The only glyphs are ✦ (AI pulse indicator), ✓ (activity timeline) and ⚠ (risk/priority banner), used as small functional markers.
 
 ## Visual foundations
-- **Color:** neutral-first. A blue-tinted gray scale (oklch hue 260) for 90% of the UI; one brand accent (deep forest green `--accent`, sourced from `--okio-primary` — see `Docs/06_Brand_Identity.md`) for primary actions, active nav state, links, and anything AI-related. Semantic colors (warning/amber, danger/red, success/green, info/blue) are reserved for request categories and status, never decorative.
-- **Surfaces:** a forest-green sidebar (`--okio-primary`, Okio's institutional brand color) with a gold lotus + serif wordmark is the only dark surface in the product; everything else is white cards on a very light warm page background. The shared `NavItem` reads scoped `--nav-active-*` / `--ink-sidebar-*` tokens so its active/badge states resolve against the green ground. No gradients, no glassmorphism, no blur.
-- **Type:** Fraunces (serif) for display — page titles, day/section headings, stat values, avatar monograms — and Inter (sans) for body, labels and UI; both loaded from Google Fonts in the UI kit's `index.html`. Slightly negative letter-spacing on display type for a dense, refined feel. Weights are 400/500/600/650/700 — no 800+.
-- **Shadows:** one soft ambient card shadow (`--shadow-card`) everywhere; a slightly stronger colored shadow only under the single primary CTA per screen.
-- **Radius:** small (6-7px) on buttons/pills/inputs, medium (12px) on cards/panels, fully round on avatars/dots. Nothing sharp, nothing pill-shaped except true status pills.
-- **Borders:** hairline 1px borders (not shadows) separate list rows and table cells; cards get both a hairline border and the ambient shadow.
-- **Motion:** none observed in the source — treat as a static, information-dense operational tool rather than a marketing surface. Don't add animation unless asked.
-- **Density:** deliberately tight — 11-14px body text is standard, not a compromise. This is a professional back-office tool used all day, not a consumer app.
+- **Color:** mostly neutral. A blue-tinted gray scale (oklch hue 260) covers 90% of the UI. There's one brand accent, a deep forest green (`--accent`, taken from `--okio-primary`; see `Docs/06_Brand_Identity.md`), for primary actions, the active nav state, links and anything AI-related. Semantic colors (warning/amber, danger/red, success/green, info/blue) are only for request categories and status, never for decoration.
+- **Surfaces:** the only dark surface in the product is the forest-green sidebar (`--okio-primary`, Okio's institutional color) with a gold lotus and serif wordmark. Everything else is white cards on a very light, warm page background. The shared `NavItem` reads scoped `--nav-active-*` / `--ink-sidebar-*` tokens so its active and badge states work on the green. There are no gradients, glassmorphism or blur.
+- **Type:** Fraunces (serif) for display text (page titles, day and section headings, stat values, avatar monograms) and Inter (sans) for body, labels and UI. Both load from Google Fonts in the UI kit's `index.html`. Display type has slightly negative letter-spacing, which keeps it dense and refined. Weights are 400/500/600/650/700, nothing at 800 or above.
+- **Shadows:** one soft ambient card shadow (`--shadow-card`) everywhere, plus a slightly stronger colored shadow under the one primary CTA on each screen.
+- **Radius:** small (6-7px) on buttons, pills and inputs, medium (12px) on cards and panels, fully round on avatars and dots. Nothing is sharp, and only true status pills are pill-shaped.
+- **Borders:** 1px hairlines, not shadows, separate list rows and table cells. Cards get both a hairline border and the ambient shadow.
+- **Motion:** the source has none. Treat the product as a static, information-dense operational tool rather than a marketing page, and don't add animation unless someone asks for it.
+- **Density:** tight on purpose. Body text at 11-14px is the norm here, not a compromise, because this is a back-office tool people use all day.
 
 ## Iconography
-No icon set, icon font, or SVG icons were found in the source — the product currently relies on tiny colored dots (`Dot`), badges, and the ⚠/✦/✓ glyphs above instead of a real icon system. If icons are needed going forward, treat this as a gap: pick a CDN set with a similarly minimal, non-decorative feel (e.g. a thin single-weight set) and flag the substitution rather than hand-drawing icons.
+The source has no icon set, icon font or SVG icons. For now the product gets by with tiny colored dots (`Dot`), badges and the ⚠/✦/✓ glyphs mentioned above. If icons become necessary, treat that as a gap to fill: pick a CDN set with a similarly minimal feel (a thin single-weight set, for example) and say you swapped it in, rather than hand-drawing icons.
 
 ## Intentional additions
-None — every component here (`Button`, `Badge`, `Dot`, `Avatar`, `Card`, `NavItem`, `Tabs`, `SearchInput`, `StatCard`, `ProgressBar`, `ListRow`) has a direct, repeated counterpart in the source screen.
+None. Every component here (`Button`, `Badge`, `Dot`, `Avatar`, `Card`, `NavItem`, `Tabs`, `SearchInput`, `StatCard`, `ProgressBar`, `ListRow`) appears, more than once, in the source screen.
 
 ## Index
-- `styles.css` — root stylesheet, imports everything under `tokens/`.
-- `tokens/colors.css`, `typography.css`, `spacing.css`, `effects.css` — the extracted design tokens.
-- `components/core/` — Button, Badge, Dot, Avatar, Card.
-- `components/navigation/` — NavItem, Tabs.
-- `components/forms/` — SearchInput.
-- `components/data/` — StatCard, ProgressBar, ListRow.
-- `guidelines/` — foundation specimen cards (colors, type, spacing, radius/shadow, wordmark).
-- `ui_kits/clinic-platform/` — click-through recreation of all six screens (Agenda, Centro de Solicitudes, Clientes, Catálogo, Seguimientos, Analítica) built from the components above.
-- `.claude/skills/okio-design/SKILL.md` (repo root) — the invocable Claude Code skill (`/okio-design`) that packages this brand system for generating on-brand pieces and code.
+- `styles.css`: root stylesheet; imports everything under `tokens/`.
+- `tokens/colors.css`, `typography.css`, `spacing.css`, `effects.css`: the extracted design tokens.
+- `components/core/`: Button, Badge, Dot, Avatar, Card.
+- `components/navigation/`: NavItem, Tabs.
+- `components/forms/`: SearchInput.
+- `components/data/`: StatCard, ProgressBar, ListRow.
+- `guidelines/`: specimen cards for the foundations (colors, type, spacing, radius/shadow, wordmark).
+- `ui_kits/clinic-platform/`: a click-through recreation of all six screens (Agenda, Centro de Solicitudes, Clientes, Catálogo, Seguimientos, Analítica) built from the components above.
+- `.claude/skills/okio-design/SKILL.md` (repo root): the Claude Code skill (`/okio-design`) that packages this brand system for generating on-brand pieces and code.
 
-## Caveats & ask
-- No logo file exists anywhere in the source — the sidebar mark is plain type ("Okio") on an accent square. Please share a real logo if one exists.
-- No icon system exists in the source (see Iconography above) — flag if you want one added.
-- The UI kit now covers all 6 product surfaces. Catálogo (treatment grid with categories, duration and price) and Seguimientos (master-detail follow-ups with a treatment-plan ProgressBar and the shared "Copiloto IA" next-step card) were built from the existing components — no new component types were needed. The sample treatments, prices and follow-up states are placeholder data, not Okio's real catalog.
+## Caveats and requests
+- The source has no logo file. The sidebar mark is just the word "Okio" on an accent square. If a real logo exists, please share it.
+- The source has no icon system (see Iconography). Say so if you want one added.
+- The UI kit now covers all 6 product surfaces. Catálogo (a treatment grid with categories, duration and price) and Seguimientos (master-detail follow-ups with a treatment-plan ProgressBar and the shared "Copiloto IA" next-step card) were built from existing components, without any new component types. The sample treatments, prices and follow-up states are placeholders, not Okio's real catalog.

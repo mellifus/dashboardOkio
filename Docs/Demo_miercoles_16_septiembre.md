@@ -22,7 +22,7 @@ La combinación peeling + depilación es un supuesto de este ejemplo, no una rec
 | 0:00–0:25 | Clientes, Luciana Ferreyra | «Quiero mostrarte una situación y después escuchar cómo la resuelven ustedes. Son datos ficticios; WhatsApp y la asistencia de IA están simulados.» |
 | 0:25–0:55 | Ficha → Ver turno en Agenda | «Luciana tiene un turno con dos tratamientos. Recepción puede verlos juntos.» |
 | 0:55–1:35 | Agenda → Preparar recordatorio | «El jueves 17, a las 16, tiene peeling facial y depilación definitiva. Todavía no confirmó. Estos datos pasan al mensaje.» |
-| 1:35–2:35 | Cambiar «Gracias!» por «Te esperamos!» → Aprobar y enviar — simulación | «El copiloto prepara el texto. Recepción revisa y puede editar antes de aprobar.» El mensaje dice día, fecha, horario y tratamientos, sin repetir el año. |
+| 1:35–2:35 | Cambiar «Gracias!» por «Te esperamos!» → Aprobar y enviar (simulación) | «El copiloto prepara el texto. Recepción revisa y puede editar antes de aprobar.» El mensaje dice día, fecha, horario y tratamientos, sin repetir el año. |
 | 2:35–3:00 | Mostrar mensaje enviado y turno sin confirmar | «Mandar el recordatorio no significa que la clienta haya confirmado.» |
 | 3:00–3:40 | Simular respuesta → Registrar confirmación | «Luciana responde. Recepción revisa y registra la confirmación.» |
 | 3:40–4:10 | Ver turno en Agenda | «El mismo turno ahora figura confirmado, con ambos tratamientos. No hubo que volver a cargar la cita.» |

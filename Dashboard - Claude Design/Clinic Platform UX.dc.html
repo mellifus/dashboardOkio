@@ -154,7 +154,7 @@
           <sc-if value="{{ isTabHistory }}" hint-placeholder-val="{{ false }}">
             <sc-for list="{{ selectedClient.history }}" as="h" hint-placeholder-count="3">
               <div style="padding:11px 0;border-top:1px solid oklch(94% 0.003 260);font-size:13px">
-                <div style="font-weight:600">{{ h.treatment }} — {{ h.date }}</div>
+                <div style="font-weight:600">{{ h.treatment }} · {{ h.date }}</div>
                 <div style="color:oklch(55% 0.006 260);font-size:12.5px">{{ h.practitioner }} · {{ h.notes }}</div>
               </div>
             </sc-for>
@@ -290,7 +290,7 @@
 
             <sc-if value="{{ selectedThread.apptCard }}" hint-placeholder-val="{{ false }}">
               <div style="border:1px solid oklch(90% 0.006 260);background:oklch(98% 0.003 260);border-radius:12px;padding:16px 18px">
-                <div style="font-size:10.5px;font-weight:700;color:oklch(50% 0.006 260);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px">Agenda — turno actual</div>
+                <div style="font-size:10.5px;font-weight:700;color:oklch(50% 0.006 260);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px">Agenda · turno actual</div>
                 <div style="font-size:15px;font-weight:650;margin-bottom:2px">{{ selectedThread.apptCard.when }} · {{ selectedThread.apptCard.time }}</div>
                 <div style="font-size:12.5px;color:oklch(45% 0.008 260);margin-bottom:12px">{{ selectedThread.apptCard.treatment }} · {{ selectedThread.apptCard.professional }}</div>
                 <div style="font-size:10.5px;font-weight:700;color:oklch(50% 0.006 260);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:7px">Horarios alternativos</div>
@@ -401,7 +401,7 @@
           <div style="background:oklch(100% 0 0);border:1px solid oklch(91% 0.004 260);border-radius:12px;overflow:hidden;box-shadow:0 1px 3px oklch(20% 0.01 260 / 0.04)">
             <sc-for list="{{ overdueFollowups }}" as="f" hint-placeholder-count="2">
               <div style="display:flex;align-items:center;gap:12px;padding:13px 18px;border-top:1px solid oklch(94% 0.003 260)">
-                <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:13px">{{ f.client }} — {{ f.treatment }}</div><div style="font-size:11.5px;color:oklch(55% 0.006 260)">{{ f.trigger }} · {{ f.due }}</div></div>
+                <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:13px">{{ f.client }} · {{ f.treatment }}</div><div style="font-size:11.5px;color:oklch(55% 0.006 260)">{{ f.trigger }} · {{ f.due }}</div></div>
                 <span style="font-size:12px;font-weight:600;{{ f.statusStyle }}">{{ f.statusLabel }}</span>
                 <button onClick="{{ f.onSend }}" style="background:var(--accent);color:oklch(100% 0 0);border:none;padding:6px 13px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer">Enviar</button>
                 <button onClick="{{ f.onSkip }}" style="background:oklch(100% 0 0);border:1px solid oklch(88% 0.004 260);padding:6px 13px;border-radius:6px;font-size:12px;cursor:pointer">Omitir</button>
@@ -414,7 +414,7 @@
           <div style="background:oklch(100% 0 0);border:1px solid oklch(91% 0.004 260);border-radius:12px;overflow:hidden;box-shadow:0 1px 3px oklch(20% 0.01 260 / 0.04)">
             <sc-for list="{{ todayFollowups }}" as="f" hint-placeholder-count="3">
               <div style="display:flex;align-items:center;gap:12px;padding:13px 18px;border-top:1px solid oklch(94% 0.003 260)">
-                <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:13px">{{ f.client }} — {{ f.treatment }}</div><div style="font-size:11.5px;color:oklch(55% 0.006 260)">{{ f.trigger }} · {{ f.due }}</div></div>
+                <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:13px">{{ f.client }} · {{ f.treatment }}</div><div style="font-size:11.5px;color:oklch(55% 0.006 260)">{{ f.trigger }} · {{ f.due }}</div></div>
                 <span style="font-size:12px;font-weight:600;{{ f.statusStyle }}">{{ f.statusLabel }}</span>
                 <button onClick="{{ f.onSend }}" style="background:var(--accent);color:oklch(100% 0 0);border:none;padding:6px 13px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer">Enviar</button>
                 <button onClick="{{ f.onSkip }}" style="background:oklch(100% 0 0);border:1px solid oklch(88% 0.004 260);padding:6px 13px;border-radius:6px;font-size:12px;cursor:pointer">Omitir</button>
@@ -427,7 +427,7 @@
           <div style="background:oklch(100% 0 0);border:1px solid oklch(91% 0.004 260);border-radius:12px;overflow:hidden;box-shadow:0 1px 3px oklch(20% 0.01 260 / 0.04)">
             <sc-for list="{{ scheduledFollowups }}" as="f" hint-placeholder-count="2">
               <div style="display:flex;align-items:center;gap:12px;padding:13px 18px;border-top:1px solid oklch(94% 0.003 260)">
-                <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:13px">{{ f.client }} — {{ f.treatment }}</div><div style="font-size:11.5px;color:oklch(55% 0.006 260)">{{ f.trigger }} · {{ f.due }}</div></div>
+                <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:13px">{{ f.client }} · {{ f.treatment }}</div><div style="font-size:11.5px;color:oklch(55% 0.006 260)">{{ f.trigger }} · {{ f.due }}</div></div>
                 <span style="font-size:12px;color:oklch(55% 0.006 260)">{{ f.due }}</span>
               </div>
             </sc-for>
@@ -483,25 +483,25 @@ class Component extends DCLogic {
     selectedThreadId: 't2',
     threadFilter: 'all',
     appointments: [
-      {id:1, staffId:1, staffName:'Ana Torres', client:'Elena Vidal', treatment:'Botox – frente', start:9.5, dur:0.75, status:'confirmed'},
+      {id:1, staffId:1, staffName:'Ana Torres', client:'Elena Vidal', treatment:'Botox (frente)', start:9.5, dur:0.75, status:'confirmed'},
       {id:2, staffId:1, staffName:'Ana Torres', client:'Marco Díaz', treatment:'Consulta', start:11, dur:0.5, status:'unconfirmed'},
       {id:3, staffId:1, staffName:'Ana Torres', client:'Carla Núñez', treatment:'Depilación láser', start:14, dur:1, status:'confirmed'},
-      {id:4, staffId:2, staffName:'Marta Ruiz', client:'Sofía Ramos', treatment:'Relleno – labios', start:10, dur:1, status:'confirmed'},
+      {id:4, staffId:2, staffName:'Marta Ruiz', client:'Sofía Ramos', treatment:'Relleno (labios)', start:10, dur:1, status:'confirmed'},
       {id:5, staffId:2, staffName:'Marta Ruiz', client:'Julia Ortiz', treatment:'Peeling químico', start:13, dur:0.5, status:'waiting'},
-      {id:6, staffId:2, staffName:'Marta Ruiz', client:'Nora Blanco', treatment:'Botox – patas de gallo', start:16, dur:0.5, status:'unconfirmed'},
-      {id:7, staffId:3, staffName:'Dra. Sofía León', client:'Diego Paz', treatment:'Consulta – rinoplastia', start:9, dur:1, status:'confirmed'},
-      {id:8, staffId:3, staffName:'Dra. Sofía León', client:'Irene Castro', treatment:'Relleno – pómulos', start:12, dur:1, status:'confirmed'},
+      {id:6, staffId:2, staffName:'Marta Ruiz', client:'Nora Blanco', treatment:'Botox (patas de gallo)', start:16, dur:0.5, status:'unconfirmed'},
+      {id:7, staffId:3, staffName:'Dra. Sofía León', client:'Diego Paz', treatment:'Consulta (rinoplastia)', start:9, dur:1, status:'confirmed'},
+      {id:8, staffId:3, staffName:'Dra. Sofía León', client:'Irene Castro', treatment:'Relleno (pómulos)', start:12, dur:1, status:'confirmed'},
       {id:9, staffId:3, staffName:'Dra. Sofía León', client:'Pablo Serra', treatment:'Control de seguimiento', start:17, dur:0.5, status:'unconfirmed'},
       {id:10, staffId:4, staffName:'Lucía Gómez', client:'Vera Molina', treatment:'Microneedling', start:10.5, dur:1, status:'confirmed'},
-      {id:11, staffId:4, staffName:'Lucía Gómez', client:'Hugo Bravo', treatment:'Láser – piernas', start:15, dur:1.5, status:'waiting'},
+      {id:11, staffId:4, staffName:'Lucía Gómez', client:'Hugo Bravo', treatment:'Láser (piernas)', start:15, dur:1.5, status:'waiting'},
     ],
     followups: [
       {id:1, client:'Julia Ortiz', treatment:'Peeling químico', trigger:'3 días post-tratamiento', due:'2 días de atraso', bucket:'overdue', status:'pending'},
-      {id:2, client:'Hugo Bravo', treatment:'Láser – piernas', trigger:'Recordatorio sesión 2 de 6', due:'1 día de atraso', bucket:'overdue', status:'pending'},
-      {id:3, client:'Sofía Ramos', treatment:'Relleno – labios', trigger:'Control 1 semana post-relleno', due:'Hoy', bucket:'today', status:'pending'},
+      {id:2, client:'Hugo Bravo', treatment:'Láser (piernas)', trigger:'Recordatorio sesión 2 de 6', due:'1 día de atraso', bucket:'overdue', status:'pending'},
+      {id:3, client:'Sofía Ramos', treatment:'Relleno (labios)', trigger:'Control 1 semana post-relleno', due:'Hoy', bucket:'today', status:'pending'},
       {id:4, client:'Carla Núñez', treatment:'Depilación láser', trigger:'Recordatorio de renovación de turno', due:'Hoy', bucket:'today', status:'pending'},
       {id:5, client:'Diego Paz', treatment:'Consulta', trigger:'Recordatorio pre-procedimiento', due:'Hoy', bucket:'today', status:'pending'},
-      {id:6, client:'Elena Vidal', treatment:'Botox – frente', trigger:'Recordatorio de retratamiento a las 12 semanas', due:'En 4 días', bucket:'scheduled', status:'pending'},
+      {id:6, client:'Elena Vidal', treatment:'Botox (frente)', trigger:'Recordatorio de retratamiento a las 12 semanas', due:'En 4 días', bucket:'scheduled', status:'pending'},
       {id:7, client:'Vera Molina', treatment:'Microneedling', trigger:'Recordatorio de próxima sesión', due:'En 6 días', bucket:'scheduled', status:'pending'},
     ],
   };
@@ -516,28 +516,28 @@ class Component extends DCLogic {
   ];
 
   clientsData = [
-    {id:'c1', name:'Elena Vidal', phone:'+34 611 203 981', tags:'VIP', lastVisit:'12 jul', nextVisit:'5 de agosto, 10:00 — Retratamiento de Botox',
+    {id:'c1', name:'Elena Vidal', phone:'+34 611 203 981', tags:'VIP', lastVisit:'12 jul', nextVisit:'5 de agosto, 10:00 · Retratamiento de Botox',
       overview:'Clienta habitual desde 2023. Prefiere turnos por la mañana. Sensible a la crema anestésica (usa alternativa). Referida por Sofía Ramos.',
-      history:[{treatment:'Botox – frente', date:'12 de julio de 2026', practitioner:'Ana Torres', notes:'Sin complicaciones, dosis estándar'},{treatment:'Relleno – labios', date:'2 de abril de 2026', practitioner:'Marta Ruiz', notes:'0.5ml, se solicitó resultado natural'}],
+      history:[{treatment:'Botox (frente)', date:'12 de julio de 2026', practitioner:'Ana Torres', notes:'Sin complicaciones, dosis estándar'},{treatment:'Relleno (labios)', date:'2 de abril de 2026', practitioner:'Marta Ruiz', notes:'0.5ml, se solicitó resultado natural'}],
       notes:[{date:'12 de julio de 2026', author:'Ana Torres', text:'Preguntó sobre combinar con un peeling en la próxima visita.'},{date:'2 de abril de 2026', author:'Marta Ruiz', text:'Leve hematoma, se resolvió en 3 días.'}]},
-    {id:'c2', name:'Marco Díaz', phone:'+34 622 118 402', tags:'Nuevo', lastVisit:'—', nextVisit:'30 de julio, 11:00 — Consulta',
+    {id:'c2', name:'Marco Díaz', phone:'+34 622 118 402', tags:'Nuevo', lastVisit:'—', nextVisit:'30 de julio, 11:00 · Consulta',
       overview:'Cliente nuevo, consultó por WhatsApp sobre una consulta de rejuvenecimiento facial. Sin historial previo.',
       history:[], notes:[{date:'28 de julio de 2026', author:'Recepción', text:'Reservó por WhatsApp luego de una conversación con la IA.'}]},
-    {id:'c3', name:'Sofía Ramos', phone:'+34 655 902 774', tags:'VIP', lastVisit:'20 jun', nextVisit:'30 de julio, 10:00 — Control de relleno',
+    {id:'c3', name:'Sofía Ramos', phone:'+34 655 902 774', tags:'VIP', lastVisit:'20 jun', nextVisit:'30 de julio, 10:00 · Control de relleno',
       overview:'Clienta de largo plazo, con tratamientos de mantenimiento mensuales. Prefiere específicamente a Marta Ruiz.',
-      history:[{treatment:'Relleno – labios', date:'20 de junio de 2026', practitioner:'Marta Ruiz', notes:'Retoque, 0.3ml'}],
+      history:[{treatment:'Relleno (labios)', date:'20 de junio de 2026', practitioner:'Marta Ruiz', notes:'Retoque, 0.3ml'}],
       notes:[{date:'20 de junio de 2026', author:'Marta Ruiz', text:'Muy conforme con los resultados, refirió a una amiga (Elena Vidal).'}]},
     {id:'c4', name:'Irene Castro', phone:'+34 633 771 220', tags:'—', lastVisit:'15 jul', nextVisit:'—',
       overview:'Clienta ocasional, reserva de forma estacional antes de eventos.',
-      history:[{treatment:'Relleno – pómulos', date:'15 de julio de 2026', practitioner:'Dra. Sofía León', notes:'1ml, aumento de pómulos'}],
+      history:[{treatment:'Relleno (pómulos)', date:'15 de julio de 2026', practitioner:'Dra. Sofía León', notes:'1ml, aumento de pómulos'}],
       notes:[]},
-    {id:'c5', name:'Vera Molina', phone:'+34 699 445 018', tags:'—', lastVisit:'2 jul', nextVisit:'30 de julio, 10:30 — Microneedling',
+    {id:'c5', name:'Vera Molina', phone:'+34 699 445 018', tags:'—', lastVisit:'2 jul', nextVisit:'30 de julio, 10:30 · Microneedling',
       overview:'Tiene un paquete de 6 sesiones de microneedling, quedan 2 sesiones.',
       history:[{treatment:'Microneedling', date:'2 de julio de 2026', practitioner:'Lucía Gómez', notes:'Sesión 4 de 6'}],
       notes:[{date:'2 de julio de 2026', author:'Lucía Gómez', text:'Buen progreso en la textura, continuar según lo planeado.'}]},
   ];
 
-  photoSlots = [{label:'antes — frente'},{label:'después — frente'},{label:'antes — perfil'},{label:'después — perfil'}];
+  photoSlots = [{label:'antes · frente'},{label:'después · frente'},{label:'antes · perfil'},{label:'después · perfil'}];
   consentDocs = [{name:'Formulario de consentimiento de tratamiento', status:'Firmado', statusStyle:'color:oklch(from var(--accent) 56% 0.13 h)'},{name:'Cuestionario de historia clínica', status:'Firmado', statusStyle:'color:oklch(from var(--accent) 56% 0.13 h)'},{name:'Autorización de fotos', status:'Pendiente', statusStyle:'color:oklch(58% 0.15 55)'}];
 
   threadsData = [
@@ -545,7 +545,7 @@ class Component extends DCLogic {
       status:'human', statusLabel:'Gestión humana', intent:'Reprogramar turno', waitingTime:'12 min', priority:'high', apptStatus:'Hoy 14:30', isVIP:true, isNewLead:false,
       category:{label:'Reprogramación', color:'oklch(58% 0.16 55)'}, workflowStatus:'Listo para aprobar', metaLine:'Mañana 10:00 · se encontraron horarios alternativos',
       summary:'La clienta quiere mover su turno de Botox de mañana al viernes.', sentiment:'Neutral', risks:null, upsell:'Sugerir agregar un peeling químico a la visita reprogramada (+$150).',
-      messages:[{from:'client', text:'¿Puedo mover mi turno para el viernes?'}], aiSuggestion:'El viernes hay disponibilidad a las 10:00 y a las 15:30 con Ana Torres — ¿querés que lo mueva a uno de esos horarios?',
+      messages:[{from:'client', text:'¿Puedo mover mi turno para el viernes?'}], aiSuggestion:'El viernes hay disponibilidad a las 10:00 y a las 15:30 con Ana Torres. ¿Querés que lo mueva a uno de esos horarios?',
       confidence:98, etaSeconds:15, waitingApproval:true,
       workflow:['Buscar el turno','Verificar disponibilidad del profesional','Sugerir alternativas','Confirmar la reserva'],
       timeline:[{time:'09:31', label:'Cliente identificada'},{time:'09:31', label:'Turno recuperado'},{time:'09:31', label:'Agenda verificada'},{time:'09:31', label:'Horarios disponibles encontrados'},{time:'09:31', label:'Respuesta generada'}],
@@ -559,23 +559,23 @@ class Component extends DCLogic {
       priorityBanner:null,
       client:{hasClient:true, phone:'+34 611 203 981', birthday:'14 mar', vip:true, preferredProfessional:'Ana Torres', loyalty:'Oro'}},
     {id:'t2', name:'Camila Reyes', avatar:'CR', channel:'Instagram', preview:'Hola, ¿hacen relleno de labios? ¿Cuánto sale?', unread:true,
-      status:'ai', statusLabel:'Gestión de IA', intent:'Consulta de precio — relleno de labios', waitingTime:'2 min', priority:'high', apptStatus:'Sin turno', isVIP:false, isNewLead:true,
+      status:'ai', statusLabel:'Gestión de IA', intent:'Consulta de precio: relleno de labios', waitingTime:'2 min', priority:'high', apptStatus:'Sin turno', isVIP:false, isNewLead:true,
       category:{label:'Consulta de precio', color:'oklch(56% 0.15 230)'}, workflowStatus:'Esperando aprobación', metaLine:'Oportunidad de $420',
-      summary:'Nuevo contacto de Instagram preguntando por el precio del relleno de labios — alta intención de reservar.', sentiment:'Positivo', risks:null, upsell:'Ofrecer un combo de relleno + lip flip.',
+      summary:'Nuevo contacto de Instagram preguntando por el precio del relleno de labios. Alta intención de reservar.', sentiment:'Positivo', risks:null, upsell:'Ofrecer un combo de relleno + lip flip.',
       messages:[{from:'client', text:'Hola, ¿hacen relleno de labios? ¿Cuánto sale?'},{from:'ai', text:'¡Sí! El relleno de labios arranca en $420 por 1ml, lo hacen nuestras inyectoras. ¿Querés reservar una consulta?'}],
-      aiSuggestion:'Buenas noticias — tenemos un horario libre este jueves a las 15:00 para una consulta de relleno. ¿Querés que te lo reserve?',
+      aiSuggestion:'¡Buenas noticias! Tenemos un horario libre este jueves a las 15:00 para una consulta de relleno. ¿Querés que te lo reserve?',
       confidence:96, etaSeconds:8, waitingApproval:false,
       workflow:['Verificar disponibilidad','Ofrecer alternativas','Confirmar turno','Enviar recordatorio'],
       timeline:[{time:'09:14', label:'Intención detectada'},{time:'09:14', label:'Pregunta frecuente respondida'},{time:'09:15', label:'Verificando disponibilidad'}],
-      opportunities:[{title:'Nuevo contacto — alta probabilidad de conversión', detail:'Primera consulta por Instagram, sensible al precio', value:'$420', cta:'Enviar presupuesto'}],
+      opportunities:[{title:'Nuevo contacto, con alta probabilidad de conversión', detail:'Primera consulta por Instagram, sensible al precio', value:'$420', cta:'Enviar presupuesto'}],
       hasKpis:true, kpis:{revenue:'$420', conversion:'72%', clv:'$1.050 (est.)'},
       quickActions:['Crear presupuesto','Recomendar tratamiento','Reservar consulta'],
-      contextCard:{type:'products', items:[{name:'Relleno de labios — 1ml', price:'$420'},{name:'Lip flip', price:'$180'}]},
+      contextCard:{type:'products', items:[{name:'Relleno de labios (1ml)', price:'$420'},{name:'Lip flip', price:'$180'}]},
       priorityBanner:null,
       client:{hasClient:false}},
     {id:'t3', name:'Marco Díaz', avatar:'MD', channel:'WhatsApp', preview:'¡Voy a llegar 10 min tarde, disculpá!', unread:false,
       status:'human', statusLabel:'Gestión humana', intent:'Llegada tarde', waitingTime:'1 h', priority:'low', apptStatus:'Hoy 11:00', isVIP:false, isNewLead:false,
-      category:{label:'Seguimiento', color:'oklch(58% 0.14 145)'}, workflowStatus:'Recibido', metaLine:'Llegada tarde — no requiere acción',
+      category:{label:'Seguimiento', color:'oklch(58% 0.14 145)'}, workflowStatus:'Recibido', metaLine:'Llegada tarde, no requiere acción',
       summary:null, sentiment:'Neutral', risks:null, upsell:null,
       messages:[{from:'client', text:'¡Voy a llegar 10 min tarde, disculpá!'},{from:'staff', text:'¡No hay problema, nos vemos pronto!'}], aiSuggestion:null,
       confidence:null, etaSeconds:null, waitingApproval:false, workflow:[], timeline:[],
@@ -586,7 +586,7 @@ class Component extends DCLogic {
     {id:'t4', name:'Nora Blanco', avatar:'NB', channel:'WhatsApp', preview:'Recordatorio confirmado ✅', unread:false,
       status:'ai', statusLabel:'Gestión de IA', intent:'Recordatorio confirmado', waitingTime:'Resuelto', priority:'low', apptStatus:'Mañana 16:00', isVIP:false, isNewLead:false,
       category:{label:'Seguimiento', color:'oklch(58% 0.14 145)'}, workflowStatus:'Resuelto', metaLine:'Confirmado por WhatsApp',
-      summary:'La clienta confirmó el recordatorio de mañana — no requiere acción.', sentiment:'Positivo', risks:null, upsell:null,
+      summary:'La clienta confirmó el recordatorio de mañana. No requiere acción.', sentiment:'Positivo', risks:null, upsell:null,
       messages:[{from:'ai', text:'Recordatorio: tu turno es mañana a las 16:00. Respondé SÍ para confirmar.'},{from:'client', text:'SÍ'}], aiSuggestion:null,
       confidence:99, etaSeconds:3, waitingApproval:false,
       workflow:['Registrar confirmación','Actualizar agenda'],
@@ -598,27 +598,27 @@ class Component extends DCLogic {
     {id:'t5', name:'Irene Castro', avatar:'IC', channel:'WhatsApp', preview:'Siento el pómulo hinchado y caliente desde ayer…', unread:true,
       status:'human', statusLabel:'Gestión humana', intent:'Consulta post-tratamiento', waitingTime:'6 min', priority:'high', apptStatus:'Completado el 15 jul', isVIP:false, isNewLead:false,
       category:{label:'Consulta médica', color:'oklch(56% 0.18 25)'}, workflowStatus:'Requiere revisión inmediata', metaLine:'Posible complicación · asignado a la Dra. Sofía León',
-      summary:'La clienta reporta calor e hinchazón un día después del relleno de pómulos — posible complicación.', sentiment:'Preocupada', risks:'No dar indicaciones médicas directamente — escalar al profesional tratante.', upsell:null,
+      summary:'La clienta reporta calor e hinchazón un día después del relleno de pómulos. Puede ser una complicación.', sentiment:'Preocupada', risks:'No dar indicaciones médicas directamente. Derivar al profesional tratante.', upsell:null,
       messages:[{from:'client', text:'Hola, siento el pómulo hinchado y caliente desde ayer, ¿es normal?'}],
-      aiSuggestion:'Puede ser una reacción normal a corto plazo, pero el calor + la hinchazón después de 24h deberían revisarse — se recomienda contactar a la Dra. Sofía León antes de responder.',
+      aiSuggestion:'Puede ser una reacción normal a corto plazo, pero el calor + la hinchazón después de 24h deberían revisarse. Conviene contactar a la Dra. Sofía León antes de responder.',
       confidence:83, etaSeconds:null, waitingApproval:true,
       workflow:['Marcar como consulta médica','Notificar al profesional asignado','Recomendar escalamiento'],
       timeline:[{time:'10:02', label:'Mensaje analizado'},{time:'10:02', label:'Marcado como posible complicación'},{time:'10:03', label:'Escalamiento sugerido'}],
       opportunities:[], hasKpis:false, kpis:null,
       quickActions:['Escalar al médico','Notificar al profesional','Abrir protocolo de tratamiento'],
       contextCard:{type:'protocol', title:'Protocolo de hinchazón post-relleno', steps:['Confirmar el momento de inicio y los síntomas','Indicar compresas frías, evitar calor/ejercicio','Escalar si la hinchazón persiste más de 48h o aparece fiebre','Ofrecer un control presencial con el profesional tratante']},
-      priorityBanner:'Prioridad alta — posible complicación post-tratamiento. Recomendado: escalar a la Dra. Sofía León antes de responder.',
+      priorityBanner:'Prioridad alta: posible complicación post-tratamiento. Recomendado: escalar a la Dra. Sofía León antes de responder.',
       client:{hasClient:true, phone:'+34 633 771 220', birthday:'—', vip:false, preferredProfessional:'Dra. Sofía León', loyalty:'—'}},
     {id:'t6', name:'+34 611 222 333', avatar:'?', channel:'Instagram', preview:'¿Cuál es el horario de atención?', unread:true,
       status:'ai', statusLabel:'Nuevo contacto', intent:'Consulta de horario de atención', waitingTime:'5 min', priority:'medium', apptStatus:'Sin turno', isVIP:false, isNewLead:true,
       category:{label:'Nuevo contacto', color:'oklch(58% 0.14 145)'}, workflowStatus:'Sin calificar', metaLine:'Consulta de horario de atención',
-      summary:'Contacto anónimo de Instagram preguntando por el horario de atención — todavía sin intención de reserva.', sentiment:'Neutral', risks:null, upsell:null,
+      summary:'Contacto anónimo de Instagram preguntando por el horario de atención. Todavía no muestra intención de reservar.', sentiment:'Neutral', risks:null, upsell:null,
       messages:[{from:'client', text:'¿Cuál es el horario de atención?'},{from:'ai', text:'Atendemos de lunes a sábado, de 9:00 a 19:00. ¿Querés reservar un turno?'}],
       aiSuggestion:'Atendemos de lunes a sábado de 9:00 a 19:00. ¿Querés que revise la disponibilidad de esta semana?',
       confidence:91, etaSeconds:6, waitingApproval:false,
       workflow:['Responder pregunta frecuente','Ofrecer reserva','Capturar datos de contacto'],
       timeline:[{time:'11:20', label:'Intención detectada'},{time:'11:20', label:'Pregunta frecuente respondida'}],
-      opportunities:[{title:'Nuevo contacto — sin calificar aún', detail:'Todavía sin intención de reserva — capturar contacto para seguimiento', value:'—', cta:'Agregar a lista de seguimiento'}],
+      opportunities:[{title:'Nuevo contacto, sin calificar aún', detail:'Todavía sin intención de reserva. Guardar el contacto para hacerle seguimiento', value:'—', cta:'Agregar a lista de seguimiento'}],
       hasKpis:true, kpis:{revenue:'—', conversion:'38%', clv:'—'},
       quickActions:['Crear cliente y reservar','Asignar a humano'],
       contextCard:null, priorityBanner:null,
@@ -631,12 +631,12 @@ class Component extends DCLogic {
   ];
 
   treatmentsData = [
-    {name:'Botox – frente', category:'Inyectables', duration:'30 min', price:'$280', stock:'—', stockColor:'oklch(52% 0.006 260)'},
-    {name:'Relleno – labios', category:'Inyectables', duration:'45 min', price:'$420', stock:'—', stockColor:'oklch(52% 0.006 260)'},
+    {name:'Botox (frente)', category:'Inyectables', duration:'30 min', price:'$280', stock:'—', stockColor:'oklch(52% 0.006 260)'},
+    {name:'Relleno (labios)', category:'Inyectables', duration:'45 min', price:'$420', stock:'—', stockColor:'oklch(52% 0.006 260)'},
     {name:'Peeling químico', category:'Piel', duration:'30 min', price:'$150', stock:'12 unidades', stockColor:'oklch(45% 0.008 260)'},
     {name:'Depilación láser', category:'Láser', duration:'60 min', price:'$200', stock:'—', stockColor:'oklch(52% 0.006 260)'},
-    {name:'Microneedling', category:'Piel', duration:'60 min', price:'$220', stock:'8 kits — Bajo', stockColor:'oklch(58% 0.19 55)'},
-    {name:'Relleno dérmico – pómulos', category:'Inyectables', duration:'45 min', price:'$480', stock:'3 viales — Bajo', stockColor:'oklch(58% 0.19 55)'},
+    {name:'Microneedling', category:'Piel', duration:'60 min', price:'$220', stock:'8 kits · Bajo', stockColor:'oklch(58% 0.19 55)'},
+    {name:'Relleno dérmico (pómulos)', category:'Inyectables', duration:'45 min', price:'$480', stock:'3 viales · Bajo', stockColor:'oklch(58% 0.19 55)'},
   ];
 
   kpisData = [

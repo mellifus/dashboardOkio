@@ -4,24 +4,24 @@
 
 **Goal:** Let a practitioner mark an Agenda appointment complete, log the resulting session (with an adverse-reaction flag and an optional follow-up), see it show up in the Historial tab and the real Seguimientos queue, and correct a logged entry later if needed.
 
-**Architecture:** Everything lives in one file, `Dashboard - Claude Design/Clinic Platform UX v2.dc.html` — a single-class prototype (`class Component extends DCLogic`) with one `state` object, plain methods that call `this.setState(...)`, and one big `renderVals()` that computes everything the template's `{{ }}` bindings and `sc-if`/`sc-for` directives consume. There's no routing, no components, no build step — just this file, reopened in a browser to see changes. All three tasks below edit this same file, in different, mostly non-overlapping regions.
+**Architecture:** Everything lives in one file, `Dashboard - Claude Design/Clinic Platform UX v2.dc.html`: a single-class prototype (`class Component extends DCLogic`) with one `state` object, plain methods that call `this.setState(...)`, and one big `renderVals()` that computes everything the template's `{{ }}` bindings and `sc-if`/`sc-for` directives consume. There's no routing, no components, no build step: just this file, reopened in a browser to see changes. All three tasks below edit this same file, in different, mostly non-overlapping regions.
 
 **Tech Stack:** Plain JS (ES2020+), the project's own tiny `sc-if`/`sc-for`/`{{ }}` templating (`support.js`), inline CSS via `style` attributes using the design tokens already defined in `:root`. No npm, no test runner, no TypeScript.
 
 ## Global Constraints
 
-- Git was initialized for this project on 2026-08-04 with a single baseline commit of all existing files (previously there was no repository at all). Each task should be committed on completion per the normal subagent-driven-development flow. There is still no remote — everything stays local.
-- Spanish (Argentina, voseo) UI copy throughout — sentence case for labels/buttons, UPPERCASE only for tiny structural eyebrow labels. No new copy in this plan violates that.
-- Reuse existing design tokens (`--accent`, `--warning-bg`, `--warning-border`, `--warning-text`, `--danger-bg`, `--danger-text`, `--gray-*`, `--radius-*`) — do not invent new colors.
-- Reuse existing interaction patterns — inline expanding panels (like "Nuevo turno"), not modals/popovers/overlays. This codebase has none of those today and this feature doesn't introduce the first one.
+- Git was initialized for this project on 2026-08-04 with a single baseline commit of all existing files (previously there was no repository at all). Each task should be committed on completion per the normal subagent-driven-development flow. There is still no remote: everything stays local.
+- Spanish (Argentina, voseo) UI copy throughout: sentence case for labels/buttons, UPPERCASE only for tiny structural eyebrow labels. No new copy in this plan violates that.
+- Reuse existing design tokens (`--accent`, `--warning-bg`, `--warning-border`, `--warning-text`, `--danger-bg`, `--danger-text`, `--gray-*`, `--radius-*`): do not invent new colors.
+- Reuse existing interaction patterns: inline expanding panels (like "Nuevo turno"), not modals/popovers/overlays. This codebase has none of those today and this feature doesn't introduce the first one.
 - All new/updated state goes through `this.setState(...)` with the existing immutable-update convention (`array.map(x => x.id === id ? {...x, ...} : x)`), matching `confirmAppt`/`actOnFollowup`. Never mutate a class field or state array in place.
-- All dates/times are static prose strings (e.g. `'12 de julio de 2026'`, `'En 3 meses'`) — there is no `Date` object or real-time math anywhere in this file today, and this plan doesn't introduce any either.
-- **Deviation from spec, flagged here:** the spec says only appointments "at or before the current time" are eligible for "Marcar como completado." This file's calendar is a fixed illustrative week with no concept of "now" relative to it (no live clock, no "today" marker in the fixed Mon–Sat grid). Task 1 instead gates eligibility on `status === 'confirmed'` (an appointment must be confirmed before it can be completed — unconfirmed ones aren't eligible) rather than on real time, since building real-vs-fake-time comparison logic would be fragile and inconsistent with the rest of the file. Flag this to the user if it doesn't match their expectation.
-- **Scope refinement from spec Flow 4:** the spec says the inline edit form has "the same fields as the logging form." Task 3 implements *notes* and *reacción adversa* as editable, but **not** the follow-up pills — because the spec's own Out-of-scope section already rules out editing/creating `state.followups` entries from the Historial tab. Editing an entry never touches its `followUpId`.
+- All dates/times are static prose strings (e.g. `'12 de julio de 2026'`, `'En 3 meses'`): there is no `Date` object or real-time math anywhere in this file today, and this plan doesn't introduce any either.
+- **Deviation from spec, flagged here:** the spec says only appointments "at or before the current time" are eligible for "Marcar como completado." This file's calendar is a fixed illustrative week with no concept of "now" relative to it (no live clock, no "today" marker in the fixed Mon–Sat grid). Task 1 instead gates eligibility on `status === 'confirmed'` (an appointment must be confirmed before it can be completed: unconfirmed ones aren't eligible) rather than on real time, since building real-vs-fake-time comparison logic would be fragile and inconsistent with the rest of the file. Flag this to the user if it doesn't match their expectation.
+- **Scope refinement from spec Flow 4:** the spec says the inline edit form has "the same fields as the logging form." Task 3 implements *notes* and *reacción adversa* as editable, but **not** the follow-up pills: because the spec's own Out-of-scope section already rules out editing/creating `state.followups` entries from the Historial tab. Editing an entry never touches its `followUpId`.
 
 ---
 
-## Task 1: Agenda — mark appointment complete, log the session
+## Task 1: Agenda: mark appointment complete, log the session
 
 **Files:**
 - Modify: `Dashboard - Claude Design/Clinic Platform UX v2.dc.html`
@@ -36,13 +36,13 @@
 **Interfaces:**
 - Consumes: nothing from other tasks (this is the foundation task).
 - Produces (used by Tasks 2 and 3):
-  - `state.clients` (renamed from the `clientsData` class field) — array of client objects, each with `history: [{treatment, date, practitioner, notes, adverseReaction:{flag,description}, followUpId, edited?:{isEdited,editedAt}}, ...]`.
+  - `state.clients` (renamed from the `clientsData` class field): array of client objects, each with `history: [{treatment, date, practitioner, notes, adverseReaction:{flag,description}, followUpId, edited?:{isEdited,editedAt}}, ...]`.
   - `state.followups` gains new entries shaped `{id, client, treatment, trigger, due, bucket:'scheduled', status:'pending'}`, created via the same shape the view already renders.
   - Method `this.selectAppointment(id)` and the `selectedAppointmentId`/`loggingApptId`/`sessionDraft` state slots (Task 2/3 don't call these directly, but must not clobber them).
 
 ### Step 1: Move `clientsData` into reactive state
 
-This is required before anything else — Task 1 needs to append to a client's `history` array, and only things inside `state` trigger re-renders correctly in this codebase's pattern (compare how `appointments` and `followups`, which already change over time, live in `state`, while genuinely static things like `staffList` and `filters` stay as class fields).
+This is required before anything else: Task 1 needs to append to a client's `history` array, and only things inside `state` trigger re-renders correctly in this codebase's pattern (compare how `appointments` and `followups`, which already change over time, live in `state`, while genuinely static things like `staffList` and `filters` stay as class fields).
 
 Find the `clientsData` class field (currently right after `spacingRules`, before `photoSlots`):
 
@@ -70,7 +70,7 @@ Find the `clientsData` class field (currently right after `spacingRules`, before
   ];
 ```
 
-Delete this class field entirely, and instead add a `clients:` key inside `state = {...}` (right after the `followups: [...]` entry) with the **exact same array literal** as the value. Nothing about the data itself changes — only where it lives.
+Delete this class field entirely, and instead add a `clients:` key inside `state = {...}` (right after the `followups: [...]` entry) with the **exact same array literal** as the value. Nothing about the data itself changes: only where it lives.
 
 Then update the three places that read `this.clientsData`:
 1. In `renderVals()`, the client-search filter for the new-appointment form: `this.clientsData.filter(c => ...)` → `s.clients.filter(c => ...)`.
@@ -193,7 +193,7 @@ Change `appt.stopClick` to `appt.onClick`:
 
 ### Step 5: Compute the appointment-detail render values
 
-In `renderVals()`, after the existing `const dayLabelFor = ...` line (already defined for other uses — reuse it, don't redefine), add:
+In `renderVals()`, after the existing `const dayLabelFor = ...` line (already defined for other uses: reuse it, don't redefine), add:
 
 ```js
     const selectedAppointmentRaw = s.selectedAppointmentId != null ? s.appointments.find(a => a.id === s.selectedAppointmentId) : null;
@@ -343,16 +343,16 @@ Insert the toast just before the final `</div>` of the outer grid, so it floats 
 
 ### Step 8: Manual verification
 
-Open `Clinic Platform UX v2.dc.html` in a browser (double-click it, or serve the folder and navigate to it — it's self-contained aside from the sibling `support.js`).
+Open `Clinic Platform UX v2.dc.html` in a browser (double-click it, or serve the folder and navigate to it: it's self-contained aside from the sibling `support.js`).
 
-1. Go to Agenda. Click a **confirmed** appointment block (solid left border, e.g. Elena Vidal / Botox – frente, Monday 9:30). Confirm the right rail now shows "Detalle del turno" with client/treatment/time/staff and a "Marcar como completado" button.
+1. Go to Agenda. Click a **confirmed** appointment block (solid left border, e.g. Elena Vidal / Botox (frente), Monday 9:30). Confirm the right rail now shows "Detalle del turno" with client/treatment/time/staff and a "Marcar como completado" button.
 2. Click an **unconfirmed** appointment (dashed left border). Confirm the detail card shows but with no "Marcar como completado" and no "Registrar sesión" button (not eligible yet).
 3. Back on the confirmed appointment, click "Marcar como completado." Confirm: the block's style on the calendar changes to the grayed "completed" look, and the card now shows the logging form (Notas clínicas / Reacción adversa / Seguimiento recomendado / Cancelar / Guardar sesión).
 4. Type a note, leave "Reacción adversa" as "No," pick the "3 meses" pill, click "Guardar sesión." Confirm: a toast appears bottom-right reading "Seguimiento agregado · En 3 meses," and the card collapses back to showing "✓ Sesión registrada."
 5. Go to Clientes → select Elena Vidal → Historial tab. Confirm the new entry appears at the top of the list with today's-week date, the practitioner, and your note.
-6. Go to Seguimientos. Confirm a new item appears under "Programados" for Elena Vidal / Botox – frente with "En 3 meses."
+6. Go to Seguimientos. Confirm a new item appears under "Programados" for Elena Vidal / Botox (frente) with "En 3 meses."
 7. Back on Agenda, click the same (now completed) appointment again. Confirm it shows "✓ Sesión registrada" with no button (already logged).
-8. Repeat steps 1-4 on a different confirmed appointment, this time answering "Sí" to Reacción adversa and typing a description, and leaving the follow-up unset. Confirm no toast appears (nothing to confirm) and the Historial entry for that client shows the reaction badge you'll build display for in Task 3 — for now it's fine if it just doesn't crash; the badge itself is Task 3's job. Confirm in the browser console there are no errors.
+8. Repeat steps 1-4 on a different confirmed appointment, this time answering "Sí" to Reacción adversa and typing a description, and leaving the follow-up unset. Confirm no toast appears (nothing to confirm) and the Historial entry for that client shows the reaction badge you'll build display for in Task 3: for now it's fine if it just doesn't crash; the badge itself is Task 3's job. Confirm in the browser console there are no errors.
 
 ---
 
@@ -376,7 +376,7 @@ In `renderVals()`, find:
     const selectedClient = {...selectedClientRaw, initials: initials(selectedClientRaw.name)};
 ```
 
-(this is the post-Task-1 version, using `s.clients` — if Task 1 hasn't run yet, this still reads `this.clientsData`, but Task 2 assumes Task 1 is done first)
+(this is the post-Task-1 version, using `s.clients`: if Task 1 hasn't run yet, this still reads `this.clientsData`, but Task 2 assumes Task 1 is done first)
 
 Replace with:
 
@@ -421,7 +421,7 @@ Insert the banner between the header's closing `</div>` and the tabs row:
 
 ---
 
-## Task 3: Historial tab — display reaction/follow-up/edited state, and inline editing
+## Task 3: Historial tab: display reaction/follow-up/edited state, and inline editing
 
 **Files:**
 - Modify: `Dashboard - Claude Design/Clinic Platform UX v2.dc.html`
@@ -432,7 +432,7 @@ Insert the banner between the header's closing `</div>` and the tabs row:
 
 **Interfaces:**
 - Consumes: `state.clients[].history[]` shape and `state.followups` (from Task 1).
-- Produces: nothing new consumed elsewhere — this is the leaf task.
+- Produces: nothing new consumed elsewhere: this is the leaf task.
 
 ### Step 1: Add state for tracking which entry is being edited
 
@@ -480,7 +480,7 @@ In the methods block, add:
   }
 ```
 
-(`editedAt: 'recién'` — this file has no real-time clock anywhere; "recién" — Spanish for "just now" — is consistent with that, rather than fabricating a fake timestamp)
+(`editedAt: 'recién'`: this file has no real-time clock anywhere, and "recién" (Spanish for "just now") is consistent with that, rather than fabricating a fake timestamp)
 
 ### Step 3: Compute per-entry render values
 
@@ -585,7 +585,7 @@ Replace with:
 4. Click "Editar" on any entry. Confirm it turns into the edit form pre-filled with that entry's current notes and reaction state.
 5. Change the note text, click "Guardar." Confirm the entry now shows the new note and a "(editado)" marker next to the date.
 6. Click "Editar" again, then "Cancelar" without changing anything. Confirm it reverts to the display view unchanged (no stray "(editado)" added just from opening and cancelling).
-7. Edit an entry to set "Reacción adversa" to "Sí" for the first time (an entry that didn't have one). Confirm the reaction badge appears after saving, and — if this is the client's only flagged entry — the safety banner from Task 2 now appears on their profile header too.
+7. Edit an entry to set "Reacción adversa" to "Sí" for the first time (an entry that didn't have one). Confirm the reaction badge appears after saving, and (if this is the client's only flagged entry) the safety banner from Task 2 now appears on their profile header too.
 
 ---
 
@@ -593,4 +593,4 @@ Replace with:
 
 - **Spec coverage:** Flow 1 → Task 1 Steps 3-6. Flow 2 → Task 1 Steps 3, 5-6. Flow 3 → Task 2. Flow 4 → Task 3. Data model → Task 1 Step 1 (clients→state), entry shape used consistently across all three tasks via `adverseReaction`/`followUpId`/`edited`. Out-of-scope items are respected: no manual "+ Agregar sesión" button exists anywhere, no backfilling of seed data, no editing of `followups` entries from Historial (Task 3's edit form only touches `notes`/`adverseReaction`), no bucket recomputation logic.
 - **Type/name consistency check:** `state.clients` (not `clientsData`) used consistently in Tasks 1-3. `adverseReaction: {flag, description}` shape matches across the write path (Task 1's `submitSessionLog`), the banner (Task 2's `.some(h => h.adverseReaction && h.adverseReaction.flag)`), and the display/edit path (Task 3's `historyEntries` mapping and `saveEditHistory`). `followUpId` is written once in Task 1 and only ever read (never mutated) in Task 3, matching the "don't edit followups from Historial" constraint.
-- **No placeholders:** every step above has real, complete code — no "add validation," no "TODO."
+- **No placeholders:** every step above has real, complete code: no "add validation," no "TODO."

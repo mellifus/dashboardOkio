@@ -1,4 +1,4 @@
-Small status/category labels — workflow status pills, VIP marker, AI confidence tag.
+Small status and category labels: workflow status pills, the VIP marker, the AI confidence tag.
 
 ```jsx
 <Badge tone="accent">Listo para aprobar</Badge>

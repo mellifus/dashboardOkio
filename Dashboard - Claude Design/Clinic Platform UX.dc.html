@@ -74,20 +74,24 @@
             <button style="margin-left:auto;background:var(--accent);color:oklch(100% 0 0);border:none;padding:9px 15px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px var(--accent-shadow)">+ Nuevo turno</button>
           </div>
           <div style="display:flex;background:oklch(100% 0 0);border:1px solid oklch(91% 0.004 260);border-radius:12px;overflow-x:auto;box-shadow:0 1px 3px oklch(20% 0.01 260 / 0.04)">
-            <div style="width:52px;flex-shrink:0;position:relative;height:640px;border-right:1px solid oklch(93% 0.004 260)">
-              <sc-for list="{{ hourLabels }}" as="h" hint-placeholder-count="10">
-                <div style="position:absolute;top:{{ h.top }}px;left:0;right:0;font-size:10.5px;color:oklch(58% 0.006 260);padding:2px 8px;transform:translateY(-6px)">{{ h.label }}</div>
-              </sc-for>
-            </div>
             <sc-for list="{{ staffColumns }}" as="col" hint-placeholder-count="4">
               <div style="flex:1;min-width:150px;border-right:1px solid oklch(93% 0.004 260)">
                 <div style="padding:10px 12px;font-weight:600;font-size:12px;border-bottom:1px solid oklch(93% 0.004 260);background:oklch(98.5% 0.003 250);color:oklch(30% 0.01 260)">{{ col.name }}</div>
-                <div style="position:relative;height:640px;background:repeating-linear-gradient(to bottom, oklch(95% 0.003 260) 0 1px, transparent 1px 64px)">
-                  <sc-for list="{{ col.appts }}" as="appt" hint-placeholder-count="3">
-                    <div style="position:absolute;top:{{ appt.top }}px;height:{{ appt.height }}px;left:6px;right:6px;background:{{ appt.bg }};border:{{ appt.border }};border-radius:7px;box-sizing:border-box;padding:{{ appt.pad }};display:flex;flex-direction:{{ appt.flow }};align-items:{{ appt.align }};column-gap:8px;line-height:1.3;overflow:hidden;font-size:11.5px;color:{{ appt.color }}">
-                      <div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ appt.client }}</div>
-                      <div style="opacity:0.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ appt.treatment }}</div>
-                    </div>
+                <!-- Lista del día: tarjetas de alto fijo, huecos libres y el corte de 13 a 15, con 10 px entre filas -->
+                <div style="display:flex;flex-direction:column;gap:10px;padding:12px">
+                  <sc-for list="{{ col.items }}" as="it" hint-placeholder-count="5">
+                    <sc-if value="{{ it.isAppt }}" hint-placeholder-val="{{ true }}">
+                      <div style="height:58px;box-sizing:border-box;background:{{ it.bg }};border:{{ it.border }};border-radius:7px;padding:0 12px;display:flex;flex-direction:column;justify-content:center;gap:3px;line-height:1.3;overflow:hidden;font-size:11.5px;color:{{ it.color }}">
+                        <div style="display:flex;gap:8px;min-width:0"><span style="font-variant-numeric:tabular-nums;opacity:0.85;white-space:nowrap">{{ it.range }}</span><span style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ it.client }}</span></div>
+                        <div style="opacity:0.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ it.treatment }}</div>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ it.isFree }}" hint-placeholder-val="{{ false }}">
+                      <div style="height:28px;display:flex;align-items:center;gap:6px;padding:0 12px;font-size:11.5px;color:oklch(48% 0.006 260);font-variant-numeric:tabular-nums;cursor:pointer"><span style="font-size:13px">+</span>{{ it.label }}</div>
+                    </sc-if>
+                    <sc-if value="{{ it.isClosed }}" hint-placeholder-val="{{ false }}">
+                      <div style="height:18px;display:flex;align-items:center;gap:10px;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:oklch(52% 0.006 260)"><span style="flex:1;border-top:1px dashed oklch(88% 0.004 260)"></span>Cerrado 13–15<span style="flex:1;border-top:1px dashed oklch(88% 0.004 260)"></span></div>
+                    </sc-if>
                   </sc-for>
                 </div>
               </div>
@@ -663,22 +667,40 @@ class Component extends DCLogic {
       if (status === 'unconfirmed') return {bg:'oklch(from var(--accent) 97% 0.015 h)', border:'1.5px dashed oklch(from var(--accent) 62% 0.13 h)', color:'oklch(30% 0.02 260)'};
       return {bg:'oklch(95% 0.004 260)', border:'1px solid oklch(85% 0.004 260)', color:'oklch(42% 0.008 260)'};
     };
-    const fmtTime = (start) => {
-      const h = Math.floor(start), m = (start % 1) === 0.5 ? '30' : '00';
-      return `${String(h).padStart(2,'0')}:${m}`;
+    const fmtTime = (t) => {
+      const h = Math.floor(t), m = Math.round((t - h) * 60);
+      return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+    };
+    const fmtDur = (horas) => {
+      const min = Math.round(horas * 60), h = Math.floor(min / 60), m = min % 60;
+      return h && m ? `${h} h ${m}` : h ? `${h} h` : `${m} min`;
+    };
+    // Horario de Okio: 9 a 13 y 15 a 20. Entre turnos van los huecos libres; entre tramos, "Cerrado".
+    const tramos = [[9, 13], [15, 20]];
+    const armarDia = (appts) => {
+      const items = [];
+      tramos.forEach(([ini, fin], i) => {
+        if (i > 0) items.push({isClosed: true});
+        let cursor = ini;
+        appts.filter(a => a.start >= ini && a.start < fin).sort((a, b) => a.start - b.start).forEach(a => {
+          if (a.start > cursor) items.push({isFree: true, label: `Libre ${fmtTime(cursor)}–${fmtTime(a.start)} · ${fmtDur(a.start - cursor)}`});
+          items.push({...a, isAppt: true});
+          cursor = Math.max(cursor, a.start + a.dur);
+        });
+        if (cursor < fin) items.push({isFree: true, label: `Libre ${fmtTime(cursor)}–${fmtTime(fin)} · ${fmtDur(fin - cursor)}`});
+      });
+      return items;
     };
     const apptsWithMeta = s.appointments.map(a => {
       const st = statusStyle(a.status);
-      return {...a, top: (a.start - 9) * 64 + 5, height: a.dur * 64 - 10, flow: a.dur < 0.75 ? 'row' : 'column', align: a.dur < 0.75 ? 'center' : 'stretch', pad: a.dur < 0.75 ? '0 12px' : '6px 12px', bg: st.bg, border: st.border, color: st.color,
+      return {...a, range: `${fmtTime(a.start)}–${fmtTime(a.start + a.dur)}`, bg: st.bg, border: st.border, color: st.color,
         timeLabel: fmtTime(a.start), onConfirm: a.status === 'unconfirmed' ? () => this.confirmAppt(a.id) : null};
     });
     const staffList = [
       {id:1, name:'Ingrid'}, {id:2, name:'Eliana'},
     ];
-    const staffColumns = staffList.map(st => ({...st, appts: apptsWithMeta.filter(a => a.staffId === st.id)}));
+    const staffColumns = staffList.map(st => ({...st, items: armarDia(apptsWithMeta.filter(a => a.staffId === st.id))}));
     const needsAttention = apptsWithMeta.filter(a => a.status === 'unconfirmed');
-    const hourLabels = [];
-    for (let h = 9; h <= 19; h++) hourLabels.push({label: String(h).padStart(2,'0') + ':00', top: (h - 9) * 64});
 
     const navItems = this.navItems.map(n => ({
       ...n, onClick: () => this.setView(n.id),
@@ -772,7 +794,7 @@ class Component extends DCLogic {
       isCalendarView: s.activeView === 'calendar', isClientsView: s.activeView === 'clients',
       isConversationsView: s.activeView === 'conversations', isCatalogView: s.activeView === 'catalog',
       isFollowupsView: s.activeView === 'followups', isAnalyticsView: s.activeView === 'analytics',
-      staffColumns, hourLabels, needsAttention, needsAttentionCount: needsAttention.length, noNeedsAttention: needsAttention.length === 0,
+      staffColumns, needsAttention, needsAttentionCount: needsAttention.length, noNeedsAttention: needsAttention.length === 0,
       todayTotal: apptsWithMeta.length, todayWaiting: apptsWithMeta.filter(a => a.status === 'waiting').length,
       clients, selectedClient, clientTabs,
       isTabOverview: s.activeClientTab === 'overview', isTabHistory: s.activeClientTab === 'history',

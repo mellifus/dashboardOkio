@@ -70,6 +70,13 @@
   .demo-week-day h2{font-size:14px;margin:0;padding:4px 0 12px;border-bottom:1px solid var(--border-subtle)}
   .demo-week-day .demo-row{padding:10px;font-size:13px;overflow-wrap:anywhere}
   .demo-week-day .demo-row strong{font-size:14px}
+/* Filas de turno de la demo (Día y Semana): todas del mismo alto; cada línea se corta con "…" si no entra */
+.demo-turno{box-sizing:border-box;height:100px;display:flex;flex-direction:column;justify-content:center;padding-block:0;margin-top:10px;line-height:1.45;overflow:hidden}
+.demo-turno > *{display:block;flex-shrink:0;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.demo-turno br{display:none}
+/* Semana (columnas angostas): el nombre nunca se corta con "…", usa hasta 2 líneas */
+.demo-week-day .demo-turno strong + strong{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.demo-week-day .demo-turno{line-height:1.35}
   .demo-week-detail{max-width:1100px;margin:auto}
   @media(max-width:1050px){.demo-layout{grid-template-columns:180px minmax(0,1fr)}.demo-split{grid-template-columns:1fr}.demo-content{padding:18px}.demo-card{padding:20px}}
   @media(max-width:600px){.demo-layout{grid-template-columns:1fr}.demo-sidebar{padding:12px!important}.demo-header{padding:14px 18px}.demo-content{padding:14px}.demo-card{padding:18px}}
@@ -144,7 +151,7 @@
               <section class="demo-week-day">
                 <h2>{{ day.label }}</h2>
                 <sc-for list="{{ day.appointments }}" as="a">
-                  <button class="demo-row" aria-pressed="{{ a.selected }}" onClick="{{ a.onClick }}"><strong>{{ a.time }}</strong><strong>{{ a.clientName }}</strong><span>{{ a.treatmentLabel }}</span><br><span class="demo-muted">{{ a.statusLabel }}</span></button>
+                  <button class="demo-row demo-turno" aria-pressed="{{ a.selected }}" onClick="{{ a.onClick }}"><strong>{{ a.time }}</strong><strong>{{ a.clientName }}</strong><span>{{ a.treatmentLabel }}</span><br><span class="demo-muted">{{ a.statusLabel }}</span></button>
                 </sc-for>
                 <sc-if value="{{ day.empty }}"><p class="demo-muted" style="font-size:12px">Sin turnos de ejemplo</p></sc-if>
               </section>
@@ -158,7 +165,7 @@
           <p class="demo-label">{{ demoAppointment.dateLabel }}</p>
           <h2>Turnos del día</h2>
           <sc-for list="{{ demoAppointments }}" as="a">
-            <button class="demo-row" aria-pressed="{{ a.selected }}" onClick="{{ a.onClick }}"><strong>{{ a.time }} · {{ a.clientName }}</strong><span>{{ a.treatmentLabel }}</span><br><span class="demo-muted">{{ a.statusLabel }}</span></button>
+            <button class="demo-row demo-turno" aria-pressed="{{ a.selected }}" onClick="{{ a.onClick }}"><strong>{{ a.time }} · {{ a.clientName }}</strong><span>{{ a.treatmentLabel }}</span><br><span class="demo-muted">{{ a.statusLabel }}</span></button>
           </sc-for>
         </section>
         </sc-if>
@@ -236,30 +243,25 @@
           </div>
           <div style="font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:16px">Lun–Vie · 9–13 y 15–20</div>
           <div style="display:flex;background:var(--surface-card);border:1px solid var(--gray-9);border-radius:12px;overflow-x:auto;box-shadow:var(--shadow-card)">
-            <div style="width:52px;flex-shrink:0;position:relative;height:640px;border-right:1px solid var(--gray-8)">
-              <sc-for list="{{ hourLabels }}" as="h" hint-placeholder-count="10">
-                <div style="position:absolute;top:{{ h.top }}px;left:0;right:0;font-size:10.5px;color:var(--gray-16);padding:2px 8px;transform:translateY(-6px)">{{ h.label }}</div>
-              </sc-for>
-            </div>
             <sc-for list="{{ dayColumns }}" as="col" hint-placeholder-count="7">
               <div style="flex:1;min-width:118px;border-right:1px solid var(--gray-8)">
                 <div style="padding:10px 10px;font-weight:600;font-size:12px;border-bottom:1px solid var(--gray-8);background:var(--gray-3);color:{{ col.headerColor }};text-align:center">{{ col.label }} {{ col.date }}</div>
                 <sc-if value="{{ col.closed }}" hint-placeholder-val="{{ false }}">
-                  <div style="position:relative;height:640px;background:repeating-linear-gradient(45deg, var(--gray-7) 0 8px, var(--gray-5) 8px 16px);display:flex;align-items:center;justify-content:center">
-                    <span style="font-size:11px;font-weight:650;color:var(--gray-13);text-transform:uppercase;letter-spacing:0.04em;background:var(--gray-2);padding:4px 10px;border-radius:6px">Cerrado</span>
-                  </div>
+                  <div style="padding:10px"><div style="height:52px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;border:1px dashed var(--gray-9);border-radius:5px;font-size:10.5px;font-weight:650;color:var(--gray-13);text-transform:uppercase;letter-spacing:0.06em">Cerrado</div></div>
                 </sc-if>
                 <sc-if value="{{ col.open }}" hint-placeholder-val="{{ true }}">
-                  <div onClick="{{ col.onTrackClick }}" style="position:relative;height:640px;cursor:pointer;background:repeating-linear-gradient(to bottom, var(--gray-7) 0 1px, transparent 1px 64px)">
+                  <!-- Lista del día: tarjetas de alto fijo en orden de hora, 10 px entre filas; al pie, "+ Turno" para ese día -->
+                  <div style="display:flex;flex-direction:column;gap:10px;padding:10px">
                     <sc-for list="{{ col.appts }}" as="appt" hint-placeholder-count="2">
-                      <div onClick="{{ appt.onClick }}" style="position:absolute;top:{{ appt.top }}px;height:{{ appt.height }}px;left:5px;right:5px;background:{{ appt.bg }};border-left:{{ appt.leftBorder }};border-radius:5px;box-sizing:border-box;padding:{{ appt.pad }};display:flex;flex-direction:{{ appt.flow }};align-items:{{ appt.align }};column-gap:6px;line-height:1.3;overflow:hidden;font-size:10.5px;color:{{ appt.color }}">
-                        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:3px">
-                          <span style="display:{{ appt.timeDisplay }};font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ appt.timeLabel }}</span>
-                          <span style="width:6px;height:6px;border-radius:50%;background:{{ appt.staffColor }};flex-shrink:0;margin-top:2px" title="{{ appt.staffName }}"></span>
+                      <div onClick="{{ appt.onClick }}" style="height:52px;box-sizing:border-box;background:{{ appt.bg }};border-left:{{ appt.leftBorder }};border-radius:5px;padding:0 10px;display:flex;flex-direction:column;justify-content:center;gap:3px;line-height:1.3;overflow:hidden;font-size:10.5px;color:{{ appt.color }};cursor:pointer">
+                        <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;min-width:0">
+                          <span style="font-weight:650;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ appt.range }}</span>
+                          <span style="width:6px;height:6px;border-radius:50%;background:{{ appt.staffColor }};flex-shrink:0" title="{{ appt.staffName }}"></span>
                         </div>
                         <div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ appt.client }}</div>
                       </div>
                     </sc-for>
+                    <div onClick="{{ col.onAddClick }}" style="height:28px;display:flex;align-items:center;gap:5px;padding:0 10px;font-size:10.5px;color:var(--gray-15);cursor:pointer"><span style="font-size:13px">+</span>Turno</div>
                   </div>
                 </sc-if>
               </div>
@@ -1081,16 +1083,12 @@ class Component extends DCLogic {
   cancelNewAppt() { this.setState({newApptPanelOpen: false, newApptDraft: this.emptyApptDraft()}); }
   updateNewApptDraft(patch) { this.setState(s => ({newApptDraft: {...s.newApptDraft, ...patch}})); }
   selectApptClient(id, name) { this.updateNewApptDraft({clientId: id, clientName: name, clientSearch: ''}); }
-  handleSlotClick(day, e) {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const relY = e.clientY - rect.top;
-    const rawHour = 9 + relY / 64;
-    const snapped = Math.max(9, Math.min(18.5, Math.round(rawHour * 2) / 2));
+  openNewApptOnDay(day) {
     this.setState(s => ({
       newApptPanelOpen: true,
       selectedAppointmentId: null,
       loggingApptId: null,
-      newApptDraft: {...(s.newApptPanelOpen ? s.newApptDraft : this.emptyApptDraft()), day: String(day), start: String(snapped)},
+      newApptDraft: {...(s.newApptPanelOpen ? s.newApptDraft : this.emptyApptDraft()), day: String(day)},
     }));
   }
   submitNewAppt() {
@@ -1202,9 +1200,9 @@ class Component extends DCLogic {
       if (status === 'completed') return {bg:'var(--gray-6)', leftBorder:'3px solid var(--gray-13)', color:'var(--gray-15)'};
       return {bg:'var(--gray-6)', leftBorder:'3px solid var(--gray-11)', color:'var(--gray-17)'};
     };
-    const fmtTime = (start) => {
-      const h = Math.floor(start), m = (start % 1) === 0.5 ? '30' : '00';
-      return `${String(h).padStart(2,'0')}:${m}`;
+    const fmtTime = (t) => {
+      const h = Math.floor(t), m = Math.round((t - h) * 60);
+      return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
     };
     const dayLabelFor = (d) => { const def = this.dayDefs.find(x => x.id === d); return def ? `${def.label} ${def.date}` : ''; };
     const selectedAppointmentRaw = s.selectedAppointmentId != null ? s.appointments.find(a => a.id === s.selectedAppointmentId) : null;
@@ -1244,7 +1242,7 @@ class Component extends DCLogic {
     const onDismissToast = () => this.dismissToast();
     const apptsWithMeta = s.appointments.map(a => {
       const st = statusStyle(a.status);
-      return {...a, top: (a.start - 9) * 64 + 5, height: a.dur * 64 - 10, flow: a.dur < 0.75 ? 'row' : 'column', align: a.dur < 0.75 ? 'center' : 'stretch', pad: a.dur < 0.75 ? '0 10px' : '6px 10px', timeDisplay: a.dur < 0.75 ? 'none' : 'inline', /* en la semana la hora ya se lee por la posición; en turnos cortos va solo el nombre */ bg: st.bg, leftBorder: st.leftBorder, color: st.color,
+      return {...a, range: `${fmtTime(a.start)}–${fmtTime(a.start + a.dur)}`, bg: st.bg, leftBorder: st.leftBorder, color: st.color,
         timeLabel: fmtTime(a.start), dayLabel: dayLabelFor(a.day),
         staffColor: this.staffColorMap[a.staffId] || 'var(--gray-11)',
         onConfirm: a.status === 'unconfirmed' ? () => this.confirmAppt(a.id) : null,
@@ -1284,10 +1282,8 @@ class Component extends DCLogic {
     const onStartChange = (e) => this.updateNewApptDraft({start: e.target.value});
     const onDurChange = (e) => this.updateNewApptDraft({dur: e.target.value});
     const onSubmitAppt = () => this.submitNewAppt();
-    const dayColumns = this.dayDefs.map(d => ({...d, headerColor: d.closed ? 'var(--gray-13)' : 'var(--gray-18)', open: !d.closed, appts: apptsWithMeta.filter(a => a.day === d.id), onTrackClick: d.closed ? null : (e) => this.handleSlotClick(d.id, e)}));
+    const dayColumns = this.dayDefs.map(d => ({...d, headerColor: d.closed ? 'var(--gray-13)' : 'var(--gray-18)', open: !d.closed, appts: apptsWithMeta.filter(a => a.day === d.id).sort((a, b) => a.start - b.start), onAddClick: d.closed ? null : () => this.openNewApptOnDay(d.id)}));
     const needsAttention = apptsWithMeta.filter(a => a.status === 'unconfirmed');
-    const hourLabels = [];
-    for (let h = 9; h <= 19; h++) hourLabels.push({label: String(h).padStart(2,'0') + ':00', top: (h - 9) * 64});
 
     const badgeCounts = {calendar: needsAttention.length || null, conversations: this.threadsData.filter(t => t.unread).length || null};
     const navItems = this.navItems.map(n => ({
@@ -1427,7 +1423,7 @@ class Component extends DCLogic {
       isCalendarView: s.activeView === 'calendar', isClientsView: s.activeView === 'clients',
       isConversationsView: s.activeView === 'conversations',
       isFollowupsView: s.activeView === 'followups', isAnalyticsView: s.activeView === 'analytics',
-      dayColumns, hourLabels, needsAttention, needsAttentionCount: needsAttention.length, noNeedsAttention: needsAttention.length === 0,
+      dayColumns, needsAttention, needsAttentionCount: needsAttention.length, noNeedsAttention: needsAttention.length === 0,
       weekTotal: apptsWithMeta.length, weekWaiting: apptsWithMeta.filter(a => a.status === 'waiting').length,
       clients, selectedClient, clientTabs, onOpenReactionHistory,
       isTabOverview: s.activeClientTab === 'overview', isTabHistory: s.activeClientTab === 'history',

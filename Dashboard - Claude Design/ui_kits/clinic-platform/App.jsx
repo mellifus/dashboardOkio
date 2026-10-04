@@ -86,7 +86,7 @@ function TopBar({ title }) {
       <div style={{ marginLeft: "auto" }}>
         <SearchInput placeholder="Buscar clientes, turnos…" />
       </div>
-      <Avatar initials="MR" size={30} />
+      <Avatar initials="RE" size={30} />
     </div>
   );
 }

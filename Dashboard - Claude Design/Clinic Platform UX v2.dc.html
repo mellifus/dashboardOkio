@@ -1384,7 +1384,7 @@ class Component extends DCLogic {
       return {
         ...m,
         rowDirection: isClient ? 'flex-direction:row' : 'flex-direction:row-reverse',
-        avatarInitials: isClient ? selectedThreadRaw.avatar : (isAi ? 'IA' : 'MR'),
+        avatarInitials: isClient ? selectedThreadRaw.avatar : (isAi ? 'IA' : 'RE'),
         avatarBg: isClient ? 'var(--gray-8)' : (isAi ? 'var(--accent-tint)' : 'var(--accent)'),
         avatarColor: isClient ? 'var(--gray-17)' : (isAi ? 'var(--accent-strong)' : 'var(--text-on-accent)'),
         bubbleRadius: isClient ? '4px 14px 14px 14px' : '14px 4px 14px 14px',

@@ -39,7 +39,7 @@ addEventListener('DOMContentLoaded', function(){
   --alert:#8E5A5F; --alert-bg:#F2E4E3; --alert-text:#5D3A33; --alert-line:#E6CFCD; --why:#5A5A5A;
   --ic-text:#FFFFFF;
   --serif:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,sans-serif;
-  --hour:48px;
+  --hour:52px;
   color-scheme:light;
 }
 /* Mismos valores oscuros dos veces: por el sistema (si nadie eligió claro) y por el switch. */
@@ -118,10 +118,10 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
 .pro span{display:block;font-size:11.5px;color:var(--muted)}
 .hours div{height:var(--hour);font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;text-align:right;padding-right:10px;transform:translateY(-7px)}
 .col{position:relative;height:calc(var(--hour) * 11);background:repeating-linear-gradient(var(--line) 0 1px,transparent 1px var(--hour))}
-/* Cada bloque se mete 3px arriba y abajo: siempre quedan 6px entre bloques y todos alineados a la grilla */
-.appt,.free,.closed{position:absolute;left:6px;right:6px;top:calc(var(--hour) * var(--a) / 60 + 3px);height:calc(var(--hour) * var(--m) / 60 - 6px);border-radius:10px;padding:7px 11px;overflow:hidden}
+/* Cada bloque se mete 5px arriba y abajo: siempre quedan 10px entre bloques y todos alineados a la grilla */
+.appt,.free,.closed{position:absolute;left:6px;right:6px;top:calc(var(--hour) * var(--a) / 60 + 5px);height:calc(var(--hour) * var(--m) / 60 - 10px);border-radius:10px;padding:7px 11px;overflow:hidden}
 /* Línea 1: hora · clienta · estado (solo si no está confirmado). Línea 2: tratamiento. Turnos cortos: todo en una línea. */
-.appt{cursor:pointer;border-left:3px solid;display:flex;flex-wrap:wrap;align-content:flex-start;align-items:baseline;column-gap:8px;line-height:1.2;padding:5px 12px}
+.appt{z-index:3;cursor:pointer;border-left:3px solid;display:flex;flex-wrap:wrap;align-content:flex-start;align-items:baseline;column-gap:8px;line-height:1.2;padding:5px 12px}
 .appt .t{font-size:11px;font-variant-numeric:tabular-nums;opacity:.8}
 .appt b{font-weight:600;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .appt .tx{flex-basis:100%;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -136,13 +136,15 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
 .appt.sel{outline:2px solid var(--text);outline-offset:1px}
 .closed{background:repeating-linear-gradient(45deg,transparent 0 6px,var(--line) 6px 7px);color:var(--muted);font-size:11px;letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;justify-content:center}
 /* Línea de "ahora": cruza las columnas por encima de los bloques */
-.now{position:absolute;left:-8px;right:-4px;top:calc(var(--hour) * var(--a) / 60);border-top:2px solid var(--text);z-index:2;pointer-events:none}
+.now{position:absolute;left:-8px;right:-4px;top:calc(var(--hour) * var(--a) / 60);border-top:2px solid var(--text);z-index:1;pointer-events:none} /* pasa por detrás de los turnos: no los tacha */
 .now::before{content:"";position:absolute;left:0;top:-5px;width:8px;height:8px;border-radius:50%;background:var(--text)}
 .now span{position:absolute;left:-46px;top:-9px;background:var(--text);color:var(--page);font-size:10.5px;font-weight:600;font-variant-numeric:tabular-nums;padding:1px 5px;border-radius:999px}
-.free{border:1px dashed var(--gold-light);color:var(--gold-text);font-size:12px;display:flex;align-items:center;gap:6px;padding:0 12px;line-height:1}
+/* Hueco libre = espacio vacío con su etiqueta; el borde aparece solo al pasar el mouse */
+.free{border:1px dashed transparent;cursor:pointer;color:var(--gold-text);font-size:12px;display:flex;align-items:center;gap:6px;padding:0 12px;line-height:1}
 .ic{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;font-size:10px;font-weight:700;color:var(--ic-text);flex:none;align-self:center}
 .alert .ic{background:var(--alert)} .pend .ic{background:var(--pend)}
 .free::before{content:"+";font-size:14px;line-height:1}
+.free:hover,.free:focus-visible{border-color:var(--gold-light)}
 
 /* Detalle */
 .detail{padding:20px}
@@ -247,7 +249,7 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
   .side{display:contents}
   .side .attn{order:-1}
   /* En el celular sí hay scroll vertical: horas más altas, y los turnos cortos en dos líneas */
-  :root{--hour:64px}
+  :root{--hour:70px}
   .appt.short{flex-wrap:wrap;align-content:center;padding:2px 12px}
   .appt.short b{flex:1}
   .appt.short .tx{flex-basis:100%}

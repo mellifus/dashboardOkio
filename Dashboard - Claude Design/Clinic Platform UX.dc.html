@@ -84,7 +84,7 @@
                 <div style="padding:10px 12px;font-weight:600;font-size:12px;border-bottom:1px solid oklch(93% 0.004 260);background:oklch(98.5% 0.003 250);color:oklch(30% 0.01 260)">{{ col.name }}</div>
                 <div style="position:relative;height:640px;background:repeating-linear-gradient(to bottom, oklch(95% 0.003 260) 0 1px, transparent 1px 64px)">
                   <sc-for list="{{ col.appts }}" as="appt" hint-placeholder-count="3">
-                    <div style="position:absolute;top:{{ appt.top }}px;height:{{ appt.height }}px;left:6px;right:6px;background:{{ appt.bg }};border:{{ appt.border }};border-radius:7px;padding:6px 8px;overflow:hidden;font-size:11.5px;color:{{ appt.color }}">
+                    <div style="position:absolute;top:{{ appt.top }}px;height:{{ appt.height }}px;left:6px;right:6px;background:{{ appt.bg }};border:{{ appt.border }};border-radius:7px;box-sizing:border-box;padding:{{ appt.pad }};display:flex;flex-direction:{{ appt.flow }};align-items:{{ appt.align }};column-gap:8px;line-height:1.3;overflow:hidden;font-size:11.5px;color:{{ appt.color }}">
                       <div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ appt.client }}</div>
                       <div style="opacity:0.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ appt.treatment }}</div>
                     </div>
@@ -669,7 +669,7 @@ class Component extends DCLogic {
     };
     const apptsWithMeta = s.appointments.map(a => {
       const st = statusStyle(a.status);
-      return {...a, top: (a.start - 9) * 64, height: a.dur * 64 - 4, bg: st.bg, border: st.border, color: st.color,
+      return {...a, top: (a.start - 9) * 64 + 5, height: a.dur * 64 - 10, flow: a.dur < 0.75 ? 'row' : 'column', align: a.dur < 0.75 ? 'center' : 'stretch', pad: a.dur < 0.75 ? '0 12px' : '6px 12px', bg: st.bg, border: st.border, color: st.color,
         timeLabel: fmtTime(a.start), onConfirm: a.status === 'unconfirmed' ? () => this.confirmAppt(a.id) : null};
     });
     const staffList = [

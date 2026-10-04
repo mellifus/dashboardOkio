@@ -38,13 +38,13 @@ El rediseño se diseña para **recepción**. Los otros dos roles quedan para cua
   - Dorado = sin confirmar
   - Rosa profundo = requiere atención (por ejemplo, la clienta avisó que no puede venir)
   - El tratamiento va **escrito**, nunca como color.
-- **Vista Día como lista por hora (2026-10-04)**: una columna por profesional, con los turnos en orden. **Todas las tarjetas tienen el mismo alto** y la duración va escrita en el horario ("16:00–17:30"). Entre turnos van los huecos libres como filas finas sin caja ("+ Libre 11:00–13:00 · 2 h"), y hay 10 px entre filas. Antes era una grilla con bloques del alto de su duración. El costo es que las dos columnas ya no quedan alineadas por hora: para comparar a las profesionales hora por hora está la vista Semana.
+- **Vista Día como una única agenda (2026-10-04)**: los turnos de Ingrid y Eliana juntos, en una sola lista ordenada por hora. Cada tarjeta mide lo mismo; en la primera línea va **la profesional en negrita** y el horario ("16:00–17:30"), y en la segunda la clienta y el tratamiento. No hay filas de huecos libres: con las dos profesionales mezcladas, un hueco de una puede coincidir con un turno de la otra. Para buscar lugar está la vista Semana, que muestra las horas libres de cada profesional. Antes: una columna por profesional, y antes de eso una grilla con bloques del alto de su duración.
 - **"Requiere atención" arriba de la columna derecha**, encima del detalle. Lista los turnos sin confirmar y los avisos. Arriba de la grilla le quitaba altura y el día no entraba en una notebook.
 - **Etiqueta de estado solo si no está confirmado.** Confirmado es lo normal: alcanza con el color. En los turnos cortos (menos de 1 h) tampoco va la etiqueta, para que el tratamiento entre completo.
 - **Horario real:** lunes a viernes, 09–13 y 15–20. El corte de 13 a 15 es una línea divisoria fina, "Cerrado 13–15", no un hueco libre. La línea "Ahora" separa los turnos que ya empezaron de los que vienen.
 - **Vista por defecto:** Día.
 - **Dispositivo principal:** la notebook de recepción.
-- **Una columna por profesional** (Ingrid, Eliana; máximo 3).
+- **Una sola agenda** para todas las profesionales (Ingrid, Eliana; máximo 3); cada turno dice de quién es.
 
 ### Vista Semana
 
@@ -89,7 +89,7 @@ Regla: **una tarjeta, una pregunta.** Si un dato no ayuda a responderla, va al d
 
 | Tarjeta | Pregunta que responde | Mostrar | Va al detalle | Por qué |
 |---|---|---|---|---|
-| **Tarjeta de turno** (alto fijo) | ¿Quién viene, a qué y confirmó? | hora, clienta, **tratamiento(s)**, estado (color + texto corto) | teléfono, recordatorio, historial | El tratamiento visible es el dolor #1 observado (H1). |
+| **Tarjeta de turno** (alto fijo) | ¿Quién viene, con quién, a qué y confirmó? | **profesional**, horario, clienta, **tratamiento(s)**, estado (color + texto corto) | teléfono, recordatorio, historial | El tratamiento visible es el dolor #1 observado (H1). |
 | **Fila "Requiere atención"** | ¿Qué tengo que resolver ahora? | clienta, hora, motivo en 3–4 palabras, **una** acción (Confirmar / Llamar) | todo lo demás | Se les pasan turnos. Esto tiene que gritar. |
 | **Detalle del turno** (panel) | ¿Qué hago con este turno? | tratamientos, estado del recordatorio, WhatsApp, acción principal (Preparar recordatorio / Registrar confirmación) | ficha completa de la clienta | Hoy repite la lista. Que muestre solo lo accionable. |
 | **Ficha de clienta** | ¿Quién es y cuándo vuelve? | nombre, teléfono, **próximo turno con tratamiento**, última visita | historial completo, notas | Conserva lo bueno de v2. |

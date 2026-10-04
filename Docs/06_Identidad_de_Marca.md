@@ -1,135 +1,135 @@
-# 06 — Identidad de Marca de Okio
+# 06 · Identidad de marca de Okio
 
-**Estado:** v1.0 — modelo de 2 capas adoptado (ver "Actualización 2026-09-14" abajo).
+**Estado:** v1.0. Adoptamos el modelo de 2 capas (ver "Actualización 2026-09-14" abajo).
 **Owner:** Meli
 **Última actualización:** 2026-09-14
 
-> **Resolución (2026-09-14):** el conflicto "¿verde o rosa?" que aparece más abajo en este doc quedó resuelto: **no era una contradicción, son dos capas de una misma marca.** Verde bosque = capa institucional (web, tienda, producto/dashboard). Rosa/crema/dorado = capa editorial (redes, campañas). El dorado `#B99269` y el isotipo del loto las unen. El aro degradé de Instagram NO es de marca (es la UI de "historia" de la app). Detalle completo en la sección "Actualización 2026-09-14" al final. Sistema de diseño visual completo publicado como Artifact + tokens en `Dashboard - Claude Design/tokens/colors-editorial.css`.
+> **Resolución (2026-09-14):** el conflicto "¿verde o rosa?" que aparece más abajo quedó resuelto. **No era una contradicción: son dos capas de la misma marca.** El verde bosque es la capa institucional (web, tienda, producto/dashboard) y el rosa/crema/dorado es la capa editorial (redes, campañas). Las une el dorado `#B99269` y el isotipo del loto. El aro degradé de Instagram NO es de la marca; es la UI de "historia" de la app. El detalle está en la sección "Actualización 2026-09-14", al final. El sistema de diseño visual completo está publicado como Artifact, con los tokens en `Dashboard - Claude Design/tokens/colors-editorial.css`.
 
 ## Propósito
 
-Documentar la identidad visual real de Okio para que la plataforma (el form de discovery, y después la demo/app) se sienta coherente con su marca en vez de imponerle una estética genérica de SaaS.
+Dejar por escrito la identidad visual real de Okio, para que la plataforma (el form de discovery, y después la demo/app) se sienta parte de su marca y no le imponga una estética genérica de SaaS.
 
 ## Corrección importante 2026-08-02: paleta verificada contra el sitio web real
 
-Con la extensión de Chrome pude entrar directo a `okiobeauty.com.ar` y leer los estilos reales (CSS computado), no una estimación visual. **La conclusión cambia respecto a lo que había sacado solo de Instagram: el color primario de marca es un verde bosque oscuro (`#003F36`), no el rosa apagado.** El rosa/terracota sí existe, pero es un tono secundario/suave, no el color dominante. Instagram (contenido de fotos de tratamientos, productos, eventos) no representa bien el sistema de marca real — la fuente de verdad es el sitio web, no el feed.
+Con la extensión de Chrome pude entrar a `okiobeauty.com.ar` y leer los estilos reales (el CSS computado), en vez de estimarlos a ojo. **Eso cambia lo que había sacado de Instagram: el color primario de la marca es un verde bosque oscuro (`#003F36`), no el rosa apagado.** El rosa/terracota existe, pero como tono secundario y suave. Instagram (fotos de tratamientos, productos, eventos) no refleja bien el sistema de marca; la fuente de verdad es el sitio, no el feed.
 
-**Paleta verificada (leída directamente del CSS, no estimada):**
+**Paleta verificada (leída del CSS, no estimada):**
 
 | Rol | Hex | Uso real observado |
 |---|---|---|
-| Verde bosque oscuro (primario) | `#003F36` | Encabezados, barra superior, botones principales, sección de footer a pantalla completa |
+| Verde bosque oscuro (primario) | `#003F36` | Encabezados, barra superior, botones principales, footer a pantalla completa |
 | Crema (fondo claro) | `#F5F1EC` | Fondo de la sección superior |
 | Dorado/tostado (acento) | `#B99269` | Palabras en cursiva dentro de títulos ("*y calidad*", "*WhatsApp.*"), subtítulos |
 | Dorado claro (variante) | `#C9A583` | Texto sobre fondo verde en la barra superior |
 | Rosa apagado/beige (secundario, suave) | `#DED1CB` | Superficies secundarias, tarjetas |
-| Texto de cuerpo | `#3A3A3A` | Párrafos — gris oscuro cálido, ni negro puro ni marrón |
+| Texto de cuerpo | `#3A3A3A` | Párrafos; un gris oscuro cálido, ni negro puro ni marrón |
 | Texto muted | `#888888` | Texto secundario/caption |
 | Texto sobre verde | `#EBE9E8` / `#FFFFFF` | Texto sobre fondo oscuro |
 
-**Tipografías reales (de `font-family` computado, no adivinadas):**
-- Títulos: `Fraunces, "Cormorant Garamond", Georgia, serif` — serif elegante con buen contraste de trazo, confirma lo que ya se sospechaba de Instagram pero ahora con el nombre exacto de la fuente.
+**Tipografías reales (sacadas del `font-family` computado):**
+- Títulos: `Fraunces, "Cormorant Garamond", Georgia, serif`. Es una serif elegante con buen contraste de trazo. Ya lo sospechaba por Instagram, y ahora tengo el nombre exacto de la fuente.
 - Cuerpo/UI: `Inter, system-ui, sans-serif`.
-- Los botones son 100% redondeados (`border-radius: 999px`, forma píldora) — confirma el motivo visual ya visto en Instagram.
+- Los botones son completamente redondeados (`border-radius: 999px`, forma de píldora), igual que en Instagram.
 
-**Qué hacer con esto:** el form de Jotform y `06_Brand_Identity.md` (versión en inglés) todavía tienen la paleta vieja basada solo en Instagram (rosa como primario, sin verde). Hay que corregirlos con esta paleta real.
+**Qué hacer con esto:** el form de Jotform y `06_Brand_Identity.md` (la versión en inglés) todavía usan la paleta vieja basada solo en Instagram (rosa como primario, sin verde). Hay que pasarlos a esta paleta.
 
-## Paleta de Color (versión anterior, basada solo en Instagram — ver corrección arriba)
+## Paleta de color (versión anterior, basada solo en Instagram; ver la corrección de arriba)
 
-Medida por extracción de color dominante (median cut) sobre las dos capturas de Instagram, filtrando el chrome oscuro de la interfaz de Instagram (que no es parte de la marca). Confirmada por consistencia entre ambas imágenes — los mismos tonos aparecen en las dos por separado.
+La medí extrayendo el color dominante (median cut) de las dos capturas de Instagram, y filtré el chrome oscuro de la interfaz de Instagram, que no es parte de la marca. Los mismos tonos aparecen en las dos imágenes por separado.
 
 | Rol | Hex | Uso observado |
 |---|---|---|
 | Fondo cálido / crema | `#E5DDDA` (rango `#DFD5D1`–`#E9E7E6`) | Fondos de tarjetas, espacios en blanco |
-| Acento principal — rosa apagado | `#A7726C` (rango `#A87062`–`#AE7269`) | Formas circulares/orgánicas, texto destacado, el color de marca más repetido |
-| Acento secundario — terracota/tostado | `#B9846C` (rango `#9A6655`–`#C19B84`) | Detalles, productos, transiciones de color |
-| Texto oscuro — marrón, no negro | `#5D3A33` (rango `#594238`–`#774E3E`) | Texto de cuerpo, nunca negro puro |
+| Acento principal: rosa apagado | `#A7726C` (rango `#A87062`–`#AE7269`) | Formas circulares/orgánicas, texto destacado; el color de marca que más se repite |
+| Acento secundario: terracota/tostado | `#B9846C` (rango `#9A6655`–`#C19B84`) | Detalles, productos, transiciones de color |
+| Texto oscuro: marrón, no negro | `#5D3A33` (rango `#594238`–`#774E3E`) | Texto de cuerpo, nunca negro puro |
 | Beige claro / taupe | `#CBB29D` (rango `#C0AD9E`–`#D0C0B3`) | Superficies secundarias, separadores |
 
-**Nota de corrección:** una primera lectura visual (no medida) había sugerido un verde bosque como color de marca. La extracción por píxeles sobre ambas imágenes lo descarta — no hay verde en la paleta real. Se corrigió el tema de color ya aplicado al form de Jotform.
+**Nota de corrección:** una primera lectura a ojo (sin medir) había sugerido un verde bosque como color de marca. La extracción por píxeles de las dos imágenes lo descarta: no hay verde en la paleta real. Corregí el tema de color que ya tenía el form de Jotform.
 
-**No usar:** azules, verdes, o colores saturados/brillantes — ninguno aparece en la marca real. Evitar el azul default de la mayoría de los form builders.
+**No usar:** azules, verdes ni colores saturados o brillantes, porque ninguno aparece en la marca. Evitar el azul por defecto de casi todos los form builders.
 
 ## Tipografía
 
-- **Titulares:** fuente serif elegante, con buen contraste entre trazos gruesos y finos (visible en "Rutina de Skincare AM", "Diagnóstico profesional", "Ningún síntoma llega para hacerte daño, sino para despertarte"). Buenas alternativas web: Playfair Display, Georgia, o similar.
-- **Etiquetas y watermark:** sans-serif en mayúsculas con tracking (espaciado entre letras) amplio — se usa consistentemente para "OKIO ESTÉTICA" como firma en la esquina de casi todos los posteos, y para subtítulos cortos ("PARA TENER LA PIEL DIVINA").
-- **Logo/wordmark:** "Okio" en un tratamiento más suelto/elegante, con símbolo ® visible en al menos una pieza — sugiere que están tratando el nombre como marca registrada.
+- **Titulares:** una serif elegante, con buen contraste entre trazos gruesos y finos (se ve en "Rutina de Skincare AM", "Diagnóstico profesional", "Ningún síntoma llega para hacerte daño, sino para despertarte"). En web sirven Playfair Display, Georgia o algo parecido.
+- **Etiquetas y watermark:** sans-serif en mayúsculas con tracking (espacio entre letras) amplio. Lo usan siempre para firmar "OKIO ESTÉTICA" en la esquina de casi todos los posteos, y para subtítulos cortos ("PARA TENER LA PIEL DIVINA").
+- **Logo/wordmark:** "Okio" con un trazo más suelto y elegante, y el símbolo ® visible en al menos una pieza. Parece que tratan el nombre como marca registrada.
 
-## Motivos Visuales Recurrentes
+## Motivos visuales que se repiten
 
-- **Formas orgánicas circulares/arcos** como fondo detrás de texto — aparece en múltiples posteos distintos (semicírculos, arcos concéntricos). Es el elemento gráfico de marca más repetido después de la paleta de color.
-- **Botones tipo "pill" (píldora, bordes muy redondeados)** — visible en el botón "CONSULTA" sobre foto.
-- **Fotografía cálida y de cerca** — tratamientos faciales, productos en mano, primeros planos de piel, luz suave. Nada de fotografía de stock genérica; se ve producción propia.
-- **Watermark "OKIO ESTÉTICA"** presente de forma consistente en la esquina de casi todas las piezas.
+- **Formas orgánicas, círculos y arcos** de fondo detrás del texto, en varios posteos distintos (semicírculos, arcos concéntricos). Después de la paleta, es el elemento gráfico que más se repite.
+- **Botones tipo píldora**, con bordes muy redondeados, como el botón "CONSULTA" sobre foto.
+- **Fotos cálidas y de cerca**: tratamientos faciales, productos en mano, primeros planos de piel, luz suave. No hay fotos de stock; se nota que es producción propia.
+- **Watermark "OKIO ESTÉTICA"** en la esquina de casi todas las piezas.
 
-## Tono de Copy
+## Tono del copy
 
-Cálido, directo, con apelación emocional — no clínico ni corporativo. Ejemplos reales observados: "¿Estás cansada de depilarte todo el tiempo?", "El protector solar perfecto SÍ existe", "Ningún síntoma llega para hacerte daño, sino para despertarte". Mezcla preguntas directas al lector (hook problema-solución) con frases más poéticas/de bienestar. Vale la pena que el copy de la plataforma (mensajes de la IA, textos del form) tome este mismo registro en vez de un tono neutro de SaaS.
+Cálido, directo y emocional, nada clínico ni corporativo. Ejemplos reales: "¿Estás cansada de depilarte todo el tiempo?", "El protector solar perfecto SÍ existe", "Ningún síntoma llega para hacerte daño, sino para despertarte". Mezcla preguntas directas a quien lee (el gancho problema-solución) con frases más poéticas, de bienestar. Estaría bueno que el copy de la plataforma (mensajes de la IA, textos del form) use este mismo registro en lugar de un tono neutro de SaaS.
 
-## Implicancias para la Plataforma
+## Qué implica para la plataforma
 
-- El form de Jotform y cualquier demo/UI futura deberían usar esta paleta medida, no colores genéricos ni la lectura visual incorrecta anterior (verde).
-- Considerar el motivo de arcos/círculos orgánicos como elemento decorativo si se diseña una UI propia más adelante — ayuda a que se sienta "de Okio" y no como un dashboard genérico.
-- El copy de la IA (mensajes sugeridos, textos de la app) debería poder adaptarse a este tono cálido y directo — relevante para `07_AI_Architecture.md` cuando se escriba, en la sección de qué tono usa la IA al redactar respuestas.
+- El form de Jotform y cualquier demo o UI futura tienen que usar esta paleta medida, no colores genéricos ni la lectura equivocada anterior (verde).
+- Si más adelante se diseña una UI propia, se pueden usar los arcos y círculos orgánicos como decoración. Ayudan a que se sienta "de Okio" y no un dashboard cualquiera.
+- El copy de la IA (mensajes sugeridos, textos de la app) tendría que poder adaptarse a este tono cálido y directo. Esto importa para `07_AI_Architecture.md` cuando se escriba, en la parte de qué tono usa la IA al redactar respuestas.
 
 ## Actualización 2026-08-02: análisis de okiobeauty.com.ar
 
-Meli encontró la página web real de Okio (landing page de un evento presencial: "Foliculitis y calidad de vida", $30.000, cupos limitados). Extraje el contenido de texto y estructura de la página (no pude verificar colores/tipografías reales todavía — la extensión de Chrome no conectó en esta sesión; falta ese paso, ver Próximos Pasos).
+Meli encontró la página web real de Okio, que es la landing de un evento presencial ("Foliculitis y calidad de vida", $30.000, cupos limitados). Saqué el texto y la estructura de la página. Todavía no pude verificar colores ni tipografías reales porque la extensión de Chrome no conectó en esta sesión; queda pendiente (ver Próximos pasos).
 
-**Cómo está organizada la página** (landing page de evento, no un sitio institucional genérico):
-1. Header con nombre + tagline ("Estética · Bienestar") y barra de anuncio con fecha/cupos.
+**Cómo está armada la página** (es la landing de un evento, no un sitio institucional):
+1. Header con el nombre, el tagline ("Estética · Bienestar") y una barra de anuncio con fecha y cupos.
 2. Hero con título, copy emocional, CTA a WhatsApp, precio y datos rápidos (fecha, lugar, para quién).
-3. Cinta de texto en movimiento ("marquee") repitiendo "10 AÑOS DE OKIO" y frases de marca — las mismas frases que ya aparecían en los posteos de Instagram ("Sanamos tu piel ✦ Todo el año ✦ Toda la vida"), confirma que son líneas de marca fijas, no ocurrencias sueltas.
-4. Sección de identificación emocional con pregunta directa ("¿Te suena?").
-5. Dos preguntas retóricas que nombran el dolor específico (marcas, manchas, "ya probé todo").
-6. Promesa de solución con gancho contrarian ("Y no es la que te vendieron").
-7. Currícula numerada de 8 módulos del evento — da un aire profesional/estructurado, no improvisado.
-8. Sección del espacio físico (Cabina Okio, dirección real: Obispo Oro 370 1°C, Nueva Córdoba).
-9. Recap de detalles logísticos del evento.
-10. CTA final a WhatsApp, explicando que los cupos se asignan por orden de mensaje recibido.
-11. Footer con nombre, dirección, redes.
+3. Una cinta de texto en movimiento ("marquee") que repite "10 AÑOS DE OKIO" y frases de marca. Son las mismas frases de los posteos de Instagram ("Sanamos tu piel ✦ Todo el año ✦ Toda la vida"), así que son líneas de marca fijas y no ocurrencias sueltas.
+4. Una sección de identificación emocional con una pregunta directa ("¿Te suena?").
+5. Dos preguntas retóricas que nombran el dolor puntual (marcas, manchas, "ya probé todo").
+6. La promesa de solución, con un gancho a contramano ("Y no es la que te vendieron").
+7. Un temario numerado de 8 módulos. Le da un aire profesional y ordenado, nada improvisado.
+8. Una sección sobre el espacio físico (Cabina Okio, dirección real: Obispo Oro 370 1°C, Nueva Córdoba).
+9. Un repaso de la logística del evento.
+10. El CTA final a WhatsApp, que explica que los cupos se asignan por orden de llegada del mensaje.
+11. Footer con nombre, dirección y redes.
 
-**Estilo de redacción (evidencia directa, no interpretación):**
-- Voseo argentino consistente ("vos", "tenés", "sentís") en toda la página.
-- Preguntas retóricas para nombrar el dolor antes de ofrecer la solución (estructura clásica de copy de venta/infoproducto).
-- Frases cortas y contundentes mezcladas con explicaciones más largas.
-- Marco emocional/de empoderamiento por encima de lo clínico: "la libertad de mostrarte como sos, sin esconderte", "sanamos tu piel", "toda la vida" — coincide con lo observado en Instagram.
-- Símbolo "✦" usado repetidamente como separador/viñeta decorativa — es un elemento gráfico-textual de marca que no había registrado antes con las capturas de Instagram; sumarlo a los motivos visuales.
-- Énfasis tipográfico en palabras clave dentro de los títulos (ej. "Foliculitis *y calidad* de vida", "verás *belleza* en todos lados") — consistente con el uso de una fuente/estilo serif o cursiva para destacar, como ya se había visto en Instagram.
+**Cómo escriben (lo que se ve, sin interpretar):**
+- Voseo argentino en toda la página ("vos", "tenés", "sentís").
+- Preguntas retóricas que nombran el dolor antes de ofrecer la solución, la estructura clásica del copy de venta de infoproductos.
+- Frases cortas y directas mezcladas con explicaciones más largas.
+- Más emoción y empoderamiento que discurso clínico: "la libertad de mostrarte como sos, sin esconderte", "sanamos tu piel", "toda la vida". Coincide con lo que se ve en Instagram.
+- El símbolo "✦" aparece una y otra vez como separador o viñeta. Es un elemento gráfico-textual de la marca que no había anotado con las capturas de Instagram; hay que sumarlo a los motivos visuales.
+- Palabras destacadas tipográficamente dentro de los títulos (por ejemplo "Foliculitis *y calidad* de vida", "verás *belleza* en todos lados"), con serif o cursiva, igual que en Instagram.
 
-**Insight de modelo de negocio (nuevo, relevante para el proyecto):** Okio no solo atiende clientas 1:1 — también vende eventos/masterclasses presenciales pagos ("10 AÑOS DE OKIO"), con WhatsApp como único canal de reserva, por orden de llegada del mensaje. Esto refuerza dos cosas ya asumidas en `00_Product_Constraints.md` (WhatsApp como canal central, no solo para consultas sueltas) y sugiere una posible categoría de "Solicitud" que el Vision doc todavía no contempla explícitamente: reserva de cupo para evento, con lógica de orden de llegada y cupos limitados — vale la pena preguntarle a Okio si esto pasa seguido (eventos, no solo turnos individuales) cuando se revise `00_Project_Vision.md` / el modelo de dominio.
+**Dato del modelo de negocio (nuevo, importa para el proyecto):** Okio no solo atiende clientas de a una. También vende eventos y masterclasses presenciales pagos ("10 AÑOS DE OKIO"), que se reservan solo por WhatsApp y por orden de llegada del mensaje. Eso confirma algo que ya suponíamos en `00_Product_Constraints.md` (WhatsApp es el canal central, no solo para consultas sueltas) y sugiere un tipo de "Solicitud" que el Vision doc todavía no tiene en cuenta: la reserva de cupo para un evento, con orden de llegada y cupos limitados. Cuando se revise `00_Project_Vision.md` o el modelo de dominio, conviene preguntarle a Okio si esto pasa seguido (eventos, además de turnos individuales).
 
-**Pendiente:** verificar colores y tipografías reales de la página (no pude por falta de conexión con la extensión de Chrome en esta sesión). Ver Próximos Pasos abajo.
+**Pendiente:** verificar los colores y tipografías reales de la página (no pude porque la extensión de Chrome no conectó en esta sesión). Ver Próximos pasos abajo.
 
 ## Actualización 2026-09-14: modelo de 2 capas (decisión de Meli)
 
-Meli trajo de nuevo las capturas de Instagram + el logo con el aro degradé, y compartió screenshots reales de su **Tienda Nube** (`okiobeauty.mitiendanube.com`). Con eso a la vista se resolvió la tensión que este doc arrastraba entre "verde bosque (web) es la verdad" y "rosa (Instagram) es la marca".
+Meli volvió a traer las capturas de Instagram y el logo con el aro degradé, y compartió screenshots reales de su **Tienda Nube** (`okiobeauty.mitiendanube.com`). Con todo eso a la vista se resolvió la tensión que este doc venía arrastrando entre "el verde bosque (web) es la verdad" y "el rosa (Instagram) es la marca".
 
-**Conclusión: las dos son ciertas. Okio tiene una marca con dos registros/capas, no una correcta y una incorrecta.**
+**Conclusión: las dos cosas son ciertas. La marca de Okio tiene dos registros, o capas, y ninguna está mal.**
 
 | Capa | Paleta dominante | Dónde se usa | Carácter |
 |---|---|---|---|
 | **1 · Institucional** | Verde bosque `#003F36` + crema + dorado + blush | Web, Tienda Nube, dashboard/producto, footer, transaccional | Sobria, profesional, confiable |
 | **2 · Editorial** | Rosa palo `#A7726C` + crema cálida + terracota + dorado | Instagram, campañas, piezas gráficas, eventos | Sensible, femenina, poética |
 
-**Firma compartida (no cambia entre capas):** isotipo del **loto** en línea dorada, wordmark "Okio" en serif dorado con bajada "ESTÉTICA Y BIENESTAR", dupla tipográfica **Fraunces + Inter**, botones **pill** (`radius:999px`), glifo **✦**. El dorado `#B99269` es la bisagra: aparece en las dos paletas.
+**Firma compartida (igual en las dos capas):** el isotipo del **loto** en línea dorada, el wordmark "Okio" en serif dorado con la bajada "ESTÉTICA Y BIENESTAR", la dupla tipográfica **Fraunces + Inter**, los botones **pill** (`radius:999px`) y el glifo **✦**. El dorado `#B99269` es el que las une, porque aparece en las dos paletas.
 
-**Corrección importante sobre el "aro degradé":** el anillo magenta→naranja→dorado alrededor del avatar de Instagram es la **UI de "historia activa" de la propia app de Instagram**, NO un elemento de marca de Okio. No aparece en ninguna superficie controlada por la marca (tienda, web, logo real). Es exactamente el mismo tipo de error que este doc ya advertía (confundir el *chrome* de IG con la marca) — queda registrado para no repetirlo. No usar ese degradé en logos, piezas ni web.
+**Corrección importante sobre el "aro degradé":** el anillo magenta→naranja→dorado alrededor del avatar de Instagram es la **UI de "historia activa" de la app de Instagram**, NO un elemento de la marca de Okio. No aparece en ningún lugar que controle la marca (tienda, web, logo real). Es el mismo error del que este doc ya advertía (confundir el *chrome* de IG con la marca), y lo dejo anotado para no repetirlo. Ese degradé no va en logos, piezas ni web.
 
-**Isotipo real:** en la Tienda Nube el logo es una **flor de loto en línea dorada** + "Okio" serif + "ESTÉTICA Y BIENESTAR". La guía y los tokens usan un loto **redibujado en SVG** como representación; reemplazar por el **vector oficial** cuando esté disponible.
+**Isotipo real:** en la Tienda Nube, el logo es una **flor de loto en línea dorada** + "Okio" en serif + "ESTÉTICA Y BIENESTAR". La guía y los tokens usan un loto **redibujado en SVG** para representarlo; hay que cambiarlo por el **vector oficial** cuando lo tengamos.
 
-**Lo que se produjo en esta iteración:**
-- Sistema de diseño visual navegable (Artifact) con ambas capas, tipografía, logo, componentes y voz.
-- `Dashboard - Claude Design/tokens/colors-editorial.css` — tokens de la capa editorial, prefijo `--okio-ed-*`, importado en `styles.css`. NO pisa la paleta institucional.
-- `guidelines/colors-editorial.card.html` — specimen de la paleta editorial.
-- `guidelines/brand-wordmark.card.html` — actualizado con el loto + wordmark real (antes decía "no logo provided").
+**Lo que salió de esta iteración:**
+- Un sistema de diseño visual navegable (Artifact) con las dos capas, tipografía, logo, componentes y voz.
+- `Dashboard - Claude Design/tokens/colors-editorial.css`: los tokens de la capa editorial, con prefijo `--okio-ed-*`, importados en `styles.css`. NO pisan la paleta institucional.
+- `guidelines/colors-editorial.card.html`: el specimen de la paleta editorial.
+- `guidelines/brand-wordmark.card.html`: actualizado con el loto y el wordmark real (antes decía "no logo provided").
 
-**Pendiente:** conseguir el vector oficial del loto (SVG/PNG) para reemplazar la representación; verificar hex exactos de la capa editorial contra un archivo de marca si Okio lo tiene (los actuales son medición de píxeles del feed, muy cercanos pero no oficiales).
+**Pendiente:** conseguir el vector oficial del loto (SVG/PNG) para reemplazar la versión redibujada, y verificar los hex exactos de la capa editorial contra un archivo de marca si Okio tiene uno. Los actuales salen de medir píxeles del feed: están muy cerca, pero no son oficiales.
 
-## Documentos Relacionados
+## Documentos relacionados
 
-- `00_Project_Vision.md` — contexto general del proyecto.
-- `06_Brand_Identity.md` — versión en inglés (referencia de build).
-- Sistema de diseño visual (Artifact) — guía navegable de las 2 capas.
-- Capturas fuente: grillas de Instagram de @okio.estetica + screenshots de la Tienda Nube, compartidas por Meli (2026-08-01 y 2026-09-14).
+- `00_Project_Vision.md`: contexto general del proyecto.
+- `06_Brand_Identity.md`: versión en inglés (referencia para el build).
+- Sistema de diseño visual (Artifact): guía navegable de las 2 capas.
+- Capturas de origen: grillas de Instagram de @okio.estetica y screenshots de la Tienda Nube que compartió Meli (2026-08-01 y 2026-09-14).

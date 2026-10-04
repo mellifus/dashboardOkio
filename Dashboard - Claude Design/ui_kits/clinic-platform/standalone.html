@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Okio — Plataforma Clínica</title>
+<title>Okio · Plataforma Clínica</title>
 <!--
   Self-contained, openable-directly version of the clinic-platform UI kit.
   The sibling index.html targets Claude Design's DS renderer, which injects
@@ -214,16 +214,16 @@ const CLIENTS = [
   { id:"c2", name:"Sofía Ramos", lastVisit:"20 jun", overview:"Clienta de largo plazo, tratamientos mensuales. Prefiere a Marta Ruiz." },
 ];
 const CATALOG = [
-  { id:"tx1", name:"Botox — frente", cat:"Facial", color:"oklch(58% 0.16 55)", dur:"30 min", price:"$45.000" },
+  { id:"tx1", name:"Botox · frente", cat:"Facial", color:"oklch(58% 0.16 55)", dur:"30 min", price:"$45.000" },
   { id:"tx2", name:"Relleno de labios", cat:"Facial", color:"oklch(58% 0.16 55)", dur:"45 min", price:"$78.000" },
-  { id:"tx3", name:"Depilación láser — piernas", cat:"Corporal", color:"oklch(56% 0.15 230)", dur:"40 min", price:"$32.000" },
+  { id:"tx3", name:"Depilación láser · piernas", cat:"Corporal", color:"oklch(56% 0.15 230)", dur:"40 min", price:"$32.000" },
   { id:"tx4", name:"Limpieza facial profunda", cat:"Facial", color:"oklch(58% 0.16 55)", dur:"60 min", price:"$28.000" },
   { id:"tx5", name:"SkinRetin", cat:"Tratamiento", color:"var(--accent)", dur:"50 min", price:"$52.000" },
   { id:"tx6", name:"Mesoterapia capilar", cat:"Corporal", color:"oklch(56% 0.15 230)", dur:"30 min", price:"$38.000" },
 ];
 const FOLLOWUPS = [
-  { id:"f1", name:"Elena Vidal", treatment:"Botox — frente", since:"hace 12 días", plan:{done:1,total:1}, next:"Control post-aplicación a las 2 semanas", status:"Pendiente", tone:"warning", color:"oklch(58% 0.16 55)" },
-  { id:"f2", name:"Carla Núñez", treatment:"Depilación láser — piernas", since:"hace 5 días", plan:{done:3,total:6}, next:"Reservar la sesión 4 de 6", status:"Al día", tone:"success", color:"oklch(56% 0.15 230)" },
+  { id:"f1", name:"Elena Vidal", treatment:"Botox · frente", since:"hace 12 días", plan:{done:1,total:1}, next:"Control post-aplicación a las 2 semanas", status:"Pendiente", tone:"warning", color:"oklch(58% 0.16 55)" },
+  { id:"f2", name:"Carla Núñez", treatment:"Depilación láser · piernas", since:"hace 5 días", plan:{done:3,total:6}, next:"Reservar la sesión 4 de 6", status:"Al día", tone:"success", color:"oklch(56% 0.15 230)" },
   { id:"f3", name:"Irene Castro", treatment:"Consulta médica", since:"hace 2 días", plan:{done:0,total:1}, next:"Revisión de posible complicación", status:"Urgente", tone:"danger", color:"oklch(56% 0.18 25)" },
 ];
 
@@ -271,7 +271,7 @@ function CalendarView() {
           <div style={{ marginLeft:"auto" }}><Button variant="primary" withShadow>+ Nuevo turno</Button></div>
         </div>
         <div style={{ background:"white", border:"1px solid var(--border-default)", borderRadius:12, padding:16, boxShadow:"var(--shadow-card)" }}>
-          {["Elena Vidal — Botox – frente · 09:30","Marco Díaz — Consulta · 11:00","Carla Núñez — Depilación láser · 14:00"].map((r)=>(
+          {["Elena Vidal, Botox frente · 09:30","Marco Díaz, Consulta · 11:00","Carla Núñez, Depilación láser · 14:00"].map((r)=>(
             <div key={r} style={{ padding:"10px 0", borderTop:"1px solid var(--gray-7)", fontSize:13 }}>{r}</div>
           ))}
         </div>
@@ -310,7 +310,7 @@ function RequestsView() {
             <Dot color="var(--accent)" size={8} />
             <span style={{ fontSize:12, fontWeight:700, color:"var(--accent-strong)", textTransform:"uppercase" }}>Copiloto IA</span>
           </div>
-          <div style={{ fontSize:13.5, marginBottom:12 }}>Nuevo contacto preguntando por precio — alta intención de reservar.</div>
+          <div style={{ fontSize:13.5, marginBottom:12 }}>Nuevo contacto preguntando por precio. Alta intención de reservar.</div>
           <div style={{ display:"flex", gap:8 }}>
             <Button variant="primary">Aprobar y enviar por {thread.channel}</Button>
             <Button variant="secondary">Editar antes</Button>

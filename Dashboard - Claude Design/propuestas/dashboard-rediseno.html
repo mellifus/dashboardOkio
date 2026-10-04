@@ -106,23 +106,23 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
 .side{display:grid;gap:14px}
 .side .attn{margin:0}
 
-.layout{display:grid;grid-template-columns:1fr 330px;gap:18px;align-items:start}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:18px;align-items:start}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:14px}
 
-/* Agenda del día: una lista por profesional, en orden de hora.
-   Todas las tarjetas de turno miden lo mismo; la duración va escrita en el horario.
-   Sumar una tercera profesional = otro .pro + otra .dia y una columna más en .lista */
-.lista{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:20px;padding:0 18px 18px}
+/* Agenda del día: una única lista con todas las profesionales, en orden de hora.
+   Todas las tarjetas miden lo mismo; la duración va escrita en el horario.
+   Lo único en negrita de cada tarjeta es la profesional. */
+.lista{padding:0 18px 18px}
 .pro{padding:16px 2px 12px;border-bottom:1px solid var(--line);margin-bottom:14px}
 .pro b{font-family:var(--serif);font-weight:400;font-size:17px}
 .pro span{display:block;font-size:11.5px;color:var(--muted)}
 .dia{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;min-width:0}
 
-/* Tarjeta de turno: alto universal. Línea 1: estado (si hace falta) · horario · clienta. Línea 2: tratamiento · etiqueta de estado. */
+/* Tarjeta de turno: alto universal. Línea 1: estado (si hace falta) · profesional en negrita · horario. Línea 2: clienta · tratamiento · etiqueta de estado. */
 .turno{box-sizing:border-box;width:100%;height:62px;display:flex;flex-direction:column;justify-content:center;gap:3px;padding:0 14px;border:0;border-left:3px solid;border-radius:10px;font:inherit;text-align:left;cursor:pointer}
 .turno .l1,.turno .l2{display:flex;align-items:center;gap:8px;min-width:0;line-height:1.25}
 .turno .hora{font-size:11.5px;font-variant-numeric:tabular-nums;opacity:.85;white-space:nowrap}
-.turno b{font-weight:600;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.turno b{font-weight:700;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .turno .tx{flex:1;min-width:0;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .turno .st{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
 .turno.sel{outline:2px solid var(--text);outline-offset:1px}
@@ -235,15 +235,10 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
   .sidebar nav{display:flex;gap:2px}
   .theme{margin:0 0 0 auto}
   main{padding:16px}
-  .layout{grid-template-columns:1fr}
+  .layout{grid-template-columns:minmax(0,1fr)}
 }
-/* Celular: una profesional a la vez, y "Requiere atención" primero */
-.pro-switch{display:none}
+/* Celular: "Requiere atención" primero */
 @media (max-width:640px){
-  .pro-switch{display:inline-flex;margin:12px 14px 2px}
-  .lista{grid-template-columns:minmax(0,1fr);padding-top:14px}
-  .lista .pro{display:none}
-  .lista[data-ver="0"] .dia[data-p="1"], .lista[data-ver="1"] .dia[data-p="0"]{display:none}
   .side{display:contents}
   .side .attn{order:-1}
   .turno .st{display:none} /* alto fijo: el ícono ! / ? y "Requiere atención" ya dicen el estado */
@@ -282,32 +277,20 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
     <div id="vista-dia">
     <div class="layout">
       <section class="card">
-        <!-- Solo en el celular: una profesional a la vez -->
-        <div class="seg pro-switch" role="group" aria-label="Profesional"><button class="on" aria-pressed="true" onclick="verPro(0)">Ingrid · 3</button><button aria-pressed="false" onclick="verPro(1)">Eliana · 3</button></div>
-        <!-- Maqueta: hora fija 15:20; en el código real "Ahora" se ubica solo con la hora actual. -->
-        <div class="lista" id="grilla" data-ver="0">
-          <div class="pro" data-p="0"><b>Ingrid</b><span>3 turnos</span></div>
-          <div class="pro" data-p="1"><b>Eliana</b><span>3 turnos</span></div>
-          <ol class="dia" data-p="0" aria-label="Turnos de Ingrid">
-            <li class="hueco" tabindex="0">Libre 09:00–10:00 · 1 h</li>
-            <li><button class="turno ok"><span class="l1"><span class="hora">10:00–11:00</span><b>Agustina Paz</b></span><span class="l2"><span class="tx">Peeling facial</span></span></button></li>
-            <li class="hueco" tabindex="0">Libre 11:00–13:00 · 2 h</li>
+        <!-- Una única agenda: los turnos de las dos profesionales, en orden de hora.
+             Sin huecos libres: para buscar lugar está la vista Semana.
+             Maqueta: hora fija 15:20; en el código real "Ahora" se ubica solo con la hora actual. -->
+        <div class="lista" id="grilla">
+          <div class="pro"><b>Turnos del día</b><span>6 turnos · Ingrid 3 · Eliana 3</span></div>
+          <ol class="dia" aria-label="Turnos del día">
+            <li><button class="turno ok"><span class="l1"><b>Eliana</b><span class="hora">09:00–10:00</span></span><span class="l2"><span class="tx">Valentina Sosa · Peeling corporal</span></span></button></li>
+            <li><button class="turno ok"><span class="l1"><b>Ingrid</b><span class="hora">10:00–11:00</span></span><span class="l2"><span class="tx">Agustina Paz · Peeling facial</span></span></button></li>
+            <li><button class="turno ok"><span class="l1"><b>Eliana</b><span class="hora">11:30–12:30</span></span><span class="l2"><span class="tx">Martina Gil · Limpieza facial profunda</span></span></button></li>
             <li class="cerrado">Cerrado 13–15</li>
-            <li><button class="turno alert"><span class="l1"><span class="ic" role="img" aria-label="Requiere atención">!</span><span class="hora">15:00–15:40</span><b>Sofía Ramos</b></span><span class="l2"><span class="tx">Depilación definitiva</span><span class="st">Atención</span></span></button></li>
+            <li><button class="turno alert"><span class="l1"><span class="ic" role="img" aria-label="Requiere atención">!</span><b>Ingrid</b><span class="hora">15:00–15:40</span></span><span class="l2"><span class="tx">Sofía Ramos · Depilación definitiva</span><span class="st">Atención</span></span></button></li>
             <li class="ahora"><span>Ahora · 15:20</span></li>
-            <li><button class="turno pend sel" aria-pressed="true"><span class="l1"><span class="ic" role="img" aria-label="Sin confirmar">?</span><span class="hora">16:00–17:30</span><b>Luciana Ferreyra</b></span><span class="l2"><span class="tx">Peeling facial + Depilación definitiva</span><span class="st">Sin confirmar</span></span></button></li>
-            <li class="hueco" tabindex="0">Libre 17:30–20:00 · 2 h 30</li>
-          </ol>
-          <ol class="dia" data-p="1" aria-label="Turnos de Eliana">
-            <li><button class="turno ok"><span class="l1"><span class="hora">09:00–10:00</span><b>Valentina Sosa</b></span><span class="l2"><span class="tx">Peeling corporal</span></span></button></li>
-            <li class="hueco" tabindex="0">Libre 10:00–11:30 · 1 h 30</li>
-            <li><button class="turno ok"><span class="l1"><span class="hora">11:30–12:30</span><b>Martina Gil</b></span><span class="l2"><span class="tx">Limpieza facial profunda</span></span></button></li>
-            <li class="hueco" tabindex="0">Libre 12:30–13:00 · 30 min</li>
-            <li class="cerrado">Cerrado 13–15</li>
-            <li class="hueco" tabindex="0">Libre 15:00–17:30 · 2 h 30</li>
-            <li class="ahora"><span>Ahora · 15:20</span></li>
-            <li><button class="turno ok"><span class="l1"><span class="hora">17:30–18:10</span><b>Florencia Díaz</b></span><span class="l2"><span class="tx">Depilación definitiva</span></span></button></li>
-            <li class="hueco" tabindex="0">Libre 18:10–20:00 · 1 h 50</li>
+            <li><button class="turno pend sel" aria-pressed="true"><span class="l1"><span class="ic" role="img" aria-label="Sin confirmar">?</span><b>Ingrid</b><span class="hora">16:00–17:30</span></span><span class="l2"><span class="tx">Luciana Ferreyra · Peeling facial + Depilación definitiva</span><span class="st">Sin confirmar</span></span></button></li>
+            <li><button class="turno ok"><span class="l1"><b>Eliana</b><span class="hora">17:30–18:10</span></span><span class="l2"><span class="tx">Florencia Díaz · Depilación definitiva</span></span></button></li>
           </ol>
         </div>
       </section>
@@ -561,14 +544,6 @@ function elegirConversacion(i){
 
 pintarListaMensajes(-1);
 elegirConversacion(1); // Luciana, la del recorrido de la demo
-
-function verPro(i){
-  document.getElementById('grilla').dataset.ver = i;
-  document.querySelectorAll('.pro-switch button').forEach(function(b, j){
-    b.classList.toggle('on', j === i);
-    b.setAttribute('aria-pressed', j === i);
-  });
-}
 
 function ir(p){
   ['agenda','clientes','mensajes'].forEach(function(x){

@@ -234,7 +234,7 @@
             <div style="font-size:19px;font-weight:650;letter-spacing:-0.015em">Semana del 27 de julio al 1 de agosto</div>
             <button onClick="{{ onToggleNewAppt }}" style="margin-left:auto;background:var(--accent);color:var(--text-on-accent);border:none;padding:9px 15px;border-radius:var(--radius-pill);font-size:13px;font-weight:600;cursor:pointer;box-shadow:var(--shadow-button-accent)">+ Nuevo turno</button>
           </div>
-          <div style="font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:16px">Lun–Sáb · 9:00–19:00</div>
+          <div style="font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:16px">Lun–Vie · 9–13 y 15–20</div>
           <div style="display:flex;background:var(--surface-card);border:1px solid var(--gray-9);border-radius:12px;overflow-x:auto;box-shadow:var(--shadow-card)">
             <div style="width:52px;flex-shrink:0;position:relative;height:640px;border-right:1px solid var(--gray-8)">
               <sc-for list="{{ hourLabels }}" as="h" hint-placeholder-count="10">
@@ -826,7 +826,7 @@ class Component extends DCLogic {
     selectedClientId: 'c1',
     selectedThreadId: 't2',
     threadFilter: 'all',
-    draftReply: '¡Buenas noticias! Tenemos un horario libre este jueves a las 15:00 para una consulta de relleno. ¿Querés que te lo reserve?',
+    draftReply: '¡Buenas noticias! Tenemos un horario libre este jueves a las 15:00 para depilación definitiva. ¿Querés que te lo reserve?',
     workflowOpen: false,
     sentThreadIds: [],
     newApptPanelOpen: false,
@@ -838,47 +838,47 @@ class Component extends DCLogic {
     editingHistoryIndex: null,
     historyEditDraft: {notes:'', hasReaction:false, reactionDescription:''},
     appointments: [
-      {id:1, day:0, staffId:1, staffName:'Ana Torres', client:'Elena Vidal', treatment:'Botox (frente)', start:9.5, dur:0.75, status:'confirmed'},
-      {id:2, day:0, staffId:1, staffName:'Ana Torres', client:'Marco Díaz', treatment:'Consulta', start:11, dur:0.5, status:'unconfirmed'},
-      {id:3, day:2, staffId:1, staffName:'Ana Torres', client:'Carla Núñez', treatment:'Depilación láser', start:14, dur:1, status:'confirmed'},
-      {id:4, day:1, staffId:2, staffName:'Marta Ruiz', client:'Sofía Ramos', treatment:'Relleno (labios)', start:10, dur:1, status:'confirmed'},
-      {id:5, day:3, staffId:2, staffName:'Marta Ruiz', client:'Julia Ortiz', treatment:'Peeling químico', start:13, dur:0.5, status:'waiting'},
-      {id:6, day:4, staffId:2, staffName:'Marta Ruiz', client:'Nora Blanco', treatment:'Botox (patas de gallo)', start:16, dur:0.5, status:'unconfirmed'},
-      {id:7, day:0, staffId:3, staffName:'Dra. Sofía León', client:'Diego Paz', treatment:'Consulta (rinoplastia)', start:9, dur:1, status:'confirmed'},
-      {id:8, day:1, staffId:3, staffName:'Dra. Sofía León', client:'Irene Castro', treatment:'Relleno (pómulos)', start:12, dur:1, status:'confirmed'},
-      {id:9, day:2, staffId:3, staffName:'Dra. Sofía León', client:'Pablo Serra', treatment:'Control de seguimiento', start:17, dur:0.5, status:'unconfirmed'},
-      {id:10, day:3, staffId:4, staffName:'Lucía Gómez', client:'Vera Molina', treatment:'Microneedling', start:10.5, dur:1, status:'confirmed'},
-      {id:11, day:5, staffId:4, staffName:'Lucía Gómez', client:'Hugo Bravo', treatment:'Láser (piernas)', start:15, dur:1.5, status:'waiting'},
+      {id:1, day:0, staffId:1, staffName:'Ingrid', client:'Elena Vidal', treatment:'Peeling facial', start:9.5, dur:0.75, status:'confirmed'},
+      {id:2, day:0, staffId:1, staffName:'Ingrid', client:'Marco Díaz', treatment:'Consulta', start:11, dur:0.5, status:'unconfirmed'},
+      {id:3, day:2, staffId:1, staffName:'Ingrid', client:'Carla Núñez', treatment:'Depilación definitiva', start:15, dur:1, status:'confirmed'},
+      {id:4, day:1, staffId:2, staffName:'Eliana', client:'Sofía Ramos', treatment:'Depilación definitiva (axilas)', start:10, dur:1, status:'confirmed'},
+      {id:5, day:3, staffId:2, staffName:'Eliana', client:'Julia Ortiz', treatment:'Peeling químico', start:16, dur:0.5, status:'waiting'},
+      {id:6, day:4, staffId:2, staffName:'Eliana', client:'Nora Blanco', treatment:'Limpieza facial profunda', start:16, dur:0.5, status:'unconfirmed'},
+      {id:7, day:0, staffId:1, staffName:'Ingrid', client:'Diego Paz', treatment:'Consulta (evaluación facial)', start:12, dur:1, status:'confirmed'},
+      {id:8, day:1, staffId:2, staffName:'Eliana', client:'Irene Castro', treatment:'Peeling químico', start:12, dur:1, status:'confirmed'},
+      {id:9, day:2, staffId:1, staffName:'Ingrid', client:'Pablo Serra', treatment:'Control de seguimiento', start:17, dur:0.5, status:'unconfirmed'},
+      {id:10, day:3, staffId:2, staffName:'Eliana', client:'Vera Molina', treatment:'Microneedling', start:10.5, dur:1, status:'confirmed'},
+      {id:11, day:4, staffId:2, staffName:'Eliana', client:'Hugo Bravo', treatment:'Depilación definitiva (piernas)', start:17, dur:1.5, status:'waiting'},
     ],
     followups: [
       {id:1, client:'Julia Ortiz', treatment:'Peeling químico', trigger:'3 días post-tratamiento', due:'2 días de atraso', bucket:'overdue', status:'pending'},
-      {id:2, client:'Hugo Bravo', treatment:'Láser (piernas)', trigger:'Recordatorio sesión 2 de 6', due:'1 día de atraso', bucket:'overdue', status:'pending'},
-      {id:3, client:'Sofía Ramos', treatment:'Relleno (labios)', trigger:'Control 1 semana post-relleno', due:'Hoy', bucket:'today', status:'pending'},
-      {id:4, client:'Carla Núñez', treatment:'Depilación láser', trigger:'Recordatorio de renovación de turno', due:'Hoy', bucket:'today', status:'pending', lastSessionDaysAgo:9},
+      {id:2, client:'Hugo Bravo', treatment:'Depilación definitiva (piernas)', trigger:'Recordatorio sesión 2 de 6', due:'1 día de atraso', bucket:'overdue', status:'pending'},
+      {id:3, client:'Sofía Ramos', treatment:'Depilación definitiva (axilas)', trigger:'Control 1 semana después de la sesión', due:'Hoy', bucket:'today', status:'pending'},
+      {id:4, client:'Carla Núñez', treatment:'Depilación definitiva', trigger:'Recordatorio de renovación de turno', due:'Hoy', bucket:'today', status:'pending', lastSessionDaysAgo:9},
       {id:5, client:'Diego Paz', treatment:'Consulta', trigger:'Recordatorio pre-procedimiento', due:'Hoy', bucket:'today', status:'pending'},
-      {id:6, client:'Elena Vidal', treatment:'Botox (frente)', trigger:'Recordatorio de retratamiento a las 12 semanas', due:'En 4 días', bucket:'scheduled', status:'pending'},
+      {id:6, client:'Elena Vidal', treatment:'Peeling facial', trigger:'Recordatorio de sesión de mantenimiento', due:'En 4 días', bucket:'scheduled', status:'pending'},
       {id:7, client:'Vera Molina', treatment:'Microneedling', trigger:'Recordatorio de próxima sesión', due:'En 6 días', bucket:'scheduled', status:'pending'},
     ],
     clients: [
-      {id:'c1', name:'Elena Vidal', phone:'+34 611 203 981', isVIP:true, isNew:false, lastVisit:'12 jul', nextVisit:'5 de agosto, 10:00 · Retratamiento de Botox',
-        overview:'Clienta habitual desde 2023. Prefiere turnos por la mañana. Sensible a la crema anestésica (usa alternativa). Referida por Sofía Ramos.',
-        history:[{treatment:'Botox (frente)', date:'12 de julio de 2026', practitioner:'Ana Torres', notes:'Sin complicaciones, dosis estándar'},{treatment:'Relleno (labios)', date:'2 de abril de 2026', practitioner:'Marta Ruiz', notes:'0.5ml, se solicitó resultado natural'}],
-        notes:[{date:'12 de julio de 2026', author:'Ana Torres', text:'Preguntó sobre combinar con un peeling en la próxima visita.'},{date:'2 de abril de 2026', author:'Marta Ruiz', text:'Leve hematoma, se resolvió en 3 días.'}]},
-      {id:'c2', name:'Marco Díaz', phone:'+34 622 118 402', isVIP:false, isNew:true, lastVisit:'—', nextVisit:'30 de julio, 11:00 · Consulta',
+      {id:'c1', name:'Elena Vidal', phone:'+54 9 351 XXX XXXX', isVIP:true, isNew:false, lastVisit:'12 jul', nextVisit:'5 de agosto, 10:00 · Peeling facial de mantenimiento',
+        overview:'Clienta habitual desde 2023. Prefiere turnos por la mañana. Piel sensible: usar productos suaves. Referida por Sofía Ramos.',
+        history:[{treatment:'Peeling facial', date:'12 de julio de 2026', practitioner:'Ingrid', notes:'Sin complicaciones'},{treatment:'Depilación definitiva (axilas)', date:'2 de abril de 2026', practitioner:'Eliana', notes:'Sesión 2 de 6'}],
+        notes:[{date:'12 de julio de 2026', author:'Ingrid', text:'Preguntó por sumar una limpieza facial en la próxima visita.'},{date:'2 de abril de 2026', author:'Eliana', text:'Leve enrojecimiento en las axilas, se resolvió en 2 días.'}]},
+      {id:'c2', name:'Marco Díaz', phone:'+54 9 351 XXX XXXX', isVIP:false, isNew:true, lastVisit:'—', nextVisit:'30 de julio, 11:00 · Consulta',
         overview:'Cliente nuevo, consultó por WhatsApp sobre una consulta de rejuvenecimiento facial. Sin historial previo.',
         history:[], notes:[{date:'28 de julio de 2026', author:'Recepción', text:'Reservó por WhatsApp luego de una conversación con la IA.'}]},
-      {id:'c3', name:'Sofía Ramos', phone:'+34 655 902 774', isVIP:true, isNew:false, lastVisit:'20 jun', nextVisit:'30 de julio, 10:00 · Control de relleno',
-        overview:'Clienta de largo plazo, con tratamientos de mantenimiento mensuales. Prefiere específicamente a Marta Ruiz.',
-        history:[{treatment:'Relleno (labios)', date:'20 de junio de 2026', practitioner:'Marta Ruiz', notes:'Retoque, 0.3ml'}],
-        notes:[{date:'20 de junio de 2026', author:'Marta Ruiz', text:'Muy conforme con los resultados, refirió a una amiga (Elena Vidal).'}]},
-      {id:'c4', name:'Irene Castro', phone:'+34 633 771 220', isVIP:false, isNew:false, lastVisit:'15 jul', nextVisit:'—',
+      {id:'c3', name:'Sofía Ramos', phone:'+54 9 351 XXX XXXX', isVIP:true, isNew:false, lastVisit:'20 jun', nextVisit:'30 de julio, 10:00 · Control de depilación',
+        overview:'Clienta de largo plazo, con tratamientos de mantenimiento mensuales. Prefiere específicamente a Eliana.',
+        history:[{treatment:'Depilación definitiva (axilas)', date:'20 de junio de 2026', practitioner:'Eliana', notes:'Sesión 4 de 6'}],
+        notes:[{date:'20 de junio de 2026', author:'Eliana', text:'Muy conforme con los resultados, refirió a una amiga (Elena Vidal).'}]},
+      {id:'c4', name:'Irene Castro', phone:'+54 9 351 XXX XXXX', isVIP:false, isNew:false, lastVisit:'15 jul', nextVisit:'—',
         overview:'Clienta ocasional, reserva de forma estacional antes de eventos.',
-        history:[{treatment:'Relleno (pómulos)', date:'15 de julio de 2026', practitioner:'Dra. Sofía León', notes:'1ml, aumento de pómulos'}],
+        history:[{treatment:'Peeling químico', date:'15 de julio de 2026', practitioner:'Ingrid', notes:'Peeling medio, piel normal'}],
         notes:[]},
-      {id:'c5', name:'Vera Molina', phone:'+34 699 445 018', isVIP:false, isNew:false, lastVisit:'2 jul', nextVisit:'30 de julio, 10:30 · Microneedling',
+      {id:'c5', name:'Vera Molina', phone:'+54 9 351 XXX XXXX', isVIP:false, isNew:false, lastVisit:'2 jul', nextVisit:'30 de julio, 10:30 · Microneedling',
         overview:'Tiene un paquete de 6 sesiones de microneedling, quedan 2 sesiones.',
-        history:[{treatment:'Microneedling', date:'2 de julio de 2026', practitioner:'Lucía Gómez', notes:'Sesión 4 de 6'}],
-        notes:[{date:'2 de julio de 2026', author:'Lucía Gómez', text:'Buen progreso en la textura, continuar según lo planeado.'}]},
+        history:[{treatment:'Microneedling', date:'2 de julio de 2026', practitioner:'Eliana', notes:'Sesión 4 de 6'}],
+        notes:[{date:'2 de julio de 2026', author:'Eliana', text:'Buen progreso en la textura, continuar según lo planeado.'}]},
     ],
   };
 
@@ -891,15 +891,15 @@ class Component extends DCLogic {
   ];
 
   staffColorMap = {1:'oklch(56% 0.13 280)', 2:'oklch(56% 0.15 230)', 3:'oklch(55% 0.11 200)', 4:'oklch(58% 0.14 320)'};
-  staffList = [{id:1, name:'Ana Torres'}, {id:2, name:'Marta Ruiz'}, {id:3, name:'Dra. Sofía León'}, {id:4, name:'Lucía Gómez'}];
+  staffList = [{id:1, name:'Ingrid'}, {id:2, name:'Eliana'}];
   dayDefs = [
     {id:0, label:'Lun', date:'27'}, {id:1, label:'Mar', date:'28'}, {id:2, label:'Mié', date:'29'},
-    {id:3, label:'Jue', date:'30'}, {id:4, label:'Vie', date:'31'}, {id:5, label:'Sáb', date:'1'},
+    {id:3, label:'Jue', date:'30'}, {id:4, label:'Vie', date:'31'}, {id:5, label:'Sáb', date:'1', closed:true},
     {id:6, label:'Dom', date:'2', closed:true},
   ];
 
   spacingRules = [
-    {treatment:'Depilación láser', minDays:14, note:'Riesgo de irritación cutánea si se repite antes de este plazo.'},
+    {treatment:'Depilación definitiva', minDays:14, note:'Riesgo de irritación cutánea si se repite antes de este plazo.'},
   ];
 
   photoSlots = [{label:'antes · frente'},{label:'después · frente'},{label:'antes · perfil'},{label:'después · perfil'}];
@@ -907,27 +907,27 @@ class Component extends DCLogic {
 
   threadsData = [
     {id:'t1', name:'Elena Vidal', avatar:'EV', channel:'WhatsApp', unread:true,
-      waitingTime:'12 min', priority:'high', apptStatus:'Hoy 14:30', isVIP:true, isNewLead:false, intent:'Reprogramar turno', status:'human',
+      waitingTime:'12 min', priority:'high', apptStatus:'Hoy 15:30', isVIP:true, isNewLead:false, intent:'Reprogramar turno', status:'human',
       category:{label:'Reprogramación', color:'oklch(58% 0.16 55)'}, workflowStatus:'Listo para aprobar', metaLine:'Mañana 10:00 · se encontraron horarios alternativos',
-      summary:'La clienta quiere mover su turno de Botox de mañana al viernes.', upsell:'Sugerir agregar un peeling químico a la visita reprogramada (+$150).',
-      messages:[{from:'client', text:'¿Puedo mover mi turno para el viernes?'}], aiSuggestion:'El viernes hay disponibilidad a las 10:00 y a las 15:30 con Ana Torres. ¿Querés que lo mueva a uno de esos horarios?',
+      summary:'La clienta quiere mover su turno de peeling facial de mañana al viernes.', upsell:'Sugerir sumar una limpieza facial profunda a la visita reprogramada (+$28.000).',
+      messages:[{from:'client', text:'¿Puedo mover mi turno para el viernes?'}], aiSuggestion:'El viernes hay disponibilidad a las 10:00 y a las 15:30 con Ingrid. ¿Querés que lo mueva a uno de esos horarios?',
       confidence:98, waitingApproval:true,
       workflow:['Buscar el turno','Verificar disponibilidad del profesional','Sugerir alternativas','Confirmar la reserva'],
       quickActions:['Reprogramar turno','Cobrar seña','Asignar profesional'],
-      contextCard:{type:'appointment', appt:{when:'Mañana', time:'10:00', treatment:'Botox', professional:'Ana Torres'},
-        alternatives:[{day:'Viernes', time:'10:00'},{day:'Viernes', time:'15:30'},{day:'Sábado', time:'11:00'}]},
+      contextCard:{type:'appointment', appt:{when:'Mañana', time:'10:00', treatment:'Peeling facial', professional:'Ingrid'},
+        alternatives:[{day:'Viernes', time:'10:00'},{day:'Viernes', time:'15:30'},{day:'Lunes', time:'10:00'}]},
       priorityBanner:null,
-      client:{hasClient:true, phone:'+34 611 203 981', vip:true, preferredProfessional:'Ana Torres'}},
+      client:{hasClient:true, phone:'+54 9 351 XXX XXXX', vip:true, preferredProfessional:'Ingrid'}},
     {id:'t2', name:'Camila Reyes', avatar:'CR', channel:'Instagram', unread:true,
-      waitingTime:'2 min', priority:'high', apptStatus:'Sin turno', isVIP:false, isNewLead:true, intent:'Consulta de precio: relleno de labios', status:'ai',
-      category:{label:'Consulta de precio', color:'oklch(56% 0.15 230)'}, workflowStatus:'Esperando aprobación', metaLine:'Oportunidad de $420',
-      summary:'Nuevo contacto de Instagram preguntando por el precio del relleno de labios. Alta intención de reservar.', upsell:'Ofrecer un combo de relleno + lip flip.',
-      messages:[{from:'client', text:'Hola, ¿hacen relleno de labios? ¿Cuánto sale?'},{from:'ai', text:'¡Sí! El relleno de labios arranca en $420 por 1ml, lo hacen nuestras inyectoras. ¿Querés reservar una consulta?'}],
-      aiSuggestion:'¡Buenas noticias! Tenemos un horario libre este jueves a las 15:00 para una consulta de relleno. ¿Querés que te lo reserve?',
+      waitingTime:'2 min', priority:'high', apptStatus:'Sin turno', isVIP:false, isNewLead:true, intent:'Consulta de precio: depilación definitiva', status:'ai',
+      category:{label:'Consulta de precio', color:'oklch(56% 0.15 230)'}, workflowStatus:'Esperando aprobación', metaLine:'Oportunidad de $32.000',
+      summary:'Nuevo contacto de Instagram preguntando por el precio de la depilación definitiva. Alta intención de reservar.', upsell:'Ofrecer el combo de piernas + axilas.',
+      messages:[{from:'client', text:'Hola, ¿hacen depilación definitiva en piernas? ¿Cuánto sale?'},{from:'ai', text:'¡Sí! La sesión de piernas completas sale $32.000. ¿Querés reservar un turno?'}],
+      aiSuggestion:'¡Buenas noticias! Tenemos un horario libre este jueves a las 15:00 para depilación definitiva. ¿Querés que te lo reserve?',
       confidence:96, waitingApproval:false,
       workflow:['Verificar disponibilidad','Ofrecer alternativas','Confirmar turno','Enviar recordatorio'],
       quickActions:['Crear presupuesto','Recomendar tratamiento','Reservar consulta'],
-      contextCard:{type:'products', items:[{name:'Relleno de labios (1ml)', price:'$420'},{name:'Lip flip', price:'$180'}]},
+      contextCard:{type:'products', items:[{name:'Depilación definitiva (piernas)', price:'$32.000'},{name:'Depilación definitiva (axilas)', price:'$14.000'}]},
       priorityBanner:null,
       client:{hasClient:false}},
     {id:'t3', name:'Marco Díaz', avatar:'MD', channel:'WhatsApp', unread:false,
@@ -938,7 +938,7 @@ class Component extends DCLogic {
       confidence:null, waitingApproval:false, workflow:[],
       quickActions:['Ver perfil del cliente','Agregar nota interna'],
       contextCard:null, priorityBanner:null,
-      client:{hasClient:true, phone:'+34 622 118 402', vip:false, preferredProfessional:'—'}},
+      client:{hasClient:true, phone:'+54 9 351 XXX XXXX', vip:false, preferredProfessional:'—'}},
     {id:'t4', name:'Nora Blanco', avatar:'NB', channel:'WhatsApp', unread:false,
       waitingTime:'Resuelto', priority:'low', apptStatus:'Mañana 16:00', isVIP:false, isNewLead:false, intent:'Recordatorio confirmado', status:'ai',
       category:{label:'Seguimiento', color:'oklch(58% 0.14 145)'}, workflowStatus:'Resuelto', metaLine:'Confirmado por WhatsApp',
@@ -948,25 +948,25 @@ class Component extends DCLogic {
       workflow:['Registrar confirmación','Actualizar agenda'],
       quickActions:['Ver perfil del cliente'],
       contextCard:null, priorityBanner:null,
-      client:{hasClient:true, phone:'+34 644 552 019', vip:false, preferredProfessional:'Marta Ruiz'}},
+      client:{hasClient:true, phone:'+54 9 351 XXX XXXX', vip:false, preferredProfessional:'Eliana'}},
     {id:'t5', name:'Irene Castro', avatar:'IC', channel:'WhatsApp', unread:true,
       waitingTime:'6 min', priority:'high', apptStatus:'Completado el 15 jul', isVIP:false, isNewLead:false, intent:'Consulta post-tratamiento', status:'human',
-      category:{label:'Consulta médica', color:'oklch(56% 0.18 25)'}, workflowStatus:'Requiere revisión inmediata', metaLine:'Posible complicación · asignado a la Dra. Sofía León',
-      summary:'La clienta reporta calor e hinchazón un día después del relleno de pómulos. Puede ser una complicación.', upsell:null,
-      messages:[{from:'client', text:'Hola, siento el pómulo hinchado y caliente desde ayer, ¿es normal?'}],
-      aiSuggestion:'Puede ser una reacción normal a corto plazo, pero el calor + la hinchazón después de 24h deberían revisarse. Conviene contactar a la Dra. Sofía León antes de responder.',
+      category:{label:'Consulta médica', color:'oklch(56% 0.18 25)'}, workflowStatus:'Requiere revisión inmediata', metaLine:'Posible complicación · asignado a Ingrid',
+      summary:'La clienta reporta ardor y enrojecimiento un día después del peeling químico. Puede ser una complicación.', upsell:null,
+      messages:[{from:'client', text:'Hola, tengo la cara roja y me arde desde ayer, ¿es normal?'}],
+      aiSuggestion:'Puede ser una reacción esperable, pero el ardor y el enrojecimiento después de 24 h deberían revisarse. Conviene consultar a Ingrid antes de responder.',
       confidence:83, waitingApproval:true,
       workflow:['Marcar como consulta médica','Notificar al profesional asignado','Recomendar escalamiento'],
-      quickActions:['Escalar al médico','Notificar al profesional','Abrir protocolo de tratamiento'],
-      contextCard:{type:'protocol', title:'Protocolo de hinchazón post-relleno', steps:['Confirmar el momento de inicio y los síntomas','Indicar compresas frías, evitar calor/ejercicio','Escalar si la hinchazón persiste más de 48h o aparece fiebre','Ofrecer un control presencial con el profesional tratante']},
-      priorityBanner:'Prioridad alta: posible complicación post-tratamiento. Recomendado: escalar a la Dra. Sofía León antes de responder.',
-      client:{hasClient:true, phone:'+34 633 771 220', vip:false, preferredProfessional:'Dra. Sofía León'}},
-    {id:'t6', name:'+34 611 222 333', avatar:'?', channel:'Instagram', unread:true,
+      quickActions:['Derivar a la profesional','Notificar al profesional','Abrir protocolo de tratamiento'],
+      contextCard:{type:'protocol', title:'Protocolo de irritación después de un peeling', steps:['Confirmar el momento de inicio y los síntomas','Indicar compresas frías y evitar el sol','Derivar si el ardor sigue después de 48 h o aparecen ampollas','Ofrecer un control presencial con el profesional tratante']},
+      priorityBanner:'Prioridad alta: posible complicación post-tratamiento. Recomendado: derivar a Ingrid antes de responder.',
+      client:{hasClient:true, phone:'+54 9 351 XXX XXXX', vip:false, preferredProfessional:'Ingrid'}},
+    {id:'t6', name:'+54 9 351 XXX XXXX', avatar:'?', channel:'Instagram', unread:true,
       waitingTime:'5 min', priority:'medium', apptStatus:'Sin turno', isVIP:false, isNewLead:true, intent:'Consulta de horario de atención', status:'ai',
       category:{label:'Nuevo contacto', color:'oklch(58% 0.14 145)'}, workflowStatus:'Sin calificar', metaLine:'Consulta de horario de atención',
       summary:'Contacto anónimo de Instagram preguntando por el horario de atención. Todavía no muestra intención de reservar.', upsell:null,
-      messages:[{from:'client', text:'¿Cuál es el horario de atención?'},{from:'ai', text:'Atendemos de lunes a sábado, de 9:00 a 19:00. ¿Querés reservar un turno?'}],
-      aiSuggestion:'Atendemos de lunes a sábado de 9:00 a 19:00. ¿Querés que revise la disponibilidad de esta semana?',
+      messages:[{from:'client', text:'¿Cuál es el horario de atención?'},{from:'ai', text:'Atendemos de lunes a viernes, de 9 a 13 y de 15 a 20. ¿Querés reservar un turno?'}],
+      aiSuggestion:'Atendemos de lunes a viernes, de 9 a 13 y de 15 a 20. ¿Querés que revise la disponibilidad de esta semana?',
       confidence:91, waitingApproval:false,
       workflow:['Responder pregunta frecuente','Ofrecer reserva','Capturar datos de contacto'],
       quickActions:['Crear cliente y reservar','Asignar a humano'],
@@ -980,13 +980,13 @@ class Component extends DCLogic {
   ];
 
   kpisData = [
-    {label:'Ingresos este mes', value:'$18.420', sub:'+12% vs. el mes pasado'},
+    {label:'Ingresos este mes', value:'$4.820.000', sub:'+12% vs. el mes pasado'},
     {label:'Turnos reservados', value:'214', sub:'96% de la capacidad'},
     {label:'Tasa de ausentismo', value:'4.2%', sub:'-1.1pt vs. el mes pasado'},
     {label:'Retención de clientes', value:'68%', sub:'+3pt vs. el mes pasado'},
   ];
-  topTreatmentsData = [{name:'Botox', pct:32},{name:'Relleno', pct:24},{name:'Depilación láser', pct:18},{name:'Microneedling', pct:14},{name:'Peelings', pct:12}];
-  staffUtilData = [{name:'Ana Torres', pct:88},{name:'Marta Ruiz', pct:74},{name:'Dra. Sofía León', pct:92},{name:'Lucía Gómez', pct:65}];
+  topTreatmentsData = [{name:'Peeling facial', pct:32},{name:'Depilación definitiva', pct:26},{name:'Limpieza facial', pct:18},{name:'Peeling corporal', pct:14},{name:'Microneedling', pct:10}];
+  staffUtilData = [{name:'Ingrid', pct:88},{name:'Eliana', pct:74}];
 
   setView(v) { this.setState({activeView: v}); }
   confirmAppt(id) { this.setState(s => ({appointments: s.appointments.map(a => a.id === id ? {...a, status:'confirmed'} : a)})); }

@@ -39,7 +39,6 @@ addEventListener('DOMContentLoaded', function(){
   --alert:#8E5A5F; --alert-bg:#F2E4E3; --alert-text:#5D3A33; --alert-line:#E6CFCD; --why:#5A5A5A;
   --ic-text:#FFFFFF;
   --serif:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,sans-serif;
-  --hour:52px;
   color-scheme:light;
 }
 /* Mismos valores oscuros dos veces: por el sistema (si nadie eligió claro) y por el switch. */
@@ -110,41 +109,42 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
 .layout{display:grid;grid-template-columns:1fr 330px;gap:18px;align-items:start}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:14px}
 
-/* Grilla del día */
-/* Una columna por profesional; sumar una tercera = otro .pro + otra .col */
-.grid{display:grid;grid-template-columns:52px repeat(2,1fr);column-gap:8px;padding:0 14px 14px 6px}
-.pro{position:sticky;top:0;padding:14px 6px 10px;border-bottom:1px solid var(--line);margin-bottom:10px;background:var(--surface)}
+/* Agenda del día: una lista por profesional, en orden de hora.
+   Todas las tarjetas de turno miden lo mismo; la duración va escrita en el horario.
+   Sumar una tercera profesional = otro .pro + otra .dia y una columna más en .lista */
+.lista{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:20px;padding:0 18px 18px}
+.pro{padding:16px 2px 12px;border-bottom:1px solid var(--line);margin-bottom:14px}
 .pro b{font-family:var(--serif);font-weight:400;font-size:17px}
 .pro span{display:block;font-size:11.5px;color:var(--muted)}
-.hours div{height:var(--hour);font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;text-align:right;padding-right:10px;transform:translateY(-7px)}
-.col{position:relative;height:calc(var(--hour) * 11);background:repeating-linear-gradient(var(--line) 0 1px,transparent 1px var(--hour))}
-/* Cada bloque se mete 5px arriba y abajo: siempre quedan 10px entre bloques y todos alineados a la grilla */
-.appt,.free,.closed{position:absolute;left:6px;right:6px;top:calc(var(--hour) * var(--a) / 60 + 5px);height:calc(var(--hour) * var(--m) / 60 - 10px);border-radius:10px;padding:7px 11px;overflow:hidden}
-/* Línea 1: hora · clienta · estado (solo si no está confirmado). Línea 2: tratamiento. Turnos cortos: todo en una línea. */
-.appt{z-index:3;cursor:pointer;border-left:3px solid;display:flex;flex-wrap:wrap;align-content:flex-start;align-items:baseline;column-gap:8px;line-height:1.2;padding:5px 12px}
-.appt .t{font-size:11px;font-variant-numeric:tabular-nums;opacity:.8}
-.appt b{font-weight:600;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.appt .tx{flex-basis:100%;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.appt .st{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
-.appt.short{flex-wrap:nowrap;align-items:center;padding:0 12px}
-.appt.short .st{display:none} /* el color y la lista de atención ya lo dicen */
-.appt.short b{flex:0 1 auto}
-.appt.short .tx{flex:1 1 auto;min-width:0;order:2}
+.dia{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;min-width:0}
+
+/* Tarjeta de turno: alto universal. Línea 1: estado (si hace falta) · horario · clienta. Línea 2: tratamiento · etiqueta de estado. */
+.turno{box-sizing:border-box;width:100%;height:62px;display:flex;flex-direction:column;justify-content:center;gap:3px;padding:0 14px;border:0;border-left:3px solid;border-radius:10px;font:inherit;text-align:left;cursor:pointer}
+.turno .l1,.turno .l2{display:flex;align-items:center;gap:8px;min-width:0;line-height:1.25}
+.turno .hora{font-size:11.5px;font-variant-numeric:tabular-nums;opacity:.85;white-space:nowrap}
+.turno b{font-weight:600;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.turno .tx{flex:1;min-width:0;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.turno .st{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.turno.sel{outline:2px solid var(--text);outline-offset:1px}
 .ok{background:var(--ok-bg);border-color:var(--ok);color:var(--ok-text)}
 .pend{background:var(--pend-bg);border-color:var(--pend);color:var(--pend-text)}
 .alert{background:var(--alert-bg);border-color:var(--alert);color:var(--alert-text)}
-.appt.sel{outline:2px solid var(--text);outline-offset:1px}
-.closed{background:repeating-linear-gradient(45deg,transparent 0 6px,var(--line) 6px 7px);color:var(--muted);font-size:11px;letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;justify-content:center}
-/* Línea de "ahora": cruza las columnas por encima de los bloques */
-.now{position:absolute;left:-8px;right:-4px;top:calc(var(--hour) * var(--a) / 60);border-top:2px solid var(--text);z-index:1;pointer-events:none} /* pasa por detrás de los turnos: no los tacha */
-.now::before{content:"";position:absolute;left:0;top:-5px;width:8px;height:8px;border-radius:50%;background:var(--text)}
-.now span{position:absolute;left:-46px;top:-9px;background:var(--text);color:var(--page);font-size:10.5px;font-weight:600;font-variant-numeric:tabular-nums;padding:1px 5px;border-radius:999px}
-/* Hueco libre = espacio vacío con su etiqueta; el borde aparece solo al pasar el mouse */
-.free{border:1px dashed transparent;cursor:pointer;color:var(--gold-text);font-size:12px;display:flex;align-items:center;gap:6px;padding:0 12px;line-height:1}
 .ic{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;font-size:10px;font-weight:700;color:var(--ic-text);flex:none;align-self:center}
 .alert .ic{background:var(--alert)} .pend .ic{background:var(--pend)}
-.free::before{content:"+";font-size:14px;line-height:1}
-.free:hover,.free:focus-visible{border-color:var(--gold-light)}
+
+/* Hueco libre: fila fina sin caja; el borde aparece al pasar el mouse o con el teclado */
+.hueco{box-sizing:border-box;height:30px;display:flex;align-items:center;gap:6px;padding:0 14px;border:1px dashed transparent;border-radius:10px;color:var(--gold-text);font-size:12px;font-variant-numeric:tabular-nums;cursor:pointer}
+.hueco::before{content:"+";font-size:14px;line-height:1}
+.hueco:hover,.hueco:focus-visible{border-color:var(--gold-light)}
+
+/* Cerrado: línea divisoria fina */
+.cerrado{height:20px;display:flex;align-items:center;gap:10px;color:var(--muted);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.cerrado::before,.cerrado::after{content:"";flex:1;border-top:1px dashed var(--line)}
+
+/* Ahora: entre los turnos que ya empezaron y los que vienen */
+.ahora{height:20px;display:flex;align-items:center;gap:8px}
+.ahora span{background:var(--text);color:var(--page);font-size:10.5px;font-weight:600;font-variant-numeric:tabular-nums;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.ahora::after{content:"";flex:1;border-top:2px solid var(--text)}
 
 /* Detalle */
 .detail{padding:20px}
@@ -239,20 +239,14 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
 }
 /* Celular: una profesional a la vez, y "Requiere atención" primero */
 .pro-switch{display:none}
-.col[data-p="1"] .now span{display:none} /* en la notebook la hora se muestra una sola vez */
 @media (max-width:640px){
   .pro-switch{display:inline-flex;margin:12px 14px 2px}
-  .grid{grid-template-columns:44px 1fr;padding-top:12px}
-  .grid > div:first-child, .grid .pro{display:none}
-  .grid[data-ver="0"] .col[data-p="1"], .grid[data-ver="1"] .col[data-p="0"]{display:none}
-  .col[data-p="1"] .now span{display:block}
+  .lista{grid-template-columns:minmax(0,1fr);padding-top:14px}
+  .lista .pro{display:none}
+  .lista[data-ver="0"] .dia[data-p="1"], .lista[data-ver="1"] .dia[data-p="0"]{display:none}
   .side{display:contents}
   .side .attn{order:-1}
-  /* En el celular sí hay scroll vertical: horas más altas, y los turnos cortos en dos líneas */
-  :root{--hour:70px}
-  .appt.short{flex-wrap:wrap;align-content:center;padding:2px 12px}
-  .appt.short b{flex:1}
-  .appt.short .tx{flex-basis:100%}
+  .turno .st{display:none} /* alto fijo: el ícono ! / ? y "Requiere atención" ya dicen el estado */
 }
 </style>
 </head>
@@ -290,34 +284,31 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
       <section class="card">
         <!-- Solo en el celular: una profesional a la vez -->
         <div class="seg pro-switch" role="group" aria-label="Profesional"><button class="on" aria-pressed="true" onclick="verPro(0)">Ingrid · 3</button><button aria-pressed="false" onclick="verPro(1)">Eliana · 3</button></div>
-        <div class="grid" id="grilla" data-ver="0">
-          <div></div>
+        <!-- Maqueta: hora fija 15:20; en el código real "Ahora" se ubica solo con la hora actual. -->
+        <div class="lista" id="grilla" data-ver="0">
           <div class="pro" data-p="0"><b>Ingrid</b><span>3 turnos</span></div>
           <div class="pro" data-p="1"><b>Eliana</b><span>3 turnos</span></div>
-          <div class="hours"><div>09</div><div>10</div><div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div></div>
-          <!-- --a = minutos desde las 09:00 · --m = duración en minutos. Horario: 09–13 y 15–20. -->
-          <div class="col" data-p="0">
-            <!-- Maqueta: hora fija 15:20. En el código real se calcula con la hora actual y se mueve sola. -->
-            <div class="now" style="--a:380"><span>15:20</span></div>
-            <div class="free" style="--a:0;--m:60">Libre · 09:00–10:00</div>
-            <div class="appt ok" style="--a:60;--m:60"><span class="t">10:00</span><b>Agustina Paz</b><span class="tx">Peeling facial</span></div>
-            <div class="free" style="--a:120;--m:120">Libre · 11:00–13:00</div>
-            <div class="closed" style="--a:240;--m:120">Cerrado</div>
-            <div class="appt alert short" style="--a:360;--m:40"><span class="ic" role="img" aria-label="Requiere atención">!</span><span class="t">15:00</span><b>Sofía Ramos</b><span class="tx">Depilación definitiva</span><span class="st">Atención</span></div>
-            <div class="appt pend sel" style="--a:420;--m:90"><span class="ic" role="img" aria-label="Sin confirmar">?</span><span class="t">16:00</span><b>Luciana Ferreyra</b><span class="tx">Peeling facial + Depilación definitiva</span><span class="st">Sin confirmar</span></div>
-            <div class="free" style="--a:510;--m:150">Libre · 17:30–20:00</div>
-          </div>
-          <div class="col" data-p="1">
-            <div class="now" style="--a:380"><span>15:20</span></div>
-            <div class="appt ok" style="--a:0;--m:60"><span class="t">09:00</span><b>Valentina Sosa</b><span class="tx">Peeling corporal</span></div>
-            <div class="free" style="--a:60;--m:90">Libre · 10:00–11:30</div>
-            <div class="appt ok" style="--a:150;--m:60"><span class="t">11:30</span><b>Martina Gil</b><span class="tx">Limpieza facial profunda</span></div>
-            <div class="free" style="--a:210;--m:30">Libre · 12:30–13:00</div>
-            <div class="closed" style="--a:240;--m:120">Cerrado</div>
-            <div class="free" style="--a:360;--m:150">Libre · 15:00–17:30</div>
-            <div class="appt ok short" style="--a:510;--m:40"><span class="t">17:30</span><b>Florencia Díaz</b><span class="tx">Depilación definitiva</span></div>
-            <div class="free" style="--a:550;--m:110">Libre · 18:10–20:00</div>
-          </div>
+          <ol class="dia" data-p="0" aria-label="Turnos de Ingrid">
+            <li class="hueco" tabindex="0">Libre 09:00–10:00 · 1 h</li>
+            <li><button class="turno ok"><span class="l1"><span class="hora">10:00–11:00</span><b>Agustina Paz</b></span><span class="l2"><span class="tx">Peeling facial</span></span></button></li>
+            <li class="hueco" tabindex="0">Libre 11:00–13:00 · 2 h</li>
+            <li class="cerrado">Cerrado 13–15</li>
+            <li><button class="turno alert"><span class="l1"><span class="ic" role="img" aria-label="Requiere atención">!</span><span class="hora">15:00–15:40</span><b>Sofía Ramos</b></span><span class="l2"><span class="tx">Depilación definitiva</span><span class="st">Atención</span></span></button></li>
+            <li class="ahora"><span>Ahora · 15:20</span></li>
+            <li><button class="turno pend sel" aria-pressed="true"><span class="l1"><span class="ic" role="img" aria-label="Sin confirmar">?</span><span class="hora">16:00–17:30</span><b>Luciana Ferreyra</b></span><span class="l2"><span class="tx">Peeling facial + Depilación definitiva</span><span class="st">Sin confirmar</span></span></button></li>
+            <li class="hueco" tabindex="0">Libre 17:30–20:00 · 2 h 30</li>
+          </ol>
+          <ol class="dia" data-p="1" aria-label="Turnos de Eliana">
+            <li><button class="turno ok"><span class="l1"><span class="hora">09:00–10:00</span><b>Valentina Sosa</b></span><span class="l2"><span class="tx">Peeling corporal</span></span></button></li>
+            <li class="hueco" tabindex="0">Libre 10:00–11:30 · 1 h 30</li>
+            <li><button class="turno ok"><span class="l1"><span class="hora">11:30–12:30</span><b>Martina Gil</b></span><span class="l2"><span class="tx">Limpieza facial profunda</span></span></button></li>
+            <li class="hueco" tabindex="0">Libre 12:30–13:00 · 30 min</li>
+            <li class="cerrado">Cerrado 13–15</li>
+            <li class="hueco" tabindex="0">Libre 15:00–17:30 · 2 h 30</li>
+            <li class="ahora"><span>Ahora · 15:20</span></li>
+            <li><button class="turno ok"><span class="l1"><span class="hora">17:30–18:10</span><b>Florencia Díaz</b></span><span class="l2"><span class="tx">Depilación definitiva</span></span></button></li>
+            <li class="hueco" tabindex="0">Libre 18:10–20:00 · 1 h 50</li>
+          </ol>
         </div>
       </section>
 

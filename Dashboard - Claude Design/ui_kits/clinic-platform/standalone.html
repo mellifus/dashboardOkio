@@ -206,24 +206,24 @@ const VIEW_LABEL = { calendar:"Agenda", requests:"Centro de Solicitudes", client
 
 const THREADS = [
   { id:"t1", name:"Elena Vidal", category:"Reprogramación", color:"oklch(58% 0.16 55)", meta:"Mañana 10:00 · horarios alternativos", channel:"WhatsApp", status:"Listo para aprobar", vip:true },
-  { id:"t2", name:"Camila Reyes", category:"Consulta de precio", color:"oklch(56% 0.15 230)", meta:"Oportunidad de $420", channel:"Instagram", status:"Esperando aprobación", vip:false },
+  { id:"t2", name:"Camila Reyes", category:"Consulta de precio", color:"oklch(56% 0.15 230)", meta:"Oportunidad de $32.000", channel:"Instagram", status:"Esperando aprobación", vip:false },
   { id:"t3", name:"Irene Castro", category:"Consulta médica", color:"oklch(56% 0.18 25)", meta:"Posible complicación", channel:"WhatsApp", status:"Requiere revisión inmediata", vip:false },
 ];
 const CLIENTS = [
   { id:"c1", name:"Elena Vidal", lastVisit:"12 jul", overview:"Clienta habitual desde 2023. Prefiere turnos por la mañana. Referida por Sofía Ramos." },
-  { id:"c2", name:"Sofía Ramos", lastVisit:"20 jun", overview:"Clienta de largo plazo, tratamientos mensuales. Prefiere a Marta Ruiz." },
+  { id:"c2", name:"Sofía Ramos", lastVisit:"20 jun", overview:"Clienta de largo plazo, tratamientos mensuales. Prefiere a Eliana." },
 ];
 const CATALOG = [
-  { id:"tx1", name:"Botox · frente", cat:"Facial", color:"oklch(58% 0.16 55)", dur:"30 min", price:"$45.000" },
-  { id:"tx2", name:"Relleno de labios", cat:"Facial", color:"oklch(58% 0.16 55)", dur:"45 min", price:"$78.000" },
-  { id:"tx3", name:"Depilación láser · piernas", cat:"Corporal", color:"oklch(56% 0.15 230)", dur:"40 min", price:"$32.000" },
+  { id:"tx1", name:"Peeling facial", cat:"Facial", color:"oklch(58% 0.16 55)", dur:"45 min", price:"$35.000" },
+  { id:"tx2", name:"Peeling químico", cat:"Facial", color:"oklch(58% 0.16 55)", dur:"30 min", price:"$30.000" },
+  { id:"tx3", name:"Depilación definitiva · piernas", cat:"Corporal", color:"oklch(56% 0.15 230)", dur:"40 min", price:"$32.000" },
   { id:"tx4", name:"Limpieza facial profunda", cat:"Facial", color:"oklch(58% 0.16 55)", dur:"60 min", price:"$28.000" },
   { id:"tx5", name:"SkinRetin", cat:"Tratamiento", color:"var(--accent)", dur:"50 min", price:"$52.000" },
   { id:"tx6", name:"Mesoterapia capilar", cat:"Corporal", color:"oklch(56% 0.15 230)", dur:"30 min", price:"$38.000" },
 ];
 const FOLLOWUPS = [
-  { id:"f1", name:"Elena Vidal", treatment:"Botox · frente", since:"hace 12 días", plan:{done:1,total:1}, next:"Control post-aplicación a las 2 semanas", status:"Pendiente", tone:"warning", color:"oklch(58% 0.16 55)" },
-  { id:"f2", name:"Carla Núñez", treatment:"Depilación láser · piernas", since:"hace 5 días", plan:{done:3,total:6}, next:"Reservar la sesión 4 de 6", status:"Al día", tone:"success", color:"oklch(56% 0.15 230)" },
+  { id:"f1", name:"Elena Vidal", treatment:"Peeling facial", since:"hace 12 días", plan:{done:1,total:1}, next:"Control de la piel a las 2 semanas", status:"Pendiente", tone:"warning", color:"oklch(58% 0.16 55)" },
+  { id:"f2", name:"Carla Núñez", treatment:"Depilación definitiva · piernas", since:"hace 5 días", plan:{done:3,total:6}, next:"Reservar la sesión 4 de 6", status:"Al día", tone:"success", color:"oklch(56% 0.15 230)" },
   { id:"f3", name:"Irene Castro", treatment:"Consulta médica", since:"hace 2 días", plan:{done:0,total:1}, next:"Revisión de posible complicación", status:"Urgente", tone:"danger", color:"oklch(56% 0.18 25)" },
 ];
 
@@ -271,7 +271,7 @@ function CalendarView() {
           <div style={{ marginLeft:"auto" }}><Button variant="primary" withShadow>+ Nuevo turno</Button></div>
         </div>
         <div style={{ background:"white", border:"1px solid var(--border-default)", borderRadius:12, padding:16, boxShadow:"var(--shadow-card)" }}>
-          {["Elena Vidal, Botox frente · 09:30","Marco Díaz, Consulta · 11:00","Carla Núñez, Depilación láser · 14:00"].map((r)=>(
+          {["Elena Vidal, Peeling facial · 09:30","Marco Díaz, Consulta · 11:00","Carla Núñez, Depilación definitiva · 15:00"].map((r)=>(
             <div key={r} style={{ padding:"10px 0", borderTop:"1px solid var(--gray-7)", fontSize:13 }}>{r}</div>
           ))}
         </div>
@@ -279,7 +279,7 @@ function CalendarView() {
       <div style={{ width:260 }}>
         <Card>
           <div style={{ fontWeight:650, fontSize:13, marginBottom:10 }}>Requiere atención (2)</div>
-          <ListRow title="Marco Díaz" subtitle="11:00 · Ana Torres" trailing={<Button size="sm">Confirmar</Button>} />
+          <ListRow title="Marco Díaz" subtitle="11:00 · Ingrid" trailing={<Button size="sm">Confirmar</Button>} />
         </Card>
       </div>
     </div>
@@ -413,16 +413,16 @@ function AnalyticsView() {
   return (
     <div style={{ padding:24 }}>
       <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:14, marginBottom:20 }}>
-        <StatCard label="Ingresos este mes" value="$18.420" sub="+12% vs. el mes pasado" />
+        <StatCard label="Ingresos este mes" value="$4.820.000" sub="+12% vs. el mes pasado" />
         <StatCard label="Turnos reservados" value="214" sub="96% de la capacidad" />
         <StatCard label="Tasa de ausentismo" value="4.2%" sub="-1.1pt vs. el mes pasado" />
         <StatCard label="Retención de clientes" value="68%" sub="+3pt vs. el mes pasado" />
       </div>
       <div style={{ background:"white", border:"1px solid var(--border-default)", borderRadius:12, padding:18 }}>
         <div style={{ fontWeight:650, fontSize:13, marginBottom:14 }}>Tratamientos más solicitados</div>
-        <ProgressBar label="Botox" pct={32} />
-        <ProgressBar label="Relleno" pct={24} />
-        <ProgressBar label="Depilación láser" pct={18} />
+        <ProgressBar label="Peeling facial" pct={32} />
+        <ProgressBar label="Depilación definitiva" pct={26} />
+        <ProgressBar label="Limpieza facial" pct={18} />
       </div>
     </div>
   );

@@ -39,7 +39,7 @@ addEventListener('DOMContentLoaded', function(){
   --alert:#8E5A5F; --alert-bg:#F2E4E3; --alert-text:#5D3A33; --alert-line:#E6CFCD; --why:#5A5A5A;
   --ic-text:#FFFFFF;
   --serif:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,sans-serif;
-  --hour:40px;
+  --hour:48px;
   color-scheme:light;
 }
 /* Mismos valores oscuros dos veces: por el sistema (si nadie eligió claro) y por el switch. */
@@ -118,14 +118,15 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
 .pro span{display:block;font-size:11.5px;color:var(--muted)}
 .hours div{height:var(--hour);font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;text-align:right;padding-right:10px;transform:translateY(-7px)}
 .col{position:relative;height:calc(var(--hour) * 11);background:repeating-linear-gradient(var(--line) 0 1px,transparent 1px var(--hour))}
-.appt,.free,.closed{position:absolute;left:6px;right:6px;top:calc(var(--hour) * var(--a) / 60);height:calc(var(--hour) * var(--m) / 60);border-radius:10px;padding:7px 11px;overflow:hidden}
+/* Cada bloque se mete 3px arriba y abajo: siempre quedan 6px entre bloques y todos alineados a la grilla */
+.appt,.free,.closed{position:absolute;left:6px;right:6px;top:calc(var(--hour) * var(--a) / 60 + 3px);height:calc(var(--hour) * var(--m) / 60 - 6px);border-radius:10px;padding:7px 11px;overflow:hidden}
 /* Línea 1: hora · clienta · estado (solo si no está confirmado). Línea 2: tratamiento. Turnos cortos: todo en una línea. */
-.appt{cursor:pointer;border-left:3px solid;display:flex;flex-wrap:wrap;align-content:flex-start;align-items:baseline;column-gap:6px;line-height:1.2;padding:3px 10px}
+.appt{cursor:pointer;border-left:3px solid;display:flex;flex-wrap:wrap;align-content:flex-start;align-items:baseline;column-gap:8px;line-height:1.2;padding:5px 12px}
 .appt .t{font-size:11px;font-variant-numeric:tabular-nums;opacity:.8}
 .appt b{font-weight:600;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .appt .tx{flex-basis:100%;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .appt .st{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
-.appt.short{flex-wrap:nowrap}
+.appt.short{flex-wrap:nowrap;align-items:center;padding:0 12px}
 .appt.short .st{display:none} /* el color y la lista de atención ya lo dicen */
 .appt.short b{flex:0 1 auto}
 .appt.short .tx{flex:1 1 auto;min-width:0;order:2}
@@ -138,10 +139,10 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
 .now{position:absolute;left:-8px;right:-4px;top:calc(var(--hour) * var(--a) / 60);border-top:2px solid var(--text);z-index:2;pointer-events:none}
 .now::before{content:"";position:absolute;left:0;top:-5px;width:8px;height:8px;border-radius:50%;background:var(--text)}
 .now span{position:absolute;left:-46px;top:-9px;background:var(--text);color:var(--page);font-size:10.5px;font-weight:600;font-variant-numeric:tabular-nums;padding:1px 5px;border-radius:999px}
-.free{border:1px dashed var(--gold-light);color:var(--gold-text);font-size:12px;display:flex;align-items:center;gap:6px;padding:0 11px}
+.free{border:1px dashed var(--gold-light);color:var(--gold-text);font-size:12px;display:flex;align-items:center;gap:6px;padding:0 12px;line-height:1}
 .ic{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;font-size:10px;font-weight:700;color:var(--ic-text);flex:none;align-self:center}
 .alert .ic{background:var(--alert)} .pend .ic{background:var(--pend)}
-.free::before{content:"+";font-size:16px;line-height:1}
+.free::before{content:"+";font-size:14px;line-height:1}
 
 /* Detalle */
 .detail{padding:20px}
@@ -246,8 +247,8 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
   .side{display:contents}
   .side .attn{order:-1}
   /* En el celular sí hay scroll vertical: horas más altas, y los turnos cortos en dos líneas */
-  :root{--hour:58px}
-  .appt.short{flex-wrap:wrap}
+  :root{--hour:64px}
+  .appt.short{flex-wrap:wrap;align-content:center;padding:2px 12px}
   .appt.short b{flex:1}
   .appt.short .tx{flex-basis:100%}
 }
@@ -296,24 +297,24 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
           <div class="col" data-p="0">
             <!-- Maqueta: hora fija 15:20. En el código real se calcula con la hora actual y se mueve sola. -->
             <div class="now" style="--a:380"><span>15:20</span></div>
-            <div class="free" style="--a:2;--m:56">Libre · 09:00–10:00</div>
+            <div class="free" style="--a:0;--m:60">Libre · 09:00–10:00</div>
             <div class="appt ok" style="--a:60;--m:60"><span class="t">10:00</span><b>Agustina Paz</b><span class="tx">Peeling facial</span></div>
-            <div class="free" style="--a:122;--m:116">Libre · 11:00–13:00</div>
+            <div class="free" style="--a:120;--m:120">Libre · 11:00–13:00</div>
             <div class="closed" style="--a:240;--m:120">Cerrado</div>
             <div class="appt alert short" style="--a:360;--m:40"><span class="ic" role="img" aria-label="Requiere atención">!</span><span class="t">15:00</span><b>Sofía Ramos</b><span class="tx">Depilación definitiva</span><span class="st">Atención</span></div>
             <div class="appt pend sel" style="--a:420;--m:90"><span class="ic" role="img" aria-label="Sin confirmar">?</span><span class="t">16:00</span><b>Luciana Ferreyra</b><span class="tx">Peeling facial + Depilación definitiva</span><span class="st">Sin confirmar</span></div>
-            <div class="free" style="--a:512;--m:146">Libre · 17:30–20:00</div>
+            <div class="free" style="--a:510;--m:150">Libre · 17:30–20:00</div>
           </div>
           <div class="col" data-p="1">
             <div class="now" style="--a:380"><span>15:20</span></div>
             <div class="appt ok" style="--a:0;--m:60"><span class="t">09:00</span><b>Valentina Sosa</b><span class="tx">Peeling corporal</span></div>
-            <div class="free" style="--a:62;--m:86">Libre · 10:00–11:30</div>
+            <div class="free" style="--a:60;--m:90">Libre · 10:00–11:30</div>
             <div class="appt ok" style="--a:150;--m:60"><span class="t">11:30</span><b>Martina Gil</b><span class="tx">Limpieza facial profunda</span></div>
-            <div class="free" style="--a:212;--m:26">Libre · 12:30–13:00</div>
+            <div class="free" style="--a:210;--m:30">Libre · 12:30–13:00</div>
             <div class="closed" style="--a:240;--m:120">Cerrado</div>
-            <div class="free" style="--a:362;--m:146">Libre · 15:00–17:30</div>
+            <div class="free" style="--a:360;--m:150">Libre · 15:00–17:30</div>
             <div class="appt ok short" style="--a:510;--m:40"><span class="t">17:30</span><b>Florencia Díaz</b><span class="tx">Depilación definitiva</span></div>
-            <div class="free" style="--a:552;--m:106">Libre · 18:10–20:00</div>
+            <div class="free" style="--a:550;--m:110">Libre · 18:10–20:00</div>
           </div>
         </div>
       </section>

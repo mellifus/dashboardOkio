@@ -2,7 +2,11 @@
 // y expone un endpoint que la página usa. "El lugar donde vive el motor."
 //
 // Correr:  node server.mjs   (necesita ANTHROPIC_API_KEY en el entorno)
-// Después abrí http://localhost:3000 en el navegador.
+// Variables de entorno:
+//   ANTHROPIC_API_KEY  (obligatoria para generar)
+//   APP_PASSWORD       (clave de acceso; ponela SIEMPRE al deployar)
+//   APP_USER           (usuario, opcional; por defecto "okio")
+//   PORT               (lo asigna el hosting; en local, 3000)
 
 import express from "express";
 import Anthropic from "@anthropic-ai/sdk";
@@ -12,6 +16,26 @@ import { generarRecordatorios, plantillaAntes } from "./generadores.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
+
+// --- Protección simple (Basic Auth del navegador) ---
+// Con APP_PASSWORD definida, la página y el endpoint quedan detrás de usuario+clave.
+// Sin APP_PASSWORD (ej. localhost) queda libre, pero avisamos. SIEMPRE ponela al deployar.
+// ponytail: compara en texto plano; suficiente para una herramienta interna de 2 personas.
+const APP_USER = process.env.APP_USER || "okio";
+const APP_PASSWORD = process.env.APP_PASSWORD;
+if (!APP_PASSWORD) {
+  console.warn("⚠ Sin APP_PASSWORD: cualquiera con la URL puede usar (y gastar) esto. Ponela antes de deployar.");
+}
+app.use((req, res, next) => {
+  if (!APP_PASSWORD) return next(); // sin clave configurada → libre (desarrollo)
+  const [scheme, b64] = (req.headers.authorization || "").split(" ");
+  if (scheme === "Basic" && b64) {
+    const [u, p] = Buffer.from(b64, "base64").toString().split(":");
+    if (u === APP_USER && p === APP_PASSWORD) return next();
+  }
+  res.set("WWW-Authenticate", 'Basic realm="Okio"');
+  return res.status(401).send("Acceso restringido.");
+});
 
 app.use(express.json()); // para leer el body JSON de los pedidos
 app.use(express.static(path.join(here, "public"))); // sirve la página desde /public
@@ -55,5 +79,6 @@ app.post("/api/recordatorio", async (req, res) => {
   }
 });
 
-const PORT = 3000;
-app.listen(PORT, () => console.log(`Okio andando en http://localhost:${PORT}`));
+// El hosting asigna el puerto por PORT; en local usamos 3000.
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Okio andando en el puerto ${PORT}`));

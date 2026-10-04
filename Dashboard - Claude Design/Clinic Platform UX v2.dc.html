@@ -234,7 +234,7 @@
             <div style="font-size:19px;font-weight:650;letter-spacing:-0.015em">Semana del 27 de julio al 1 de agosto</div>
             <button onClick="{{ onToggleNewAppt }}" style="margin-left:auto;background:var(--accent);color:var(--text-on-accent);border:none;padding:9px 15px;border-radius:var(--radius-pill);font-size:13px;font-weight:600;cursor:pointer;box-shadow:var(--shadow-button-accent)">+ Nuevo turno</button>
           </div>
-          <div style="font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:16px">Lun–Sáb · 9:00–19:00</div>
+          <div style="font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:16px">Lun–Vie · 9–13 y 15–20</div>
           <div style="display:flex;background:var(--surface-card);border:1px solid var(--gray-9);border-radius:12px;overflow-x:auto;box-shadow:var(--shadow-card)">
             <div style="width:52px;flex-shrink:0;position:relative;height:640px;border-right:1px solid var(--gray-8)">
               <sc-for list="{{ hourLabels }}" as="h" hint-placeholder-count="10">
@@ -252,7 +252,7 @@
                 <sc-if value="{{ col.open }}" hint-placeholder-val="{{ true }}">
                   <div onClick="{{ col.onTrackClick }}" style="position:relative;height:640px;cursor:pointer;background:repeating-linear-gradient(to bottom, var(--gray-7) 0 1px, transparent 1px 64px)">
                     <sc-for list="{{ col.appts }}" as="appt" hint-placeholder-count="2">
-                      <div onClick="{{ appt.stopClick }}" style="position:absolute;top:{{ appt.top }}px;height:{{ appt.height }}px;left:5px;right:5px;background:{{ appt.bg }};border-left:{{ appt.leftBorder }};border-radius:5px;padding:4px 6px;overflow:hidden;font-size:10.5px;color:{{ appt.color }}">
+                      <div onClick="{{ appt.onClick }}" style="position:absolute;top:{{ appt.top }}px;height:{{ appt.height }}px;left:5px;right:5px;background:{{ appt.bg }};border-left:{{ appt.leftBorder }};border-radius:5px;padding:4px 6px;overflow:hidden;font-size:10.5px;color:{{ appt.color }}">
                         <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:3px">
                           <span style="font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ appt.timeLabel }}</span>
                           <span style="width:6px;height:6px;border-radius:50%;background:{{ appt.staffColor }};flex-shrink:0;margin-top:2px" title="{{ appt.staffName }}"></span>
@@ -289,6 +289,65 @@
             <div style="display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0;border-top:1px solid var(--gray-7)"><span style="color:var(--gray-17)">Sin confirmar</span><span style="font-weight:600;font-variant-numeric:tabular-nums">{{ needsAttentionCount }}</span></div>
             <div style="display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0;border-top:1px solid var(--gray-7)"><span style="color:var(--gray-17)">Esperando al cliente</span><span style="font-weight:600;font-variant-numeric:tabular-nums">{{ weekWaiting }}</span></div>
           </div>
+
+          <sc-if value="{{ hasSelectedAppointment }}" hint-placeholder-val="{{ false }}">
+            <div style="background:var(--surface-card);border:1px solid var(--gray-9);border-radius:12px;padding:16px;box-shadow:var(--shadow-card)">
+              <div style="display:flex;align-items:center;margin-bottom:10px">
+                <div style="font-weight:650;font-size:13px;letter-spacing:-0.01em">Detalle del turno</div>
+                <div onClick="{{ onCloseApptDetail }}" style="margin-left:auto;color:var(--gray-14);font-size:12px;cursor:pointer">✕</div>
+              </div>
+              <div style="font-size:12.5px;color:var(--gray-17);line-height:1.6">
+                <div style="font-weight:600">{{ selectedAppointment.client }}</div>
+                <div>{{ selectedAppointment.treatment }}</div>
+                <div>{{ selectedAppointment.dayLabel }} · {{ selectedAppointment.timeLabel }} · {{ selectedAppointment.staffName }}</div>
+              </div>
+              <sc-if value="{{ selectedAppointment.isMarkable }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ onMarkCompleted }}" style="margin-top:12px;width:100%;box-sizing:border-box;background:var(--accent);color:var(--text-on-accent);border:none;padding:8px 14px;border-radius:var(--radius-pill);font-size:12.5px;font-weight:600;cursor:pointer">Marcar como completado</button>
+              </sc-if>
+              <sc-if value="{{ selectedAppointment.isAwaitingLog }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ onReopenLog }}" style="margin-top:12px;width:100%;box-sizing:border-box;background:var(--accent);color:var(--text-on-accent);border:none;padding:8px 14px;border-radius:var(--radius-pill);font-size:12.5px;font-weight:600;cursor:pointer">Registrar sesión</button>
+              </sc-if>
+              <sc-if value="{{ selectedAppointment.isLogged }}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top:12px;font-size:12px;font-weight:600;color:var(--accent-strong)">✓ Sesión registrada</div>
+              </sc-if>
+              <sc-if value="{{ isLoggingSelectedAppt }}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--gray-7);display:flex;flex-direction:column;gap:10px">
+                  <div>
+                    <div style="font-size:11.5px;font-weight:600;color:var(--gray-15);margin-bottom:5px">Notas clínicas</div>
+                    <textarea value="{{ sessionDraft.notes }}" onChange="{{ onSessionNotesChange }}" rows="3" style="width:100%;box-sizing:border-box;padding:8px 11px;border:1px solid var(--gray-9);border-radius:var(--radius-md);font-size:12.5px;background:var(--gray-2);color:var(--gray-19);resize:vertical"></textarea>
+                  </div>
+                  <div>
+                    <div style="font-size:11.5px;font-weight:600;color:var(--gray-15);margin-bottom:5px">Reacción adversa</div>
+                    <div style="display:flex;gap:6px">
+                      <button onClick="{{ onReactionNo }}" style="flex:1;padding:7px;border-radius:var(--radius-md);font-size:12px;font-weight:600;cursor:pointer;{{ reactionNoStyle }}">No</button>
+                      <button onClick="{{ onReactionYes }}" style="flex:1;padding:7px;border-radius:var(--radius-md);font-size:12px;font-weight:600;cursor:pointer;{{ reactionYesStyle }}">Sí</button>
+                    </div>
+                  </div>
+                  <sc-if value="{{ sessionDraft.hasReaction }}" hint-placeholder-val="{{ false }}">
+                    <div>
+                      <div style="font-size:11.5px;font-weight:600;color:var(--gray-15);margin-bottom:5px">Descripción de la reacción</div>
+                      <textarea value="{{ sessionDraft.reactionDescription }}" onChange="{{ onReactionDescChange }}" rows="2" style="width:100%;box-sizing:border-box;padding:8px 11px;border:1px solid var(--warning-border);border-radius:var(--radius-md);font-size:12.5px;background:var(--warning-bg);color:var(--gray-19);resize:vertical"></textarea>
+                    </div>
+                  </sc-if>
+                  <div>
+                    <div style="font-size:11.5px;font-weight:600;color:var(--gray-15);margin-bottom:5px">Seguimiento recomendado (opcional)</div>
+                    <div style="display:flex;flex-wrap:wrap;gap:6px">
+                      <sc-for list="{{ followUpPills }}" as="p" hint-placeholder-count="4">
+                        <div onClick="{{ p.onClick }}" style="padding:6px 12px;border-radius:var(--radius-pill);font-size:11.5px;font-weight:600;cursor:pointer;background:{{ p.bg }};color:{{ p.color }};border:{{ p.border }}">{{ p.label }}</div>
+                      </sc-for>
+                    </div>
+                    <sc-if value="{{ isFollowUpCustom }}" hint-placeholder-val="{{ false }}">
+                      <input value="{{ sessionDraft.followUpCustom }}" onChange="{{ onFollowUpCustomChange }}" placeholder="ej. en 2 semanas" style="margin-top:8px;width:100%;box-sizing:border-box;padding:7px 10px;border:1px solid var(--gray-9);border-radius:var(--radius-md);font-size:12.5px;background:var(--gray-2);color:var(--gray-19)"></input>
+                    </sc-if>
+                  </div>
+                  <div style="display:flex;gap:9px">
+                    <button onClick="{{ onCancelSessionForm }}" style="background:var(--surface-card);color:var(--gray-17);border:1px solid var(--gray-10);padding:8px 14px;border-radius:var(--radius-pill);font-size:12px;font-weight:600;cursor:pointer">Cancelar</button>
+                    <button onClick="{{ onSubmitSessionLog }}" style="margin-left:auto;background:var(--accent);color:var(--text-on-accent);border:none;padding:8px 16px;border-radius:var(--radius-pill);font-size:12px;font-weight:600;cursor:pointer">Guardar sesión</button>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
 
           <div style="background:var(--surface-card);border:1px solid var(--gray-9);border-radius:12px;box-shadow:var(--shadow-card);overflow:hidden">
             <div onClick="{{ onToggleNewAppt }}" style="padding:16px;cursor:pointer;display:flex;align-items:center">
@@ -405,6 +464,9 @@
             <button style="background:var(--accent);color:var(--text-on-accent);border:none;padding:8px 15px;border-radius:var(--radius-pill);font-size:12.5px;font-weight:600;cursor:pointer">Reservar turno</button>
             <button style="background:var(--surface-card);color:var(--gray-18);border:1px solid var(--gray-11);padding:8px 15px;border-radius:var(--radius-pill);font-size:12.5px;font-weight:600;cursor:pointer">Mensaje</button>
           </div>
+          <sc-if value="{{ selectedClient.hasAdverseReactionHistory }}" hint-placeholder-val="{{ false }}">
+            <div onClick="{{ onOpenReactionHistory }}" style="display:flex;align-items:center;gap:8px;background:var(--warning-bg);border:1px solid var(--warning-border);border-radius:9px;padding:9px 14px;margin-bottom:16px;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--warning-text)">⚠ Reacción adversa registrada · ver Historial</div>
+          </sc-if>
           <div style="display:flex;gap:4px;border-bottom:1px solid var(--gray-8);margin-bottom:18px">
             <sc-for list="{{ clientTabs }}" as="tab" hint-placeholder-count="5">
               <div onClick="{{ tab.onClick }}" style="padding:9px 14px;cursor:pointer;font-size:13px;font-weight:{{ tab.weight }};color:{{ tab.color }};border-bottom:2px solid {{ tab.borderColor }}">{{ tab.label }}</div>
@@ -415,10 +477,46 @@
             <div style="font-size:13px;line-height:1.7;color:var(--gray-17)">{{ selectedClient.overview }}</div>
           </sc-if>
           <sc-if value="{{ isTabHistory }}" hint-placeholder-val="{{ false }}">
-            <sc-for list="{{ selectedClient.history }}" as="h" hint-placeholder-count="3">
+            <sc-for list="{{ historyEntries }}" as="h" hint-placeholder-count="3">
               <div style="padding:11px 0;border-top:1px solid var(--gray-7);font-size:13px">
-                <div style="font-weight:600">{{ h.treatment }} · {{ h.date }}</div>
-                <div style="color:var(--gray-14);font-size:12.5px">{{ h.practitioner }} · {{ h.notes }}</div>
+                <sc-if value="{{ h.isViewing }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;align-items:flex-start;gap:8px">
+                    <div style="flex:1;min-width:0">
+                      <div style="font-weight:600">{{ h.treatment }} · {{ h.date }} <sc-if value="{{ h.isEdited }}" hint-placeholder-val="{{ false }}"><span style="font-weight:500;color:var(--gray-13);font-size:11.5px">(editado)</span></sc-if></div>
+                      <div style="color:var(--gray-14);font-size:12.5px">{{ h.practitioner }} · {{ h.notes }}</div>
+                      <sc-if value="{{ h.hasReaction }}" hint-placeholder-val="{{ false }}">
+                        <div style="margin-top:6px;display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--warning-text);background:var(--warning-bg);border:1px solid var(--warning-border);padding:3px 9px;border-radius:6px">⚠ Reacción adversa: {{ h.reactionDescription }}</div>
+                      </sc-if>
+                      <sc-if value="{{ h.hasFollowUp }}" hint-placeholder-val="{{ false }}">
+                        <div style="margin-top:5px;font-size:11.5px;font-weight:600;color:var(--accent-strong)">Seguimiento sugerido: {{ h.followUpDue }}</div>
+                      </sc-if>
+                    </div>
+                    <div onClick="{{ h.onEditClick }}" style="font-size:11px;color:var(--gray-13);cursor:pointer;flex-shrink:0">Editar</div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ h.isEditingThis }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;flex-direction:column;gap:10px">
+                    <div style="font-weight:600">{{ h.treatment }} · {{ h.date }}</div>
+                    <div>
+                      <div style="font-size:11.5px;font-weight:600;color:var(--gray-15);margin-bottom:5px">Notas clínicas</div>
+                      <textarea value="{{ historyEditDraft.notes }}" onChange="{{ onHistoryNotesChange }}" rows="3" style="width:100%;box-sizing:border-box;padding:8px 11px;border:1px solid var(--gray-9);border-radius:var(--radius-md);font-size:12.5px;background:var(--gray-2);color:var(--gray-19);resize:vertical"></textarea>
+                    </div>
+                    <div>
+                      <div style="font-size:11.5px;font-weight:600;color:var(--gray-15);margin-bottom:5px">Reacción adversa</div>
+                      <div style="display:flex;gap:6px;max-width:220px">
+                        <button onClick="{{ onHistoryReactionNo }}" style="flex:1;padding:7px;border-radius:var(--radius-md);font-size:12px;font-weight:600;cursor:pointer;{{ historyReactionNoStyle }}">No</button>
+                        <button onClick="{{ onHistoryReactionYes }}" style="flex:1;padding:7px;border-radius:var(--radius-md);font-size:12px;font-weight:600;cursor:pointer;{{ historyReactionYesStyle }}">Sí</button>
+                      </div>
+                    </div>
+                    <sc-if value="{{ historyEditDraft.hasReaction }}" hint-placeholder-val="{{ false }}">
+                      <textarea value="{{ historyEditDraft.reactionDescription }}" onChange="{{ onHistoryReactionDescChange }}" rows="2" placeholder="Descripción de la reacción" style="width:100%;box-sizing:border-box;padding:8px 11px;border:1px solid var(--warning-border);border-radius:var(--radius-md);font-size:12.5px;background:var(--warning-bg);color:var(--gray-19);resize:vertical"></textarea>
+                    </sc-if>
+                    <div style="display:flex;gap:9px">
+                      <button onClick="{{ onCancelEditHistory }}" style="background:var(--surface-card);color:var(--gray-17);border:1px solid var(--gray-10);padding:7px 13px;border-radius:var(--radius-pill);font-size:12px;font-weight:600;cursor:pointer">Cancelar</button>
+                      <button onClick="{{ h.onSave }}" style="margin-left:auto;background:var(--accent);color:var(--text-on-accent);border:none;padding:7px 15px;border-radius:var(--radius-pill);font-size:12px;font-weight:600;cursor:pointer">Guardar</button>
+                    </div>
+                  </div>
+                </sc-if>
               </div>
             </sc-for>
           </sc-if>
@@ -701,6 +799,9 @@
 
     </main>
   </div>
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ onDismissToast }}" style="position:fixed;bottom:24px;right:26px;background:var(--gray-19);color:var(--gray-2);padding:10px 16px;border-radius:8px;font-size:12.5px;font-weight:600;box-shadow:0 4px 14px oklch(20% 0.01 260 / 0.25);z-index:50;cursor:pointer">{{ toastText }}</div>
+  </sc-if>
 </div>
 
 </x-dc>
@@ -725,32 +826,59 @@ class Component extends DCLogic {
     selectedClientId: 'c1',
     selectedThreadId: 't2',
     threadFilter: 'all',
-    draftReply: '¡Buenas noticias! Tenemos un horario libre este jueves a las 15:00 para una consulta de relleno. ¿Querés que te lo reserve?',
+    draftReply: '¡Buenas noticias! Tenemos un horario libre este jueves a las 15:00 para depilación definitiva. ¿Querés que te lo reserve?',
     workflowOpen: false,
     sentThreadIds: [],
     newApptPanelOpen: false,
     newApptDraft: {clientId: '', clientName: '', clientSearch: '', treatment: '', staffId: '', day: '', start: '', dur: 0.5},
+    selectedAppointmentId: null,
+    loggingApptId: null,
+    sessionDraft: {notes:'', hasReaction:false, reactionDescription:'', followUpChoice:'', followUpCustom:''},
+    toast: null,
+    editingHistoryIndex: null,
+    historyEditDraft: {notes:'', hasReaction:false, reactionDescription:''},
     appointments: [
-      {id:1, day:0, staffId:1, staffName:'Ana Torres', client:'Elena Vidal', treatment:'Botox (frente)', start:9.5, dur:0.75, status:'confirmed'},
-      {id:2, day:0, staffId:1, staffName:'Ana Torres', client:'Marco Díaz', treatment:'Consulta', start:11, dur:0.5, status:'unconfirmed'},
-      {id:3, day:2, staffId:1, staffName:'Ana Torres', client:'Carla Núñez', treatment:'Depilación láser', start:14, dur:1, status:'confirmed'},
-      {id:4, day:1, staffId:2, staffName:'Marta Ruiz', client:'Sofía Ramos', treatment:'Relleno (labios)', start:10, dur:1, status:'confirmed'},
-      {id:5, day:3, staffId:2, staffName:'Marta Ruiz', client:'Julia Ortiz', treatment:'Peeling químico', start:13, dur:0.5, status:'waiting'},
-      {id:6, day:4, staffId:2, staffName:'Marta Ruiz', client:'Nora Blanco', treatment:'Botox (patas de gallo)', start:16, dur:0.5, status:'unconfirmed'},
-      {id:7, day:0, staffId:3, staffName:'Dra. Sofía León', client:'Diego Paz', treatment:'Consulta (rinoplastia)', start:9, dur:1, status:'confirmed'},
-      {id:8, day:1, staffId:3, staffName:'Dra. Sofía León', client:'Irene Castro', treatment:'Relleno (pómulos)', start:12, dur:1, status:'confirmed'},
-      {id:9, day:2, staffId:3, staffName:'Dra. Sofía León', client:'Pablo Serra', treatment:'Control de seguimiento', start:17, dur:0.5, status:'unconfirmed'},
-      {id:10, day:3, staffId:4, staffName:'Lucía Gómez', client:'Vera Molina', treatment:'Microneedling', start:10.5, dur:1, status:'confirmed'},
-      {id:11, day:5, staffId:4, staffName:'Lucía Gómez', client:'Hugo Bravo', treatment:'Láser (piernas)', start:15, dur:1.5, status:'waiting'},
+      {id:1, day:0, staffId:1, staffName:'Ingrid', client:'Elena Vidal', treatment:'Peeling facial', start:9.5, dur:0.75, status:'confirmed'},
+      {id:2, day:0, staffId:1, staffName:'Ingrid', client:'Marco Díaz', treatment:'Consulta', start:11, dur:0.5, status:'unconfirmed'},
+      {id:3, day:2, staffId:1, staffName:'Ingrid', client:'Carla Núñez', treatment:'Depilación definitiva', start:15, dur:1, status:'confirmed'},
+      {id:4, day:1, staffId:2, staffName:'Eliana', client:'Sofía Ramos', treatment:'Depilación definitiva (axilas)', start:10, dur:1, status:'confirmed'},
+      {id:5, day:3, staffId:2, staffName:'Eliana', client:'Julia Ortiz', treatment:'Peeling químico', start:16, dur:0.5, status:'waiting'},
+      {id:6, day:4, staffId:2, staffName:'Eliana', client:'Nora Blanco', treatment:'Limpieza facial profunda', start:16, dur:0.5, status:'unconfirmed'},
+      {id:7, day:0, staffId:1, staffName:'Ingrid', client:'Diego Paz', treatment:'Consulta (evaluación facial)', start:12, dur:1, status:'confirmed'},
+      {id:8, day:1, staffId:2, staffName:'Eliana', client:'Irene Castro', treatment:'Peeling químico', start:12, dur:1, status:'confirmed'},
+      {id:9, day:2, staffId:1, staffName:'Ingrid', client:'Pablo Serra', treatment:'Control de seguimiento', start:17, dur:0.5, status:'unconfirmed'},
+      {id:10, day:3, staffId:2, staffName:'Eliana', client:'Vera Molina', treatment:'Microneedling', start:10.5, dur:1, status:'confirmed'},
+      {id:11, day:4, staffId:2, staffName:'Eliana', client:'Hugo Bravo', treatment:'Depilación definitiva (piernas)', start:17, dur:1.5, status:'waiting'},
     ],
     followups: [
       {id:1, client:'Julia Ortiz', treatment:'Peeling químico', trigger:'3 días post-tratamiento', due:'2 días de atraso', bucket:'overdue', status:'pending'},
-      {id:2, client:'Hugo Bravo', treatment:'Láser (piernas)', trigger:'Recordatorio sesión 2 de 6', due:'1 día de atraso', bucket:'overdue', status:'pending'},
-      {id:3, client:'Sofía Ramos', treatment:'Relleno (labios)', trigger:'Control 1 semana post-relleno', due:'Hoy', bucket:'today', status:'pending'},
-      {id:4, client:'Carla Núñez', treatment:'Depilación láser', trigger:'Recordatorio de renovación de turno', due:'Hoy', bucket:'today', status:'pending', lastSessionDaysAgo:9},
+      {id:2, client:'Hugo Bravo', treatment:'Depilación definitiva (piernas)', trigger:'Recordatorio sesión 2 de 6', due:'1 día de atraso', bucket:'overdue', status:'pending'},
+      {id:3, client:'Sofía Ramos', treatment:'Depilación definitiva (axilas)', trigger:'Control 1 semana después de la sesión', due:'Hoy', bucket:'today', status:'pending'},
+      {id:4, client:'Carla Núñez', treatment:'Depilación definitiva', trigger:'Recordatorio de renovación de turno', due:'Hoy', bucket:'today', status:'pending', lastSessionDaysAgo:9},
       {id:5, client:'Diego Paz', treatment:'Consulta', trigger:'Recordatorio pre-procedimiento', due:'Hoy', bucket:'today', status:'pending'},
-      {id:6, client:'Elena Vidal', treatment:'Botox (frente)', trigger:'Recordatorio de retratamiento a las 12 semanas', due:'En 4 días', bucket:'scheduled', status:'pending'},
+      {id:6, client:'Elena Vidal', treatment:'Peeling facial', trigger:'Recordatorio de sesión de mantenimiento', due:'En 4 días', bucket:'scheduled', status:'pending'},
       {id:7, client:'Vera Molina', treatment:'Microneedling', trigger:'Recordatorio de próxima sesión', due:'En 6 días', bucket:'scheduled', status:'pending'},
+    ],
+    clients: [
+      {id:'c1', name:'Elena Vidal', phone:'+54 9 351 XXX XXXX', isVIP:true, isNew:false, lastVisit:'12 jul', nextVisit:'5 de agosto, 10:00 · Peeling facial de mantenimiento',
+        overview:'Clienta habitual desde 2023. Prefiere turnos por la mañana. Piel sensible: usar productos suaves. Referida por Sofía Ramos.',
+        history:[{treatment:'Peeling facial', date:'12 de julio de 2026', practitioner:'Ingrid', notes:'Sin complicaciones'},{treatment:'Depilación definitiva (axilas)', date:'2 de abril de 2026', practitioner:'Eliana', notes:'Sesión 2 de 6'}],
+        notes:[{date:'12 de julio de 2026', author:'Ingrid', text:'Preguntó por sumar una limpieza facial en la próxima visita.'},{date:'2 de abril de 2026', author:'Eliana', text:'Leve enrojecimiento en las axilas, se resolvió en 2 días.'}]},
+      {id:'c2', name:'Marco Díaz', phone:'+54 9 351 XXX XXXX', isVIP:false, isNew:true, lastVisit:'—', nextVisit:'30 de julio, 11:00 · Consulta',
+        overview:'Cliente nuevo, consultó por WhatsApp sobre una consulta de rejuvenecimiento facial. Sin historial previo.',
+        history:[], notes:[{date:'28 de julio de 2026', author:'Recepción', text:'Reservó por WhatsApp luego de una conversación con la IA.'}]},
+      {id:'c3', name:'Sofía Ramos', phone:'+54 9 351 XXX XXXX', isVIP:true, isNew:false, lastVisit:'20 jun', nextVisit:'30 de julio, 10:00 · Control de depilación',
+        overview:'Clienta de largo plazo, con tratamientos de mantenimiento mensuales. Prefiere específicamente a Eliana.',
+        history:[{treatment:'Depilación definitiva (axilas)', date:'20 de junio de 2026', practitioner:'Eliana', notes:'Sesión 4 de 6'}],
+        notes:[{date:'20 de junio de 2026', author:'Eliana', text:'Muy conforme con los resultados, refirió a una amiga (Elena Vidal).'}]},
+      {id:'c4', name:'Irene Castro', phone:'+54 9 351 XXX XXXX', isVIP:false, isNew:false, lastVisit:'15 jul', nextVisit:'—',
+        overview:'Clienta ocasional, reserva de forma estacional antes de eventos.',
+        history:[{treatment:'Peeling químico', date:'15 de julio de 2026', practitioner:'Ingrid', notes:'Peeling medio, piel normal'}],
+        notes:[]},
+      {id:'c5', name:'Vera Molina', phone:'+54 9 351 XXX XXXX', isVIP:false, isNew:false, lastVisit:'2 jul', nextVisit:'30 de julio, 10:30 · Microneedling',
+        overview:'Tiene un paquete de 6 sesiones de microneedling, quedan 2 sesiones.',
+        history:[{treatment:'Microneedling', date:'2 de julio de 2026', practitioner:'Eliana', notes:'Sesión 4 de 6'}],
+        notes:[{date:'2 de julio de 2026', author:'Eliana', text:'Buen progreso en la textura, continuar según lo planeado.'}]},
     ],
   };
 
@@ -763,37 +891,15 @@ class Component extends DCLogic {
   ];
 
   staffColorMap = {1:'oklch(56% 0.13 280)', 2:'oklch(56% 0.15 230)', 3:'oklch(55% 0.11 200)', 4:'oklch(58% 0.14 320)'};
-  staffList = [{id:1, name:'Ana Torres'}, {id:2, name:'Marta Ruiz'}, {id:3, name:'Dra. Sofía León'}, {id:4, name:'Lucía Gómez'}];
+  staffList = [{id:1, name:'Ingrid'}, {id:2, name:'Eliana'}];
   dayDefs = [
     {id:0, label:'Lun', date:'27'}, {id:1, label:'Mar', date:'28'}, {id:2, label:'Mié', date:'29'},
-    {id:3, label:'Jue', date:'30'}, {id:4, label:'Vie', date:'31'}, {id:5, label:'Sáb', date:'1'},
+    {id:3, label:'Jue', date:'30'}, {id:4, label:'Vie', date:'31'}, {id:5, label:'Sáb', date:'1', closed:true},
     {id:6, label:'Dom', date:'2', closed:true},
   ];
 
   spacingRules = [
-    {treatment:'Depilación láser', minDays:14, note:'Riesgo de irritación cutánea si se repite antes de este plazo.'},
-  ];
-
-  clientsData = [
-    {id:'c1', name:'Elena Vidal', phone:'+34 611 203 981', isVIP:true, isNew:false, lastVisit:'12 jul', nextVisit:'5 de agosto, 10:00 · Retratamiento de Botox',
-      overview:'Clienta habitual desde 2023. Prefiere turnos por la mañana. Sensible a la crema anestésica (usa alternativa). Referida por Sofía Ramos.',
-      history:[{treatment:'Botox (frente)', date:'12 de julio de 2026', practitioner:'Ana Torres', notes:'Sin complicaciones, dosis estándar'},{treatment:'Relleno (labios)', date:'2 de abril de 2026', practitioner:'Marta Ruiz', notes:'0.5ml, se solicitó resultado natural'}],
-      notes:[{date:'12 de julio de 2026', author:'Ana Torres', text:'Preguntó sobre combinar con un peeling en la próxima visita.'},{date:'2 de abril de 2026', author:'Marta Ruiz', text:'Leve hematoma, se resolvió en 3 días.'}]},
-    {id:'c2', name:'Marco Díaz', phone:'+34 622 118 402', isVIP:false, isNew:true, lastVisit:'—', nextVisit:'30 de julio, 11:00 · Consulta',
-      overview:'Cliente nuevo, consultó por WhatsApp sobre una consulta de rejuvenecimiento facial. Sin historial previo.',
-      history:[], notes:[{date:'28 de julio de 2026', author:'Recepción', text:'Reservó por WhatsApp luego de una conversación con la IA.'}]},
-    {id:'c3', name:'Sofía Ramos', phone:'+34 655 902 774', isVIP:true, isNew:false, lastVisit:'20 jun', nextVisit:'30 de julio, 10:00 · Control de relleno',
-      overview:'Clienta de largo plazo, con tratamientos de mantenimiento mensuales. Prefiere específicamente a Marta Ruiz.',
-      history:[{treatment:'Relleno (labios)', date:'20 de junio de 2026', practitioner:'Marta Ruiz', notes:'Retoque, 0.3ml'}],
-      notes:[{date:'20 de junio de 2026', author:'Marta Ruiz', text:'Muy conforme con los resultados, refirió a una amiga (Elena Vidal).'}]},
-    {id:'c4', name:'Irene Castro', phone:'+34 633 771 220', isVIP:false, isNew:false, lastVisit:'15 jul', nextVisit:'—',
-      overview:'Clienta ocasional, reserva de forma estacional antes de eventos.',
-      history:[{treatment:'Relleno (pómulos)', date:'15 de julio de 2026', practitioner:'Dra. Sofía León', notes:'1ml, aumento de pómulos'}],
-      notes:[]},
-    {id:'c5', name:'Vera Molina', phone:'+34 699 445 018', isVIP:false, isNew:false, lastVisit:'2 jul', nextVisit:'30 de julio, 10:30 · Microneedling',
-      overview:'Tiene un paquete de 6 sesiones de microneedling, quedan 2 sesiones.',
-      history:[{treatment:'Microneedling', date:'2 de julio de 2026', practitioner:'Lucía Gómez', notes:'Sesión 4 de 6'}],
-      notes:[{date:'2 de julio de 2026', author:'Lucía Gómez', text:'Buen progreso en la textura, continuar según lo planeado.'}]},
+    {treatment:'Depilación definitiva', minDays:14, note:'Riesgo de irritación cutánea si se repite antes de este plazo.'},
   ];
 
   photoSlots = [{label:'antes · frente'},{label:'después · frente'},{label:'antes · perfil'},{label:'después · perfil'}];
@@ -801,27 +907,27 @@ class Component extends DCLogic {
 
   threadsData = [
     {id:'t1', name:'Elena Vidal', avatar:'EV', channel:'WhatsApp', unread:true,
-      waitingTime:'12 min', priority:'high', apptStatus:'Hoy 14:30', isVIP:true, isNewLead:false, intent:'Reprogramar turno', status:'human',
+      waitingTime:'12 min', priority:'high', apptStatus:'Hoy 15:30', isVIP:true, isNewLead:false, intent:'Reprogramar turno', status:'human',
       category:{label:'Reprogramación', color:'oklch(58% 0.16 55)'}, workflowStatus:'Listo para aprobar', metaLine:'Mañana 10:00 · se encontraron horarios alternativos',
-      summary:'La clienta quiere mover su turno de Botox de mañana al viernes.', upsell:'Sugerir agregar un peeling químico a la visita reprogramada (+$150).',
-      messages:[{from:'client', text:'¿Puedo mover mi turno para el viernes?'}], aiSuggestion:'El viernes hay disponibilidad a las 10:00 y a las 15:30 con Ana Torres. ¿Querés que lo mueva a uno de esos horarios?',
+      summary:'La clienta quiere mover su turno de peeling facial de mañana al viernes.', upsell:'Sugerir sumar una limpieza facial profunda a la visita reprogramada (+$28.000).',
+      messages:[{from:'client', text:'¿Puedo mover mi turno para el viernes?'}], aiSuggestion:'El viernes hay disponibilidad a las 10:00 y a las 15:30 con Ingrid. ¿Querés que lo mueva a uno de esos horarios?',
       confidence:98, waitingApproval:true,
       workflow:['Buscar el turno','Verificar disponibilidad del profesional','Sugerir alternativas','Confirmar la reserva'],
       quickActions:['Reprogramar turno','Cobrar seña','Asignar profesional'],
-      contextCard:{type:'appointment', appt:{when:'Mañana', time:'10:00', treatment:'Botox', professional:'Ana Torres'},
-        alternatives:[{day:'Viernes', time:'10:00'},{day:'Viernes', time:'15:30'},{day:'Sábado', time:'11:00'}]},
+      contextCard:{type:'appointment', appt:{when:'Mañana', time:'10:00', treatment:'Peeling facial', professional:'Ingrid'},
+        alternatives:[{day:'Viernes', time:'10:00'},{day:'Viernes', time:'15:30'},{day:'Lunes', time:'10:00'}]},
       priorityBanner:null,
-      client:{hasClient:true, phone:'+34 611 203 981', vip:true, preferredProfessional:'Ana Torres'}},
+      client:{hasClient:true, phone:'+54 9 351 XXX XXXX', vip:true, preferredProfessional:'Ingrid'}},
     {id:'t2', name:'Camila Reyes', avatar:'CR', channel:'Instagram', unread:true,
-      waitingTime:'2 min', priority:'high', apptStatus:'Sin turno', isVIP:false, isNewLead:true, intent:'Consulta de precio: relleno de labios', status:'ai',
-      category:{label:'Consulta de precio', color:'oklch(56% 0.15 230)'}, workflowStatus:'Esperando aprobación', metaLine:'Oportunidad de $420',
-      summary:'Nuevo contacto de Instagram preguntando por el precio del relleno de labios. Alta intención de reservar.', upsell:'Ofrecer un combo de relleno + lip flip.',
-      messages:[{from:'client', text:'Hola, ¿hacen relleno de labios? ¿Cuánto sale?'},{from:'ai', text:'¡Sí! El relleno de labios arranca en $420 por 1ml, lo hacen nuestras inyectoras. ¿Querés reservar una consulta?'}],
-      aiSuggestion:'¡Buenas noticias! Tenemos un horario libre este jueves a las 15:00 para una consulta de relleno. ¿Querés que te lo reserve?',
+      waitingTime:'2 min', priority:'high', apptStatus:'Sin turno', isVIP:false, isNewLead:true, intent:'Consulta de precio: depilación definitiva', status:'ai',
+      category:{label:'Consulta de precio', color:'oklch(56% 0.15 230)'}, workflowStatus:'Esperando aprobación', metaLine:'Oportunidad de $32.000',
+      summary:'Nuevo contacto de Instagram preguntando por el precio de la depilación definitiva. Alta intención de reservar.', upsell:'Ofrecer el combo de piernas + axilas.',
+      messages:[{from:'client', text:'Hola, ¿hacen depilación definitiva en piernas? ¿Cuánto sale?'},{from:'ai', text:'¡Sí! La sesión de piernas completas sale $32.000. ¿Querés reservar un turno?'}],
+      aiSuggestion:'¡Buenas noticias! Tenemos un horario libre este jueves a las 15:00 para depilación definitiva. ¿Querés que te lo reserve?',
       confidence:96, waitingApproval:false,
       workflow:['Verificar disponibilidad','Ofrecer alternativas','Confirmar turno','Enviar recordatorio'],
       quickActions:['Crear presupuesto','Recomendar tratamiento','Reservar consulta'],
-      contextCard:{type:'products', items:[{name:'Relleno de labios (1ml)', price:'$420'},{name:'Lip flip', price:'$180'}]},
+      contextCard:{type:'products', items:[{name:'Depilación definitiva (piernas)', price:'$32.000'},{name:'Depilación definitiva (axilas)', price:'$14.000'}]},
       priorityBanner:null,
       client:{hasClient:false}},
     {id:'t3', name:'Marco Díaz', avatar:'MD', channel:'WhatsApp', unread:false,
@@ -832,7 +938,7 @@ class Component extends DCLogic {
       confidence:null, waitingApproval:false, workflow:[],
       quickActions:['Ver perfil del cliente','Agregar nota interna'],
       contextCard:null, priorityBanner:null,
-      client:{hasClient:true, phone:'+34 622 118 402', vip:false, preferredProfessional:'—'}},
+      client:{hasClient:true, phone:'+54 9 351 XXX XXXX', vip:false, preferredProfessional:'—'}},
     {id:'t4', name:'Nora Blanco', avatar:'NB', channel:'WhatsApp', unread:false,
       waitingTime:'Resuelto', priority:'low', apptStatus:'Mañana 16:00', isVIP:false, isNewLead:false, intent:'Recordatorio confirmado', status:'ai',
       category:{label:'Seguimiento', color:'oklch(58% 0.14 145)'}, workflowStatus:'Resuelto', metaLine:'Confirmado por WhatsApp',
@@ -842,25 +948,25 @@ class Component extends DCLogic {
       workflow:['Registrar confirmación','Actualizar agenda'],
       quickActions:['Ver perfil del cliente'],
       contextCard:null, priorityBanner:null,
-      client:{hasClient:true, phone:'+34 644 552 019', vip:false, preferredProfessional:'Marta Ruiz'}},
+      client:{hasClient:true, phone:'+54 9 351 XXX XXXX', vip:false, preferredProfessional:'Eliana'}},
     {id:'t5', name:'Irene Castro', avatar:'IC', channel:'WhatsApp', unread:true,
       waitingTime:'6 min', priority:'high', apptStatus:'Completado el 15 jul', isVIP:false, isNewLead:false, intent:'Consulta post-tratamiento', status:'human',
-      category:{label:'Consulta médica', color:'oklch(56% 0.18 25)'}, workflowStatus:'Requiere revisión inmediata', metaLine:'Posible complicación · asignado a la Dra. Sofía León',
-      summary:'La clienta reporta calor e hinchazón un día después del relleno de pómulos. Puede ser una complicación.', upsell:null,
-      messages:[{from:'client', text:'Hola, siento el pómulo hinchado y caliente desde ayer, ¿es normal?'}],
-      aiSuggestion:'Puede ser una reacción normal a corto plazo, pero el calor + la hinchazón después de 24h deberían revisarse. Conviene contactar a la Dra. Sofía León antes de responder.',
+      category:{label:'Consulta médica', color:'oklch(56% 0.18 25)'}, workflowStatus:'Requiere revisión inmediata', metaLine:'Posible complicación · asignado a Ingrid',
+      summary:'La clienta reporta ardor y enrojecimiento un día después del peeling químico. Puede ser una complicación.', upsell:null,
+      messages:[{from:'client', text:'Hola, tengo la cara roja y me arde desde ayer, ¿es normal?'}],
+      aiSuggestion:'Puede ser una reacción esperable, pero el ardor y el enrojecimiento después de 24 h deberían revisarse. Conviene consultar a Ingrid antes de responder.',
       confidence:83, waitingApproval:true,
       workflow:['Marcar como consulta médica','Notificar al profesional asignado','Recomendar escalamiento'],
-      quickActions:['Escalar al médico','Notificar al profesional','Abrir protocolo de tratamiento'],
-      contextCard:{type:'protocol', title:'Protocolo de hinchazón post-relleno', steps:['Confirmar el momento de inicio y los síntomas','Indicar compresas frías, evitar calor/ejercicio','Escalar si la hinchazón persiste más de 48h o aparece fiebre','Ofrecer un control presencial con el profesional tratante']},
-      priorityBanner:'Prioridad alta: posible complicación post-tratamiento. Recomendado: escalar a la Dra. Sofía León antes de responder.',
-      client:{hasClient:true, phone:'+34 633 771 220', vip:false, preferredProfessional:'Dra. Sofía León'}},
-    {id:'t6', name:'+34 611 222 333', avatar:'?', channel:'Instagram', unread:true,
+      quickActions:['Derivar a la profesional','Notificar al profesional','Abrir protocolo de tratamiento'],
+      contextCard:{type:'protocol', title:'Protocolo de irritación después de un peeling', steps:['Confirmar el momento de inicio y los síntomas','Indicar compresas frías y evitar el sol','Derivar si el ardor sigue después de 48 h o aparecen ampollas','Ofrecer un control presencial con el profesional tratante']},
+      priorityBanner:'Prioridad alta: posible complicación post-tratamiento. Recomendado: derivar a Ingrid antes de responder.',
+      client:{hasClient:true, phone:'+54 9 351 XXX XXXX', vip:false, preferredProfessional:'Ingrid'}},
+    {id:'t6', name:'+54 9 351 XXX XXXX', avatar:'?', channel:'Instagram', unread:true,
       waitingTime:'5 min', priority:'medium', apptStatus:'Sin turno', isVIP:false, isNewLead:true, intent:'Consulta de horario de atención', status:'ai',
       category:{label:'Nuevo contacto', color:'oklch(58% 0.14 145)'}, workflowStatus:'Sin calificar', metaLine:'Consulta de horario de atención',
       summary:'Contacto anónimo de Instagram preguntando por el horario de atención. Todavía no muestra intención de reservar.', upsell:null,
-      messages:[{from:'client', text:'¿Cuál es el horario de atención?'},{from:'ai', text:'Atendemos de lunes a sábado, de 9:00 a 19:00. ¿Querés reservar un turno?'}],
-      aiSuggestion:'Atendemos de lunes a sábado de 9:00 a 19:00. ¿Querés que revise la disponibilidad de esta semana?',
+      messages:[{from:'client', text:'¿Cuál es el horario de atención?'},{from:'ai', text:'Atendemos de lunes a viernes, de 9 a 13 y de 15 a 20. ¿Querés reservar un turno?'}],
+      aiSuggestion:'Atendemos de lunes a viernes, de 9 a 13 y de 15 a 20. ¿Querés que revise la disponibilidad de esta semana?',
       confidence:91, waitingApproval:false,
       workflow:['Responder pregunta frecuente','Ofrecer reserva','Capturar datos de contacto'],
       quickActions:['Crear cliente y reservar','Asignar a humano'],
@@ -874,17 +980,59 @@ class Component extends DCLogic {
   ];
 
   kpisData = [
-    {label:'Ingresos este mes', value:'$18.420', sub:'+12% vs. el mes pasado'},
+    {label:'Ingresos este mes', value:'$4.820.000', sub:'+12% vs. el mes pasado'},
     {label:'Turnos reservados', value:'214', sub:'96% de la capacidad'},
     {label:'Tasa de ausentismo', value:'4.2%', sub:'-1.1pt vs. el mes pasado'},
     {label:'Retención de clientes', value:'68%', sub:'+3pt vs. el mes pasado'},
   ];
-  topTreatmentsData = [{name:'Botox', pct:32},{name:'Relleno', pct:24},{name:'Depilación láser', pct:18},{name:'Microneedling', pct:14},{name:'Peelings', pct:12}];
-  staffUtilData = [{name:'Ana Torres', pct:88},{name:'Marta Ruiz', pct:74},{name:'Dra. Sofía León', pct:92},{name:'Lucía Gómez', pct:65}];
+  topTreatmentsData = [{name:'Peeling facial', pct:32},{name:'Depilación definitiva', pct:26},{name:'Limpieza facial', pct:18},{name:'Peeling corporal', pct:14},{name:'Microneedling', pct:10}];
+  staffUtilData = [{name:'Ingrid', pct:88},{name:'Eliana', pct:74}];
 
   setView(v) { this.setState({activeView: v}); }
   confirmAppt(id) { this.setState(s => ({appointments: s.appointments.map(a => a.id === id ? {...a, status:'confirmed'} : a)})); }
-  selectClient(id) { this.setState({selectedClientId: id, activeClientTab:'overview'}); }
+  selectAppointment(id) { this.setState({selectedAppointmentId: id, newApptPanelOpen: false, loggingApptId: null}); }
+  clearSelectedAppointment() { this.setState({selectedAppointmentId: null, loggingApptId: null}); }
+  emptySessionDraft() { return {notes:'', hasReaction:false, reactionDescription:'', followUpChoice:'', followUpCustom:''}; }
+  markApptCompletedAndLog(id) {
+    this.setState(s => ({
+      appointments: s.appointments.map(a => a.id === id ? {...a, status:'completed'} : a),
+      loggingApptId: id,
+      sessionDraft: this.emptySessionDraft(),
+    }));
+  }
+  reopenSessionForm(id) { this.setState({loggingApptId: id, sessionDraft: this.emptySessionDraft()}); }
+  cancelSessionForm() { this.setState({loggingApptId: null}); }
+  updateSessionDraft(patch) { this.setState(s => ({sessionDraft: {...s.sessionDraft, ...patch}})); }
+  setFollowUpChoice(choice) { this.updateSessionDraft({followUpChoice: choice}); }
+  dismissToast() { this.setState({toast: null}); }
+  submitSessionLog() {
+    const s = this.state;
+    const appt = s.appointments.find(a => a.id === s.loggingApptId);
+    if (!appt) return;
+    const d = s.sessionDraft;
+    const dayDef = this.dayDefs.find(dd => dd.id === appt.day);
+    const dateLabel = dayDef ? `${dayDef.label} ${dayDef.date}` : '';
+    const followUpDueMap = {'1m':'En 1 mes', '3m':'En 3 meses', '6m':'En 6 meses'};
+    const followUpDue = d.followUpChoice === 'custom' ? d.followUpCustom.trim() : (followUpDueMap[d.followUpChoice] || '');
+    const nextFollowupId = Math.max(0, ...s.followups.map(f => f.id)) + 1;
+    const entry = {
+      treatment: appt.treatment, date: dateLabel, practitioner: appt.staffName, notes: d.notes,
+      adverseReaction: {flag: d.hasReaction, description: d.hasReaction ? d.reactionDescription : ''},
+      followUpId: followUpDue ? nextFollowupId : null,
+    };
+    const hasMatch = s.clients.some(c => c.name === appt.client);
+    this.setState(s2 => ({
+      clients: s2.clients.map(c => c.name === appt.client ? {...c, history: [entry, ...c.history]} : c),
+      followups: hasMatch && followUpDue
+        ? [...s2.followups, {id: nextFollowupId, client: appt.client, treatment: appt.treatment, trigger:'Seguimiento post-tratamiento', due: followUpDue, bucket:'scheduled', status:'pending'}]
+        : s2.followups,
+      appointments: hasMatch ? s2.appointments.map(a => a.id === appt.id ? {...a, sessionLogged: true} : a) : s2.appointments,
+      loggingApptId: null,
+      editingHistoryIndex: null,
+      toast: hasMatch ? (followUpDue ? `Seguimiento agregado · ${followUpDue}` : null) : 'No se pudo registrar: cliente no encontrado',
+    }));
+  }
+  selectClient(id) { this.setState({selectedClientId: id, activeClientTab:'overview', editingHistoryIndex: null}); }
   setClientTab(tab) { this.setState({activeClientTab: tab}); }
   selectThread(id) {
     const t = this.threadsData.find(t => t.id === id);
@@ -897,8 +1045,39 @@ class Component extends DCLogic {
   toggleWorkflow() { this.setState(s => ({workflowOpen: !s.workflowOpen})); }
   approveSend(id) { this.setState(s => ({sentThreadIds: s.sentThreadIds.includes(id) ? s.sentThreadIds : [...s.sentThreadIds, id]})); }
 
+  currentClientHistoryEntry(index) {
+    const c = this.state.clients.find(c => c.id === this.state.selectedClientId);
+    return c ? c.history[index] : {};
+  }
+  emptyHistoryEditDraft(entry) {
+    return {notes: entry.notes, hasReaction: !!(entry.adverseReaction && entry.adverseReaction.flag), reactionDescription: (entry.adverseReaction && entry.adverseReaction.description) || ''};
+  }
+  startEditHistory(index) {
+    const entry = this.currentClientHistoryEntry(index);
+    this.setState({editingHistoryIndex: index, historyEditDraft: this.emptyHistoryEditDraft(entry)});
+  }
+  cancelEditHistory() { this.setState({editingHistoryIndex: null}); }
+  updateHistoryEditDraft(patch) { this.setState(s => ({historyEditDraft: {...s.historyEditDraft, ...patch}})); }
+  saveEditHistory(index) {
+    this.setState(s => {
+      const d = s.historyEditDraft;
+      return {
+        clients: s.clients.map(c => c.id !== s.selectedClientId ? c : {
+          ...c,
+          history: c.history.map((h, i) => i !== index ? h : {
+            ...h,
+            notes: d.notes,
+            adverseReaction: {flag: d.hasReaction, description: d.hasReaction ? d.reactionDescription : ''},
+            edited: {isEdited: true, editedAt: 'recién'},
+          }),
+        }),
+        editingHistoryIndex: null,
+      };
+    });
+  }
+
   emptyApptDraft() { return {clientId:'', clientName:'', clientSearch:'', treatment:'', staffId:'', day:'', start:'', dur:0.5}; }
-  toggleNewApptPanel() { this.setState(s => ({newApptPanelOpen: !s.newApptPanelOpen})); }
+  toggleNewApptPanel() { this.setState(s => ({newApptPanelOpen: !s.newApptPanelOpen, selectedAppointmentId: null, loggingApptId: null})); }
   cancelNewAppt() { this.setState({newApptPanelOpen: false, newApptDraft: this.emptyApptDraft()}); }
   updateNewApptDraft(patch) { this.setState(s => ({newApptDraft: {...s.newApptDraft, ...patch}})); }
   selectApptClient(id, name) { this.updateNewApptDraft({clientId: id, clientName: name, clientSearch: ''}); }
@@ -909,6 +1088,8 @@ class Component extends DCLogic {
     const snapped = Math.max(9, Math.min(18.5, Math.round(rawHour * 2) / 2));
     this.setState(s => ({
       newApptPanelOpen: true,
+      selectedAppointmentId: null,
+      loggingApptId: null,
       newApptDraft: {...(s.newApptPanelOpen ? s.newApptDraft : this.emptyApptDraft()), day: String(day), start: String(snapped)},
     }));
   }
@@ -1018,6 +1199,7 @@ class Component extends DCLogic {
     const statusStyle = (status) => {
       if (status === 'confirmed') return {bg:'var(--accent-tint-soft)', leftBorder:'3px solid var(--accent)', color:'var(--gray-19)'};
       if (status === 'unconfirmed') return {bg:'var(--gray-2)', leftBorder:'3px dashed var(--accent)', color:'var(--gray-18)'};
+      if (status === 'completed') return {bg:'var(--gray-6)', leftBorder:'3px solid var(--gray-13)', color:'var(--gray-15)'};
       return {bg:'var(--gray-6)', leftBorder:'3px solid var(--gray-11)', color:'var(--gray-17)'};
     };
     const fmtTime = (start) => {
@@ -1025,13 +1207,48 @@ class Component extends DCLogic {
       return `${String(h).padStart(2,'0')}:${m}`;
     };
     const dayLabelFor = (d) => { const def = this.dayDefs.find(x => x.id === d); return def ? `${def.label} ${def.date}` : ''; };
+    const selectedAppointmentRaw = s.selectedAppointmentId != null ? s.appointments.find(a => a.id === s.selectedAppointmentId) : null;
+    const selectedAppointment = selectedAppointmentRaw ? {
+      ...selectedAppointmentRaw,
+      dayLabel: dayLabelFor(selectedAppointmentRaw.day),
+      timeLabel: fmtTime(selectedAppointmentRaw.start),
+      isMarkable: selectedAppointmentRaw.status === 'confirmed',
+      isAwaitingLog: selectedAppointmentRaw.status === 'completed' && !selectedAppointmentRaw.sessionLogged && s.loggingApptId !== selectedAppointmentRaw.id,
+      isLogged: selectedAppointmentRaw.status === 'completed' && !!selectedAppointmentRaw.sessionLogged,
+    } : null;
+    const hasSelectedAppointment = !!selectedAppointment;
+    const isLoggingSelectedAppt = hasSelectedAppointment && s.loggingApptId === selectedAppointmentRaw.id;
+    const onCloseApptDetail = () => this.clearSelectedAppointment();
+    const onMarkCompleted = hasSelectedAppointment ? () => this.markApptCompletedAndLog(selectedAppointmentRaw.id) : null;
+    const onReopenLog = hasSelectedAppointment ? () => this.reopenSessionForm(selectedAppointmentRaw.id) : null;
+    const onCancelSessionForm = () => this.cancelSessionForm();
+    const onSubmitSessionLog = () => this.submitSessionLog();
+    const onSessionNotesChange = (e) => this.updateSessionDraft({notes: e.target.value});
+    const onReactionNo = () => this.updateSessionDraft({hasReaction:false, reactionDescription:''});
+    const onReactionYes = () => this.updateSessionDraft({hasReaction:true});
+    const onReactionDescChange = (e) => this.updateSessionDraft({reactionDescription: e.target.value});
+    const onFollowUpCustomChange = (e) => this.updateSessionDraft({followUpCustom: e.target.value});
+    const reactionNoStyle = !s.sessionDraft.hasReaction ? 'background:var(--gray-7);color:var(--gray-19);border:none' : 'background:var(--surface-card);color:var(--gray-15);border:1px solid var(--gray-10)';
+    const reactionYesStyle = s.sessionDraft.hasReaction ? 'background:var(--danger-bg);color:var(--danger-text);border:none' : 'background:var(--surface-card);color:var(--gray-15);border:1px solid var(--gray-10)';
+    const followUpPillDefs = [{key:'1m', label:'1 mes'}, {key:'3m', label:'3 meses'}, {key:'6m', label:'6 meses'}, {key:'custom', label:'Otra fecha…'}];
+    const followUpPills = followUpPillDefs.map(p => ({
+      ...p,
+      onClick: () => this.setFollowUpChoice(p.key),
+      bg: s.sessionDraft.followUpChoice === p.key ? 'var(--accent)' : 'var(--surface-card)',
+      color: s.sessionDraft.followUpChoice === p.key ? 'var(--text-on-accent)' : 'var(--gray-17)',
+      border: s.sessionDraft.followUpChoice === p.key ? '1px solid var(--accent)' : '1px solid var(--gray-10)',
+    }));
+    const isFollowUpCustom = s.sessionDraft.followUpChoice === 'custom';
+    const hasToast = !!s.toast;
+    const toastText = s.toast || '';
+    const onDismissToast = () => this.dismissToast();
     const apptsWithMeta = s.appointments.map(a => {
       const st = statusStyle(a.status);
       return {...a, top: (a.start - 9) * 64, height: a.dur * 64 - 4, bg: st.bg, leftBorder: st.leftBorder, color: st.color,
         timeLabel: fmtTime(a.start), dayLabel: dayLabelFor(a.day),
         staffColor: this.staffColorMap[a.staffId] || 'var(--gray-11)',
         onConfirm: a.status === 'unconfirmed' ? () => this.confirmAppt(a.id) : null,
-        stopClick: (e) => e.stopPropagation()};
+        onClick: (e) => { e.stopPropagation(); this.selectAppointment(a.id); }};
     });
 
     const treatmentOptions = [...new Set(s.appointments.map(a => a.treatment))].sort((a, b) => a.localeCompare(b));
@@ -1043,7 +1260,7 @@ class Component extends DCLogic {
 
     const draft = s.newApptDraft;
     const clientSearchResults = (!draft.clientId && draft.clientSearch.trim())
-      ? this.clientsData.filter(c => c.name.toLowerCase().includes(draft.clientSearch.trim().toLowerCase())).map(c => ({...c, onSelect: () => this.selectApptClient(c.id, c.name)}))
+      ? s.clients.filter(c => c.name.toLowerCase().includes(draft.clientSearch.trim().toLowerCase())).map(c => ({...c, onSelect: () => this.selectApptClient(c.id, c.name)}))
       : [];
     const hasClientResults = clientSearchResults.length > 0;
 
@@ -1083,9 +1300,33 @@ class Component extends DCLogic {
     }));
     const viewLabels = {calendar:'Agenda', clients:'Clientes', conversations:'Centro de Solicitudes', followups:'Seguimientos', analytics:'Analítica'};
 
-    const clients = this.clientsData.map(c => ({...c, initials: initials(c.name), onClick: () => this.selectClient(c.id), rowBg: c.id === s.selectedClientId ? 'var(--accent-tint-soft)' : 'transparent'}));
-    const selectedClientRaw = this.clientsData.find(c => c.id === s.selectedClientId) || this.clientsData[0];
-    const selectedClient = {...selectedClientRaw, initials: initials(selectedClientRaw.name)};
+    const clients = s.clients.map(c => ({...c, initials: initials(c.name), onClick: () => this.selectClient(c.id), rowBg: c.id === s.selectedClientId ? 'var(--accent-tint-soft)' : 'transparent'}));
+    const selectedClientRaw = s.clients.find(c => c.id === s.selectedClientId) || s.clients[0];
+    const hasAdverseReactionHistory = (selectedClientRaw.history || []).some(h => h.adverseReaction && h.adverseReaction.flag);
+    const selectedClient = {...selectedClientRaw, initials: initials(selectedClientRaw.name), hasAdverseReactionHistory};
+    const followupById = (id) => s.followups.find(f => f.id === id);
+    const historyEntries = (selectedClient.history || []).map((h, i) => {
+      const reaction = h.adverseReaction || {};
+      const followUp = h.followUpId != null ? followupById(h.followUpId) : null;
+      const edited = h.edited || {};
+      return {
+        ...h, index: i,
+        hasReaction: !!reaction.flag, reactionDescription: reaction.description || '',
+        hasFollowUp: !!followUp, followUpDue: followUp ? followUp.due : '',
+        isEdited: !!edited.isEdited, editedAt: edited.editedAt || '',
+        isEditingThis: s.editingHistoryIndex === i, isViewing: s.editingHistoryIndex !== i,
+        onEditClick: () => this.startEditHistory(i),
+        onSave: () => this.saveEditHistory(i),
+      };
+    });
+    const onHistoryNotesChange = (e) => this.updateHistoryEditDraft({notes: e.target.value});
+    const onHistoryReactionNo = () => this.updateHistoryEditDraft({hasReaction:false, reactionDescription:''});
+    const onHistoryReactionYes = () => this.updateHistoryEditDraft({hasReaction:true});
+    const onHistoryReactionDescChange = (e) => this.updateHistoryEditDraft({reactionDescription: e.target.value});
+    const historyReactionNoStyle = !s.historyEditDraft.hasReaction ? 'background:var(--gray-7);color:var(--gray-19);border:none' : 'background:var(--surface-card);color:var(--gray-15);border:1px solid var(--gray-10)';
+    const historyReactionYesStyle = s.historyEditDraft.hasReaction ? 'background:var(--danger-bg);color:var(--danger-text);border:none' : 'background:var(--surface-card);color:var(--gray-15);border:1px solid var(--gray-10)';
+    const onCancelEditHistory = () => this.cancelEditHistory();
+    const onOpenReactionHistory = () => this.setClientTab('history');
     const tabDefs = [{id:'overview', label:'Resumen'}, {id:'history', label:'Historial'}, {id:'photos', label:'Fotos'}, {id:'notes', label:'Notas'}, {id:'consent', label:'Consentimiento'}];
     const clientTabs = tabDefs.map(t => ({...t, onClick: () => this.setClientTab(t.id),
       weight: t.id === s.activeClientTab ? 650 : 500,
@@ -1188,7 +1429,7 @@ class Component extends DCLogic {
       isFollowupsView: s.activeView === 'followups', isAnalyticsView: s.activeView === 'analytics',
       dayColumns, hourLabels, needsAttention, needsAttentionCount: needsAttention.length, noNeedsAttention: needsAttention.length === 0,
       weekTotal: apptsWithMeta.length, weekWaiting: apptsWithMeta.filter(a => a.status === 'waiting').length,
-      clients, selectedClient, clientTabs,
+      clients, selectedClient, clientTabs, onOpenReactionHistory,
       isTabOverview: s.activeClientTab === 'overview', isTabHistory: s.activeClientTab === 'history',
       isTabNotes: s.activeClientTab === 'notes', isTabPhotos: s.activeClientTab === 'photos', isTabConsent: s.activeClientTab === 'consent',
       photoSlots: this.photoSlots, consentDocs: this.consentDocs,
@@ -1203,6 +1444,11 @@ class Component extends DCLogic {
       clientSearchResults, hasClientResults, conflictWarning, submitDisabled, submitBg, submitCursor,
       onToggleNewAppt, onCancelNewAppt, onClientSearchChange, onTreatmentChange,
       onStaffChange, onDayChange, onStartChange, onDurChange, onSubmitAppt,
+      selectedAppointment, hasSelectedAppointment, isLoggingSelectedAppt, onCloseApptDetail, onMarkCompleted, onReopenLog,
+      onCancelSessionForm, onSubmitSessionLog, sessionDraft: s.sessionDraft, onSessionNotesChange, onReactionNo, onReactionYes,
+      onReactionDescChange, reactionNoStyle, reactionYesStyle, followUpPills, isFollowUpCustom, onFollowUpCustomChange,
+      hasToast, toastText, onDismissToast,
+      historyEntries, historyEditDraft: s.historyEditDraft, onHistoryNotesChange, onHistoryReactionNo, onHistoryReactionYes, onHistoryReactionDescChange, historyReactionNoStyle, historyReactionYesStyle, onCancelEditHistory,
     };
   }
 }

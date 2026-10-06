@@ -299,7 +299,7 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
       <section class="attn" aria-label="Requiere atención">
         <h2>Requiere atención hoy · 2</h2>
         <div class="attn-row"><time>15:00</time><div><strong>Sofía Ramos</strong><span class="why">Avisó que no puede venir</span></div><button class="pill sm">Llamar</button></div>
-        <div class="attn-row"><time>16:00</time><div><strong>Luciana Ferreyra</strong><span class="why">Sin confirmar</span></div><button class="pill sm solid">Recordatorio</button></div>
+        <div class="attn-row" id="attn-luciana"><time>16:00</time><div><strong>Luciana Ferreyra</strong><span class="why">Sin confirmar</span></div><button class="pill sm solid" onclick="prepararRecordatorio()">Recordatorio</button></div>
       </section>
       <aside class="card detail">
         <p class="eyebrow">Turno seleccionado</p>
@@ -311,9 +311,9 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
         <dl>
           <dt>Profesional</dt><dd>Ingrid</dd>
           <dt>WhatsApp</dt><dd>+54 351 000-0000</dd>
-          <dt>Recordatorio</dt><dd>Todavía no enviado</dd>
+          <dt>Recordatorio</dt><dd id="estado-recordatorio">Todavía no enviado</dd>
         </dl>
-        <button class="pill solid" style="width:100%">Preparar recordatorio</button>
+        <button class="pill solid" style="width:100%" id="btn-preparar" onclick="prepararRecordatorio()">Preparar recordatorio</button>
         <p class="note">La ficha completa y el historial están en Clientes.</p>
       </aside>
       </div>
@@ -499,6 +499,7 @@ var CONVERSACIONES = [
      {de:'in', texto:'Perfecto, confirmo', hora:'Valentina · 17:05'}]}
 ];
 
+function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
 function clientaDe(nombre){ return CLIENTAS.filter(function(c){ return c.nombre === nombre; })[0]; }
 function ultimoTexto(conv){ var m = conv.mensajes[conv.mensajes.length - 1]; return conv.resumen || m.texto; }
 
@@ -520,13 +521,14 @@ function elegirConversacion(i){
   pintarListaMensajes(i);
   var hilo = conv.mensajes.map(function(m){
     return m.dia ? '<span class="day">' + m.dia + '</span>'
-                 : '<p class="msg ' + m.de + '">' + m.texto + ' <small>' + m.hora + '</small></p>';
+                 : '<p class="msg ' + m.de + '">' + esc(m.texto) + ' <small>' + m.hora + '</small></p>';
   }).join('');
   var cierre = {
-    borrador: '<div class="draft"><label for="borrador">Borrador del copiloto · Revisalo antes de enviar</label>' +
-      '<textarea id="borrador" rows="3">' + conv.borrador + '</textarea>' +
+    borrador: '<div class="draft"><label for="borrador" id="borrador-label">Borrador del copiloto · Revisalo antes de enviar</label>' +
+      '<textarea id="borrador" rows="4">' + esc(conv.borrador) + '</textarea>' +
       '<div class="act"><small>Simulación: nada se envía a un teléfono real.</small>' +
-      '<button class="pill">Descartar</button><button class="pill solid">Aprobar y enviar</button></div></div>',
+      '<button class="pill" onclick="prepararRecordatorio()">Redactar de nuevo</button><button class="pill solid" id="btn-aprobar" onclick="aprobar(' + i + ')">Aprobar y enviar</button></div></div>',
+    enviado: '<p class="fine done">Recordatorio enviado (simulación) · Esperando que ' + nombre + ' confirme.</p>',
     humano: '<div class="next alert notice"><span class="ic" role="img" aria-label="Requiere atención">!</span>' +
       '<div class="grow"><strong>Lo resuelve recepción, no el copiloto</strong>' +
       '<span>' + nombre + ' avisó que no puede venir. Llamala u ofrecele otro horario. El turno sigue sin confirmar: no se canceló.</span></div>' +
@@ -540,6 +542,45 @@ function elegirConversacion(i){
       '<button class="pill sm" onclick="ir(\'agenda\')">Ver en Agenda</button></div>' +
     '<div class="thread">' + hilo + '</div>' + cierre +
     '<p class="fine">Las consultas clínicas o sensibles se derivan a una persona. El copiloto no da indicaciones médicas.</p>';
+}
+
+// Recordatorio de Luciana: lo redacta la IA real (ai-triage/server.mjs → /api/recordatorio).
+// Si no hay servidor, falta la key o tarda más de 15 s, queda el borrador de ejemplo y la demo sigue.
+var LUCIANA = 1;
+async function prepararRecordatorio(){
+  var conv = CONVERSACIONES[LUCIANA];
+  conv.cierre = 'borrador';
+  ir('mensajes'); elegirConversacion(LUCIANA);
+  var ta = document.getElementById('borrador'), label = document.getElementById('borrador-label'), btn = document.getElementById('btn-aprobar');
+  ta.value = 'Redactando con IA…'; ta.disabled = true; btn.disabled = true;
+  try {
+    var r = await fetch('/api/recordatorio', {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      signal: AbortSignal.timeout(15000),
+      body: JSON.stringify({turnos: [{nombre: 'Luciana', tratamiento: 'peeling facial y depilación definitiva',
+        dia: 'mañana, jueves 17', hora: '16:00', profesional: 'Ingrid'}]})
+    });
+    var data = await r.json();
+    if (!r.ok) throw new Error(data.error);
+    conv.borrador = data.items[0].mensaje;
+    label.textContent = 'Borrador redactado por la IA · Revisalo antes de enviar';
+  } catch (e) {
+    console.warn('Sin IA, queda el borrador de ejemplo:', e);
+    label.textContent = 'Borrador de ejemplo · Revisalo antes de enviar';
+  }
+  ta.value = conv.borrador; ta.disabled = false; btn.disabled = false;
+}
+
+function aprobar(i){
+  var conv = CONVERSACIONES[i];
+  conv.mensajes.push({dia:'Hoy'}, {de:'out', texto: document.getElementById('borrador').value, hora:'Okio · 15:21'});
+  conv.cierre = 'enviado'; conv.resumen = 'Recordatorio enviado · esperando respuesta';
+  elegirConversacion(i);
+  document.getElementById('estado-recordatorio').textContent = 'Enviado hoy 15:21 · esperando respuesta';
+  document.getElementById('btn-preparar').textContent = 'Ver conversación';
+  document.getElementById('btn-preparar').onclick = function(){ ir('mensajes'); elegirConversacion(i); };
+  document.querySelector('#attn-luciana .why').textContent = 'Recordatorio enviado · esperando respuesta';
+  document.querySelector('#attn-luciana button').hidden = true;
 }
 
 pintarListaMensajes(-1);

@@ -75,10 +75,10 @@ Aparte de eso hay otra cuestión: si esto se va a mostrar públicamente en un po
 
 ## Preguntas abiertas
 
-- ~~¿Cuál es el nombre del producto?~~ **Corregido 2026-07-31: todavía no aplica.** Okio es la clínica, no el producto. El nombre de la plataforma espera hasta que se decida generalizar, si es que se decide.
-- ~~¿Layer o platform?~~ **En la práctica lo resolvió el cambio de objetivo.** Para Okio, la respuesta sale de preguntarle qué usa hoy. Mientras el alcance sea nail-one no hace falta validar con 5 a 10 clínicas; eso vuelve a importar solo si se generaliza (ver Mejoras futuras).
-- **Nueva, urgente:** ¿alcanza el consentimiento de fotos que ya firman las clientas de Okio, o hace falta un documento nuevo? Ver `05_Privacidad_y_Consentimiento.md`. Hasta resolverlo no se carga ningún dato real de clientas.
-- **Nueva:** ¿Okio autoriza de forma explícita que la nombre y la muestre en un portfolio público? Es independiente de la anterior.
+- ~~Cuál es el nombre del producto?~~ **Corregido 2026-07-31: todavía no aplica.** Okio es la clínica, no el producto. El nombre de la plataforma espera hasta que se decida generalizar, si es que se decide.
+- ~~Layer o platform?~~ **En la práctica lo resolvió el cambio de objetivo.** Para Okio, la respuesta sale de preguntarle qué usa hoy. Mientras el alcance sea nail-one no hace falta validar con 5 a 10 clínicas; eso vuelve a importar solo si se generaliza (ver Mejoras futuras).
+- **Nueva, urgente:** alcanza el consentimiento de fotos que ya firman las clientas de Okio, o hace falta un documento nuevo? Ver `05_Privacidad_y_Consentimiento.md`. Hasta resolverlo no se carga ningún dato real de clientas.
+- **Nueva:** Okio autoriza de forma explícita que la nombre y la muestre en un portfolio público? Es independiente de la anterior.
 - La mecánica de precios (tipo de cambio de referencia, cuándo se toma, cada cuánto se recalcula) sigue abierta; ver `00_Product_Constraints.md`.
 
 ## Riesgos

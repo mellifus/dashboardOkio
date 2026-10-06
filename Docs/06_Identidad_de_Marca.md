@@ -4,7 +4,7 @@
 **Owner:** Meli
 **Última actualización:** 2026-09-14
 
-> **Resolución (2026-09-14):** el conflicto "¿verde o rosa?" que aparece más abajo quedó resuelto. **No era una contradicción: son dos capas de la misma marca.** El verde bosque es la capa institucional (web, tienda, producto/dashboard) y el rosa/crema/dorado es la capa editorial (redes, campañas). Las une el dorado `#B99269` y el isotipo del loto. El aro degradé de Instagram NO es de la marca; es la UI de "historia" de la app. El detalle está en la sección "Actualización 2026-09-14", al final. El sistema de diseño visual completo está publicado como Artifact, con los tokens en `Dashboard - Claude Design/tokens/colors-editorial.css`.
+> **Resolución (2026-09-14):** el conflicto "verde o rosa?" que aparece más abajo quedó resuelto. **No era una contradicción: son dos capas de la misma marca.** El verde bosque es la capa institucional (web, tienda, producto/dashboard) y el rosa/crema/dorado es la capa editorial (redes, campañas). Las une el dorado `#B99269` y el isotipo del loto. El aro degradé de Instagram NO es de la marca; es la UI de "historia" de la app. El detalle está en la sección "Actualización 2026-09-14", al final. El sistema de diseño visual completo está publicado como Artifact, con los tokens en `Dashboard - Claude Design/tokens/colors-editorial.css`.
 
 ## Propósito
 
@@ -65,7 +65,7 @@ La medí extrayendo el color dominante (median cut) de las dos capturas de Insta
 
 ## Tono del copy
 
-Cálido, directo y emocional, nada clínico ni corporativo. Ejemplos reales: "¿Estás cansada de depilarte todo el tiempo?", "El protector solar perfecto SÍ existe", "Ningún síntoma llega para hacerte daño, sino para despertarte". Mezcla preguntas directas a quien lee (el gancho problema-solución) con frases más poéticas, de bienestar. Estaría bueno que el copy de la plataforma (mensajes de la IA, textos del form) use este mismo registro en lugar de un tono neutro de SaaS.
+Cálido, directo y emocional, nada clínico ni corporativo. Ejemplos reales: "Estás cansada de depilarte todo el tiempo?", "El protector solar perfecto SÍ existe", "Ningún síntoma llega para hacerte daño, sino para despertarte". Mezcla preguntas directas a quien lee (el gancho problema-solución) con frases más poéticas, de bienestar. Estaría bueno que el copy de la plataforma (mensajes de la IA, textos del form) use este mismo registro en lugar de un tono neutro de SaaS.
 
 ## Qué implica para la plataforma
 
@@ -81,7 +81,7 @@ Meli encontró la página web real de Okio, que es la landing de un evento prese
 1. Header con el nombre, el tagline ("Estética · Bienestar") y una barra de anuncio con fecha y cupos.
 2. Hero con título, copy emocional, CTA a WhatsApp, precio y datos rápidos (fecha, lugar, para quién).
 3. Una cinta de texto en movimiento ("marquee") que repite "10 AÑOS DE OKIO" y frases de marca. Son las mismas frases de los posteos de Instagram ("Sanamos tu piel ✦ Todo el año ✦ Toda la vida"), así que son líneas de marca fijas y no ocurrencias sueltas.
-4. Una sección de identificación emocional con una pregunta directa ("¿Te suena?").
+4. Una sección de identificación emocional con una pregunta directa ("Te suena?").
 5. Dos preguntas retóricas que nombran el dolor puntual (marcas, manchas, "ya probé todo").
 6. La promesa de solución, con un gancho a contramano ("Y no es la que te vendieron").
 7. Un temario numerado de 8 módulos. Le da un aire profesional y ordenado, nada improvisado.

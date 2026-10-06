@@ -75,16 +75,16 @@ Registro cronológico de cada decisión de arquitectura o de producto. Anota el 
 ### O1 · Layer vs. Platform
 **Estado:** en la práctica la resolvió D7 para el alcance actual. Qué usa Okio hoy se le pregunta a Okio, no a una muestra de mercado. Solo vuelve a importar como pregunta de mercado si se decide generalizar (ver Mejoras futuras en `00_Project_Vision.md`).
 
-### O2 · Consentimiento de datos de salud: ¿alcanza el documento que ya existe?
+### O2 · Consentimiento de datos de salud: alcanza el documento que ya existe?
 **Planteada:** 2026-07-31.
-**Pregunta:** el consentimiento de fotos que Okio ya hace firmar, ¿cubre que un proveedor de software externo (la plataforma) guarde y procese esos datos, incluso con IA? ¿O hace falta un documento nuevo o adicional?
+**Pregunta:** el consentimiento de fotos que Okio ya hace firmar, cubre que un proveedor de software externo (la plataforma) guarde y procese esos datos, incluso con IA? O hace falta un documento nuevo o adicional?
 **Por qué importa:** hoy es el mayor riesgo del proyecto, más que cualquier decisión de arquitectura. Cargar datos reales sin resolverlo expone a Okio (y a Meli) a un problema de protección de datos de salud bajo la Ley 25.326.
 **Próximo paso recomendado:** consultar con un abogado (idealmente uno que sepa de protección de datos y salud en Argentina) antes de cargar cualquier dato real. En `05_Privacidad_y_Consentimiento.md` está el detalle de lo que probablemente falta cubrir.
 **Bloquea:** la carga de cualquier foto o historia clínica real de clientas.
 
 ### O3 · Permiso de Okio para el portfolio público
 **Planteada:** 2026-07-31.
-**Pregunta:** ¿Okio autoriza de forma explícita que Meli la nombre y la muestre, con su nombre real, como caso de estudio en un portfolio público?
+**Pregunta:** Okio autoriza de forma explícita que Meli la nombre y la muestre, con su nombre real, como caso de estudio en un portfolio público?
 **Por qué importa:** es un consentimiento distinto del de sus clientas. Cubre el uso público del nombre y la historia de la clínica, no el tratamiento de los datos de las clientas.
 **Bloquea:** publicar el caso de estudio con el nombre real de Okio.
 

@@ -42,7 +42,7 @@ La competencia real no es un jugador, es una **categoría en ebullición**: "aut
 
 **El set competitivo para Okio:**
 - **OptinexIA** (Rosario, AR; liderado por Marcos Ardiles) — el del reel. OptiConnecta atiende/vende/agenda **24/7 (auto-responde)**. Declaran para una clínica privada "−60% de tiempo administrativo" (dato de ellos, sin verificar). Precio enterprise.
-- **LIDIA** (¡**Córdoba**, AR — la ciudad de Okio; por Walo Jalil) — asistente por WhatsApp que automatiza turnos para clínicas/estética. **El competidor más cercano geográfica y verticalmente** → monitorear.
+- **LIDIA** (**Córdoba**, AR — la ciudad de Okio; por Walo Jalil) — asistente por WhatsApp que automatiza turnos para clínicas/estética. **El competidor más cercano geográfica y verticalmente** → monitorear.
 - **AgendaPro** — booking SaaS con agentes IA "Julia/Sofía" (ver análisis previo).
 - **El verdadero incumbente de Okio: su Calendar + Excel + WhatsApp a mano** (la "no-consumición"). Contra eso competís primero.
 

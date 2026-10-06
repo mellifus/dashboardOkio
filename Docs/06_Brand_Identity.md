@@ -44,7 +44,7 @@ Hard rule: the real brand has no blue anywhere. Green is the primary color, not 
 
 ## Voice and copy tone
 
-Warm and direct, in the second person with voseo, and emotional rather than clinical or corporate. The copy often follows a direct-response pattern. It names the pain with rhetorical questions ("¿Ya probaste todo y sentís que nada lo soluciona de verdad?"), makes a contrarian promise ("Y no es la que te vendieron"), and then lays out what's included as a numbered list. AI-drafted messages and in-app copy should use the same register.
+Warm and direct, in the second person with voseo, and emotional rather than clinical or corporate. The copy often follows a direct-response pattern. It names the pain with rhetorical questions ("Ya probaste todo y sentís que nada lo soluciona de verdad?"), makes a contrarian promise ("Y no es la que te vendieron"), and then lays out what's included as a numbered list. AI-drafted messages and in-app copy should use the same register.
 
 ## Business model note relevant to scope
 

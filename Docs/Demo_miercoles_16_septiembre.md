@@ -26,7 +26,7 @@ La combinación peeling + depilación es un supuesto de este ejemplo, no una rec
 | 2:35–3:00 | Mostrar mensaje enviado y turno sin confirmar | «Mandar el recordatorio no significa que la clienta haya confirmado.» |
 | 3:00–3:40 | Simular respuesta → Registrar confirmación | «Luciana responde. Recepción revisa y registra la confirmación.» |
 | 3:40–4:10 | Ver turno en Agenda | «El mismo turno ahora figura confirmado, con ambos tratamientos. No hubo que volver a cargar la cita.» |
-| 4:10–5:00 | Dejar de navegar | «Las consultas clínicas se derivan a una persona. Pensando en este recorrido: ¿cómo lo hacen hoy y en qué paso se les complica más?» |
+| 4:10–5:00 | Dejar de navegar | «Las consultas clínicas se derivan a una persona. Pensando en este recorrido: cómo lo hacen hoy y en qué paso se les complica más?» |
 
 Si interesa mostrar el límite clínico: reiniciar, preparar y aprobar el recordatorio, desplegar **Probar una consulta sensible**, pulsar **Simular consulta sensible** y **Derivar a una persona**. No se ofrece respuesta médica ni se confirma el turno. Es un ejemplo fijo, no detección de texto libre.
 
@@ -37,10 +37,10 @@ Variantes opcionales, fuera del guion principal:
 - **No puedo ir:** pulsar **Simular «No puedo ir»**. La conversación, la ficha y Agenda (Día/Semana) indican «Requiere atención de recepción». La cita conserva su fecha, horario y estado sin confirmar. Recepción deberá conversar con la clienta; esta demo no cancela ni reprograma.
 - Reiniciar la demo antes de probar otra respuesta.
 
-- ¿Podés contarme la última vez que pasó algo parecido?
-- ¿Dónde anotan los tratamientos cuando una clienta tiene más de uno? ¿Son citas separadas?
-- ¿Esto les ahorraría una tarea o les agregaría otra pantalla?
-- ¿Quién manda los recordatorios y quién registra las confirmaciones?
+- Podés contarme la última vez que pasó algo parecido?
+- Dónde anotan los tratamientos cuando una clienta tiene más de uno? Son citas separadas?
+- Esto les ahorraría una tarea o les agregaría otra pantalla?
+- Quién manda los recordatorios y quién registra las confirmaciones?
 
 No prometer minutos ahorrados ni una integración funcionando. Anotar el problema que ellas priorizan, un ejemplo reciente y qué paso probarían primero.
 
@@ -57,5 +57,5 @@ Verificado el 14 de septiembre en navegador: recorrido completo, edición conser
 
 Analítica, upsells, presupuestos, historia clínica, seguimiento, captura de nuevos turnos, IA real, clasificación de respuestas libres, integraciones y persistencia.
 Vista mensual, arrastrar turnos y reprogramación quedan post-MVP.
-También quedan post-MVP los reintentos automáticos ante falta de respuesta, ofrecer horarios alternativos y completar la cancelación o reprogramación. Validar primero con Okio los plazos, quién se ocupa y cómo deciden liberar un horario. Pregunta de discovery: «Cuando una clienta no responde o avisa que no viene, ¿qué hacen ustedes y quién lo resuelve?».
+También quedan post-MVP los reintentos automáticos ante falta de respuesta, ofrecer horarios alternativos y completar la cancelación o reprogramación. Validar primero con Okio los plazos, quién se ocupa y cómo deciden liberar un horario. Pregunta de discovery: «Cuando una clienta no responde o avisa que no viene, qué hacen ustedes y quién lo resuelve?».
 Los módulos anteriores permanecen en el archivo, pero no se muestran en el recorrido aprobado. No requieren ampliaciones para esta demo.

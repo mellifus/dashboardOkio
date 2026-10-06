@@ -33,13 +33,13 @@ Voz real de la recepción de Okio por WhatsApp (así escriben ellas). ESTE es el
 - Emoji 😊 ocasional, sin abusar. Nada de lenguaje poético de feed acá: es la recepción.
 
 Tarea: para cada turno, escribí UN recordatorio de WhatsApp con esa voz que:
-- Salude por el nombre (usá "Meli") y NOMBRE el tratamiento (el dato que hoy el recordatorio automático no trae).
+- Salude a la clienta por su nombre de pila (viene en cada turno) y NOMBRE el tratamiento (el dato que hoy el recordatorio automático no trae).
 - Incluya UN tip de pre-cuidado simple para ese tratamiento (como "recordá venir rasurada y con toalla"
   para depilación) — sentido común, no consejo médico; la profesional lo aprueba.
 - Sea corto y cálido: 2 oraciones + un cierre tipo "te esperamos!".`;
 
 // Genera un recordatorio por turno, en la voz de recepción de Okio.
-// Recibe el cliente de Anthropic ya creado y una lista [{tratamiento, hora}].
+// Recibe el cliente de Anthropic ya creado y una lista [{tratamiento, hora, nombre?, dia?, profesional?}].
 // Devuelve [{tratamiento, mensaje}] con el blindaje de ¿¡ ya aplicado.
 export async function generarRecordatorios(client, turnos) {
   const res = await client.messages.parse({
@@ -50,7 +50,9 @@ export async function generarRecordatorios(client, turnos) {
     messages: [
       {
         role: "user",
-        content: `Turnos:\n${turnos.map((t) => `- ${t.tratamiento} a las ${t.hora}`).join("\n")}`,
+        content: `Turnos:\n${turnos
+          .map((t) => `- Clienta: ${t.nombre || "Meli"} · ${t.tratamiento} · ${t.dia || "mañana"} a las ${t.hora}${t.profesional ? ` con ${t.profesional}` : ""}`)
+          .join("\n")}`,
       },
     ],
   });

@@ -2,9 +2,25 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "demo",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "ai-triage/server.mjs"
+      ],
+      "port": 3000
+    },
+    {
       "name": "maquetas",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8765", "--bind", "127.0.0.1", "--directory", "Dashboard - Claude Design"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8765",
+        "--bind",
+        "127.0.0.1",
+        "--directory",
+        "Dashboard - Claude Design"
+      ],
       "port": 8765
     }
   ]

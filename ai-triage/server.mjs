@@ -38,7 +38,10 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json()); // para leer el body JSON de los pedidos
-app.use(express.static(path.join(here, "public"))); // sirve la página desde /public
+// La demo unificada: el dashboard rediseñado en "/", y la página suelta de recordatorios en /recordatorios.html.
+const DASHBOARD = path.join(here, "..", "Dashboard - Claude Design", "propuestas", "dashboard-rediseno.html");
+app.get("/", (req, res) => res.sendFile(DASHBOARD));
+app.use(express.static(path.join(here, "public")));
 
 // El cliente se crea la primera vez que hace falta (así el server arranca aunque falte la key).
 let client;
@@ -61,7 +64,8 @@ app.post("/api/recordatorio", async (req, res) => {
     for (const t of turnos) {
       if (
         typeof t?.tratamiento !== "string" || typeof t?.hora !== "string" ||
-        t.tratamiento.length > 100 || t.hora.length > 20
+        t.tratamiento.length > 100 || t.hora.length > 20 ||
+        ["nombre", "dia", "profesional"].some((k) => t[k] != null && (typeof t[k] !== "string" || t[k].length > 40))
       ) {
         return res.status(400).json({ error: "Cada turno necesita tratamiento y hora (texto corto)." });
       }

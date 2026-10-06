@@ -79,11 +79,14 @@ ties the two layers together because it appears in **both**.
 Argentine **voseo** ("vos", "tenés", "reservá"). Warm, direct and emotional, never
 clinical or corporate. Name the feeling or the pain *before* the service, and close with a brand line.
 
-- Sounds like Okio: *"¿Estás cansada de depilarte todo el tiempo?"* · *"El protector solar
+- Sounds like Okio: *"Estás cansada de depilarte todo el tiempo?"* · *"El protector solar
   perfecto SÍ existe."* · *"Reservá tu lugar, los cupos son limitados."* · *"Sanamos tu piel
   ✦ todo el año ✦ toda la vida."*
 - Does NOT sound like Okio: *"Agende su turno a la brevedad."* · *"Optimizamos su experiencia
   dermatológica."* · neutral tone, usted, clinical jargon.
+- No opening (inverted) exclamation or question marks, the way people actually type in chat. Only
+  close with ! or ?: "Buenas noches! Te esperamos." and "Te reservo el turno?". This applies to
+  everything, including quotes of Okio's own copy.
 
 ## How to build
 

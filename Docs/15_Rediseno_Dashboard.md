@@ -48,7 +48,7 @@ El rediseño se diseña para **recepción**. Los otros dos roles quedan para cua
 
 ### Vista Semana
 
-Pregunta que responde: **¿dónde hay lugar para reacomodar?** Cuando la agenda está llena, recepción reprograma a mano.
+Pregunta que responde: **dónde hay lugar para reacomodar?** Cuando la agenda está llena, recepción reprograma a mano.
 
 - Tabla con **una fila por profesional y una columna por día**. Siete días con bloques horarios no entran en una notebook, por eso no hay bloques en esta vista.
 - Cada celda tiene como mucho 4 datos:
@@ -89,12 +89,12 @@ Regla: **una tarjeta, una pregunta.** Si un dato no ayuda a responderla, va al d
 
 | Tarjeta | Pregunta que responde | Mostrar | Va al detalle | Por qué |
 |---|---|---|---|---|
-| **Tarjeta de turno** (alto fijo) | ¿Quién viene, con quién, a qué y confirmó? | **profesional**, horario, clienta, **tratamiento(s)**, estado (color + texto corto) | teléfono, recordatorio, historial | El tratamiento visible es el dolor #1 observado (H1). |
-| **Fila "Requiere atención"** | ¿Qué tengo que resolver ahora? | clienta, hora, motivo en 3–4 palabras, **una** acción (Confirmar / Llamar) | todo lo demás | Se les pasan turnos. Esto tiene que gritar. |
-| **Detalle del turno** (panel) | ¿Qué hago con este turno? | tratamientos, estado del recordatorio, WhatsApp, acción principal (Preparar recordatorio / Registrar confirmación) | ficha completa de la clienta | Hoy repite la lista. Que muestre solo lo accionable. |
-| **Ficha de clienta** | ¿Quién es y cuándo vuelve? | nombre, teléfono, **próximo turno con tratamiento**, última visita | historial completo, notas | Conserva lo bueno de v2. |
-| **Mensaje / confirmación** | ¿Qué le mando y ya respondió? | turno vinculado en una línea, borrador, estado de respuesta | conversación completa | Hoy la tarjeta del turno vinculado repite 6 datos. Con una línea alcanza. |
-| Catálogo (post-MVP) | ¿Cuánto cuesta y cuánto dura? | nombre, duración, precio | descripción, editar | Hoy tiene dos botones (Editar + Ver). Que la tarjeta entera sea clickeable. |
+| **Tarjeta de turno** (alto fijo) | Quién viene, con quién, a qué y confirmó? | **profesional**, horario, clienta, **tratamiento(s)**, estado (color + texto corto) | teléfono, recordatorio, historial | El tratamiento visible es el dolor #1 observado (H1). |
+| **Fila "Requiere atención"** | Qué tengo que resolver ahora? | clienta, hora, motivo en 3–4 palabras, **una** acción (Confirmar / Llamar) | todo lo demás | Se les pasan turnos. Esto tiene que gritar. |
+| **Detalle del turno** (panel) | Qué hago con este turno? | tratamientos, estado del recordatorio, WhatsApp, acción principal (Preparar recordatorio / Registrar confirmación) | ficha completa de la clienta | Hoy repite la lista. Que muestre solo lo accionable. |
+| **Ficha de clienta** | Quién es y cuándo vuelve? | nombre, teléfono, **próximo turno con tratamiento**, última visita | historial completo, notas | Conserva lo bueno de v2. |
+| **Mensaje / confirmación** | Qué le mando y ya respondió? | turno vinculado en una línea, borrador, estado de respuesta | conversación completa | Hoy la tarjeta del turno vinculado repite 6 datos. Con una línea alcanza. |
+| Catálogo (post-MVP) | Cuánto cuesta y cuánto dura? | nombre, duración, precio | descripción, editar | Hoy tiene dos botones (Editar + Ver). Que la tarjeta entera sea clickeable. |
 
 **Clientes y Mensajes (maqueta, 2026-10-03):** misma estructura en las dos pantallas, con la lista a la izquierda y el detalle a la derecha.
 - **Clientes:** cada fila de la lista muestra el nombre y el próximo turno, más el ícono ! o ? cuando hace falta. La ficha muestra el WhatsApp, el próximo turno (con tratamiento y profesional), la última visita y el historial clínico detrás de un acceso restringido.

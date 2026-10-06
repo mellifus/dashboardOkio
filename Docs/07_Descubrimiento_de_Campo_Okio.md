@@ -1,8 +1,8 @@
 # 07 · Descubrimiento de campo: Okio
 
-**Estado:** v2, 2026-09-12
+**Estado:** v3, 2026-10-06
 **Owner:** Meli
-**Fuentes:** (1) lo que vio Meli **como clienta** durante su turno del 2026-09-11; (2) el historial de WhatsApp entre Meli y la recepción de Okio (~jul–sep 2026), sumado el 2026-09-12 (ver "Actualización" al final). Ninguna es una encuesta ni una entrevista formal. Es evidencia de campo.
+**Fuentes:** (1) lo que vio Meli **como clienta** durante su turno del 2026-09-11; (2) el historial de WhatsApp entre Meli y la recepción de Okio (~jul–sep 2026), sumado el 2026-09-12; (3) el mismo chat entre el 28/09 y el 05/10, sumado el 2026-10-06 (ver las dos "Actualización" al final). Ninguna es una encuesta ni una entrevista formal. Es evidencia de campo.
 
 ---
 
@@ -36,12 +36,12 @@ Esto **cierra el Ítem abierto #4 de `00_Product_Constraints.md`** ("Validar con
 
 ## La pregunta que decide el próximo paso
 
-¿El dolor de Okio está en el **flujo de mensajes entrantes** (muchos WhatsApp/IG por día, respuestas lentas, leads que se pierden) o en la **organización interna** (fichas, stock, coordinación)?
+El dolor de Okio está en el **flujo de mensajes entrantes** (muchos WhatsApp/IG por día, respuestas lentas, leads que se pierden) o en la **organización interna** (fichas, stock, coordinación)?
 
 Lo de hoy apunta a **organización interna**. Si se confirma, el motor de triage, que Meli construyó y está bueno, resuelve un problema que *esta clienta en particular* quizás no siente urgente.
 
 **Próxima acción (NO es una tarea de código):** en el próximo turno, Meli le pregunta a la dueña, en 10 segundos:
-> "¿Cuántos mensajes por WhatsApp e Instagram te llegan por día? ¿Se te pierden?"
+> "Cuántos mensajes por WhatsApp e Instagram te llegan por día? Se te pierden?"
 
 Esa respuesta define si la próxima sesión es "enchufar el triage al dashboard" (el plan tal como está) o si hay que girar hacia el dolor operativo. Vale más que otra sesión de build.
 
@@ -53,7 +53,7 @@ Hipótesis de dónde encaja Meli, **para validar con la pregunta de seguimiento*
 2. **La capa de IA arriba. El puente con lo que ya construyó.** Lo del stock de más y la campaña es el mismo patrón "la IA redacta, un humano aprueba", pero apuntado HACIA AFUERA (borradores de promo o captions para liquidar stock) en vez de hacia adentro (triage). Es la misma habilidad que `ai-triage` en otra dirección, así que el motor no se tira. *Letra chica:* solo se escuchó UNA campaña (protectores). Es un dato, no prueba de que el marketing les duela seguido. Validar antes de construir.
 3. **El pegamento: automatizaciones puntuales.** Lo que ninguna herramienta genérica hace: conectar dos piezas, avisar cuando queda poco stock, recordatorios inteligentes. Es para una fase 2, porque no tiene sentido poner pegamento de IA arriba de un Excel caótico.
 
-**Lectura:** lo más probable es combinar **#1 como entrada** (te vuelve cercana e imprescindible) con **#2 como diferencial** (ahí tu IA suma lo que la herramienta de $30 no da). Cuál aplica depende de la pregunta de seguimiento: *"De todo lo que está disperso, ¿qué es lo que más tiempo o plata te hace perder?"*. "Organización interna" es un paraguas con varios dolores abajo, y solo uno vale la pena.
+**Lectura:** lo más probable es combinar **#1 como entrada** (te vuelve cercana e imprescindible) con **#2 como diferencial** (ahí tu IA suma lo que la herramienta de $30 no da). Cuál aplica depende de la pregunta de seguimiento: *"De todo lo que está disperso, qué es lo que más tiempo o plata te hace perder?"*. "Organización interna" es un paraguas con varios dolores abajo, y solo uno vale la pena.
 
 ## Actualización 2026-09-12: lo que muestra el chat de WhatsApp (segunda fuente)
 
@@ -72,6 +72,32 @@ Hipótesis de dónde encaja Meli, **para validar con la pregunta de seguimiento*
 > "No te doy una herramienta nueva: automatizo lo que ya hacés a mano cada día (avisar el tratamiento, reacomodar turnos) y te devuelvo ese tiempo."
 
 **Voz:** el chat mostró cómo habla **la recepción por WhatsApp** (cálida, corta, por el nombre, "saludos!"), que no es la misma voz de marketing del feed. Se usó para afinar `ai-triage/recordatorio.mjs`: el "antes" ahora es su plantilla real de recordatorio.
+
+## Actualización 2026-10-06: el chat entre el 28/09 y el 05/10 (tercera fuente)
+
+**Fuente:** el mismo chat de WhatsApp, una semana más. Igual que antes, acá van solo patrones operativos. El número, los motivos de salud y cualquier dato personal quedan fuera del repo.
+
+**H1 (turno sin tratamiento) sigue igual.** El recordatorio automático del 28/09 y el del 02/10 dicen "Paso a recordarte el turno que tenés agendado para [día] [fecha] a las [hora]", sin el tratamiento. Ahora lo firma otra persona de recepción (Pia en vez de Ceci), pero la plantilla no cambió. El dato que falta lo sigue poniendo la recepción a mano, en mensajes aparte.
+
+**H2 (agenda llevada a mano) aparece con más detalle:**
+- El 29 y el 30/09 la recepción le mandó a Meli los próximos turnos **de a uno, en mensajes separados** ("Próximo turno depilación 05/10…", "proximo turno peeling Corporal…"). Es la agenda de la clienta reconstruida a mano en el chat.
+- En esos dos días, el mismo turno de peeling corporal apareció primero el 13/10 y después el 08/10. La reprogramación existe solo en el chat; nada indica que haya un registro único detrás.
+- El 28/09, antes del recordatorio automático, la recepción escribió a mano para confirmar asistencia. Ese día llegaron dos mensajes por el mismo turno: el manual y la plantilla.
+
+**Nuevo: cuando una clienta cancela, la recepción hace la coordinación con la cabeza.** El 05/10 Meli avisó a la mañana que no podía ir. La recepción:
+1. Propuso una alternativa para no perder el turno (hacer parte de las zonas ese día y dejar el resto para después).
+2. Cruzó sola los otros turnos de Meli ("tengamos en cuenta que el 8 tenes el peeling corporal") y un viaje que Meli tenía, y explicó por qué convenía no solapar la depilación con el peeling.
+3. Como Meli no respondió, a la tarde volvió a escribir otra persona de recepción para preguntar qué le había parecido la propuesta de Eli.
+4. Cerró dejando la depilación "para cuando vuelvas", sin fecha nueva: "cuando vengas Meli, cordinamos el turnito para depi."
+
+Ese conocimiento (qué tratamientos tiene la clienta, cuáles no conviene juntar, cuándo está de viaje) lo tiene la recepción en la cabeza, no en una herramienta. Y el turno de depilación quedó pendiente sin fecha, que es justo el tipo de cosa que se pierde.
+
+**Voz de la recepción, más precisa:** varios mensajes cortos seguidos en lugar de uno largo, muchos arrancan en minúscula ("perfecto Meli, te esperamos…", "dale Meli!"), sin signos de apertura, diminutivos ("turnito"), y cierres como "un saludo grande!" o "te esperamos!". La plantilla automática, en cambio, sí abre con "Buenas tardes! 😊". Los borradores de la IA tienen que sonar como la recepción, no como la plantilla.
+
+**Qué implica:**
+- Refuerza otra vez el **rol #1**: el recordatorio que nombre el tratamiento sigue siendo el dolor más claro, y ahora se suma un segundo candidato concreto, **los turnos que quedan pendientes sin fecha** después de una cancelación.
+- La parte de "no juntar tratamientos que se pisan" es criterio de la clínica. Si alguna vez se automatiza, tiene que ser una regla que defina Okio y que la recepción apruebe, igual que la regla ilustrativa de espaciado que ya tiene el prototipo.
+- Pregunta para la dueña: *"Cuando una clienta cancela y queda un turno sin fecha, cómo se acuerdan de volver a llamarla?"*
 
 ## Documentos relacionados
 - `00_Product_Constraints.md`: Ítem abierto #4 (este documento lo responde).

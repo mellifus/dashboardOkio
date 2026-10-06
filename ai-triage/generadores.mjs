@@ -11,7 +11,7 @@ export const MODEL = "claude-opus-5"; // knob: "claude-haiku-4-5" para abaratar
 // La plantilla automática REAL de Okio (no dice el tratamiento). Fuente única:
 // la usan el CLI (recordatorio.mjs) y la web (server → página) para mostrar el "antes".
 export function plantillaAntes(hora) {
-  return `¡Buenas tardes! 😊 Soy Ceci, de OKIO. Paso a recordarte el turno que tenés agendado para mañana a las ${hora}.`;
+  return `Buenas tardes! 😊 Soy Ceci, de OKIO. Paso a recordarte el turno que tenés agendado para mañana a las ${hora}.`;
 }
 
 const Recordatorios = z.object({

@@ -11,8 +11,9 @@ Reemplaza la demo del 16/09 (`Clinic Platform UX v2.dc.html`), que queda como re
 
 - Necesita `ANTHROPIC_API_KEY` configurada (ya la tenés en Windows) e internet.
 - **Plan B automático:** si no hay internet, falta la key o la IA tarda más de 15 s, aparece un borrador de ejemplo ("Borrador de ejemplo") y la demo sigue igual. No hace falta hacer nada.
+- **La terminal donde corriste `npm run serve` tiene que quedar abierta** durante toda la demo. Si la cerrás, la página deja de andar.
 - Para volver al inicio, recargá la página.
-- La IA tarda unos segundos. Mientras dice "Redactando con IA…", aprovechá para hablar.
+- La IA tarda unos 4 segundos. Mientras dice "Redactando con IA…", aprovechá para hablar.
 - Datos ficticios. No se manda nada a ningún teléfono.
 
 ## Guion de cinco minutos

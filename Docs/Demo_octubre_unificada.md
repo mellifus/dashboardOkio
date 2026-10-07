@@ -39,7 +39,7 @@ Dejala explorar: todos los turnos y botones responden. Esto es lo que va a encon
 | **Ver ficha** | Abre la ficha de la clienta en Clientes: próximo turno y última visita. | "Agenda, clienta y mensajes están conectados: no hay que buscar en tres lugares." |
 | **Ver en Agenda** (desde una ficha o un chat) | Vuelve a la Agenda con el turno de esa clienta elegido. | |
 | El buscador de Clientes | Filtra por nombre o teléfono. | |
-| **Llamar** | Muestra el número (ficticio). No llama. | |
+| **Responder** (aviso de Sofía) | Abre su chat con una caja para escribirle y ofrecerle otro horario. Al enviar, queda en el hilo (simulación). | "Cuando alguien cancela, le contestan ustedes por WhatsApp, no la IA." |
 | **+ Turno**, **+ Clienta** | Aviso: "todavía no está en la demo". | "Eso viene después. Antes quiero entender cómo cargan los turnos hoy." |
 | **Ver historial** | Aviso: el historial clínico queda fuera porque son datos de salud y solo lo ven las profesionales. | "Lo clínico va con acceso restringido. Es un tema que cuido especialmente." |
 

@@ -86,7 +86,7 @@ Regla: **una tarjeta, una pregunta.** Si un dato no ayuda a responderla, va al d
 | Tarjeta | Pregunta que responde | Mostrar | Va al detalle | Por qué |
 |---|---|---|---|---|
 | **Tarjeta de turno** (alto fijo) | Quién viene, con quién, a qué y confirmó? | **profesional**, horario, clienta, **tratamiento(s)**, estado (color + texto corto) | teléfono, recordatorio, historial | El tratamiento visible es el dolor #1 observado (H1). |
-| **Fila "Requiere atención"** | Qué tengo que resolver ahora? | clienta, hora, motivo en 3–4 palabras, **una** acción (Confirmar / Llamar) | todo lo demás | Se les pasan turnos. Esto tiene que gritar. |
+| **Fila "Requiere atención"** | Qué tengo que resolver ahora? | clienta, hora, motivo en 3–4 palabras, **una** acción (Recordatorio / Responder por WhatsApp) | todo lo demás | Se les pasan turnos. Esto tiene que gritar. |
 | **Detalle del turno** (panel) | Qué hago con este turno? | tratamientos, estado del recordatorio, WhatsApp, acción principal (Preparar recordatorio / Registrar confirmación) | ficha completa de la clienta | Hoy repite la lista. Que muestre solo lo accionable. |
 | **Ficha de clienta** | Quién es y cuándo vuelve? | nombre, teléfono, **próximo turno con tratamiento**, última visita | historial completo, notas | Conserva lo bueno de v2. |
 | **Mensaje / confirmación** | Qué le mando y ya respondió? | turno vinculado en una línea, borrador, estado de respuesta | conversación completa | Hoy la tarjeta del turno vinculado repite 6 datos. Con una línea alcanza. |

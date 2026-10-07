@@ -206,6 +206,8 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
 .draft textarea{width:100%;margin:6px 0 8px;border:0;background:transparent;color:var(--text);font:15px/1.5 var(--sans);resize:vertical}
 .draft textarea:focus-visible{outline:none}
 .draft:focus-within{border-style:solid;border-color:var(--gold)}
+.reply{border-style:solid;border-color:var(--line)} .reply label{color:var(--muted)} .reply:focus-within{border-color:var(--text)}
+.draft textarea::placeholder{color:var(--muted)}
 .act{display:flex;align-items:center;gap:8px}
 .act small{margin-right:auto;font-size:13px;color:var(--muted)}
 .fine{margin:0 20px 18px;font-size:13px;color:var(--muted)}
@@ -483,10 +485,15 @@ function elegirConversacion(i){
     enviado: '<p class="fine done">Recordatorio enviado (simulación) · Esperando que ' + nombre + ' confirme.</p>',
     humano: '<div class="next alert notice"><span class="ic" role="img" aria-label="Requiere atención">!</span>' +
       '<div class="grow"><strong>Lo resuelve recepción, no el copiloto</strong>' +
-      '<span>' + nombre + ' avisó que no puede venir. Llamala u ofrecele otro horario. El turno sigue sin confirmar: no se canceló.</span></div>' +
-      '<button class="pill sm" onclick="ir(\'agenda\');ver(\'semana\')">Ver huecos en la semana</button>' +
-      '<button class="pill sm solid" onclick="llamar(\'' + conv.nombre + '\')">Llamar</button></div>',
-    ok: '<p class="fine done">Confirmación registrada · El turno figura confirmado en Agenda.</p>'
+      '<span>' + nombre + ' avisó que no puede venir. Respondele y ofrecele otro horario. El turno sigue sin confirmar: no se canceló.</span></div>' +
+      '<button class="pill sm" onclick="ir(\'agenda\');ver(\'semana\')">Ver huecos en la semana</button></div>' +
+      // Respuesta escrita por recepción: borde liso, porque no es un borrador del copiloto.
+      '<div class="draft reply"><label for="respuesta">Tu respuesta por WhatsApp</label>' +
+      '<textarea id="respuesta" rows="3" placeholder="Ej.: No pasa nada, ' + nombre + '! Te puedo ofrecer el viernes a las 18:00 con Ingrid, te sirve?"></textarea>' +
+      '<div class="act"><small>Simulación: nada se envía a un teléfono real.</small>' +
+      '<button class="pill solid" onclick="enviarRespuesta(' + i + ')">Enviar</button></div></div>',
+    respondido: '<p class="fine done">Mensaje enviado (simulación) · El turno sigue sin confirmar hasta que ' + nombre + ' elija otro horario.</p>',
+    ok:'<p class="fine done">Confirmación registrada · El turno figura confirmado en Agenda.</p>'
   }[conv.cierre];
   document.getElementById('chat').innerHTML =
     '<div class="linked">' + icono(p.estado) +
@@ -570,7 +577,7 @@ function pintarAtencion(){
     var e = clientaDe(t.c).prox.estado;
     if (e === 'ok') return '';
     var boton = e === 'alert'
-      ? '<button class="pill sm" onclick="llamar(\'' + t.c + '\')">Llamar</button>'
+      ? '<button class="pill sm" onclick="responder(\'' + t.c + '\')">Responder</button>'
       : (t.enviado ? '' : '<button class="pill sm solid" onclick="prepararRecordatorio(' + i + ')">Recordatorio</button>');
     var why = e === 'alert' ? 'Avisó que no puede venir' : (t.enviado ? t.rec : 'Sin confirmar');
     return '<div class="attn-row"><time>' + t.ini + '</time><div><strong>' + t.c + '</strong><span class="why">' + why + '</span></div>' + boton + '</div>';
@@ -601,7 +608,18 @@ function elegirTurno(i){
 
 function verEnAgenda(nombre){ ir('agenda'); ver('dia'); var i = turnoDe(nombre); if (i >= 0) elegirTurno(i); }
 function verFicha(nombre){ ir('clientes'); elegirClienta(CLIENTAS.indexOf(clientaDe(nombre))); }
-function llamar(nombre){ aviso('Llamar a ' + nombre + ': +54 351 ' + clientaDe(nombre).tel + ' (número ficticio).'); }
+// Avisos de "no puedo ir": los responde recepción por WhatsApp, desde el chat de la clienta.
+function responder(nombre){
+  ir('mensajes'); elegirConversacion(convDe(nombre));
+  var ta = document.getElementById('respuesta'); if (ta) ta.focus();
+}
+function enviarRespuesta(k){
+  var conv = CONVERSACIONES[k], texto = document.getElementById('respuesta').value.trim();
+  if (!texto) { aviso('Escribí el mensaje antes de enviar.'); return; }
+  conv.mensajes.push({de:'out', texto:texto, hora:'Okio · 15:21'});
+  conv.cierre = 'respondido'; conv.resumen = 'Respondido · esperando que elija otro horario';
+  elegirConversacion(k);
+}
 
 function filtrarClientas(q){
   q = q.trim().toLowerCase();

@@ -20,7 +20,8 @@ async function main() {
     if (sinSignosDeApertura("¿Venís? ¡Genial!") !== "Venís? Genial!") {
       throw new Error("El blindaje de ¿¡ no funciona.");
     }
-    if (indicacionesPara("Peeling facial y depilación definitiva").length !== 2 || indicacionesPara("tratamiento corporal").length !== 0) {
+    if (indicacionesPara("Peeling facial y depilación definitiva").length !== 2 || indicacionesPara("tratamiento corporal").length !== 0 ||
+        indicacionesPara("peeling facial")[0].includes("3 días") || indicacionesPara("limpieza facial profunda", "antes").length !== 0) {
       throw new Error("indicacionesPara no junta bien las indicaciones.");
     }
     console.log("✓ Self-check OK.");

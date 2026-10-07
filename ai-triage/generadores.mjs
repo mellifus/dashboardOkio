@@ -14,20 +14,25 @@ export function plantillaAntes(hora) {
   return `Buenas tardes! 😊 Soy Ceci, de OKIO. Paso a recordarte el turno que tenés agendado para mañana a las ${hora}.`;
 }
 
-// Indicaciones previas por tratamiento. EJEMPLO FICTICIO: reemplazar por las que escriban
-// las profesionales de Okio. La IA solo las redacta con su voz; no inventa otras.
+// Indicaciones por tratamiento, separadas por cuándo sirven. EJEMPLO FICTICIO: reemplazar por
+// las que escriban las profesionales de Okio. La IA solo las redacta con su voz; no inventa otras.
+// - antes: van en el mensaje de reserva (días antes), cuando la clienta todavía puede cumplirlas.
+// - dia:   van en el recordatorio (el día anterior o el mismo día).
 export const INDICACIONES = {
-  "peeling facial": "venir con la cara limpia y sin maquillaje; no usar ácidos ni retinol los 3 días previos",
-  "depilación definitiva": "venir con la zona rasurada (no con cera ni pinza) y sin cremas",
-  "limpieza facial profunda": "venir sin maquillaje",
-  "peeling corporal": "traer una toalla y no tomar sol en la zona el día anterior",
+  "peeling facial":           { antes: "no usar ácidos ni retinol los 3 días previos", dia: "venir con la cara limpia y sin maquillaje" },
+  "depilación definitiva":    { antes: "no depilarse con cera ni pinza (solo rasurar)", dia: "venir rasurada y sin cremas" },
+  "limpieza facial profunda": { antes: null, dia: "venir sin maquillaje" },
+  "peeling corporal":         { antes: "no tomar sol en la zona la semana previa", dia: "traer una toalla" },
 };
 
 // Junta las indicaciones de cada tratamiento que nombre el turno ("peeling facial y depilación definitiva" → las dos).
-export function indicacionesPara(tratamiento) {
+// momento: "dia" (recordatorio) o "antes" (reserva).
+export function indicacionesPara(tratamiento, momento = "dia") {
   const t = tratamiento.toLowerCase();
-  return Object.keys(INDICACIONES).filter((k) => t.includes(k)).map((k) => INDICACIONES[k]);
+  return Object.keys(INDICACIONES).filter((k) => t.includes(k)).map((k) => INDICACIONES[k][momento]).filter(Boolean);
 }
+
+export const LARGO_MAX = 280; // caracteres: un recordatorio de WhatsApp se lee de un vistazo
 
 const Recordatorios = z.object({
   recordatorios: z.array(
@@ -50,10 +55,12 @@ Voz real de la recepción de Okio por WhatsApp (así escriben ellas). ESTE es el
 Tarea: para cada turno, escribí UN recordatorio de WhatsApp con esa voz que:
 - Salude a la clienta por su nombre de pila (viene en cada turno) y NOMBRE el tratamiento (el dato que hoy el recordatorio automático no trae).
 - Diga el día y el horario. NO nombre a la profesional: a la clienta le importa cuándo, qué tratamiento y cómo venir.
-- Incluya las indicaciones que vienen con el turno, dichas con tus palabras, sin agregar otras.
+- Incluya las indicaciones que vienen con el turno en UNA frase corta, con tus palabras, sin agregar otras.
   Si un turno no trae indicaciones, no inventes ninguna: no es consejo médico.
 - Pida que confirme si viene (ej. "nos confirmás si venís?"), porque el turno todavía no está confirmado.
-- Sea corto y cálido: 2 oraciones + la pregunta de confirmación + un cierre tipo "te esperamos!".`;
+- Sea MUY corto: como máximo ${LARGO_MAX} caracteres en total, emoji incluido. Saludo breve ("Hola Luciana!"),
+  sin "cómo estás?". Ejemplo de largo y tono: "Hola Luciana! Te esperamos hoy a las 16 hs para peeling facial
+  y depilación definitiva. Vení sin maquillaje y con la zona rasurada. Nos confirmás si venís? Saludos!"`;
 
 // Genera un recordatorio por turno, en la voz de recepción de Okio.
 // Recibe el cliente de Anthropic ya creado y una lista [{tratamiento, hora, nombre?, dia?}].

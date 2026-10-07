@@ -96,6 +96,7 @@ Regla: **una tarjeta, una pregunta.** Si un dato no ayuda a responderla, va al d
 - **Clientes:** cada fila de la lista muestra el nombre y el próximo turno, más el ícono ! o ? cuando hace falta. La ficha muestra el WhatsApp, el próximo turno (con tratamiento y profesional), la última visita y el historial clínico detrás de un acceso restringido.
 - **Mensajes:** el turno vinculado va en una sola línea arriba del chat. El borrador del copiloto tiene **borde punteado dorado**, igual que los huecos libres de la Agenda. En toda la app, punteado significa "todavía no es real".
 - El menú muestra un contador de mensajes sin leer.
+- **Recordatorios (2026-10-07):** llevan solo fecha y horario, tratamiento e indicaciones para venir. No nombran a la profesional: a la clienta no le cambia nada. Las indicaciones salen de una lista fija por tratamiento (`ai-triage/generadores.mjs`, hoy de ejemplo ficticio); la IA las redacta pero no inventa otras.
 
 **Privacidad:** ninguna tarjeta de la Agenda muestra datos clínicos (notas, fotos, historia). Eso queda en la ficha, con acceso restringido, como dice `05_Privacidad_y_Consentimiento.md`. Mientras no se resuelvan los pendientes de ese doc, solo se usan datos ficticios.
 

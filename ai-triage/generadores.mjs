@@ -14,6 +14,21 @@ export function plantillaAntes(hora) {
   return `Buenas tardes! 😊 Soy Ceci, de OKIO. Paso a recordarte el turno que tenés agendado para mañana a las ${hora}.`;
 }
 
+// Indicaciones previas por tratamiento. EJEMPLO FICTICIO: reemplazar por las que escriban
+// las profesionales de Okio. La IA solo las redacta con su voz; no inventa otras.
+export const INDICACIONES = {
+  "peeling facial": "venir con la cara limpia y sin maquillaje; no usar ácidos ni retinol los 3 días previos",
+  "depilación definitiva": "venir con la zona rasurada (no con cera ni pinza) y sin cremas",
+  "limpieza facial profunda": "venir sin maquillaje",
+  "peeling corporal": "traer una toalla y no tomar sol en la zona el día anterior",
+};
+
+// Junta las indicaciones de cada tratamiento que nombre el turno ("peeling facial y depilación definitiva" → las dos).
+export function indicacionesPara(tratamiento) {
+  const t = tratamiento.toLowerCase();
+  return Object.keys(INDICACIONES).filter((k) => t.includes(k)).map((k) => INDICACIONES[k]);
+}
+
 const Recordatorios = z.object({
   recordatorios: z.array(
     z.object({
@@ -34,13 +49,14 @@ Voz real de la recepción de Okio por WhatsApp (así escriben ellas). ESTE es el
 
 Tarea: para cada turno, escribí UN recordatorio de WhatsApp con esa voz que:
 - Salude a la clienta por su nombre de pila (viene en cada turno) y NOMBRE el tratamiento (el dato que hoy el recordatorio automático no trae).
-- Incluya UN tip de pre-cuidado simple para ese tratamiento (como "recordá venir rasurada y con toalla"
-  para depilación) — sentido común, no consejo médico; la profesional lo aprueba.
+- Diga el día y el horario. NO nombre a la profesional: a la clienta le importa cuándo, qué tratamiento y cómo venir.
+- Incluya las indicaciones que vienen con el turno, dichas con tus palabras, sin agregar otras.
+  Si un turno no trae indicaciones, no inventes ninguna: no es consejo médico.
 - Pida que confirme si viene (ej. "nos confirmás si venís?"), porque el turno todavía no está confirmado.
 - Sea corto y cálido: 2 oraciones + la pregunta de confirmación + un cierre tipo "te esperamos!".`;
 
 // Genera un recordatorio por turno, en la voz de recepción de Okio.
-// Recibe el cliente de Anthropic ya creado y una lista [{tratamiento, hora, nombre?, dia?, profesional?}].
+// Recibe el cliente de Anthropic ya creado y una lista [{tratamiento, hora, nombre?, dia?}].
 // Devuelve [{tratamiento, mensaje}] con el blindaje de ¿¡ ya aplicado.
 export async function generarRecordatorios(client, turnos) {
   const res = await client.messages.parse({
@@ -52,7 +68,11 @@ export async function generarRecordatorios(client, turnos) {
       {
         role: "user",
         content: `Turnos:\n${turnos
-          .map((t) => `- Clienta: ${t.nombre || "Meli"} · ${t.tratamiento} · ${t.dia || "mañana"} a las ${t.hora}${t.profesional ? ` con ${t.profesional}` : ""}`)
+          .map((t) => {
+            const ind = indicacionesPara(t.tratamiento);
+            return `- Clienta: ${t.nombre || "Meli"} · ${t.tratamiento} · ${t.dia || "mañana"} a las ${t.hora}` +
+              ` · Indicaciones: ${ind.length ? ind.join("; ") : "ninguna"}`;
+          })
           .join("\n")}`,
       },
     ],

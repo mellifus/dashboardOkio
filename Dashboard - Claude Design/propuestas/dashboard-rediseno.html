@@ -431,25 +431,25 @@ var CONVERSACIONES = [
   {nombre:'Sofía Ramos', hora:'14:52', noLeido:true, cierre:'humano',
    mensajes:[
      {dia:'Lunes 14'},
-     {de:'out', texto:'Hola Sofía! Te reservamos el jueves 17 a las 15:00 con Ingrid para depilación definitiva.', hora:'Okio · 11:05'},
+     {de:'out', texto:'Hola Sofía! Te reservamos el jueves 17 a las 15:00 para depilación definitiva.', hora:'Okio · 11:05'},
      {de:'in', texto:'Dale, gracias!', hora:'Sofía · 11:20'},
      {dia:'Hoy'},
      {de:'in', texto:'Hola! No voy a poder ir el jueves, me surgió algo del trabajo. Perdón!', hora:'Sofía · 14:52'}]},
   {nombre:'Luciana Ferreyra', hora:'15:10', cierre:'borrador', resumen:'Borrador listo para revisar',
-   borrador:'Hola Luciana! Te recordamos tu turno de hoy, jueves 17, a las 16:00 con Ingrid: peeling facial y depilación definitiva. Nos confirmás si venís? Saludos!',
+   borrador:'Hola Luciana! Te recordamos tu turno de hoy, jueves 17, a las 16:00 para peeling facial y depilación definitiva. Vení con la cara limpia, sin maquillaje, y con la zona rasurada (no con cera). Nos confirmás si venís? Te esperamos!',
    mensajes:[
      {dia:'Lunes 14'},
-     {de:'out', texto:'Hola Luciana! Te reservamos el jueves 17 a las 16:00 con Ingrid.', hora:'Okio · 10:12'},
+     {de:'out', texto:'Hola Luciana! Te reservamos el jueves 17 a las 16:00 para peeling facial y depilación definitiva.', hora:'Okio · 10:12'},
      {de:'in', texto:'Genial, gracias!!', hora:'Luciana · 10:40'}]},
   {nombre:'Agustina Paz', hora:'Ayer', cierre:'ok',
    mensajes:[
      {dia:'Ayer'},
-     {de:'out', texto:'Hola Agustina! Te recordamos tu turno del jueves 17 a las 10:00 con Ingrid: peeling facial. Nos confirmás si venís? Saludos!', hora:'Okio · 16:30'},
+     {de:'out', texto:'Hola Agustina! Te recordamos tu turno del jueves 17 a las 10:00 para peeling facial. Vení con la cara limpia y sin maquillaje, y no uses ácidos ni retinol hasta entonces. Nos confirmás si venís? Saludos!', hora:'Okio · 16:30'},
      {de:'in', texto:'Gracias! Ahí estaré', hora:'Agustina · 16:41'}]},
   {nombre:'Valentina Sosa', hora:'Ayer', cierre:'ok',
    mensajes:[
      {dia:'Ayer'},
-     {de:'out', texto:'Hola Valentina! Te recordamos tu turno del jueves 17 a las 09:00 con Eliana: peeling corporal. Nos confirmás si venís? Saludos!', hora:'Okio · 16:32'},
+     {de:'out', texto:'Hola Valentina! Te recordamos tu turno del jueves 17 a las 09:00 para peeling corporal. Traé una toalla y evitá el sol en la zona el día anterior. Nos confirmás si venís? Saludos!', hora:'Okio · 16:32'},
      {de:'in', texto:'Perfecto, confirmo', hora:'Valentina · 17:05'}]}
 ];
 
@@ -489,7 +489,7 @@ function elegirConversacion(i){
       '<button class="pill sm" onclick="ir(\'agenda\');ver(\'semana\')">Ver huecos en la semana</button></div>' +
       // Respuesta escrita por recepción: borde liso, porque no es un borrador del copiloto.
       '<div class="draft reply"><label for="respuesta">Tu respuesta por WhatsApp</label>' +
-      '<textarea id="respuesta" rows="3" placeholder="Ej.: No pasa nada, ' + nombre + '! Te puedo ofrecer el viernes a las 18:00 con Ingrid, te sirve?"></textarea>' +
+      '<textarea id="respuesta" rows="3" placeholder="Ej.: No pasa nada, ' + nombre + '! Te puedo ofrecer el viernes a las 18:00, te sirve?"></textarea>' +
       '<div class="act"><small>Simulación: nada se envía a un teléfono real.</small>' +
       '<button class="pill solid" onclick="enviarRespuesta(' + i + ')">Enviar</button></div></div>',
     respondido: '<p class="fine done">Mensaje enviado (simulación) · El turno sigue sin confirmar hasta que ' + nombre + ' elija otro horario.</p>',
@@ -648,7 +648,7 @@ async function prepararRecordatorio(i){
   var conv = CONVERSACIONES[k];
   conv.cierre = 'borrador'; conv.resumen = 'Borrador listo para revisar';
   conv.borrador = conv.borrador || ('Hola ' + nombre + '! Te recordamos tu turno de hoy, jueves 17, a las ' + t.ini +
-    ' con ' + t.pro + ': ' + tratamiento + '. Nos confirmás si venís? Saludos!');
+    ' para ' + tratamiento + '. Nos confirmás si venís? Saludos!');
   ir('mensajes'); elegirConversacion(k);
   var ta = document.getElementById('borrador'), label = document.getElementById('borrador-label'), btn = document.getElementById('btn-aprobar');
   ta.value = 'Redactando con IA…'; ta.disabled = true; btn.disabled = true;
@@ -656,7 +656,7 @@ async function prepararRecordatorio(i){
     var r = await fetch('/api/recordatorio', {
       method: 'POST', headers: {'Content-Type': 'application/json'},
       signal: AbortSignal.timeout(15000),
-      body: JSON.stringify({turnos: [{nombre: nombre, tratamiento: tratamiento, dia: 'hoy, jueves 17', hora: t.ini, profesional: t.pro}]})
+      body: JSON.stringify({turnos: [{nombre: nombre, tratamiento: tratamiento, dia: 'hoy, jueves 17', hora: t.ini}]})
     });
     var data = await r.json();
     if (!r.ok) throw new Error(data.error);

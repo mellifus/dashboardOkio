@@ -226,6 +226,9 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
 .notice .pill:first-of-type{margin-left:26px}
 .done{color:var(--ok-text);font-weight:600}
 
+/* Aviso flotante para lo que la demo todavía no hace */
+.aviso{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:10;max-width:calc(100% - 32px);padding:11px 18px;border-radius:999px;background:var(--solid-bg);color:var(--solid-text);font-size:13px;box-shadow:0 6px 24px rgba(0,0,0,.18)}
+
 @media (max-width:900px){
   .two{grid-template-columns:1fr}
   /* En pantallas angostas la barra lateral pasa a ser una barra arriba, con menú y switch */
@@ -246,6 +249,7 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
 </style>
 </head>
 <body>
+<div class="aviso" id="aviso" role="status" hidden></div>
 <div class="app">
   <aside class="sidebar">
     <div class="brand">
@@ -270,7 +274,7 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
       <div class="switch">
         <div class="seg" role="group" aria-label="Vista"><button class="on" id="btn-dia" aria-pressed="true" onclick="ver('dia')">Día</button>
         <button id="btn-semana" aria-pressed="false" onclick="ver('semana')">Semana</button></div>
-        <button class="pill solid" style="margin-left:10px">+ Turno</button>
+        <button class="pill solid" style="margin-left:10px" onclick="aviso('Cargar turnos nuevos todavía no está en la demo.')">+ Turno</button>
       </div>
     </header>
 
@@ -282,40 +286,13 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
              Maqueta: hora fija 15:20; en el código real "Ahora" se ubica solo con la hora actual. -->
         <div class="lista" id="grilla">
           <div class="pro"><b>Turnos del día</b><span>6 turnos · Ingrid 3 · Eliana 3</span></div>
-          <ol class="dia" aria-label="Turnos del día">
-            <li><button class="turno ok"><span class="l1"><b>Eliana</b><span class="hora">09:00–10:00</span></span><span class="l2"><span class="tx">Valentina Sosa · Peeling corporal</span></span></button></li>
-            <li><button class="turno ok"><span class="l1"><b>Ingrid</b><span class="hora">10:00–11:00</span></span><span class="l2"><span class="tx">Agustina Paz · Peeling facial</span></span></button></li>
-            <li><button class="turno ok"><span class="l1"><b>Eliana</b><span class="hora">11:30–12:30</span></span><span class="l2"><span class="tx">Martina Gil · Limpieza facial profunda</span></span></button></li>
-            <li class="cerrado">Cerrado 13–15</li>
-            <li><button class="turno alert"><span class="l1"><span class="ic" role="img" aria-label="Requiere atención">!</span><b>Ingrid</b><span class="hora">15:00–15:40</span></span><span class="l2"><span class="tx">Sofía Ramos · Depilación definitiva</span><span class="st">Atención</span></span></button></li>
-            <li class="ahora"><span>Ahora · 15:20</span></li>
-            <li><button class="turno pend sel" aria-pressed="true"><span class="l1"><span class="ic" role="img" aria-label="Sin confirmar">?</span><b>Ingrid</b><span class="hora">16:00–17:30</span></span><span class="l2"><span class="tx">Luciana Ferreyra · Peeling facial + Depilación definitiva</span><span class="st">Sin confirmar</span></span></button></li>
-            <li><button class="turno ok"><span class="l1"><b>Eliana</b><span class="hora">17:30–18:10</span></span><span class="l2"><span class="tx">Florencia Díaz · Depilación definitiva</span></span></button></li>
-          </ol>
+          <ol class="dia" id="dia" aria-label="Turnos del día"></ol>
         </div>
       </section>
 
       <div class="side">
-      <section class="attn" aria-label="Requiere atención">
-        <h2>Requiere atención hoy · 2</h2>
-        <div class="attn-row"><time>15:00</time><div><strong>Sofía Ramos</strong><span class="why">Avisó que no puede venir</span></div><button class="pill sm">Llamar</button></div>
-        <div class="attn-row" id="attn-luciana"><time>16:00</time><div><strong>Luciana Ferreyra</strong><span class="why">Sin confirmar</span></div><button class="pill sm solid" onclick="prepararRecordatorio()">Recordatorio</button></div>
-      </section>
-      <aside class="card detail">
-        <p class="eyebrow">Turno seleccionado</p>
-        <h2>Luciana Ferreyra</h2>
-        <p class="when">16:00 – 17:30 · 90 min</p>
-        <span class="badge pend">Sin confirmar</span>
-        <p class="eyebrow" style="margin-top:18px">Tratamientos</p>
-        <ul><li>Peeling facial</li><li>Depilación definitiva</li></ul>
-        <dl>
-          <dt>Profesional</dt><dd>Ingrid</dd>
-          <dt>WhatsApp</dt><dd>+54 351 000-0000</dd>
-          <dt>Recordatorio</dt><dd id="estado-recordatorio">Todavía no enviado</dd>
-        </dl>
-        <button class="pill solid" style="width:100%" id="btn-preparar" onclick="prepararRecordatorio()">Preparar recordatorio</button>
-        <p class="note">La ficha completa y el historial están en Clientes.</p>
-      </aside>
+      <section class="attn" id="attn" aria-label="Requiere atención"></section>
+      <aside class="card detail" id="detalle" aria-live="polite"></aside>
       </div>
     </div>
 
@@ -344,11 +321,11 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
           <p class="eyebrow">Clientes · 7 fichas</p>
           <h1>Clientes</h1>
         </div>
-        <div class="switch"><button class="pill solid">+ Clienta</button></div>
+        <div class="switch"><button class="pill solid" onclick="aviso('Cargar clientas nuevas todavía no está en la demo.')">+ Clienta</button></div>
       </header>
       <div class="two">
         <section class="card list" aria-label="Lista de clientas">
-          <input class="search" type="search" placeholder="Buscar por nombre o teléfono" aria-label="Buscar clienta">
+          <input class="search" id="buscar" type="search" oninput="filtrarClientas(this.value)" placeholder="Buscar por nombre o teléfono" aria-label="Buscar clienta">
           <div id="lista-clientas"></div>
         </section>
 
@@ -452,8 +429,8 @@ function elegirClienta(i){
   var proximo = p
     ? '<div class="next ' + p.estado + '">' + icono(p.estado) +
         '<div class="grow"><strong>' + p.largo + '</strong><span>' + p.tx + ' · ' + ESTADOS[p.estado].texto + '</span></div>' +
-        '<button class="pill sm" onclick="ir(\'agenda\')">Ver en Agenda</button></div>'
-    : '<p class="plain muted">No tiene turnos reservados.</p><button class="pill sm">+ Turno para ' + c.nombre.split(' ')[0] + '</button>';
+        '<button class="pill sm" onclick="verEnAgenda(\'' + c.nombre + '\')">Ver en Agenda</button></div>'
+    : '<p class="plain muted">No tiene turnos reservados.</p><button class="pill sm" onclick="aviso(\'Cargar turnos nuevos todavía no está en la demo.\')">+ Turno para ' + c.nombre.split(' ')[0] + '</button>';
   document.getElementById('ficha').innerHTML =
     '<p class="eyebrow">Ficha · Datos ficticios</p>' +
     '<h2>' + c.nombre + '</h2>' +
@@ -462,7 +439,7 @@ function elegirClienta(i){
     '<div class="block"><p class="eyebrow">Última visita</p><p class="plain">' + c.ultima + '</p></div>' +
     '<div class="block"><p class="eyebrow">Historial clínico</p>' +
       '<p class="plain muted">Notas y fotos con acceso restringido: solo las ven las profesionales.</p>' +
-      '<button class="pill sm">Ver historial</button></div>';
+      '<button class="pill sm" onclick="aviso(\'El historial clínico queda fuera de la demo: son datos de salud y solo lo ven las profesionales.\')">Ver historial</button></div>';
 }
 
 document.getElementById('lista-clientas').innerHTML = CLIENTAS.map(function(c, i){
@@ -482,7 +459,7 @@ var CONVERSACIONES = [
      {dia:'Hoy'},
      {de:'in', texto:'Hola! No voy a poder ir el jueves, me surgió algo del trabajo. Perdón!', hora:'Sofía · 14:52'}]},
   {nombre:'Luciana Ferreyra', hora:'15:10', cierre:'borrador', resumen:'Borrador listo para revisar',
-   borrador:'Hola Luciana! Te recordamos tu turno de mañana, jueves 17, a las 16:00 con Ingrid: peeling facial y depilación definitiva. Nos confirmás si venís? Saludos!',
+   borrador:'Hola Luciana! Te recordamos tu turno de hoy, jueves 17, a las 16:00 con Ingrid: peeling facial y depilación definitiva. Nos confirmás si venís? Saludos!',
    mensajes:[
      {dia:'Lunes 14'},
      {de:'out', texto:'Hola Luciana! Te reservamos el jueves 17 a las 16:00 con Ingrid.', hora:'Okio · 10:12'},
@@ -527,38 +504,126 @@ function elegirConversacion(i){
     borrador: '<div class="draft"><label for="borrador" id="borrador-label">Borrador del copiloto · Revisalo antes de enviar</label>' +
       '<textarea id="borrador" rows="4">' + esc(conv.borrador) + '</textarea>' +
       '<div class="act"><small>Simulación: nada se envía a un teléfono real.</small>' +
-      '<button class="pill" onclick="prepararRecordatorio()">Redactar de nuevo</button><button class="pill solid" id="btn-aprobar" onclick="aprobar(' + i + ')">Aprobar y enviar</button></div></div>',
+      '<button class="pill" onclick="prepararRecordatorio(turnoDe(\'' + conv.nombre + '\'))">Redactar de nuevo</button><button class="pill solid" id="btn-aprobar" onclick="aprobar(' + i + ')">Aprobar y enviar</button></div></div>',
     enviado: '<p class="fine done">Recordatorio enviado (simulación) · Esperando que ' + nombre + ' confirme.</p>',
     humano: '<div class="next alert notice"><span class="ic" role="img" aria-label="Requiere atención">!</span>' +
       '<div class="grow"><strong>Lo resuelve recepción, no el copiloto</strong>' +
       '<span>' + nombre + ' avisó que no puede venir. Llamala u ofrecele otro horario. El turno sigue sin confirmar: no se canceló.</span></div>' +
       '<button class="pill sm" onclick="ir(\'agenda\');ver(\'semana\')">Ver huecos en la semana</button>' +
-      '<button class="pill sm solid">Llamar</button></div>',
+      '<button class="pill sm solid" onclick="llamar(\'' + conv.nombre + '\')">Llamar</button></div>',
     ok: '<p class="fine done">Confirmación registrada · El turno figura confirmado en Agenda.</p>'
   }[conv.cierre];
   document.getElementById('chat').innerHTML =
     '<div class="linked">' + icono(p.estado) +
       '<span class="grow"><strong>' + conv.nombre + '</strong> · ' + p.largo + ' · ' + p.tx + '</span>' +
-      '<button class="pill sm" onclick="ir(\'agenda\')">Ver en Agenda</button></div>' +
+      '<button class="pill sm" onclick="verEnAgenda(\'' + conv.nombre + '\')">Ver en Agenda</button></div>' +
     '<div class="thread">' + hilo + '</div>' + cierre +
     '<p class="fine">Las consultas clínicas o sensibles se derivan a una persona. El copiloto no da indicaciones médicas.</p>';
 }
 
-// Recordatorio de Luciana: lo redacta la IA real (ai-triage/server.mjs → /api/recordatorio).
-// Si no hay servidor, falta la key o tarda más de 15 s, queda el borrador de ejemplo y la demo sigue.
-var LUCIANA = 1;
-async function prepararRecordatorio(){
-  var conv = CONVERSACIONES[LUCIANA];
-  conv.cierre = 'borrador';
-  ir('mensajes'); elegirConversacion(LUCIANA);
+// Turnos de hoy. Estado y tratamientos salen de CLIENTAS; rec = cómo va el recordatorio.
+var HOY = [
+  {c:'Valentina Sosa',   pro:'Eliana', ini:'09:00', fin:'10:00', rec:'Enviado ayer · confirmó'},
+  {c:'Agustina Paz',     pro:'Ingrid', ini:'10:00', fin:'11:00', rec:'Enviado ayer · confirmó'},
+  {c:'Martina Gil',      pro:'Eliana', ini:'11:30', fin:'12:30', rec:'Enviado ayer · confirmó'},
+  {c:'Sofía Ramos',      pro:'Ingrid', ini:'15:00', fin:'15:40', rec:'Enviado · avisó que no puede venir'},
+  {c:'Luciana Ferreyra', pro:'Ingrid', ini:'16:00', fin:'17:30', rec:'Todavía no enviado'},
+  {c:'Florencia Díaz',   pro:'Eliana', ini:'17:30', fin:'18:10', rec:'Enviado ayer · confirmó'}
+];
+var AHORA = '15:20', turnoSel = 4; // Luciana, la del recorrido de la demo
+
+function minutos(h){ var x = h.split(':'); return +x[0] * 60 + +x[1]; }
+function turnoDe(nombre){ for (var i = 0; i < HOY.length; i++) if (HOY[i].c === nombre) return i; return -1; }
+function convDe(nombre){ for (var i = 0; i < CONVERSACIONES.length; i++) if (CONVERSACIONES[i].nombre === nombre) return i; return -1; }
+
+function pintarDia(){
+  var html = '', cerrado = false, ahora = false;
+  HOY.forEach(function(t, i){
+    var p = clientaDe(t.c).prox, e = p.estado;
+    if (!cerrado && t.ini >= '13:00') { html += '<li class="cerrado">Cerrado 13–15</li>'; cerrado = true; }
+    if (!ahora && t.ini > AHORA) { html += '<li class="ahora"><span>Ahora · ' + AHORA + '</span></li>'; ahora = true; }
+    var st = e === 'alert' ? 'Atención' : e === 'pend' ? 'Sin confirmar' : '';
+    html += '<li><button class="turno ' + e + (i === turnoSel ? ' sel' : '') + '" aria-pressed="' + (i === turnoSel) + '" onclick="elegirTurno(' + i + ')">' +
+      '<span class="l1">' + icono(e) + '<b>' + t.pro + '</b><span class="hora">' + t.ini + '–' + t.fin + '</span></span>' +
+      '<span class="l2"><span class="tx">' + t.c + ' · ' + p.tx + '</span>' + (st ? '<span class="st">' + st + '</span>' : '') + '</span></button></li>';
+  });
+  document.getElementById('dia').innerHTML = html;
+}
+
+function pintarAtencion(){
+  var filas = HOY.map(function(t, i){
+    var e = clientaDe(t.c).prox.estado;
+    if (e === 'ok') return '';
+    var boton = e === 'alert'
+      ? '<button class="pill sm" onclick="llamar(\'' + t.c + '\')">Llamar</button>'
+      : (t.enviado ? '' : '<button class="pill sm solid" onclick="prepararRecordatorio(' + i + ')">Recordatorio</button>');
+    var why = e === 'alert' ? 'Avisó que no puede venir' : (t.enviado ? t.rec : 'Sin confirmar');
+    return '<div class="attn-row"><time>' + t.ini + '</time><div><strong>' + t.c + '</strong><span class="why">' + why + '</span></div>' + boton + '</div>';
+  }).filter(Boolean);
+  document.getElementById('attn').innerHTML = '<h2>Requiere atención hoy · ' + filas.length + '</h2>' + filas.join('');
+}
+
+function elegirTurno(i){
+  turnoSel = i;
+  var t = HOY[i], c = clientaDe(t.c), p = c.prox, dur = minutos(t.fin) - minutos(t.ini), k = convDe(t.c);
+  var principal = '';
+  if (p.estado === 'pend' && !t.enviado) principal = '<button class="pill solid" style="width:100%" onclick="prepararRecordatorio(' + i + ')">Preparar recordatorio</button>';
+  else if (k >= 0) principal = '<button class="pill solid" style="width:100%" onclick="ir(\'mensajes\');elegirConversacion(' + k + ')">Ver conversación</button>';
+  document.getElementById('detalle').innerHTML =
+    '<p class="eyebrow">Turno seleccionado</p>' +
+    '<h2>' + t.c + '</h2>' +
+    '<p class="when">' + t.ini + ' – ' + t.fin + ' · ' + dur + ' min</p>' +
+    '<span class="badge ' + p.estado + '">' + ESTADOS[p.estado].texto + '</span>' +
+    '<p class="eyebrow" style="margin-top:18px">Tratamientos</p>' +
+    '<ul>' + p.tx.split(' + ').map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul>' +
+    '<dl><dt>Profesional</dt><dd>' + t.pro + '</dd>' +
+    '<dt>WhatsApp</dt><dd>+54 351 ' + c.tel + '</dd>' +
+    '<dt>Recordatorio</dt><dd>' + t.rec + '</dd></dl>' +
+    principal +
+    '<button class="pill" style="width:100%;margin-top:8px" onclick="verFicha(\'' + t.c + '\')">Ver ficha</button>';
+  pintarDia();
+}
+
+function verEnAgenda(nombre){ ir('agenda'); ver('dia'); var i = turnoDe(nombre); if (i >= 0) elegirTurno(i); }
+function verFicha(nombre){ ir('clientes'); elegirClienta(CLIENTAS.indexOf(clientaDe(nombre))); }
+function llamar(nombre){ aviso('Llamar a ' + nombre + ': +54 351 ' + clientaDe(nombre).tel + ' (número ficticio).'); }
+
+function filtrarClientas(q){
+  q = q.trim().toLowerCase();
+  document.querySelectorAll('#lista-clientas .row').forEach(function(r, j){
+    r.hidden = !!q && (CLIENTAS[j].nombre + ' ' + CLIENTAS[j].tel).toLowerCase().indexOf(q) < 0;
+  });
+}
+
+var avisoTimer;
+function aviso(texto){
+  var el = document.getElementById('aviso');
+  el.textContent = texto; el.hidden = false;
+  clearTimeout(avisoTimer); avisoTimer = setTimeout(function(){ el.hidden = true; }, 3500);
+}
+
+// Recordatorio: lo redacta la IA real (ai-triage/server.mjs → /api/recordatorio).
+// Si no hay servidor, falta la key o tarda más de 15 s, queda un borrador de ejemplo y la demo sigue.
+async function prepararRecordatorio(i){
+  if (i == null) i = turnoSel;
+  var t = HOY[i], p = clientaDe(t.c).prox, nombre = t.c.split(' ')[0], k = convDe(t.c);
+  var tratamiento = p.tx.toLowerCase().replace(' + ', ' y ');
+  if (k < 0) {
+    CONVERSACIONES.push({nombre:t.c, hora:'15:21', mensajes:[]});
+    k = CONVERSACIONES.length - 1;
+  }
+  var conv = CONVERSACIONES[k];
+  conv.cierre = 'borrador'; conv.resumen = 'Borrador listo para revisar';
+  conv.borrador = conv.borrador || ('Hola ' + nombre + '! Te recordamos tu turno de hoy, jueves 17, a las ' + t.ini +
+    ' con ' + t.pro + ': ' + tratamiento + '. Nos confirmás si venís? Saludos!');
+  ir('mensajes'); elegirConversacion(k);
   var ta = document.getElementById('borrador'), label = document.getElementById('borrador-label'), btn = document.getElementById('btn-aprobar');
   ta.value = 'Redactando con IA…'; ta.disabled = true; btn.disabled = true;
   try {
     var r = await fetch('/api/recordatorio', {
       method: 'POST', headers: {'Content-Type': 'application/json'},
       signal: AbortSignal.timeout(15000),
-      body: JSON.stringify({turnos: [{nombre: 'Luciana', tratamiento: 'peeling facial y depilación definitiva',
-        dia: 'mañana, jueves 17', hora: '16:00', profesional: 'Ingrid'}]})
+      body: JSON.stringify({turnos: [{nombre: nombre, tratamiento: tratamiento, dia: 'hoy, jueves 17', hora: t.ini, profesional: t.pro}]})
     });
     var data = await r.json();
     if (!r.ok) throw new Error(data.error);
@@ -571,20 +636,19 @@ async function prepararRecordatorio(){
   ta.value = conv.borrador; ta.disabled = false; btn.disabled = false;
 }
 
-function aprobar(i){
-  var conv = CONVERSACIONES[i];
+function aprobar(k){
+  var conv = CONVERSACIONES[k], t = HOY[turnoDe(conv.nombre)];
   conv.mensajes.push({dia:'Hoy'}, {de:'out', texto: document.getElementById('borrador').value, hora:'Okio · 15:21'});
   conv.cierre = 'enviado'; conv.resumen = 'Recordatorio enviado · esperando respuesta';
-  elegirConversacion(i);
-  document.getElementById('estado-recordatorio').textContent = 'Enviado hoy 15:21 · esperando respuesta';
-  document.getElementById('btn-preparar').textContent = 'Ver conversación';
-  document.getElementById('btn-preparar').onclick = function(){ ir('mensajes'); elegirConversacion(i); };
-  document.querySelector('#attn-luciana .why').textContent = 'Recordatorio enviado · esperando respuesta';
-  document.querySelector('#attn-luciana button').hidden = true;
+  elegirConversacion(k);
+  if (t) { t.enviado = true; t.rec = 'Enviado hoy 15:21 · esperando respuesta'; }
+  pintarAtencion(); elegirTurno(turnoSel);
 }
 
 pintarListaMensajes(-1);
 elegirConversacion(1); // Luciana, la del recorrido de la demo
+pintarAtencion();
+elegirTurno(turnoSel);
 
 function ir(p){
   ['agenda','clientes','mensajes'].forEach(function(x){

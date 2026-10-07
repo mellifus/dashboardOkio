@@ -113,26 +113,25 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
    Escala fija: 64 px por hora. El corte 13–15 es una franja angosta, no dos horas vacías. */
 .cal{overflow:auto;max-height:calc(100dvh - 150px);overscroll-behavior:contain}
 .cal-top{position:sticky;top:0;z-index:3;display:grid;background:var(--surface);border-bottom:1px solid var(--line)}
-.cal-dia{padding:12px 8px 2px;text-align:center;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-left:1px solid var(--muted)}
+.cal-dia{padding:12px 8px 2px;text-align:center;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-left:1px solid var(--line)}
 .cal-dia b{font:400 22px var(--serif);letter-spacing:0;color:var(--text);margin-left:4px}
 .cal-dia.hoy{color:var(--gold-text)} .cal-dia.hoy b{color:var(--gold-big)}
 .cal-dia.click{cursor:pointer} .cal-dia.click:hover{background:var(--page)}
-.cal-pro{padding:10px 8px;text-align:center;font:400 18px var(--serif);border-left:1px solid var(--line)}
+.cal-pro{padding:10px 8px;text-align:center;font:400 18px var(--serif)}
 .cal-pro.chico{font:500 13.5px var(--sans);color:var(--muted);padding:2px 8px 8px}
-.cal-pro.first{border-left-color:var(--muted)}
+#vista-semana .cal-pro.first{border-left:1px solid var(--line)}
 .cal-pro small{display:block;font:13px var(--sans);color:var(--muted)}
 .cal-body{position:relative;display:grid}
 .cal-horas{position:relative}
 .cal-horas span{position:absolute;right:10px;transform:translateY(-50%);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
 .cal-horas span:first-child{transform:none;margin-top:2px}
 .cal-horas .now-l{background:var(--text);color:var(--page);font-weight:600;padding:1px 6px;border-radius:999px;z-index:2}
-.hl{position:absolute;z-index:1;left:64px;right:0;border-top:1px solid var(--line);pointer-events:none}
-.hl.media{border-top-style:dotted}
-.cal-cerrado{position:absolute;left:64px;right:0;display:flex;align-items:center;justify-content:center;background:repeating-linear-gradient(135deg,transparent 0 6px,var(--line) 6px 7px);color:var(--muted);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;pointer-events:none;z-index:1}
-.cal-cerrado span{background:var(--surface);padding:1px 10px;border-radius:999px}
-.col{position:relative;border-left:1px solid var(--line);cursor:pointer}
+.hl{position:absolute;z-index:1;left:64px;right:0;border-top:1px solid color-mix(in srgb,var(--line) 55%,transparent);pointer-events:none}
+.cal-cerrado{position:absolute;left:64px;right:0;display:flex;align-items:center;justify-content:center;background:var(--page);color:var(--muted);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;pointer-events:none;z-index:1}
+.cal-cerrado span{padding:1px 10px;border-radius:999px}
+.col{position:relative;cursor:pointer}
 .col:hover{background:color-mix(in srgb,var(--page) 70%,transparent)}
-.col.first{border-left-color:var(--muted)}
+#vista-semana .col.first{border-left:1px solid var(--line)} /* en Semana, solo se separan los días */
 .now{position:absolute;left:0;right:0;border-top:2px solid var(--text);z-index:2;pointer-events:none}
 
 /* Turno: alto = duración. Línea 1: ícono de estado (si no está confirmado) + clienta. Línea 2: horario · tratamiento. */
@@ -544,7 +543,7 @@ function pintarCal(id, dias){
   for (var h = 9; h <= 20; h++) if (h <= 13 || h >= 15) body += '<span style="top:' + y(h * 60) + 'px">' + hhmm(h * 60) + '</span>';
   if (dias.indexOf(HOY_D) >= 0) body += '<span class="now-l" style="top:' + y(ahora) + 'px">' + AHORA + '</span>';
   body += '</div>';
-  for (var m = 570; m < 1200; m += 30) if (m <= 780 || m > 900) body += '<i class="hl' + (m % 60 ? ' media' : '') + '" style="top:' + y(m) + 'px"></i>';
+  for (var m = 600; m < 1200; m += 60) if (m <= 780 || m > 900) body += '<i class="hl" style="top:' + y(m) + 'px"></i>';
   body += '<div class="cal-cerrado" style="top:' + y(780) + 'px;height:' + CORTE + 'px"><span>Cerrado 13–15</span></div>';
   dias.forEach(function(d){
     PROS.forEach(function(p, j){

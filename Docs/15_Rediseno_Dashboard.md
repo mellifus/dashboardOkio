@@ -38,27 +38,23 @@ El rediseño se diseña para **recepción**. Los otros dos roles quedan para cua
   - Dorado = sin confirmar
   - Rosa profundo = requiere atención (por ejemplo, la clienta avisó que no puede venir)
   - El tratamiento va **escrito**, nunca como color.
-- **Vista Día como una única agenda (2026-10-04)**: los turnos de Ingrid y Eliana juntos, en una sola lista ordenada por hora. Cada tarjeta mide lo mismo; en la primera línea va **la profesional en negrita** y el horario ("16:00–17:30"), y en la segunda la clienta y el tratamiento. No hay filas de huecos libres: con las dos profesionales mezcladas, un hueco de una puede coincidir con un turno de la otra. Para buscar lugar está la vista Semana, que muestra las horas libres de cada profesional. Antes: una columna por profesional, y antes de eso una grilla con bloques del alto de su duración.
+- **Vista Día como calendario (2026-10-07)**: filas por hora y **una columna por profesional**; cada turno es un bloque del alto de su duración, con la clienta en negrita y abajo el horario y el tratamiento. Los huecos libres se ven solos, y **un click en un horario libre arma el turno nuevo** con esa profesional y esa hora (pensado para cuando la recepcionista agenda en persona). Arranca mostrando la hora actual. Antes (2026-10-04): una lista única con las dos profesionales mezcladas; Meli pidió volver a un calendario común porque es más cómodo para recepción.
 - **"Requiere atención" arriba de la columna derecha**, encima del detalle. Lista los turnos sin confirmar y los avisos. Arriba de la grilla le quitaba altura y el día no entraba en una notebook.
-- **Etiqueta de estado solo si no está confirmado.** Confirmado es lo normal: alcanza con el color. En los turnos cortos (menos de 1 h) tampoco va la etiqueta, para que el tratamiento entre completo.
-- **Horario real:** lunes a viernes, 09–13 y 15–20. El corte de 13 a 15 es una línea divisoria fina, "Cerrado 13–15", no un hueco libre. La línea "Ahora" separa los turnos que ya empezaron de los que vienen.
+- **Ícono de estado solo si no está confirmado** (! o ?, delante del nombre). Confirmado es lo normal: alcanza con el color.
+- **Horario real:** lunes a viernes, 09–13 y 15–20. El corte de 13 a 15 es una franja rayada angosta, "Cerrado 13–15", no dos horas vacías. La línea "Ahora" separa los turnos que ya empezaron de los que vienen.
 - **Vista por defecto:** Día.
 - **Dispositivo principal:** la notebook de recepción.
 - **Una sola agenda** para todas las profesionales (Ingrid, Eliana; máximo 3); cada turno dice de quién es.
 
 ### Vista Semana
 
-Pregunta que responde: **dónde hay lugar para reacomodar?** Cuando la agenda está llena, recepción reprograma a mano.
+Pregunta que responde: **dónde hay lugar para agendar o reacomodar?**
 
-- Tabla con **una fila por profesional y una columna por día**. Siete días con bloques horarios no entran en una notebook, por eso no hay bloques en esta vista.
-- Cada celda tiene como mucho 4 datos:
-  1. **Horas libres**, el dato principal.
-  2. Una barra de ocupación.
-  3. El hueco más largo.
-  4. Marcas de "sin confirmar" o "atención", solo si hay.
-- **Días pasados:** solo la cantidad de turnos y una columna angosta. Las horas libres de un día que ya pasó no sirven.
-- Click en un día abre la vista Día.
-- **Lunes a viernes** (sábado y domingo cerrado). Las horas libres se calculan sobre 9 h por día (09–13 + 15–20).
+- **El mismo calendario que la vista Día (2026-10-07)**, de lunes a viernes: cada día se divide en **una subcolumna por profesional**. Así los turnos simultáneos de Ingrid y Eliana no se pisan y se ve de quién es cada hueco. **[confirmá con recepción]** si agendan eligiendo primero la profesional o el horario; si la profesional no importa, se puede pasar a una sola columna por día.
+- En Semana los nombres van cortos ("Valentina S.") y los turnos de menos de 50 min muestran solo la clienta.
+- **Días pasados** en gris neutro ("Ya pasó"), sin color de estado.
+- Click en un turno de hoy abre la vista Día con ese turno; click en el encabezado de hoy abre el día. Click en un horario libre arma un turno nuevo.
+- Antes (2026-10-03): una tabla con horas libres, barra de ocupación y hueco más largo por celda. Se reemplazó porque no se parecía a una agenda.
 
 ## 2. Distribución y formato
 
@@ -79,7 +75,7 @@ Pregunta que responde: **dónde hay lugar para reacomodar?** Cuando la agenda es
   - **Claro:** fondo `#F8F6F3`, más tenue que el crema anterior. Barra lateral `#002A24`.
   - **Oscuro, "verde noche":** fondos verdosos (`#0E1614`, tarjetas `#15201D`), no negro neutro. El botón principal pasa a crema con texto verde, porque la marca no permite verdes brillantes y un verde oscuro se perdería sobre ese fondo. Estados y dorados en versiones más claras.
   - Todos los textos medidos pasan 4.5:1 en los dos temas.
-- **Densidad:** que entre un día entero sin scroll en una notebook (probado a 1366×768).
+- **Tamaño de letra (2026-10-07):** texto base 15 px, nada por debajo de 12 px (antes había textos de 10 a 12 px). Se prefiere letra grande con scroll a que entre todo el día: el calendario hace scroll por dentro y arranca en la hora actual.
 
 ---
 
@@ -90,7 +86,7 @@ Regla: **una tarjeta, una pregunta.** Si un dato no ayuda a responderla, va al d
 | Tarjeta | Pregunta que responde | Mostrar | Va al detalle | Por qué |
 |---|---|---|---|---|
 | **Tarjeta de turno** (alto fijo) | Quién viene, con quién, a qué y confirmó? | **profesional**, horario, clienta, **tratamiento(s)**, estado (color + texto corto) | teléfono, recordatorio, historial | El tratamiento visible es el dolor #1 observado (H1). |
-| **Fila "Requiere atención"** | Qué tengo que resolver ahora? | clienta, hora, motivo en 3–4 palabras, **una** acción (Confirmar / Llamar) | todo lo demás | Se les pasan turnos. Esto tiene que gritar. |
+| **Fila "Requiere atención"** | Qué tengo que resolver ahora? | clienta, hora, motivo en 3–4 palabras, **una** acción (Recordatorio / Responder por WhatsApp) | todo lo demás | Se les pasan turnos. Esto tiene que gritar. |
 | **Detalle del turno** (panel) | Qué hago con este turno? | tratamientos, estado del recordatorio, WhatsApp, acción principal (Preparar recordatorio / Registrar confirmación) | ficha completa de la clienta | Hoy repite la lista. Que muestre solo lo accionable. |
 | **Ficha de clienta** | Quién es y cuándo vuelve? | nombre, teléfono, **próximo turno con tratamiento**, última visita | historial completo, notas | Conserva lo bueno de v2. |
 | **Mensaje / confirmación** | Qué le mando y ya respondió? | turno vinculado en una línea, borrador, estado de respuesta | conversación completa | Hoy la tarjeta del turno vinculado repite 6 datos. Con una línea alcanza. |
@@ -100,6 +96,7 @@ Regla: **una tarjeta, una pregunta.** Si un dato no ayuda a responderla, va al d
 - **Clientes:** cada fila de la lista muestra el nombre y el próximo turno, más el ícono ! o ? cuando hace falta. La ficha muestra el WhatsApp, el próximo turno (con tratamiento y profesional), la última visita y el historial clínico detrás de un acceso restringido.
 - **Mensajes:** el turno vinculado va en una sola línea arriba del chat. El borrador del copiloto tiene **borde punteado dorado**, igual que los huecos libres de la Agenda. En toda la app, punteado significa "todavía no es real".
 - El menú muestra un contador de mensajes sin leer.
+- **Recordatorios (2026-10-07):** llevan solo fecha y horario, tratamiento e indicaciones para venir. No nombran a la profesional: a la clienta no le cambia nada. Las indicaciones salen de una lista fija por tratamiento (`ai-triage/generadores.mjs`, hoy de ejemplo ficticio); la IA las redacta pero no inventa otras.
 
 **Privacidad:** ninguna tarjeta de la Agenda muestra datos clínicos (notas, fotos, historia). Eso queda en la ficha, con acceso restringido, como dice `05_Privacidad_y_Consentimiento.md`. Mientras no se resuelvan los pendientes de ese doc, solo se usan datos ficticios.
 

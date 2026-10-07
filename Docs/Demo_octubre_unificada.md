@@ -20,9 +20,9 @@ Reemplaza la demo del 16/09 (`Clinic Platform UX v2.dc.html`), que queda como re
 
 | Tiempo | Pantalla y acción | Qué decir |
 |---|---|---|
-| 0:00–0:30 | Agenda · Día. Tocá el turno de Valentina (09:00). | "Esto es un día de recepción: los turnos de Ingrid y Eliana en una sola lista. El color dice una sola cosa, si el turno está confirmado. Tocás un turno y a la derecha ves todo: tratamiento, profesional, teléfono y si ya se le mandó el recordatorio. Son datos inventados." |
+| 0:00–0:30 | Agenda · Día. Tocá el turno de Valentina (09:00). | "Esto es un día de recepción: una columna para Ingrid y otra para Eliana, cada turno del alto de lo que dura. Tocás un horario libre y arranca un turno nuevo. El color dice una sola cosa, si el turno está confirmado. Tocás un turno y a la derecha ves todo: tratamiento, profesional, teléfono y si ya se le mandó el recordatorio. Son datos inventados." |
 | 0:30–1:00 | Mirar "Requiere atención hoy" | "Arriba está lo que necesita una persona: Sofía avisó que no viene y Luciana no confirmó." |
-| 1:00–2:00 | Turno de Luciana → **Preparar recordatorio** | "Hoy el recordatorio automático dice el día y la hora, pero no el tratamiento. Acá el turno ya sabe que es peeling facial y depilación, con Ingrid, y la IA arma el mensaje con eso." |
+| 1:00–2:00 | Turno de Luciana → **Preparar recordatorio** | "Hoy el recordatorio automático dice el día y la hora, pero no el tratamiento. Acá el turno ya sabe que es peeling facial y depilación, y la IA arma el mensaje con eso y con cómo tiene que venir. Las indicaciones son de ejemplo: las reales las escriben ustedes." |
 | 2:00–2:45 | Leer el borrador. Editar una palabra. | "Lo escribe en el tono de ustedes por WhatsApp, y suma el cuidado previo. Pero es un borrador: recepción lo lee, lo cambia si quiere y recién ahí lo aprueba. Nada sale solo." |
 | 2:45–3:15 | **Aprobar y enviar** → volver a Agenda | "El turno ahora dice que el recordatorio se mandó, y sigue sin confirmar hasta que Luciana conteste." |
 | 3:15–4:00 | Mensajes → Sofía → **Ver huecos en la semana** | "Cuando alguien cancela, esto no lo resuelve la IA: lo resuelve recepción, y la semana le muestra dónde hay lugar para reacomodar." |
@@ -39,7 +39,7 @@ Dejala explorar: todos los turnos y botones responden. Esto es lo que va a encon
 | **Ver ficha** | Abre la ficha de la clienta en Clientes: próximo turno y última visita. | "Agenda, clienta y mensajes están conectados: no hay que buscar en tres lugares." |
 | **Ver en Agenda** (desde una ficha o un chat) | Vuelve a la Agenda con el turno de esa clienta elegido. | |
 | El buscador de Clientes | Filtra por nombre o teléfono. | |
-| **Llamar** | Muestra el número (ficticio). No llama. | |
+| **Responder** (aviso de Sofía) | Abre su chat con una caja para escribirle y ofrecerle otro horario. Al enviar, queda en el hilo (simulación). | "Cuando alguien cancela, le contestan ustedes por WhatsApp, no la IA." |
 | **+ Turno**, **+ Clienta** | Aviso: "todavía no está en la demo". | "Eso viene después. Antes quiero entender cómo cargan los turnos hoy." |
 | **Ver historial** | Aviso: el historial clínico queda fuera porque son datos de salud y solo lo ven las profesionales. | "Lo clínico va con acceso restringido. Es un tema que cuido especialmente." |
 

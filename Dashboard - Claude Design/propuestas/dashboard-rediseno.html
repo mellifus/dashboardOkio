@@ -65,11 +65,11 @@ addEventListener('DOMContentLoaded', function(){
   color-scheme:dark;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--page);color:var(--text);font-family:var(--sans);font-size:14px}
-.app{display:grid;grid-template-columns:200px 1fr;min-height:100vh}
+body{margin:0;background:var(--page);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.45}
+.app{display:grid;grid-template-columns:216px 1fr;min-height:100dvh}
 .sidebar{background:var(--sidebar);color:rgba(235,233,232,.72);padding:22px 14px;display:flex;flex-direction:column}
 /* Switch de tema, al pie de la barra */
-.theme{margin-top:auto;display:flex;align-items:center;gap:10px;padding:9px 10px;border:0;background:transparent;color:inherit;font:500 13px var(--sans);cursor:pointer;border-radius:8px;text-align:left}
+.theme{margin-top:auto;display:flex;align-items:center;gap:10px;padding:9px 10px;border:0;background:transparent;color:inherit;font:500 14px var(--sans);cursor:pointer;border-radius:8px;text-align:left}
 .theme:hover{background:rgba(255,255,255,.06)}
 .theme .track{margin-left:auto;width:32px;height:18px;border-radius:999px;background:rgba(255,255,255,.18);position:relative;flex:none}
 .theme .track::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--gold-light);transition:transform .2s}
@@ -79,147 +79,138 @@ body{margin:0;background:var(--page);color:var(--text);font-family:var(--sans);f
 :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .brand{display:flex;gap:10px;align-items:center;padding:0 6px 26px}
 .brand b{font-family:var(--serif);font-weight:400;font-size:20px;color:var(--gold);display:block;line-height:1}
-.brand small{font-size:7.5px;letter-spacing:.24em;color:var(--gold-light);font-weight:600}
-nav a{display:block;padding:9px 10px;border-radius:8px;color:inherit;text-decoration:none;font-weight:500}
+.brand small{font-size:8.5px;letter-spacing:.24em;color:var(--gold-light);font-weight:600}
+nav a{display:block;padding:10px 12px;border-radius:8px;color:inherit;text-decoration:none;font-weight:500;font-size:15px}
 nav a.on{background:rgba(255,255,255,.1);color:#fff;font-weight:600}
-nav a{display:flex;align-items:center} nav .count{margin-left:auto;background:var(--gold);color:var(--green);font-size:10.5px;font-weight:700;border-radius:999px;padding:1px 7px}
+nav a{display:flex;align-items:center} nav .count{margin-left:auto;background:var(--gold);color:var(--green);font-size:12px;font-weight:700;border-radius:999px;padding:1px 8px}
 main{padding:24px 28px;min-width:0}
 header{display:flex;align-items:end;gap:16px;margin-bottom:18px;flex-wrap:wrap}
-.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 4px}
-h1{font-family:var(--serif);font-weight:400;font-size:28px;margin:0;letter-spacing:-.01em}
+.eyebrow{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 4px}
+h1{font-family:var(--serif);font-weight:400;font-size:32px;margin:0;letter-spacing:-.01em}
 h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para texto grande */
 .switch{margin-left:auto;display:flex;gap:6px}
-.pill{font:600 11.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:9px 16px;border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer;white-space:nowrap}
+.pill{font:600 13px var(--sans);letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:10px 18px;border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer;white-space:nowrap}
 .pill.solid{background:var(--solid-bg);border-color:var(--solid-bg);color:var(--solid-text)}
-.pill.sm{padding:6px 12px;font-size:10.5px}
+.pill.sm{padding:7px 14px;font-size:12px}
 .seg{display:inline-flex;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
-.seg button{font:600 11.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;border:0;border-radius:999px;padding:7px 16px;background:transparent;color:var(--muted);cursor:pointer}
+.seg button{font:600 13px var(--sans);letter-spacing:.06em;text-transform:uppercase;border:0;border-radius:999px;padding:8px 18px;background:transparent;color:var(--muted);cursor:pointer}
 .seg button.on{background:var(--ok-bg);color:var(--ok-text)}
 
 /* Requiere atención */
 .attn{background:var(--alert-bg);border:1px solid var(--alert-line);border-left:3px solid var(--alert);border-radius:14px;padding:12px 16px;margin-bottom:18px}
-.attn h2{font:600 11px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--alert);margin:0 0 6px}
-.attn-row{display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--alert-line)}
+.attn h2{font:600 12.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--alert);margin:0 0 6px}
+.attn-row{display:grid;grid-template-columns:48px 1fr auto;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--alert-line)}
 .attn-row:first-of-type{border-top:0}
 .attn-row time{font-variant-numeric:tabular-nums;font-weight:600}
-.attn-row .why{display:block;color:var(--why);font-size:12px} /* sobre el fondo rosado, --muted no alcanza 4.5:1 */
+.attn-row .why{display:block;color:var(--why);font-size:13.5px} /* sobre el fondo rosado, --muted no alcanza 4.5:1 */
 .side{display:grid;gap:14px}
 .side .attn{margin:0}
 
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:18px;align-items:start}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;align-items:start}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:14px}
 
-/* Agenda del día: una única lista con todas las profesionales, en orden de hora.
-   Todas las tarjetas miden lo mismo; la duración va escrita en el horario.
-   Lo único en negrita de cada tarjeta es la profesional. */
-.lista{padding:0 18px 18px}
-.pro{padding:16px 2px 12px;border-bottom:1px solid var(--line);margin-bottom:14px}
-.pro b{font-family:var(--serif);font-weight:400;font-size:17px}
-.pro span{display:block;font-size:11.5px;color:var(--muted)}
-.dia{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;min-width:0}
+/* Calendario: filas por hora y una columna por profesional (en Semana, por día y profesional).
+   Escala fija: 64 px por hora. El corte 13–15 es una franja angosta, no dos horas vacías. */
+.cal{overflow:auto;max-height:calc(100dvh - 150px);overscroll-behavior:contain}
+.cal-top{position:sticky;top:0;z-index:3;display:grid;background:var(--surface);border-bottom:1px solid var(--line)}
+.cal-dia{padding:12px 8px 2px;text-align:center;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-left:1px solid var(--line)}
+.cal-dia b{font:400 22px var(--serif);letter-spacing:0;color:var(--text);margin-left:4px}
+.cal-dia.hoy{color:var(--gold-text)} .cal-dia.hoy b{color:var(--gold-big)}
+.cal-dia.click{cursor:pointer} .cal-dia.click:hover{background:var(--page)}
+.cal-pro{padding:10px 8px;text-align:center;font:400 18px var(--serif)}
+.cal-pro.chico{font:500 13.5px var(--sans);color:var(--muted);padding:2px 8px 8px}
+#vista-semana .cal-pro.first{border-left:1px solid var(--line)}
+.cal-pro small{display:block;font:13px var(--sans);color:var(--muted)}
+.cal-body{position:relative;display:grid}
+.cal-horas{position:relative}
+.cal-horas span{position:absolute;right:10px;transform:translateY(-50%);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.cal-horas span:first-child{transform:none;margin-top:2px}
+.cal-horas .now-l{background:var(--text);color:var(--page);font-weight:600;padding:1px 6px;border-radius:999px;z-index:2}
+.hl{position:absolute;z-index:1;left:64px;right:0;border-top:1px solid color-mix(in srgb,var(--line) 55%,transparent);pointer-events:none}
+.cal-cerrado{position:absolute;left:64px;right:0;display:flex;align-items:center;justify-content:center;background:var(--page);color:var(--muted);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;pointer-events:none;z-index:1}
+.cal-cerrado span{padding:1px 10px;border-radius:999px}
+.col{position:relative;cursor:pointer}
+.col:hover{background:color-mix(in srgb,var(--page) 70%,transparent)}
+#vista-semana .col.first{border-left:1px solid var(--line)} /* en Semana, solo se separan los días */
+.now{position:absolute;left:0;right:0;border-top:2px solid var(--text);z-index:2;pointer-events:none}
 
-/* Tarjeta de turno: alto universal. Línea 1: estado (si hace falta) · profesional en negrita · horario. Línea 2: clienta · tratamiento · etiqueta de estado. */
-.turno{box-sizing:border-box;width:100%;height:62px;display:flex;flex-direction:column;justify-content:center;gap:3px;padding:0 14px;border:0;border-left:3px solid;border-radius:10px;font:inherit;text-align:left;cursor:pointer}
-.turno .l1,.turno .l2{display:flex;align-items:center;gap:8px;min-width:0;line-height:1.25}
-.turno .hora{font-size:11.5px;font-variant-numeric:tabular-nums;opacity:.85;white-space:nowrap}
-.turno b{font-weight:700;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.turno .tx{flex:1;min-width:0;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.turno .st{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
-.turno.sel{outline:2px solid var(--text);outline-offset:1px}
+/* Turno: alto = duración. Línea 1: ícono de estado (si no está confirmado) + clienta. Línea 2: horario · tratamiento. */
+.ev{position:absolute;left:4px;right:4px;z-index:1;display:flex;flex-direction:column;gap:1px;overflow:hidden;padding:5px 9px;border:0;border-left:3px solid;border-radius:8px;font:inherit;font-size:13.5px;line-height:1.3;text-align:left;cursor:pointer;transition:filter .15s}
+.ev:hover{filter:brightness(.96)}
+.ev>b,.ev>span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ev b{font-weight:600;font-size:14.5px}
+.ev .ic{margin-right:5px;vertical-align:-2px}
+.ev.short{flex-direction:row;align-items:center;gap:8px}
+.ev.short>span{flex:1;min-width:0}
+.ev.sel{outline:2px solid var(--text);outline-offset:1px;z-index:2}
+#cal-dia .ev{padding:7px 12px} #cal-dia .ev b{font-size:16px} #cal-dia .ev>span{font-size:14.5px}
+#cal-dia .ev.short{padding:4px 12px}
 .ok{background:var(--ok-bg);border-color:var(--ok);color:var(--ok-text)}
 .pend{background:var(--pend-bg);border-color:var(--pend);color:var(--pend-text)}
 .alert{background:var(--alert-bg);border-color:var(--alert);color:var(--alert-text)}
-.ic{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;font-size:10px;font-weight:700;color:var(--ic-text);flex:none;align-self:center}
+.past{background:var(--page);border-color:var(--line);color:var(--muted)}
+.ic{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;font-size:11px;font-weight:700;color:var(--ic-text);flex:none;align-self:center}
 .alert .ic{background:var(--alert)} .pend .ic{background:var(--pend)}
-
-/* Hueco libre: fila fina sin caja; el borde aparece al pasar el mouse o con el teclado */
-.hueco{box-sizing:border-box;height:30px;display:flex;align-items:center;gap:6px;padding:0 14px;border:1px dashed transparent;border-radius:10px;color:var(--gold-text);font-size:12px;font-variant-numeric:tabular-nums;cursor:pointer}
-.hueco::before{content:"+";font-size:14px;line-height:1}
-.hueco:hover,.hueco:focus-visible{border-color:var(--gold-light)}
-
-/* Cerrado: línea divisoria fina */
-.cerrado{height:20px;display:flex;align-items:center;gap:10px;color:var(--muted);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
-.cerrado::before,.cerrado::after{content:"";flex:1;border-top:1px dashed var(--line)}
-
-/* Ahora: entre los turnos que ya empezaron y los que vienen */
-.ahora{height:20px;display:flex;align-items:center;gap:8px}
-.ahora span{background:var(--text);color:var(--page);font-size:10.5px;font-weight:600;font-variant-numeric:tabular-nums;padding:2px 8px;border-radius:999px;white-space:nowrap}
-.ahora::after{content:"";flex:1;border-top:2px solid var(--text)}
+#vista-semana .ev.short>span{display:none} /* en Semana, los turnos cortos muestran solo la clienta */
 
 /* Detalle */
 .detail{padding:20px}
-.detail h2{font-family:var(--serif);font-weight:400;font-size:22px;margin:4px 0 2px}
+.detail h2{font-family:var(--serif);font-weight:400;font-size:24px;margin:4px 0 2px}
 .detail .when{color:var(--muted);font-variant-numeric:tabular-nums;margin:0 0 14px}
-.badge{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:4px 10px}
+.badge{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:4px 10px}
 .detail ul{margin:6px 0 16px;padding-left:18px}
-.detail dl{margin:0 0 18px;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:13px}
+.detail dl{margin:0 0 18px;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:14.5px}
 .detail dt{color:var(--muted)}
 .detail dd{margin:0}
-.legend{display:flex;gap:14px;font-size:12px;color:var(--muted);margin-top:12px;flex-wrap:wrap}
+.legend{display:flex;gap:16px;font-size:13.5px;color:var(--muted);margin-top:12px;flex-wrap:wrap}
 .legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:-1px}
-.note{font-size:12px;color:var(--muted);margin-top:14px}
-
-/* Semana */
-.week{overflow-x:auto}
-.week table{width:100%;min-width:760px;border-collapse:collapse;table-layout:fixed}
-.week th,.week td{padding:14px 12px;border-top:1px solid var(--line);text-align:left;vertical-align:top}
-.week thead th{border-top:0;font:600 11px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.week thead th b{display:block;font:400 22px var(--serif);letter-spacing:0;text-transform:none;color:var(--text)}
-.week thead th.hoy{color:var(--gold-text)} .week thead th.hoy b{color:var(--gold-big)}
-.week tbody th{width:110px;font:400 17px var(--serif)}
-.week td.pasado{color:var(--muted);font-size:12.5px}
-.week td.click{cursor:pointer;border-radius:10px} .week td.click:hover{background:var(--page)}
-.week td.hoy{box-shadow:inset 0 0 0 1.5px var(--gold-light);border-radius:10px}
-.libre{font:400 19px var(--serif);font-variant-numeric:tabular-nums}
-.libre small{font:12px var(--sans);color:var(--muted)}
-.bar{height:5px;background:var(--line);border-radius:3px;margin:8px 0}
-.bar i{display:block;height:100%;background:var(--ok);border-radius:3px}
-.gap{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
-.marks{margin-top:8px;display:flex;gap:4px;flex-wrap:wrap}
+.note{font-size:13px;color:var(--muted);margin-top:14px}
 
 /* Clientes y Mensajes: lista a la izquierda, detalle a la derecha */
 .two{display:grid;grid-template-columns:300px 1fr;gap:18px;align-items:start}
 .list{padding:8px}
-.search{width:100%;padding:9px 14px;margin-bottom:6px;border:1px solid var(--line);border-radius:999px;background:var(--page);color:var(--text);font:13px var(--sans)}
+.search{width:100%;padding:9px 14px;margin-bottom:6px;border:1px solid var(--line);border-radius:999px;background:var(--page);color:var(--text);font:15px var(--sans)}
 .search::placeholder{color:var(--muted)}
 .row{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:0;border-radius:10px;background:transparent;color:var(--text);font:inherit;text-align:left;cursor:pointer}
 .row:hover{background:var(--page)}
 .row.on{background:var(--page);box-shadow:inset 3px 0 0 var(--text)}
 .row .who{flex:1;min-width:0}
 .row b{display:block;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.row small{display:block;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row small{display:block;font-size:13.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .row.unread b{font-weight:700} .row.unread small{color:var(--text)}
-.row time{align-self:flex-start;margin-top:2px;font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.row time{align-self:flex-start;margin-top:2px;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
 .ic-alert{background:var(--alert)} .ic-pend{background:var(--pend)}
 .grow{flex:1;min-width:0}
 .muted{color:var(--muted)}
 
 .ficha{padding:24px}
-.ficha h2{font:400 28px var(--serif);letter-spacing:-.01em;margin:4px 0 2px}
+.ficha h2{font:400 30px var(--serif);letter-spacing:-.01em;margin:4px 0 2px}
 .meta{color:var(--muted);margin:0 0 6px;font-variant-numeric:tabular-nums}
 .block{border-top:1px solid var(--line);padding:16px 0 4px;margin-top:12px}
 .plain{margin:0 0 12px}
 .next{display:flex;align-items:center;gap:12px;padding:12px 14px;border-left:3px solid;border-radius:10px}
 .next strong,.next span:not(.ic){display:block}
-.next span:not(.ic){font-size:13px;margin-top:2px}
+.next span:not(.ic){font-size:14px;margin-top:2px}
 
 .chat{display:flex;flex-direction:column}
-.linked{display:flex;align-items:center;gap:10px;padding:14px 20px;border-bottom:1px solid var(--line);font-size:13px}
+.linked{display:flex;align-items:center;gap:10px;padding:14px 20px;border-bottom:1px solid var(--line);font-size:14.5px}
 .thread{display:flex;flex-direction:column;gap:10px;padding:18px 20px}
-.day{align-self:center;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.msg{max-width:72%;margin:0;padding:9px 13px;border-radius:14px;font-size:13.5px;line-height:1.45}
-.msg small{display:block;margin-top:3px;font-size:10.5px;color:var(--muted)}
+.day{align-self:center;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.msg{max-width:72%;margin:0;padding:9px 13px;border-radius:14px;font-size:15px;line-height:1.45}
+.msg small{display:block;margin-top:3px;font-size:12px;color:var(--muted)}
 .msg.in{align-self:flex-start;background:var(--page);border:1px solid var(--line);border-bottom-left-radius:4px}
 .msg.out{align-self:flex-end;background:var(--ok-bg);color:var(--ok-text);border-bottom-right-radius:4px}
 .msg.out small{color:inherit;opacity:.75}
 .draft{margin:0 20px 14px;padding:12px 14px;border:1px dashed var(--gold-light);border-radius:14px}
-.draft label{display:block;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-text)}
-.draft textarea{width:100%;margin:6px 0 8px;border:0;background:transparent;color:var(--text);font:14px/1.5 var(--sans);resize:vertical}
+.draft label{display:block;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-text)}
+.draft textarea{width:100%;margin:6px 0 8px;border:0;background:transparent;color:var(--text);font:15px/1.5 var(--sans);resize:vertical}
 .draft textarea:focus-visible{outline:none}
 .draft:focus-within{border-style:solid;border-color:var(--gold)}
+.reply{border-style:solid;border-color:var(--line)} .reply label{color:var(--muted)} .reply:focus-within{border-color:var(--text)}
+.draft textarea::placeholder{color:var(--muted)}
 .act{display:flex;align-items:center;gap:8px}
-.act small{margin-right:auto;font-size:12px;color:var(--muted)}
-.fine{margin:0 20px 18px;font-size:12px;color:var(--muted)}
+.act small{margin-right:auto;font-size:13px;color:var(--muted)}
+.fine{margin:0 20px 18px;font-size:13px;color:var(--muted)}
 .notice{margin:0 20px 14px;flex-wrap:wrap}
 .notice .ic{align-self:flex-start;margin-top:2px}
 .notice .grow{flex:1 1 calc(100% - 40px)} /* el texto ocupa la línea entera; los botones pasan abajo */
@@ -227,7 +218,7 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
 .done{color:var(--ok-text);font-weight:600}
 
 /* Aviso flotante para lo que la demo todavía no hace */
-.aviso{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:10;max-width:calc(100% - 32px);padding:11px 18px;border-radius:999px;background:var(--solid-bg);color:var(--solid-text);font-size:13px;box-shadow:0 6px 24px rgba(0,0,0,.18)}
+.aviso{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:10;max-width:calc(100% - 32px);padding:11px 18px;border-radius:999px;background:var(--solid-bg);color:var(--solid-text);font-size:14.5px;box-shadow:0 6px 24px rgba(0,0,0,.18)}
 
 @media (max-width:900px){
   .two{grid-template-columns:1fr}
@@ -244,7 +235,6 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
 @media (max-width:640px){
   .side{display:contents}
   .side .attn{order:-1}
-  .turno .st{display:none} /* alto fijo: el ícono ! / ? y "Requiere atención" ya dicen el estado */
 }
 </style>
 </head>
@@ -280,15 +270,9 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
 
     <div id="vista-dia">
     <div class="layout">
-      <section class="card">
-        <!-- Una única agenda: los turnos de las dos profesionales, en orden de hora.
-             Sin huecos libres: para buscar lugar está la vista Semana.
-             Maqueta: hora fija 15:20; en el código real "Ahora" se ubica solo con la hora actual. -->
-        <div class="lista" id="grilla">
-          <div class="pro"><b>Turnos del día</b><span>6 turnos · Ingrid 3 · Eliana 3</span></div>
-          <ol class="dia" id="dia" aria-label="Turnos del día"></ol>
-        </div>
-      </section>
+      <!-- Calendario del día: una columna por profesional, bloques del alto de su duración.
+           Click en un horario libre = turno nuevo. Maqueta: hora fija 15:20. -->
+      <section class="card cal" id="cal-dia" aria-label="Agenda del día"></section>
 
       <div class="side">
       <section class="attn" id="attn" aria-label="Requiere atención"></section>
@@ -298,18 +282,15 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
 
     </div>
 
-    <!-- Semana: pregunta "dónde hay lugar para reacomodar?". Días pasados solo muestran cantidad. -->
-    <section id="vista-semana" class="card week" hidden>
-      <table>
-        <thead><tr id="week-head"><th></th></tr></thead>
-        <tbody id="week-body"></tbody>
-      </table>
-    </section>
+    <!-- Semana: el mismo calendario, lunes a viernes, una subcolumna por profesional dentro de cada día. -->
+    <section id="vista-semana" class="card cal" aria-label="Agenda de la semana" hidden></section>
 
     <div class="legend">
       <span><i style="background:var(--ok)"></i>Confirmado</span>
       <span><i style="background:var(--gold)"></i>Sin confirmar</span>
       <span><i style="background:var(--alert)"></i>Requiere atención</span>
+      <span><i style="background:var(--line)"></i>Ya pasó</span>
+      <span>Click en un horario libre para agendar</span>
       <span>Datos ficticios · logo provisorio</span>
     </div>
     </section>
@@ -354,44 +335,40 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
   </main>
 </div>
 <script>
-// Datos ficticios. ocupado = minutos reservados sobre una jornada de 540 (09–13 y 15–20, lun a vie).
-var JORNADA = 540;
+// Semana ficticia: lunes a viernes, 09–13 y 15–20. El jueves (hoy) sale de HOY, más abajo.
 var DIAS = [
-  {d:'Lun', n:14, pasado:true}, {d:'Mar', n:15, pasado:true}, {d:'Mié', n:16, pasado:true},
-  {d:'Jue', n:17, hoy:true}, {d:'Vie', n:18}
+  {d:'Lun', n:14, largo:'lunes 14'}, {d:'Mar', n:15, largo:'martes 15'}, {d:'Mié', n:16, largo:'miércoles 16'},
+  {d:'Jue', n:17, largo:'jueves 17', hoy:true}, {d:'Vie', n:18, largo:'viernes 18'}
 ];
-var PROS = [
-  {nombre:'Ingrid', dias:[
-    {turnos:5}, {turnos:4}, {turnos:6},
-    {turnos:3, ocupado:190, hueco:'17:30–20:00', pend:1, alerta:1},
-    {turnos:5, ocupado:330, hueco:'18:00–20:00', pend:2}]},
-  {nombre:'Eliana', dias:[
-    {turnos:4}, {turnos:5}, {turnos:3},
-    {turnos:3, ocupado:160, hueco:'15:00–17:30'},
-    {turnos:6, ocupado:420, hueco:'09:00–10:30', pend:1}]}
-];
+var HOY_D = 3, PROS = ['Ingrid', 'Eliana'];
+// día|profesional|inicio|fin|clienta|tratamiento|estado (sin estado = ya pasó)
+var OTROS = [
+  '0|Ingrid|09:00|10:00|Julieta Moreno|Limpieza facial profunda', '0|Ingrid|10:30|11:10|Rocío Benítez|Depilación definitiva',
+  '0|Ingrid|15:00|16:30|Paula Ledesma|Peeling facial + Dermaplaning', '0|Ingrid|17:00|18:00|Carolina Funes|Radiofrecuencia facial',
+  '0|Eliana|09:30|10:30|Milagros Ortiz|Peeling corporal', '0|Eliana|11:00|12:30|Brenda Acosta|Limpieza facial profunda',
+  '0|Eliana|16:00|16:40|Abril Correa|Depilación definitiva',
+  '1|Ingrid|09:00|10:30|Antonella Vera|Microneedling', '1|Ingrid|11:00|12:00|Abril Correa|Peeling facial',
+  '1|Ingrid|15:30|16:10|Micaela Juárez|Depilación definitiva', '1|Ingrid|18:00|19:00|Daniela Quiroga|Limpieza facial profunda',
+  '1|Eliana|10:00|11:00|Lourdes Peralta|Radiofrecuencia facial', '1|Eliana|15:00|16:00|Natalia Godoy|Peeling corporal',
+  '1|Eliana|16:30|18:00|Julieta Moreno|Drenaje linfático',
+  '2|Ingrid|09:30|10:30|Brenda Acosta|Dermaplaning', '2|Ingrid|11:00|12:30|Rocío Benítez|Limpieza facial profunda',
+  '2|Ingrid|15:00|15:40|Paula Ledesma|Depilación definitiva', '2|Ingrid|16:00|17:00|Milagros Ortiz|Peeling facial',
+  '2|Ingrid|18:30|19:30|Abril Correa|Radiofrecuencia facial',
+  '2|Eliana|09:00|10:00|Carolina Funes|Peeling corporal', '2|Eliana|15:30|17:00|Antonella Vera|Drenaje linfático',
+  '4|Ingrid|09:00|10:00|Natalia Godoy|Peeling facial|ok', '4|Ingrid|10:30|11:30|Daniela Quiroga|Limpieza facial profunda|pend',
+  '4|Ingrid|12:00|12:40|Micaela Juárez|Depilación definitiva|ok', '4|Ingrid|15:00|16:30|Lourdes Peralta|Microneedling|pend',
+  '4|Ingrid|17:00|18:00|Antonella Vera|Dermaplaning|ok',
+  '4|Eliana|10:30|12:00|Julieta Moreno|Drenaje linfático|ok', '4|Eliana|12:00|13:00|Brenda Acosta|Peeling corporal|pend',
+  '4|Eliana|15:00|16:00|Rocío Benítez|Radiofrecuencia facial|ok', '4|Eliana|16:30|17:10|Carolina Funes|Depilación definitiva|ok',
+  '4|Eliana|17:30|19:00|Paula Ledesma|Limpieza facial profunda|ok'
+].map(function(s){ var x = s.split('|'); return {d:+x[0], pro:x[1], ini:x[2], fin:x[3], c:x[4], tx:x[5], estado:x[6] || 'past'}; });
 
-function horas(min){ var h = Math.floor(min/60), m = min%60; return h + ' h' + (m ? ' ' + m : ''); }
-
-function celda(dia, x){
-  if (dia.pasado) return '<td class="pasado">' + x.turnos + ' turnos</td>';
-  var libre = JORNADA - x.ocupado, pct = Math.round(x.ocupado / JORNADA * 100);
-  var marks = (x.alerta ? '<span class="badge alert">' + x.alerta + ' atención</span>' : '') +
-              (x.pend ? '<span class="badge pend">' + x.pend + ' sin confirmar</span>' : '');
-  var cls = (dia.hoy ? 'hoy click' : '');
-  return '<td class="' + cls + '"' + (dia.hoy ? ' onclick="ver(\'dia\')" title="Abrir el día"' : '') + '>' +
-    '<div class="libre">' + horas(libre) + ' <small>libres</small></div>' +
-    '<div class="bar" title="' + pct + '% ocupado"><i style="width:' + pct + '%"></i></div>' +
-    '<div class="gap">Hueco más largo ' + x.hueco + '</div>' +
-    (marks ? '<div class="marks">' + marks + '</div>' : '') + '</td>';
-}
-
-document.getElementById('week-head').innerHTML += DIAS.map(function(d){
-  return '<th class="' + (d.hoy ? 'hoy' : '') + '"' + (d.pasado ? ' style="width:84px"' : '') + '>' + d.d + (d.hoy ? ' · hoy' : '') + '<b>' + d.n + '</b></th>';
-}).join('');
-document.getElementById('week-body').innerHTML = PROS.map(function(p){
-  return '<tr><th>' + p.nombre + '</th>' + p.dias.map(function(x, i){ return celda(DIAS[i], x); }).join('') + '</tr>';
-}).join('');
+// Escala del calendario: 64 px por hora; el corte 13–15 ocupa una franja de 34 px.
+var PX = 64 / 60, CORTE = 34;
+function y(m){ return m <= 780 ? (m - 540) * PX : 240 * PX + CORTE + (Math.max(m, 900) - 900) * PX; }
+function minDeY(px){ return px <= 240 * PX ? 540 + px / PX : 900 + (px - 240 * PX - CORTE) / PX; }
+function hhmm(m){ return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'); }
+function corto(nombre){ var p = nombre.split(' '); return p[0] + ' ' + p[1][0] + '.'; }
 
 // Clientas ficticias. estado: ok = confirmado, pend = sin confirmar, alert = requiere atención.
 var ESTADOS = {
@@ -454,25 +431,25 @@ var CONVERSACIONES = [
   {nombre:'Sofía Ramos', hora:'14:52', noLeido:true, cierre:'humano',
    mensajes:[
      {dia:'Lunes 14'},
-     {de:'out', texto:'Hola Sofía! Te reservamos el jueves 17 a las 15:00 con Ingrid para depilación definitiva.', hora:'Okio · 11:05'},
+     {de:'out', texto:'Hola Sofía! Te reservamos el jueves 17 a las 15:00 para depilación definitiva.', hora:'Okio · 11:05'},
      {de:'in', texto:'Dale, gracias!', hora:'Sofía · 11:20'},
      {dia:'Hoy'},
      {de:'in', texto:'Hola! No voy a poder ir el jueves, me surgió algo del trabajo. Perdón!', hora:'Sofía · 14:52'}]},
   {nombre:'Luciana Ferreyra', hora:'15:10', cierre:'borrador', resumen:'Borrador listo para revisar',
-   borrador:'Hola Luciana! Te recordamos tu turno de hoy, jueves 17, a las 16:00 con Ingrid: peeling facial y depilación definitiva. Nos confirmás si venís? Saludos!',
+   borrador:'Hola Luciana! Te recordamos tu turno de hoy, jueves 17, a las 16:00 para peeling facial y depilación definitiva. Vení con la cara limpia, sin maquillaje, y con la zona rasurada (no con cera). Nos confirmás si venís? Te esperamos!',
    mensajes:[
      {dia:'Lunes 14'},
-     {de:'out', texto:'Hola Luciana! Te reservamos el jueves 17 a las 16:00 con Ingrid.', hora:'Okio · 10:12'},
+     {de:'out', texto:'Hola Luciana! Te reservamos el jueves 17 a las 16:00 para peeling facial y depilación definitiva.', hora:'Okio · 10:12'},
      {de:'in', texto:'Genial, gracias!!', hora:'Luciana · 10:40'}]},
   {nombre:'Agustina Paz', hora:'Ayer', cierre:'ok',
    mensajes:[
      {dia:'Ayer'},
-     {de:'out', texto:'Hola Agustina! Te recordamos tu turno del jueves 17 a las 10:00 con Ingrid: peeling facial. Nos confirmás si venís? Saludos!', hora:'Okio · 16:30'},
+     {de:'out', texto:'Hola Agustina! Te recordamos tu turno del jueves 17 a las 10:00 para peeling facial. Vení con la cara limpia y sin maquillaje, y no uses ácidos ni retinol hasta entonces. Nos confirmás si venís? Saludos!', hora:'Okio · 16:30'},
      {de:'in', texto:'Gracias! Ahí estaré', hora:'Agustina · 16:41'}]},
   {nombre:'Valentina Sosa', hora:'Ayer', cierre:'ok',
    mensajes:[
      {dia:'Ayer'},
-     {de:'out', texto:'Hola Valentina! Te recordamos tu turno del jueves 17 a las 09:00 con Eliana: peeling corporal. Nos confirmás si venís? Saludos!', hora:'Okio · 16:32'},
+     {de:'out', texto:'Hola Valentina! Te recordamos tu turno del jueves 17 a las 09:00 para peeling corporal. Traé una toalla y evitá el sol en la zona el día anterior. Nos confirmás si venís? Saludos!', hora:'Okio · 16:32'},
      {de:'in', texto:'Perfecto, confirmo', hora:'Valentina · 17:05'}]}
 ];
 
@@ -508,10 +485,15 @@ function elegirConversacion(i){
     enviado: '<p class="fine done">Recordatorio enviado (simulación) · Esperando que ' + nombre + ' confirme.</p>',
     humano: '<div class="next alert notice"><span class="ic" role="img" aria-label="Requiere atención">!</span>' +
       '<div class="grow"><strong>Lo resuelve recepción, no el copiloto</strong>' +
-      '<span>' + nombre + ' avisó que no puede venir. Llamala u ofrecele otro horario. El turno sigue sin confirmar: no se canceló.</span></div>' +
-      '<button class="pill sm" onclick="ir(\'agenda\');ver(\'semana\')">Ver huecos en la semana</button>' +
-      '<button class="pill sm solid" onclick="llamar(\'' + conv.nombre + '\')">Llamar</button></div>',
-    ok: '<p class="fine done">Confirmación registrada · El turno figura confirmado en Agenda.</p>'
+      '<span>' + nombre + ' avisó que no puede venir. Respondele y ofrecele otro horario. El turno sigue sin confirmar: no se canceló.</span></div>' +
+      '<button class="pill sm" onclick="ir(\'agenda\');ver(\'semana\')">Ver huecos en la semana</button></div>' +
+      // Respuesta escrita por recepción: borde liso, porque no es un borrador del copiloto.
+      '<div class="draft reply"><label for="respuesta">Tu respuesta por WhatsApp</label>' +
+      '<textarea id="respuesta" rows="3" placeholder="Ej.: No pasa nada, ' + nombre + '! Te puedo ofrecer el viernes a las 18:00, te sirve?"></textarea>' +
+      '<div class="act"><small>Simulación: nada se envía a un teléfono real.</small>' +
+      '<button class="pill solid" onclick="enviarRespuesta(' + i + ')">Enviar</button></div></div>',
+    respondido: '<p class="fine done">Mensaje enviado (simulación) · El turno sigue sin confirmar hasta que ' + nombre + ' elija otro horario.</p>',
+    ok:'<p class="fine done">Confirmación registrada · El turno figura confirmado en Agenda.</p>'
   }[conv.cierre];
   document.getElementById('chat').innerHTML =
     '<div class="linked">' + icono(p.estado) +
@@ -536,18 +518,58 @@ function minutos(h){ var x = h.split(':'); return +x[0] * 60 + +x[1]; }
 function turnoDe(nombre){ for (var i = 0; i < HOY.length; i++) if (HOY[i].c === nombre) return i; return -1; }
 function convDe(nombre){ for (var i = 0; i < CONVERSACIONES.length; i++) if (CONVERSACIONES[i].nombre === nombre) return i; return -1; }
 
-function pintarDia(){
-  var html = '', cerrado = false, ahora = false;
-  HOY.forEach(function(t, i){
-    var p = clientaDe(t.c).prox, e = p.estado;
-    if (!cerrado && t.ini >= '13:00') { html += '<li class="cerrado">Cerrado 13–15</li>'; cerrado = true; }
-    if (!ahora && t.ini > AHORA) { html += '<li class="ahora"><span>Ahora · ' + AHORA + '</span></li>'; ahora = true; }
-    var st = e === 'alert' ? 'Atención' : e === 'pend' ? 'Sin confirmar' : '';
-    html += '<li><button class="turno ' + e + (i === turnoSel ? ' sel' : '') + '" aria-pressed="' + (i === turnoSel) + '" onclick="elegirTurno(' + i + ')">' +
-      '<span class="l1">' + icono(e) + '<b>' + t.pro + '</b><span class="hora">' + t.ini + '–' + t.fin + '</span></span>' +
-      '<span class="l2"><span class="tx">' + t.c + ' · ' + p.tx + '</span>' + (st ? '<span class="st">' + st + '</span>' : '') + '</span></button></li>';
+function turnosDe(d, pro){
+  if (d === HOY_D) return HOY.map(function(t, i){
+    var p = clientaDe(t.c).prox;
+    return {pro:t.pro, ini:t.ini, fin:t.fin, c:t.c, tx:p.tx, estado:p.estado, i:i};
+  }).filter(function(t){ return t.pro === pro; });
+  return OTROS.filter(function(t){ return t.d === d && t.pro === pro; });
+}
+
+function bloque(t, semana){
+  var a = minutos(t.ini), b = minutos(t.fin), estado = t.estado === 'past' ? 'Ya pasó' : ESTADOS[t.estado].texto;
+  var accion = t.i != null ? 'ver(\'dia\');elegirTurno(' + t.i + ')' : 'aviso(\'La demo solo tiene el detalle de hoy, jueves 17.\')';
+  return '<button class="ev ' + t.estado + (b - a < 50 ? ' short' : '') + (!semana && t.i === turnoSel ? ' sel' : '') + '"' +
+    ' style="top:' + (y(a) + 1) + 'px;height:' + (y(b) - y(a) - 2) + 'px" onclick="' + accion + '"' +
+    ' aria-label="' + t.c + ', ' + t.ini + ' a ' + t.fin + ', ' + t.tx + ', con ' + t.pro + '. ' + estado + '">' +
+    '<b>' + (t.estado === 'past' ? '' : icono(t.estado)) + (semana ? corto(t.c) : t.c) + '</b>' +
+    '<span>' + t.ini + '–' + t.fin + ' · ' + t.tx + '</span></button>';
+}
+
+// Un solo calendario para Día (un día) y Semana (cinco días): columnas = días × profesionales.
+function pintarCal(id, dias){
+  var semana = dias.length > 1, ahora = minutos(AHORA);
+  var cols = 'grid-template-columns:64px repeat(' + dias.length * PROS.length + ',minmax(' + (semana ? 92 : 0) + 'px,1fr))';
+  var top = '<div class="cal-top" style="' + cols + '"><div></div>';
+  if (semana) top += dias.map(function(d){
+    var x = DIAS[d];
+    return '<div class="cal-dia' + (x.hoy ? ' hoy click" onclick="ver(\'dia\')" title="Abrir el día' : '') + '" style="grid-column:span ' + PROS.length + '">' +
+      x.d + '<b>' + x.n + '</b>' + (x.hoy ? ' · hoy' : '') + '</div>';
+  }).join('') + '<div></div>';
+  var body = '<div class="cal-body" style="' + cols + ';height:' + y(1200) + 'px"><div class="cal-horas">';
+  for (var h = 9; h <= 20; h++) if (h <= 13 || h >= 15) body += '<span style="top:' + y(h * 60) + 'px">' + hhmm(h * 60) + '</span>';
+  if (dias.indexOf(HOY_D) >= 0) body += '<span class="now-l" style="top:' + y(ahora) + 'px">' + AHORA + '</span>';
+  body += '</div>';
+  for (var m = 600; m < 1200; m += 60) if (m <= 780 || m > 900) body += '<i class="hl" style="top:' + y(m) + 'px"></i>';
+  body += '<div class="cal-cerrado" style="top:' + y(780) + 'px;height:' + CORTE + 'px"><span>Cerrado 13–15</span></div>';
+  dias.forEach(function(d){
+    PROS.forEach(function(p, j){
+      var turnos = turnosDe(d, p);
+      top += '<div class="cal-pro' + (semana ? ' chico' : '') + (j === 0 ? ' first' : '') + '">' + p + (semana ? '' : '<small>' + turnos.length + ' turnos</small>') + '</div>';
+      body += '<div class="col' + (j === 0 ? ' first' : '') + '" data-d="' + d + '" data-pro="' + p + '" onclick="nuevoEn(event,this)" title="Click en un horario libre para agendar con ' + p + '">' +
+        turnos.map(function(t){ return bloque(t, semana); }).join('') +
+        (DIAS[d].hoy ? '<div class="now" style="top:' + y(ahora) + 'px"></div>' : '') + '</div>';
+    });
   });
-  document.getElementById('dia').innerHTML = html;
+  document.getElementById(id).innerHTML = top + '</div>' + body + '</div>';
+}
+
+// Click en un hueco del calendario: arma el turno nuevo con profesional, día y hora (redondeada a la media hora).
+function nuevoEn(e, col){
+  if (e.target !== col) return;
+  var m = Math.floor(minDeY(e.offsetY) / 30) * 30;
+  if (m >= 780 && m < 900) return;
+  aviso('Turno nuevo con ' + col.dataset.pro + ', ' + DIAS[+col.dataset.d].largo + ' a las ' + hhmm(m) + '. Cargar turnos todavía no está en la demo.');
 }
 
 function pintarAtencion(){
@@ -555,7 +577,7 @@ function pintarAtencion(){
     var e = clientaDe(t.c).prox.estado;
     if (e === 'ok') return '';
     var boton = e === 'alert'
-      ? '<button class="pill sm" onclick="llamar(\'' + t.c + '\')">Llamar</button>'
+      ? '<button class="pill sm" onclick="responder(\'' + t.c + '\')">Responder</button>'
       : (t.enviado ? '' : '<button class="pill sm solid" onclick="prepararRecordatorio(' + i + ')">Recordatorio</button>');
     var why = e === 'alert' ? 'Avisó que no puede venir' : (t.enviado ? t.rec : 'Sin confirmar');
     return '<div class="attn-row"><time>' + t.ini + '</time><div><strong>' + t.c + '</strong><span class="why">' + why + '</span></div>' + boton + '</div>';
@@ -581,12 +603,23 @@ function elegirTurno(i){
     '<dt>Recordatorio</dt><dd>' + t.rec + '</dd></dl>' +
     principal +
     '<button class="pill" style="width:100%;margin-top:8px" onclick="verFicha(\'' + t.c + '\')">Ver ficha</button>';
-  pintarDia();
+  pintarCal('cal-dia', [HOY_D]);
 }
 
 function verEnAgenda(nombre){ ir('agenda'); ver('dia'); var i = turnoDe(nombre); if (i >= 0) elegirTurno(i); }
 function verFicha(nombre){ ir('clientes'); elegirClienta(CLIENTAS.indexOf(clientaDe(nombre))); }
-function llamar(nombre){ aviso('Llamar a ' + nombre + ': +54 351 ' + clientaDe(nombre).tel + ' (número ficticio).'); }
+// Avisos de "no puedo ir": los responde recepción por WhatsApp, desde el chat de la clienta.
+function responder(nombre){
+  ir('mensajes'); elegirConversacion(convDe(nombre));
+  var ta = document.getElementById('respuesta'); if (ta) ta.focus();
+}
+function enviarRespuesta(k){
+  var conv = CONVERSACIONES[k], texto = document.getElementById('respuesta').value.trim();
+  if (!texto) { aviso('Escribí el mensaje antes de enviar.'); return; }
+  conv.mensajes.push({de:'out', texto:texto, hora:'Okio · 15:21'});
+  conv.cierre = 'respondido'; conv.resumen = 'Respondido · esperando que elija otro horario';
+  elegirConversacion(k);
+}
 
 function filtrarClientas(q){
   q = q.trim().toLowerCase();
@@ -615,7 +648,7 @@ async function prepararRecordatorio(i){
   var conv = CONVERSACIONES[k];
   conv.cierre = 'borrador'; conv.resumen = 'Borrador listo para revisar';
   conv.borrador = conv.borrador || ('Hola ' + nombre + '! Te recordamos tu turno de hoy, jueves 17, a las ' + t.ini +
-    ' con ' + t.pro + ': ' + tratamiento + '. Nos confirmás si venís? Saludos!');
+    ' para ' + tratamiento + '. Nos confirmás si venís? Saludos!');
   ir('mensajes'); elegirConversacion(k);
   var ta = document.getElementById('borrador'), label = document.getElementById('borrador-label'), btn = document.getElementById('btn-aprobar');
   ta.value = 'Redactando con IA…'; ta.disabled = true; btn.disabled = true;
@@ -623,7 +656,7 @@ async function prepararRecordatorio(i){
     var r = await fetch('/api/recordatorio', {
       method: 'POST', headers: {'Content-Type': 'application/json'},
       signal: AbortSignal.timeout(15000),
-      body: JSON.stringify({turnos: [{nombre: nombre, tratamiento: tratamiento, dia: 'hoy, jueves 17', hora: t.ini, profesional: t.pro}]})
+      body: JSON.stringify({turnos: [{nombre: nombre, tratamiento: tratamiento, dia: 'hoy, jueves 17', hora: t.ini}]})
     });
     var data = await r.json();
     if (!r.ok) throw new Error(data.error);
@@ -667,7 +700,11 @@ function ver(v){
   document.getElementById('btn-semana').classList.toggle('on', !dia); document.getElementById('btn-semana').setAttribute('aria-pressed', !dia);
   document.getElementById('eyebrow').textContent = dia ? 'Agenda · Día' : 'Agenda · Semana';
   document.getElementById('titulo').innerHTML = dia ? 'Jueves <em>17</em> de septiembre' : 'Semana del <em>14</em> al 18 de septiembre';
+  if (!dia) pintarCal('vista-semana', [0, 1, 2, 3, 4]);
+  var cal = document.getElementById(dia ? 'cal-dia' : 'vista-semana');
+  cal.scrollTop = Math.max(0, y(minutos(AHORA)) - 180); // arranca mostrando la hora actual
 }
+ver('dia');
 </script>
 </body>
 </html>

@@ -6,7 +6,7 @@
 
 import Anthropic from "@anthropic-ai/sdk";
 import { sinSignosDeApertura } from "./voz.mjs";
-import { generarRecordatorios, plantillaAntes } from "./generadores.mjs";
+import { generarRecordatorios, indicacionesPara, plantillaAntes } from "./generadores.mjs";
 
 // Turnos de ejemplo (los tratamientos reales de una clienta). Cambialos si querés.
 const TURNOS = [
@@ -19,6 +19,9 @@ async function main() {
   if (process.argv.includes("--test")) {
     if (sinSignosDeApertura("¿Venís? ¡Genial!") !== "Venís? Genial!") {
       throw new Error("El blindaje de ¿¡ no funciona.");
+    }
+    if (indicacionesPara("Peeling facial y depilación definitiva").length !== 2 || indicacionesPara("tratamiento corporal").length !== 0) {
+      throw new Error("indicacionesPara no junta bien las indicaciones.");
     }
     console.log("✓ Self-check OK.");
     return;

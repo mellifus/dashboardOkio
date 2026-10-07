@@ -65,7 +65,7 @@ app.post("/api/recordatorio", async (req, res) => {
       if (
         typeof t?.tratamiento !== "string" || typeof t?.hora !== "string" ||
         t.tratamiento.length > 100 || t.hora.length > 20 ||
-        ["nombre", "dia", "profesional"].some((k) => t[k] != null && (typeof t[k] !== "string" || t[k].length > 40))
+        ["nombre", "dia"].some((k) => t[k] != null && (typeof t[k] !== "string" || t[k].length > 40))
       ) {
         return res.status(400).json({ error: "Cada turno necesita tratamiento y hora (texto corto)." });
       }

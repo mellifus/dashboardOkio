@@ -20,7 +20,7 @@ Reemplaza la demo del 16/09 (`Clinic Platform UX v2.dc.html`), que queda como re
 
 | Tiempo | Pantalla y acción | Qué decir |
 |---|---|---|
-| 0:00–0:30 | Agenda · Día. Tocá el turno de Valentina (09:00). | "Esto es un día de recepción: los turnos de Ingrid y Eliana en una sola lista. El color dice una sola cosa, si el turno está confirmado. Tocás un turno y a la derecha ves todo: tratamiento, profesional, teléfono y si ya se le mandó el recordatorio. Son datos inventados." |
+| 0:00–0:30 | Agenda · Día. Tocá el turno de Valentina (09:00). | "Esto es un día de recepción: una columna para Ingrid y otra para Eliana, cada turno del alto de lo que dura. Tocás un horario libre y arranca un turno nuevo. El color dice una sola cosa, si el turno está confirmado. Tocás un turno y a la derecha ves todo: tratamiento, profesional, teléfono y si ya se le mandó el recordatorio. Son datos inventados." |
 | 0:30–1:00 | Mirar "Requiere atención hoy" | "Arriba está lo que necesita una persona: Sofía avisó que no viene y Luciana no confirmó." |
 | 1:00–2:00 | Turno de Luciana → **Preparar recordatorio** | "Hoy el recordatorio automático dice el día y la hora, pero no el tratamiento. Acá el turno ya sabe que es peeling facial y depilación, con Ingrid, y la IA arma el mensaje con eso." |
 | 2:00–2:45 | Leer el borrador. Editar una palabra. | "Lo escribe en el tono de ustedes por WhatsApp, y suma el cuidado previo. Pero es un borrador: recepción lo lee, lo cambia si quiere y recién ahí lo aprueba. Nada sale solo." |

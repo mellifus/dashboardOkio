@@ -110,8 +110,10 @@ Meli volvió a traer las capturas de Instagram y el logo con el aro degradé, y 
 
 | Capa | Paleta dominante | Dónde se usa | Carácter |
 |---|---|---|---|
-| **1 · Institucional** | Verde bosque `#003F36` + crema + dorado + blush | Web, Tienda Nube, dashboard/producto, footer, transaccional | Sobria, profesional, confiable |
+| **1 · Institucional** | Verde bosque `#003F36` + crema + dorado + blush | Web, Tienda Nube, footer, transaccional | Sobria, profesional, confiable |
 | **2 · Editorial** | Rosa palo `#A7726C` + crema cálida + terracota + dorado | Instagram, campañas, piezas gráficas, eventos | Sensible, femenina, poética |
+
+**Cambio (2026-10-08): el dashboard ya no va en la capa institucional.** Meli armó la paleta que Okio usa en Instagram y en las paredes del local (marfil `#F5F2EE`, rosa lino `#E4DAD5`, rosa arcilla `#AD7772`, arena dorada `#B99268`, terracota profundo `#793F35`, ciruela carbón `#352B30`) y la eligió para el dashboard: el equipo lo usa adentro del local y esos son los colores que reconoce como Okio. Es casi la capa editorial, con terracota y ciruela para lo que necesita contraste. Detalle y contrastes en `Docs/15_Rediseno_Dashboard.md`.
 
 **Firma compartida (igual en las dos capas):** el isotipo del **loto** en línea dorada, el wordmark "Okio" en serif dorado con la bajada "ESTÉTICA Y BIENESTAR", la dupla tipográfica **Fraunces + Inter**, los botones **pill** (`radius:999px`) y el glifo **✦**. El dorado `#B99269` es el que las une, porque aparece en las dos paletas.
 

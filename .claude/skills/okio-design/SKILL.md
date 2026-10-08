@@ -5,8 +5,9 @@ description: >-
   aesthetic clinic in Córdoba, AR) — for production code or throwaway
   prototypes/mocks. Use whenever building anything that should look and sound
   like Okio: Instagram/social pieces, landing pages, the clinic management
-  dashboard, emails, mockups. Loads Okio's brand system: the two-layer palette
-  (institutional green + editorial rose/gold), Fraunces+Inter type, the lotus
+  dashboard, emails, mockups. Loads Okio's brand system: the palettes (institutional
+  green for web/Tienda Nube, editorial rose/gold for social, and the clinic-space
+  palette of ivory/terracotta/plum for the dashboard), Fraunces+Inter type, the lotus
   signature, and the voseo voice.
 user-invocable: true
 ---
@@ -25,7 +26,7 @@ don't mix them 50/50 in one piece, and always include the shared signature.
 
 | Layer | Palette | Where | Character |
 |---|---|---|---|
-| **1 · Institutional** | forest green | web, Tienda Nube, the clinic dashboard/product, anything transactional | sober, trustworthy |
+| **1 · Institutional** | forest green | web, Tienda Nube, anything transactional (not the dashboard, see below) | sober, trustworthy |
 | **2 · Editorial** | rose / cream / gold | Instagram, campaigns, graphic pieces, events | sensitive, poetic, feminine |
 
 **Shared signature (never changes):** the gold **lotus** isotype, the "Okio" serif
@@ -34,7 +35,17 @@ wordmark with "ESTÉTICA Y BIENESTAR", the **Fraunces + Inter** type pair, fully
 
 ## Color
 
-**Institutional (green), for product and web:**
+**Clinic dashboard (since 2026-10-08): the palette of the clinic's space and social feed.** Meli chose it because the
+team uses the dashboard inside the clinic, and these are the colors they recognize as Okio. Source of truth:
+`Dashboard - Claude Design/propuestas/dashboard-rediseno.html` (`:root` tokens) and `Docs/15_Rediseno_Dashboard.md`.
+- `#F5F2EE` warm ivory: background · `#352B30` charcoal plum: text and sidebar (12.2:1)
+- `#793F35` deep terracotta: buttons, titles, the day summary (7.3:1 with light text)
+- `#AD7772` clay rose: the brand mark (borders, attention dots, active nav). Never text on it (3.3:1)
+- `#E4DAD5` linen rose: card headers and rules · `#B99268` golden sand: logo and details only (2.5:1)
+- States: confirmed = muted sage, unconfirmed = gold, needs attention = brick red (not rose, rose is the brand).
+- Dark mode is "plum night" (`#1A1517` / `#241D20`), never neutral black.
+
+**Institutional (green), for web and Tienda Nube:**
 - `#003F36` forest green: primary (headers, nav, buttons, full-bleed sections)
 - `#F5F1EC` cream: light section background
 - `#B99269` gold: italic emphasis words, wordmark (**shared with editorial**)

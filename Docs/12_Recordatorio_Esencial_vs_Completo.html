@@ -1,14 +1,14 @@
-<title>Mensajes Esencial y Completo</title>
+<title>Cómo funcionaría Okio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&display=swap">
 <style>
-/* Layout: mismo lenguaje que la demo (paleta de la clínica). Dos casos uno debajo del otro, cada uno con su borrador: el recordatorio con mensaje fijo y la IA contestando una cancelación. */
+/* Layout: mismo lenguaje que la demo (paleta de la clínica). Arriba, el caso (recordatorio o cancelación); abajo, Esencial y Completo lado a lado, cada uno con sus pasos numerados y una pantalla de ejemplo del paso actual. Cada columna guarda su avance. Se apila en celular. */
 :root {
   --page: #F5F2EE; --surface: #FFFDFB; --line: #E4DAD5; --text: #352B30; --muted: #6E6266;
   --gold: #B99268; --gold-text: #74532F; --accent: #793F35; --solid-text: #FFFFFF;
-  --fill: #F1E6D6; --fill-text: #6E5030;
+  --fill: #F1E6D6; --fill-text: #6E5030; --soft: #ECE6E2;
   --ok-bg: #E2E7DF; --ok-text: #3E5444; --ai-bg: #EFE3E9; --ai-text: #6A3C55;
-  --in-bg: #ECE6E2;
+  --wa: #25D366; --wa-chat: #EFEAE2; --wa-out: #D9FDD3; --wa-in: #FFFFFF; --wa-ink: #111B21;
   --serif: "Fraunces", Georgia, "Times New Roman", serif;
   --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
@@ -16,204 +16,238 @@
   :root:not([data-theme="light"]) {
     --page: #1A1517; --surface: #241D20; --line: #3A3034; --text: #EFE8E4; --muted: #B5A9A7;
     --gold: #C9A583; --gold-text: #D9BB92; --accent: #E2A99C; --solid-text: #3A1E19;
-    --fill: #2F271E; --fill-text: #EBD5B5;
+    --fill: #2F271E; --fill-text: #EBD5B5; --soft: #2A2326;
     --ok-bg: #22302A; --ok-text: #CFE2D4; --ai-bg: #33242D; --ai-text: #E6C3D6;
-    --in-bg: #2A2326; color-scheme: dark;
+    --wa-chat: #0B141A; --wa-out: #005C4B; --wa-in: #202C33; --wa-ink: #E9EDEF; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --page: #1A1517; --surface: #241D20; --line: #3A3034; --text: #EFE8E4; --muted: #B5A9A7;
   --gold: #C9A583; --gold-text: #D9BB92; --accent: #E2A99C; --solid-text: #3A1E19;
-  --fill: #2F271E; --fill-text: #EBD5B5;
+  --fill: #2F271E; --fill-text: #EBD5B5; --soft: #2A2326;
   --ok-bg: #22302A; --ok-text: #CFE2D4; --ai-bg: #33242D; --ai-text: #E6C3D6;
-  --in-bg: #2A2326; color-scheme: dark;
+  --wa-chat: #0B141A; --wa-out: #005C4B; --wa-in: #202C33; --wa-ink: #E9EDEF; color-scheme: dark;
 }
 * { box-sizing: border-box; }
 body { background: var(--page); color: var(--text); font: 400 16px/1.5 var(--sans); padding-inline: 16px; padding-block: 24px 40px; margin: 0; }
-.page { max-width: 820px; margin: 0 auto; display: grid; gap: 20px; }
+.page { max-width: 1120px; margin: 0 auto; display: grid; gap: 20px; }
 p { margin: 0; }
 h1 { font: 400 clamp(26px, 4vw, 34px)/1.15 var(--serif); margin: 0; text-wrap: balance; }
 h1 em { font-style: italic; color: var(--gold); }
 .lead { color: var(--muted); max-width: 72ch; }
 .eyebrow { font: 600 12.5px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--gold-text); }
 
-.cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: grid; gap: 12px; min-width: 0; align-content: start; }
-.col-head { display: grid; gap: 6px; }
-.col-head h2 { font: 400 22px/1.2 var(--serif); margin: 0; }
-.tags { display: flex; gap: 6px; flex-wrap: wrap; }
-.badge { font: 600 12.5px/1 var(--sans); padding: 6px 10px; border-radius: 999px; }
-.badge.fixed { background: var(--fill); color: var(--fill-text); }
+.tabs { display: inline-flex; gap: 4px; background: var(--soft); padding: 4px; border-radius: 999px; justify-self: start; flex-wrap: wrap; }
+.tab { border: 0; background: transparent; color: var(--text); font: 600 14px/1 var(--sans); padding: 11px 18px; border-radius: 999px; cursor: pointer; }
+.tab[aria-selected="true"] { background: var(--accent); color: var(--solid-text); }
+.case-intro { font-size: 15px; color: var(--muted); max-width: 72ch; }
+
+.cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; }
+.col { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 18px; display: grid; gap: 14px; min-width: 0; }
+.col-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.col-head h2 { font: 400 24px/1.1 var(--serif); margin: 0; }
+.badge { font: 600 12.5px/1 var(--sans); padding: 6px 10px; border-radius: 999px; background: var(--fill); color: var(--fill-text); }
 .badge.ai { background: var(--ai-bg); color: var(--ai-text); }
+.badge.same { background: var(--soft); color: var(--muted); }
 
-.context { background: var(--page); border-radius: 12px; padding: 12px 14px; display: grid; gap: 8px; font-size: 14.5px; }
-.context dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 0; }
-.context dt { color: var(--muted); }
-.context dd { margin: 0; font-weight: 500; }
-.bubble { background: var(--in-bg); border-radius: 14px 14px 14px 4px; padding: 10px 14px; max-width: 90%; font-size: 15px; }
-.bubble small { display: block; color: var(--muted); font-size: 12.5px; margin-top: 4px; }
+ol.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+ol.steps li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; padding: 8px 10px; border-radius: 12px; cursor: pointer; color: var(--muted); font-size: 14.5px; }
+ol.steps li .n { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font: 600 13px/1 var(--sans); background: var(--soft); color: var(--muted); }
+ol.steps li.done { color: var(--text); }
+ol.steps li.done .n { background: var(--ok-bg); color: var(--ok-text); }
+ol.steps li.on { background: var(--page); color: var(--text); font-weight: 500; }
+ol.steps li.on .n { background: var(--accent); color: var(--solid-text); }
+ol.steps li .who { display: block; font: 600 12.5px/1.4 var(--sans); letter-spacing: .04em; color: var(--gold-text); }
+ol.steps li .ia { display: inline-block; margin-left: 6px; font: 600 11.5px/1 var(--sans); padding: 4px 7px; border-radius: 999px; background: var(--ai-bg); color: var(--ai-text); vertical-align: middle; }
 
-.label { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13.5px; color: var(--muted); min-height: 28px; }
-textarea { width: 100%; min-height: 150px; resize: vertical; border: 1px solid var(--line); border-radius: 12px; padding: 14px; font: 400 15.5px/1.5 var(--sans); color: var(--text); background: var(--page); }
-textarea:disabled { color: var(--muted); font-style: italic; }
-.actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-.btn { border: 0; border-radius: 999px; padding: 12px 20px; font: 600 14px/1 var(--sans); cursor: pointer; background: var(--accent); color: var(--solid-text); }
+.screen { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; min-height: 230px; display: grid; }
+.screen .bar { display: flex; align-items: center; gap: 8px; padding: 9px 12px; font: 600 13px/1 var(--sans); border-bottom: 1px solid var(--line); background: var(--page); color: var(--muted); }
+.screen .bar .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); }
+.screen.wa .bar { background: var(--wa-chat); color: var(--wa-ink); }
+.screen.wa .bar .dot { background: var(--wa); }
+.screen .body { padding: 14px; display: grid; gap: 10px; align-content: start; font-size: 14.5px; }
+.screen.wa .body { background: var(--wa-chat); color: var(--wa-ink); }
+.b-in, .b-out { max-width: 88%; padding: 8px 12px; border-radius: 12px; font-size: 14.5px; line-height: 1.45; }
+.b-in { background: var(--wa-in); justify-self: start; border-top-left-radius: 4px; }
+.b-out { background: var(--wa-out); justify-self: end; border-top-right-radius: 4px; }
+.b-in small, .b-out small { display: block; opacity: .7; font-size: 12.5px; margin-top: 3px; text-align: right; }
+.wa-input { display: flex; gap: 8px; align-items: flex-end; }
+.wa-input div { flex: 1; background: var(--wa-in); border-radius: 18px; padding: 9px 14px; font-size: 14.5px; }
+.wa-send { width: 38px; height: 38px; border-radius: 50%; background: var(--wa); flex: none; display: grid; place-items: center; color: #FFFFFF; font-size: 16px; }
+
+.slot-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.slot { border: 1px dashed var(--line); border-radius: 10px; padding: 7px 10px; font-size: 13.5px; }
+.slot.free { border-style: solid; background: var(--ok-bg); color: var(--ok-text); font-weight: 600; }
+.slot.busy { background: var(--fill); color: var(--fill-text); }
+.slot.moved { border-style: solid; background: var(--accent); color: var(--solid-text); font-weight: 600; }
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 0; font-size: 14px; }
+.kv dt { color: var(--muted); }
+.kv dd { margin: 0; font-weight: 500; }
+.draft { background: var(--page); border: 1px solid var(--line); border-radius: 10px; padding: 12px; font-size: 14.5px; line-height: 1.5; }
+.draft.ai { border-color: var(--ai-text); }
+.mini-label { font: 600 12.5px/1 var(--sans); color: var(--muted); }
+.pill { justify-self: start; font: 600 13px/1 var(--sans); padding: 9px 14px; border-radius: 999px; background: var(--accent); color: var(--solid-text); }
+.chip-ok { justify-self: start; font: 600 12.5px/1 var(--sans); padding: 7px 11px; border-radius: 999px; background: var(--ok-bg); color: var(--ok-text); }
+.paste { border: 2px dashed var(--line); border-radius: 10px; padding: 12px; font-size: 14.5px; }
+.why { margin: 0; padding-left: 18px; font-size: 13.5px; color: var(--muted); display: grid; gap: 3px; }
+
+.nav { display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.btn { border: 0; border-radius: 999px; padding: 11px 18px; font: 600 14px/1 var(--sans); cursor: pointer; background: var(--accent); color: var(--solid-text); }
 .btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
-.btn:disabled { opacity: .5; cursor: default; }
-.btn:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-.estado { font: 600 12.5px/1 var(--sans); padding: 7px 11px; border-radius: 999px; background: var(--fill); color: var(--fill-text); }
-.estado.ok { background: var(--ok-bg); color: var(--ok-text); }
-.sent { background: var(--ok-bg); color: var(--ok-text); border-radius: 12px; padding: 12px 14px; font-size: 14.5px; }
+.btn:disabled { opacity: .45; cursor: default; }
+.tab:focus-visible, .btn:focus-visible, ol.steps li:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.count { font-size: 13.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
 
-.sub { border-top: 1px solid var(--line); padding-top: 14px; display: grid; gap: 10px; }
-.template { background: var(--page); border: 1px dashed var(--line); border-radius: 12px; padding: 14px; font-size: 15px; line-height: 1.75; }
-.slot { background: var(--fill); color: var(--fill-text); border-radius: 6px; padding: 1px 6px; font-weight: 600; white-space: nowrap; }
-.how { font-size: 14px; color: var(--muted); }
-.why { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14.5px; }
-.generic { background: var(--page); border: 1px dashed var(--line); border-radius: 12px; padding: 12px 14px; font-size: 15px; color: var(--muted); }
+.summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.summary .box { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.summary h3 { font: 500 18px/1.25 var(--serif); margin: 0; }
+.summary p { font-size: 14.5px; color: var(--muted); }
 .note { font-size: 13px; color: var(--muted); }
 
-@media (max-width: 760px) {
-  .cols { grid-template-columns: 1fr; }
+@media (max-width: 820px) {
+  .cols, .summary { grid-template-columns: 1fr; }
 }
 </style>
 
 <div class="page">
   <header style="display:grid;gap:10px">
-    <p class="eyebrow">Okio · Mensajes</p>
-    <h1>Dónde alcanza un mensaje fijo y <em>dónde ayuda la IA</em></h1>
-    <p class="lead">El recordatorio es siempre el mismo mensaje con otros datos: un mensaje fijo lo resuelve, y viene en los dos paquetes. Una cancelación cambia cada vez: ahí la IA propone una respuesta mirando la agenda. Eso es lo que suma Completo.</p>
+    <p class="eyebrow">Okio · Cómo funcionaría</p>
+    <h1>Al arrancar y <em>en el paso siguiente</em></h1>
+    <p class="lead">A la izquierda, lo que incluye la propuesta. A la derecha, el paso siguiente: WhatsApp conectado y la IA que lee y ordena los mensajes. Elegí un caso y avanzá cada columna con "Siguiente". En los dos, nada se envía solo.</p>
   </header>
 
-  <div class="cols">
-    <!-- Columna izquierda: recordatorio con mensaje fijo -->
-    <section class="card" aria-label="Recordatorio con mensaje fijo">
-      <div class="col-head">
-        <div class="tags"><span class="badge fixed">Esencial y Completo</span></div>
-        <h2>Recordatorio de turno</h2>
-      </div>
-      <div class="context">
-        <dl>
-          <dt>Clienta</dt><dd>Luciana Pérez</dd>
-          <dt>Turno</dt><dd>Hoy, 16:00 a 17:15</dd>
-          <dt>Tratamientos</dt><dd>Peeling facial y depilación definitiva</dd>
-        </dl>
-      </div>
-      <div class="actions"><button class="btn" id="prep-rec">Preparar recordatorio</button></div>
-      <div class="label" id="label-rec"><span class="badge fixed">Mensaje fijo</span><span>Esperando que prepares el recordatorio</span></div>
-      <textarea id="borrador-rec" aria-label="Borrador del recordatorio" disabled>El borrador aparece acá.</textarea>
-      <div class="actions">
-        <button class="btn" id="enviar-rec" disabled>Aprobar y enviar</button>
-        <span class="estado" id="estado-rec">Sin enviar</span>
-      </div>
-      <p class="sent" id="sent-rec" hidden>En la versión real, esto abre WhatsApp con el mensaje escrito y recepción toca enviar.</p>
+  <div class="tabs" role="tablist" aria-label="Caso">
+    <button class="tab" role="tab" id="tab-rec" aria-selected="true">Recordatorio de un turno</button>
+    <button class="tab" role="tab" id="tab-can" aria-selected="false">Una clienta cancela</button>
+  </div>
+  <p class="case-intro" id="case-intro"></p>
 
-      <div class="sub">
-        <p class="eyebrow">Cómo se arma</p>
-        <p class="how">Okio escribe el texto una sola vez. El sistema completa los huecos con los datos del turno, y las indicaciones salen de una tabla por tratamiento:</p>
-        <div class="template">Hola <span class="slot">nombre</span>! Te recordamos tu turno de <span class="slot">día</span> a las <span class="slot">hora</span> para <span class="slot">tratamientos</span>. Para ese día: <span class="slot">indicaciones</span>. Nos confirmás si venís? Saludos!</div>
-        <p class="how">Sale al instante, dice el tratamiento y no tiene costo por mensaje.</p>
+  <div class="cols">
+    <section class="col" aria-label="Al arrancar">
+      <div class="col-head"><h2>Al arrancar</h2><span class="badge" id="badge-esencial">La propuesta</span></div>
+      <ol class="steps" id="steps-esencial"></ol>
+      <div id="screen-esencial"></div>
+      <div class="nav">
+        <button class="btn ghost" id="prev-esencial">Anterior</button>
+        <span class="count" id="count-esencial"></span>
+        <button class="btn" id="next-esencial">Siguiente</button>
       </div>
     </section>
-
-    <!-- Columna derecha: la IA contesta una cancelación -->
-    <section class="card" aria-label="Respuesta a una cancelación">
-      <div class="col-head">
-        <div class="tags"><span class="badge ai">Solo Completo</span></div>
-        <h2>Contestar una cancelación</h2>
-      </div>
-      <div class="context">
-        <p class="how">Recepción pega el mensaje que llegó por WhatsApp:</p>
-        <div class="bubble">Hola! No voy a poder ir hoy, me surgió algo del trabajo. Perdón!<small>Sofía Ramos · 14:52</small></div>
-        <dl>
-          <dt>Su turno</dt><dd>Hoy, 15:00 a 15:40 · Depilación definitiva</dd>
-          <dt>Otro turno</dt><dd>Martes 10:00 · Peeling corporal</dd>
-          <dt>Huecos libres</dt><dd>Hoy 18:00 · Mañana 16:30 · Martes 16:00</dd>
-        </dl>
-      </div>
-      <div class="actions"><button class="btn" id="prep-ia">Proponer respuesta</button></div>
-      <div class="label" id="label-ia"><span class="badge ai">Propuesta de la IA</span><span>Esperando que pidas la respuesta</span></div>
-      <textarea id="borrador-ia" aria-label="Respuesta propuesta por la IA" disabled>La respuesta propuesta aparece acá.</textarea>
-      <div class="actions">
-        <button class="btn" id="enviar-ia" disabled>Aprobar y enviar</button>
-        <span class="estado" id="estado-ia">Sin responder</span>
-      </div>
-      <p class="sent" id="sent-ia" hidden>En la versión real, esto abre WhatsApp con la respuesta escrita y recepción toca enviar.</p>
-
-      <div class="sub" id="why-ia" hidden>
-        <p class="eyebrow">Por qué propone esto</p>
-        <ul class="why">
-          <li>Ofrece dos huecos libres que entran en los 40 minutos de la depilación.</li>
-          <li>Descarta el martes porque Sofía tiene peeling corporal ese día, y la regla de ejemplo es no juntarlo con depilación.</li>
-          <li>Responde con el tono de recepción y deja que Sofía elija.</li>
-        </ul>
-      </div>
-
-      <div class="sub">
-        <p class="eyebrow">Con un mensaje fijo quedaría</p>
-        <p class="generic">Hola Sofía! Lamentamos que no puedas venir. Querés reprogramar? Saludos!</p>
-        <p class="how">Y recepción igual tendría que buscar los huecos, acordarse del peeling del martes y escribir la propuesta a mano. Eso es lo que hace la IA, y lo que cuesta está dentro del abono.</p>
+    <section class="col" aria-label="Paso siguiente">
+      <div class="col-head"><h2>Paso siguiente</h2><span class="badge ai" id="badge-completo">Se cotiza aparte</span></div>
+      <ol class="steps" id="steps-completo"></ol>
+      <div id="screen-completo"></div>
+      <div class="nav">
+        <button class="btn ghost" id="prev-completo">Anterior</button>
+        <span class="count" id="count-completo"></span>
+        <button class="btn" id="next-completo">Siguiente</button>
       </div>
     </section>
   </div>
 
-  <div class="actions"><button class="btn ghost" id="reset">Volver a empezar</button></div>
-  <p class="note">En los dos casos recepción lee el mensaje, lo puede editar y recién ahí lo envía. Datos de ejemplo. La respuesta de la IA es un ejemplo fijo, y la regla de no juntar depilación y peeling es ilustrativa: las reglas reales las define Okio.</p>
+  <section style="display:grid;gap:12px">
+    <p class="eyebrow">En corto</p>
+    <div class="summary">
+      <div class="box"><h3>Al arrancar</h3><p>Agenda ordenada, recordatorios y confirmaciones con mensaje fijo, reprogramar tocando un hueco. Los mensajes de las clientas se leen en WhatsApp, como hoy.</p></div>
+      <div class="box"><h3>Paso siguiente</h3><p>WhatsApp conectado: los mensajes llegan solos y la IA los ordena, marcando quién canceló o confirmó. Recepción sigue decidiendo y contestando.</p></div>
+      <div class="box"><h3>Lo que no cambia</h3><p>Los mensajes salen con el botón que abre WhatsApp y recepción los aprueba. Nada se envía solo.</p></div>
+    </div>
+  </section>
+
+  <p class="note">Datos de ejemplo. Las pantallas siguen el recorrido de la demo.</p>
 </div>
 
 <script>
-var TEXTO = {
-  rec: "Hola Luciana! Te recordamos tu turno de hoy a las 16:00 para peeling facial y depilación definitiva. Para ese día: venir con la cara limpia y sin maquillaje. Venir rasurada y sin cremas. Nos confirmás si venís? Saludos!",
-  ia: "No pasa nada Sofía! Te puedo ofrecer hoy a las 18:00 o mañana a las 16:30 para la depi. El martes mejor no, que tenés el peeling corporal y no conviene juntarlos. Cuál te queda mejor?"
+var FIJO_REC = "Hola Luciana! Te recordamos tu turno de hoy a las 16:00 para peeling facial y depilación definitiva. Para ese día: venir con la cara limpia y sin maquillaje. Venir rasurada y sin cremas. Nos confirmás si venís? Saludos!";
+var FIJO_CONF = "Hola Sofía! Te reservamos el viernes a las 16:30 para depilación definitiva. Hasta entonces: no depilarse con cera ni pinza (solo rasurar). Nos confirmás si te queda bien? Saludos!";
+var CANCELA = "Hola! No voy a poder ir hoy, me surgió algo del trabajo. Perdón!";
+var MANUAL = "Hola Sofi, no pasa nada! Te puedo ofrecer hoy 18 hs o mañana 16:30. Cuál te queda mejor?";
+
+function sys(title, inner) { return '<div class="screen"><div class="bar"><span class="dot"></span>' + title + '</div><div class="body">' + inner + '</div></div>'; }
+function wa(title, inner) { return '<div class="screen wa"><div class="bar"><span class="dot"></span>WhatsApp · ' + title + '</div><div class="body">' + inner + '</div></div>'; }
+function inp(text) { return '<div class="wa-input"><div>' + text + '</div><span class="wa-send" aria-hidden="true">➤</span></div>'; }
+var GAP = '<div style="height:10px"></div>';
+
+var S = {
+  turnoLuciana: sys("Agenda · hoy", '<span class="mini-label">Datos guardados: se cargaron cuando se dio el turno</span><dl class="kv"><dt>Clienta</dt><dd>Luciana Pérez</dd><dt>Teléfono</dt><dd>351 555-0142</dd><dt>Turno</dt><dd>Hoy, 16:00 a 17:15</dd><dt>Tratamientos</dt><dd>Peeling facial y depilación definitiva</dd></dl><span class="pill">Preparar recordatorio</span>'),
+  fijoRec: sys("Recordatorio", '<span class="mini-label">Mensaje fijo, completado con los datos guardados</span><div class="draft">' + FIJO_REC + '</div><ul class="why"><li>Nombre, día, hora y tratamientos: del turno.</li><li>Indicaciones: de la tabla que Okio completa una sola vez.</li><li>Nadie copió ni pegó nada.</li></ul><span class="pill">Enviar</span>'),
+  waRec: wa("Luciana Pérez", inp(FIJO_REC)),
+  waRecSent: wa("Luciana Pérez", '<div class="b-out">' + FIJO_REC + '<small>16:02 ✓✓</small></div>') + GAP + sys("Agenda · hoy", '<dl class="kv"><dt>Luciana Pérez</dt><dd>16:00 · Peeling facial y depilación</dd></dl><span class="chip-ok">Recordatorio enviado</span>'),
+  confirmaWa: wa("Luciana Pérez", '<div class="b-out">' + FIJO_REC.slice(0, 60) + '…<small>16:02 ✓✓</small></div><div class="b-in">sii voy! gracias<small>16:05</small></div>') + GAP + sys("Agenda · hoy", '<span class="mini-label">Recepción lo ve en WhatsApp y lo marca a mano</span><span class="pill">Marcar como confirmado</span>'),
+  confirmaIa: sys("Mensajes · Luciana Pérez", '<div class="b-in" style="background:var(--soft)">sii voy! gracias<small>16:05</small></div><span class="badge ai" style="justify-self:start">La IA entendió: confirma</span>') + GAP + sys("Agenda · hoy", '<dl class="kv"><dt>Luciana Pérez</dt><dd>16:00 · Peeling facial y depilación</dd></dl><span class="chip-ok">Confirmado · revisalo</span>'),
+  waCancela: wa("Sofía Ramos", '<div class="b-in">' + CANCELA + '<small>14:52</small></div>'),
+  waManual: wa("Sofía Ramos", '<div class="b-in">' + CANCELA + '<small>14:52</small></div>' + inp(MANUAL)),
+  llegaIa: sys("Mensajes · Sofía Ramos", '<div class="b-in" style="background:var(--soft)">' + CANCELA + '<small>14:52</small></div><span class="badge ai" style="justify-self:start">La IA entendió: avisó que no viene</span>') + GAP + sys("Agenda · hoy", '<dl class="kv"><dt>Sofía Ramos</dt><dd>15:00 · Depilación definitiva</dd></dl><span class="badge" style="justify-self:start">Avisó que no viene · revisar</span>'),
+  manualSys: sys("Mensajes · Sofía Ramos", '<span class="mini-label">Lo resuelve recepción · Tu respuesta por WhatsApp</span><div class="draft">' + MANUAL + '</div><span class="pill">Enviar</span>'),
+  semana: wa("Sofía Ramos", '<div class="b-in">Mañana 16:30 me viene bárbaro!<small>15:10</small></div>') + GAP + sys("Agenda · Semana · reprogramando a Sofía", '<span class="mini-label">Ver huecos en la semana · recepción toca el hueco elegido</span><div class="slot-row"><span class="slot free">Hoy 18:00</span><span class="slot moved">Mañana 16:30</span><span class="slot free">Martes 16:00</span></div>'),
+  nuevo: sys("Nuevo turno · ya viene con los datos de Sofía", '<dl class="kv"><dt>Clienta</dt><dd>Sofía Ramos</dd><dt>Tratamiento</dt><dd>Depilación definitiva</dd><dt>Día y hora</dt><dd>Mañana, 16:30</dd></dl><span class="mini-label">✓ Preparar confirmación por WhatsApp</span><span class="pill">Agendar y preparar confirmación</span>'),
+  confirma: sys("Confirmación del turno nuevo", '<span class="mini-label">Mensaje fijo, completado con el turno nuevo · revisalo antes de enviar</span><div class="draft">' + FIJO_CONF + '</div><span class="pill">Aprobar y enviar</span>') + GAP + wa("Sofía Ramos", '<div class="b-out">' + FIJO_CONF + '<small>15:12 ✓✓</small></div>')
 };
-var BADGE = { rec: '<span class="badge fixed">Mensaje fijo</span>', ia: '<span class="badge ai">Propuesta de la IA</span>' };
-var ESPERA = { rec: "Esperando que prepares el recordatorio", ia: "Esperando que pidas la respuesta" };
-var VACIO = { rec: "El borrador aparece acá.", ia: "La respuesta propuesta aparece acá." };
-var SIN = { rec: "Sin enviar", ia: "Sin responder" };
-var timer = null;
+
+var REC = [
+  {who: "Recepción", t: "Abre el turno de Luciana en la agenda. Los datos ya están guardados desde que se dio el turno.", s: "turnoLuciana"},
+  {who: "Sistema", t: "Con \"Preparar recordatorio\", completa el mensaje fijo con esos datos. No hay nada que copiar.", s: "fijoRec"},
+  {who: "Recepción", t: "Lo revisa y toca \"Enviar\": se abre WhatsApp con el mensaje escrito.", s: "waRec"},
+  {who: "Recepción", t: "Toca enviar en WhatsApp. El turno queda como \"Recordatorio enviado\".", s: "waRecSent"}
+];
+var REPROG = [
+  {who: "Recepción", t: "Sofía elige. Recepción toca \"Ver huecos en la semana\" y toca el hueco elegido.", s: "semana"},
+  {who: "Sistema", t: "Nuevo turno ya viene con los datos de Sofía, el día y la hora. Recepción agenda.", s: "nuevo"},
+  {who: "Sistema", t: "Prepara la confirmación con mensaje fijo. Recepción la revisa y la aprueba.", s: "confirma"}
+];
+
+var CASOS = {
+  rec: {
+    intro: "El recordatorio sale de los datos guardados en el turno, con un mensaje fijo. Es igual en las dos columnas. La diferencia aparece cuando la clienta contesta.",
+    esencial: REC.concat([{who: "Recepción", t: "Luciana contesta en WhatsApp. Recepción lo lee ahí y marca el turno como confirmado.", s: "confirmaWa"}]),
+    completo: REC.concat([{who: "IA", t: "La respuesta de Luciana llega sola al sistema. La IA entiende que confirma y marca el turno. Recepción lo revisa.", s: "confirmaIa", ia: true}])
+  },
+  can: {
+    intro: "Sofía avisa que no viene. Al arrancar, recepción lo lee en WhatsApp. En el paso siguiente, el mensaje llega solo y la IA marca su turno para revisar. Reprogramar es igual en los dos.",
+    esencial: [
+      {who: "Clienta", t: "Sofía escribe por WhatsApp que no puede ir.", s: "waCancela"},
+      {who: "Recepción", t: "Lo lee en WhatsApp y le contesta ahí mismo, ofreciéndole otro horario.", s: "waManual"}
+    ].concat(REPROG),
+    completo: [
+      {who: "IA", t: "El mensaje de Sofía llega solo al sistema. La IA entiende que cancela y marca su turno para revisar.", s: "llegaIa", ia: true},
+      {who: "Recepción", t: "Le contesta desde el sistema, ofreciéndole otro horario.", s: "manualSys"}
+    ].concat(REPROG)
+  }
+};
+
+var caso = "rec";
+var paso = { rec: {esencial: 0, completo: 0}, can: {esencial: 0, completo: 0} };
 var $ = function (id) { return document.getElementById(id); };
 
-function setLabel(k, t) { $("label-" + k).innerHTML = BADGE[k] + "<span>" + t + "</span>"; }
-
-function mostrar(k, t) {
-  $("borrador-" + k).value = TEXTO[k];
-  $("borrador-" + k).disabled = false;
-  $("enviar-" + k).disabled = false;
-  setLabel(k, t);
-  if (k === "ia") $("why-ia").hidden = false;
+function render(p) {
+  var steps = CASOS[caso][p], i = paso[caso][p];
+  $("steps-" + p).innerHTML = steps.map(function (st, k) {
+    var cls = k < i ? "done" : k === i ? "on" : "";
+    return '<li class="' + cls + '" tabindex="0" data-k="' + k + '"><span class="n">' + (k < i ? "✓" : k + 1) + '</span><span><span class="who">' + st.who + (st.ia ? '<span class="ia">IA</span>' : '') + '</span>' + st.t + '</span></li>';
+  }).join("");
+  $("screen-" + p).innerHTML = S[steps[i].s];
+  $("count-" + p).textContent = "Paso " + (i + 1) + " de " + steps.length;
+  $("prev-" + p).disabled = i === 0;
+  $("next-" + p).disabled = i === steps.length - 1;
+  Array.prototype.forEach.call($("steps-" + p).querySelectorAll("li"), function (li) {
+    var go = function () { paso[caso][p] = +li.dataset.k; render(p); };
+    li.addEventListener("click", go);
+    li.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+  });
 }
 
-function preparar(k) {
-  $("prep-" + k).disabled = true;
-  if (k === "rec") { mostrar("rec", "Completado al instante con los datos del turno"); return; }
-  $("borrador-ia").value = "La IA está leyendo el mensaje y mirando la agenda…";
-  setLabel("ia", "Redactando…");
-  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  timer = setTimeout(function () { mostrar("ia", "Revisala antes de enviar"); }, reduce ? 200 : 2000);
+function renderAll() {
+  $("case-intro").textContent = CASOS[caso].intro;
+  $("tab-rec").setAttribute("aria-selected", caso === "rec");
+  $("tab-can").setAttribute("aria-selected", caso === "can");
+  render("esencial"); render("completo");
 }
 
-function enviar(k) {
-  $("enviar-" + k).disabled = true;
-  $("borrador-" + k).disabled = true;
-  $("sent-" + k).hidden = false;
-  $("estado-" + k).textContent = k === "rec" ? "Enviado · esperando respuesta" : "Respondida · esperando que elija";
-  $("estado-" + k).classList.add("ok");
-}
-
-function limpiar(k) {
-  $("borrador-" + k).value = VACIO[k];
-  $("borrador-" + k).disabled = true;
-  $("enviar-" + k).disabled = true;
-  $("prep-" + k).disabled = false;
-  $("sent-" + k).hidden = true;
-  $("estado-" + k).textContent = SIN[k];
-  $("estado-" + k).classList.remove("ok");
-  setLabel(k, ESPERA[k]);
-}
-
-$("prep-rec").addEventListener("click", function () { preparar("rec"); });
-$("prep-ia").addEventListener("click", function () { preparar("ia"); });
-$("enviar-rec").addEventListener("click", function () { enviar("rec"); });
-$("enviar-ia").addEventListener("click", function () { enviar("ia"); });
-$("reset").addEventListener("click", function () { clearTimeout(timer); limpiar("rec"); limpiar("ia"); $("why-ia").hidden = true; });
+["esencial", "completo"].forEach(function (p) {
+  $("next-" + p).addEventListener("click", function () { paso[caso][p]++; render(p); });
+  $("prev-" + p).addEventListener("click", function () { paso[caso][p]--; render(p); });
+});
+$("tab-rec").addEventListener("click", function () { caso = "rec"; renderAll(); });
+$("tab-can").addEventListener("click", function () { caso = "can"; renderAll(); });
+renderAll();
 </script>

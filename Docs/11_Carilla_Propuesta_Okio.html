@@ -105,7 +105,7 @@ h3 { font: 500 22px/1.2 var(--serif); margin: 0; color: var(--heading); }
   <header>
     <div class="brand"><b>Okio</b><span>Estética y Bienestar</span></div>
     <h1>Una agenda ordenada y <em>más tiempo para recepción</em></h1>
-    <p>Propuesta para pasar los turnos y los recordatorios a un solo lugar, con la opción de que la IA ayude a contestar los mensajes de las clientas. Hecho a la medida de cómo trabaja Okio.</p>
+    <p>Propuesta para pasar los turnos, los recordatorios y las confirmaciones a un solo lugar. Hecho a la medida de cómo trabaja Okio.</p>
   </header>
 
   <section>
@@ -118,17 +118,18 @@ h3 { font: 500 22px/1.2 var(--serif); margin: 0; color: var(--heading); }
   </section>
 
   <section>
-    <p class="eyebrow">Dos paquetes</p>
+    <p class="eyebrow">La propuesta</p>
     <div class="plans">
-      <div class="plan">
-        <span class="tag">Esencial</span>
-        <h3>Agenda y recordatorios</h3>
+      <div class="plan featured">
+        <span class="tag">Agenda Okio</span>
+        <h3>Agenda, recordatorios y confirmaciones</h3>
         <ul>
           <li>Una sola agenda, con el tratamiento en cada turno</li>
-          <li>Recordatorios con un mensaje fijo que completa solo el tratamiento, el día y la hora</li>
+          <li>Recordatorios y confirmaciones con un mensaje fijo que completa solo el tratamiento, el día, la hora y las indicaciones</li>
+          <li>"Enviar" abre WhatsApp con el mensaje listo; recepción lo revisa y lo manda</li>
+          <li>Reprogramar en dos toques: ver los huecos de la semana, tocar uno y el turno nuevo ya viene con los datos de la clienta</li>
           <li>Lista de turnos pendientes sin fecha, para no perder ninguno</li>
-          <li>Pasamos lo que hoy está en Calendar y Excel</li>
-          <li>Capacitación para recepción</li>
+          <li>Pasamos lo que hoy está en Calendar y Excel, y capacitamos a recepción</li>
         </ul>
         <div class="price">
           <div class="row"><span class="label">Puesta en marcha</span><span class="amount">US$300</span></div>
@@ -136,35 +137,29 @@ h3 { font: 500 22px/1.2 var(--serif); margin: 0; color: var(--heading); }
           <div class="row"><span class="label">Abono mensual</span><span class="amount">US$40 <small>/ mes</small></span></div>
         </div>
       </div>
-      <div class="plan featured">
-        <span class="tag">Completo</span>
-        <h3>Todo lo anterior, más la IA para contestar</h3>
+      <div class="plan">
+        <span class="tag">Paso siguiente · se cotiza aparte</span>
+        <h3>Mensajes que llegan y se ordenan solos</h3>
         <ul>
-          <li>Todo lo del paquete Esencial</li>
-          <li>Recepción pega el mensaje de la clienta y la IA propone una respuesta con la voz de recepción</li>
-          <li>Para los mensajes que cambian cada vez: cancelaciones, cambios de horario, consultas</li>
-          <li>La IA mira la agenda: propone huecos libres y tiene en cuenta los tratamientos de la clienta</li>
-          <li>Recepción revisa, edita y aprueba: nada se envía solo</li>
-          <li>"Enviar" abre WhatsApp con el mensaje listo, sin costo extra de WhatsApp</li>
+          <li>Se conecta el WhatsApp de Okio: los mensajes de las clientas aparecen solos en el sistema, sin copiar y pegar</li>
+          <li>La IA los lee y los ordena: marca quién canceló, quién confirmó y quién pregunta algo</li>
+          <li>El turno de esa clienta queda marcado para revisar, así recepción no tiene que leer todo</li>
+          <li>Recepción sigue decidiendo y contestando: nada se envía solo</li>
         </ul>
-        <div class="price">
-          <div class="row"><span class="label">Puesta en marcha</span><span class="amount">US$450</span></div>
-          <div class="row"><span class="label">Precio clienta fundadora</span><span class="founder">US$315</span></div>
-          <div class="row"><span class="label">Abono mensual</span><span class="amount">US$50 <small>/ mes</small></span></div>
-        </div>
+        <p style="font-size:14px;color:var(--muted)">Tiene sentido cuando llegan muchos mensajes por día. Necesita un trámite con Meta, que lleva unos días, y el acuerdo de privacidad firmado.</p>
       </div>
     </div>
   </section>
 
   <div class="founder-box">
     <p class="eyebrow">Precio de clienta fundadora</p>
-    <p class="big">30% menos en la puesta en marcha si arrancamos <em>antes del 31 de octubre</em>.</p>
+    <p class="big">30% menos en la puesta en marcha, <em>por ser mi primera clienta</em>.</p>
     <p>A cambio, Okio me autoriza a mostrar el proyecto en mi portfolio y me cuenta qué le pareció después del primer mes. El abono mensual no cambia.</p>
   </div>
 
   <div class="infra">
     <p class="eyebrow">Sin costo de servidores</p>
-    <p>El sistema funciona en internet sin costo de alojamiento: el servicio que usamos (Cloudflare) es gratis para el tamaño de una clínica. Okio no paga nada aparte. El abono mensual cubre el mantenimiento, una copia de seguridad semanal de los datos y ajustes chicos de hasta 2 horas por mes.</p>
+    <p>El sistema funciona en internet sin costo de alojamiento: el servicio que usamos (Cloudflare) es gratis para el tamaño de una clínica, y los mensajes salen desde el WhatsApp de siempre, así que WhatsApp no cobra nada. Okio no paga nada aparte. El abono mensual cubre el mantenimiento, una copia de seguridad semanal de los datos y ajustes chicos de hasta 2 horas por mes.</p>
   </div>
 
   <section>
@@ -184,7 +179,7 @@ h3 { font: 500 22px/1.2 var(--serif); margin: 0; color: var(--heading); }
         <ul>
           <li>Historia clínica y fotos de pacientes.</li>
           <li>Cargar datos de clientas antes de firmar el acuerdo de privacidad.</li>
-          <li>Que los mensajes de las clientas lleguen solos al sistema: siguen llegando a WhatsApp como hoy (se cotiza aparte).</li>
+          <li>El paso siguiente: conectar WhatsApp y la IA que ordena los mensajes (se cotiza aparte).</li>
           <li>Instagram y el envío automático de mensajes por WhatsApp (se cotizan aparte, y WhatsApp cobra esos envíos).</li>
           <li>Soporte fuera del horario de la clínica.</li>
         </ul>
@@ -194,7 +189,7 @@ h3 { font: 500 22px/1.2 var(--serif); margin: 0; color: var(--heading); }
 
   <div class="next">
     <p class="eyebrow">Siguiente paso</p>
-    <p>Elegimos el paquete, firmamos el acuerdo de privacidad y acordamos juntas la fecha de arranque.</p>
+    <p>Firmamos el acuerdo de privacidad y acordamos juntas la fecha de arranque.</p>
   </div>
 
   <section class="annex">
@@ -205,31 +200,16 @@ h3 { font: 500 22px/1.2 var(--serif); margin: 0; color: var(--heading); }
     </div>
     <div class="table-wrap">
       <table class="breakdown">
-        <caption>Esencial</caption>
+        <caption>Agenda Okio</caption>
         <thead><tr><th>Tarea</th><th class="num">Horas</th><th class="num">US$</th></tr></thead>
         <tbody>
           <tr><td>Charla con recepción para conocer cómo trabajan hoy</td><td class="num">3</td><td class="num">36</td></tr>
           <tr><td>Agenda con el tratamiento en cada turno y lista de pendientes sin fecha</td><td class="num">6</td><td class="num">72</td></tr>
-          <tr><td>Mensaje fijo de recordatorio, con el tratamiento y sus indicaciones</td><td class="num">3</td><td class="num">36</td></tr>
+          <tr><td>Mensajes fijos de recordatorio y confirmación, con el tratamiento y sus indicaciones</td><td class="num">3</td><td class="num">36</td></tr>
           <tr><td>Dejar el sistema funcionando en internet, con copia de seguridad de los datos</td><td class="num">6</td><td class="num">72</td></tr>
           <tr><td>Pasar los datos de Calendar y Excel</td><td class="num">4</td><td class="num">48</td></tr>
           <tr><td>Capacitación a recepción y acompañamiento la primera semana</td><td class="num">3</td><td class="num">36</td></tr>
-          <tr class="total"><td>Total Esencial</td><td class="num">25</td><td class="num">300</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="table-wrap">
-      <table class="breakdown">
-        <caption>Completo: Esencial más la IA para contestar</caption>
-        <thead><tr><th>Tarea</th><th class="num">Horas</th><th class="num">US$</th></tr></thead>
-        <tbody>
-          <tr><td>Todo lo del paquete Esencial</td><td class="num">25</td><td class="num">300</td></tr>
-          <tr><td>Enseñarle a la IA a escribir como recepción, con mensajes de ejemplo sin datos personales</td><td class="num">3</td><td class="num">36</td></tr>
-          <tr><td>Pantalla para pegar el mensaje de la clienta y ver la respuesta propuesta, con un botón que abre WhatsApp con el mensaje listo</td><td class="num">3</td><td class="num">36</td></tr>
-          <tr><td>Que la IA mire la agenda: huecos libres y tratamientos de cada clienta</td><td class="num">3</td><td class="num">36</td></tr>
-          <tr><td>Probar con mensajes reales y corregir lo que haga falta</td><td class="num">2</td><td class="num">24</td></tr>
-          <tr><td>Capacitación sobre la IA</td><td class="num">1,5</td><td class="num">18</td></tr>
-          <tr class="total"><td>Total Completo</td><td class="num">37,5</td><td class="num">450</td></tr>
+          <tr class="total"><td>Total</td><td class="num">25</td><td class="num">300</td></tr>
         </tbody>
       </table>
     </div>

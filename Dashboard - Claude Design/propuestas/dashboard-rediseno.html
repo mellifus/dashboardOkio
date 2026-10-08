@@ -110,7 +110,7 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
 main{container-type:inline-size} /* Inicio y Agenda se acomodan al ancho del contenido, no de la ventana */
 
 /* Inicio: editorial, sin tarjetas salvo "Para resolver ahora" */
-.home{max-width:1120px;margin:0 auto;padding:20px 20px 32px;display:flex;flex-direction:column;gap:40px}
+.home{padding:0 0 32px;display:flex;flex-direction:column;gap:40px} /* mismo margen que Agenda: el de main, sin ancho máximo propio */
 .home-head{display:flex;align-items:flex-end;gap:32px}
 .home-head>div{flex:1;min-width:0}
 .home .hoy{font-size:112px;line-height:.92;letter-spacing:-.035em;color:var(--accent)}
@@ -394,7 +394,7 @@ textarea.field{resize:vertical;line-height:1.45}
 }
 @container (max-width:640px){
   .wk-in{min-width:760px}
-  .home{padding:8px 2px 28px;gap:28px}
+  .home{padding:0 0 28px;gap:28px}
   .home-head,.hero-top,.need-row{flex-direction:column;align-items:stretch;gap:16px}
   .home .hoy{font-size:72px}
   .home .fecha{font-size:24px;margin-top:10px}

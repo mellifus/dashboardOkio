@@ -70,6 +70,14 @@ Registro cronológico de cada decisión de arquitectura o de producto. Anota el 
 **Alcance que queda:** la demo puede mostrar mensajes de WhatsApp, pero no conecta ningún canal real. La integración real de WhatsApp también espera: hay que validarla con Okio y resolver privacidad, consentimiento, autenticación y protección de tokens.
 **Estado:** Ratificada para el MVP actual; revisar después de hablar con Okio.
 
+### D11 · Infraestructura de producción: Cloudflare Workers + D1
+**Fecha:** 2026-10-08
+**Decisión:** La versión real corre en Cloudflare Workers (servidor) con D1 (base de datos), en sus planes gratis. Render queda solo para la demo.
+**Razonamiento:** el plan gratis de Render no sirve para producción: el servidor se duerme a los 15 minutos (tarda ~1 minuto en despertar) y la base gratis vence a los 30 días y se borra 14 días después, sin backups. Cloudflare no se duerme, los datos no vencen, todo queda en una sola cuenta y el volumen de una clínica (cientos de pedidos por día, pocos MB) entra holgado en el plan gratis (~100.000 pedidos/día, según fuentes de terceros). Así Okio no paga servidores; el único costo fijo es la API de Claude (~US$3–5/mes, solo con la IA).
+**Alternativas consideradas:** Render pago (~US$15/mes entre servidor y base); Neon (Postgres gratis, 0,5 GB por proyecto) con otro servidor. Neon queda como alternativa si se prefiere Postgres; falta confirmar si su plan gratis permite uso comercial.
+**Trade-off aceptado:** hay que adaptar el código de Render a Workers (horas que van en la puesta en marcha); los backups gratis son limitados, así que Meli hace una copia semanal como parte del mantenimiento; los planes gratis pueden cambiar (si se recorta, el plan pago de Workers ronda los US$5/mes, a verificar).
+**Estado:** Decidida. La migración se hace recién cuando Okio acepte la propuesta. Verificar límites y términos en las páginas oficiales de Cloudflare antes de migrar.
+
 ## Abiertas (sin decidir, a propósito)
 
 ### O1 · Layer vs. Platform

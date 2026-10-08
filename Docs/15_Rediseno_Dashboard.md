@@ -44,6 +44,7 @@ El rediseño se diseña para **recepción**. Los otros dos roles quedan para cua
 - **Horario real:** lunes a viernes, 09–13 y 15–20. El corte de 13 a 15 es una franja rayada angosta, "Cerrado 13–15", no dos horas vacías. La línea "Ahora" separa los turnos que ya empezaron de los que vienen.
 - **Vista por defecto:** Día. La demo abre en **Inicio** (diseño V3 "Editorial"): "Hoy" en grande, tres números, los turnos de hoy y "Para resolver ahora" (conversaciones que esperan respuesta y clientas sin turno para volver a contactar).
 - **Dispositivo principal:** la notebook de recepción.
+- **Fechas reales (2026-10-08, pedido de Meli):** la demo toma la fecha del día en que se abre: el resumen, Inicio, la Semana, los mensajes y Nuevo turno usan esa fecha. La hora queda fija en 15:20 para que el recorrido funcione igual siempre. Sábado y domingo (Okio cerrado) toma el lunes siguiente. Nuevo turno ofrece los próximos 5 días hábiles.
 
 ### Vista Semana
 

@@ -127,8 +127,8 @@ textarea:disabled { color: var(--muted); font-style: italic; }
         <div class="bubble">Hola! No voy a poder ir hoy, me surgió algo del trabajo. Perdón!<small>Sofía Ramos · 14:52</small></div>
         <dl>
           <dt>Su turno</dt><dd>Hoy, 15:00 a 15:40 · Depilación definitiva</dd>
-          <dt>Otro turno</dt><dd>Viernes 10:00 · Peeling corporal</dd>
-          <dt>Huecos libres</dt><dd>Hoy 18:00 · Mañana 16:30 · Viernes 16:00</dd>
+          <dt>Otro turno</dt><dd>Martes 10:00 · Peeling corporal</dd>
+          <dt>Huecos libres</dt><dd>Hoy 18:00 · Mañana 16:30 · Martes 16:00</dd>
         </dl>
       </div>
       <div class="actions"><button class="btn" id="prep-ia">Proponer respuesta</button></div>
@@ -144,7 +144,7 @@ textarea:disabled { color: var(--muted); font-style: italic; }
         <p class="eyebrow">Por qué propone esto</p>
         <ul class="why">
           <li>Ofrece dos huecos libres que entran en los 40 minutos de la depilación.</li>
-          <li>Descarta el viernes porque Sofía tiene peeling corporal ese día, y la regla de la clínica es no juntarlo con depilación.</li>
+          <li>Descarta el martes porque Sofía tiene peeling corporal ese día, y la regla de ejemplo es no juntarlo con depilación.</li>
           <li>Responde con el tono de recepción y deja que Sofía elija.</li>
         </ul>
       </div>
@@ -152,7 +152,7 @@ textarea:disabled { color: var(--muted); font-style: italic; }
       <div class="sub">
         <p class="eyebrow">Con un mensaje fijo quedaría</p>
         <p class="generic">Hola Sofía! Lamentamos que no puedas venir. Querés reprogramar? Saludos!</p>
-        <p class="how">Y recepción igual tendría que buscar los huecos, acordarse del peeling del viernes y escribir la propuesta a mano. Eso es lo que hace la IA.</p>
+        <p class="how">Y recepción igual tendría que buscar los huecos, acordarse del peeling del martes y escribir la propuesta a mano. Eso es lo que hace la IA, y lo que cuesta está dentro del abono.</p>
       </div>
     </section>
   </div>
@@ -164,7 +164,7 @@ textarea:disabled { color: var(--muted); font-style: italic; }
 <script>
 var TEXTO = {
   rec: "Hola Luciana! Te recordamos tu turno de hoy a las 16:00 para peeling facial y depilación definitiva. Para ese día: venir con la cara limpia y sin maquillaje. Venir rasurada y sin cremas. Nos confirmás si venís? Saludos!",
-  ia: "No pasa nada Sofía! Te puedo ofrecer hoy a las 18:00 o mañana a las 16:30 para la depi. El viernes mejor no, que tenés el peeling corporal y no conviene juntarlos. Cuál te queda mejor?"
+  ia: "No pasa nada Sofía! Te puedo ofrecer hoy a las 18:00 o mañana a las 16:30 para la depi. El martes mejor no, que tenés el peeling corporal y no conviene juntarlos. Cuál te queda mejor?"
 };
 var BADGE = { rec: '<span class="badge fixed">Mensaje fijo</span>', ia: '<span class="badge ai">Propuesta de la IA</span>' };
 var ESPERA = { rec: "Esperando que prepares el recordatorio", ia: "Esperando que pidas la respuesta" };

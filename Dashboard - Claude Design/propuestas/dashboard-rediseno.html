@@ -108,6 +108,9 @@ h1 em{color:var(--gold-big)} /* la arena dorada da 2,5:1 sobre marfil; este tono
 .seg{display:inline-flex;gap:6px}
 .seg button{font:600 11px var(--sans);padding:6px 11px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer}
 .seg button.on{background:var(--solid-bg);border-color:var(--solid-bg);color:var(--solid-text)}
+.seg button:disabled{opacity:.4;cursor:default}
+.seg[hidden]{display:none}
+.switch{flex-wrap:wrap}
 
 /* Botones del rediseño (Inicio y Agenda · Día) */
 .btn{font:600 12px var(--sans);border-radius:10px;padding:10px 16px;min-height:40px;cursor:pointer;white-space:nowrap;border:1px solid var(--line);background:var(--surface);color:var(--accent)}
@@ -240,6 +243,27 @@ main{container-type:inline-size} /* Inicio y Agenda se acomodan al ancho del con
 .bl.sel{outline:2px solid var(--text);outline-offset:1px;z-index:3}
 .legend.wk-legend i{display:inline-block;width:14px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;box-sizing:border-box}
 .sub{margin:6px 0 0;font-size:12px;color:var(--muted)}
+/* Mes: lunes a viernes anchos, sábado y domingo angostos (cerrados) */
+.mes{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.mes-top,.mes-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr)) repeat(2,minmax(0,.55fr))}
+.mes-top{border-bottom:1px solid var(--line)}
+.mes-top div{padding:8px 10px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.mes-grid{gap:1px;background:var(--line)}
+.mes-d{position:relative;display:flex;min-height:96px;min-width:0;background:var(--surface)}
+.mes-d.fuera{background:var(--page)}
+.mes-d.hoy{background:var(--today-col)}
+.mes-d.cerr{background:repeating-linear-gradient(135deg,transparent 0 6px,color-mix(in srgb,var(--line) 70%,transparent) 6px 7px),var(--page)}
+.mes-ir{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0;padding:8px 10px;border:0;background:transparent;color:var(--text);font:inherit;text-align:left}
+button.mes-ir{cursor:pointer} button.mes-ir:hover{background:color-mix(in srgb,var(--page) 70%,transparent)}
+.mes-n{font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
+.mes-d.hoy .mes-n{color:var(--accent)}
+.mes-d.fuera .mes-n,.mes-d.pasado .mes-n,.mes-d.cerr .mes-n{color:var(--muted);font-weight:500}
+.mes-t{display:flex;align-items:center;gap:4px;font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mes-t b{color:var(--accent);font-weight:600;font-variant-numeric:tabular-nums}
+.mes-d.pasado .mes-t,.mes-d.pasado .mes-t b{color:var(--muted)}
+.mes-t span{overflow:hidden;text-overflow:ellipsis}
+.mes-c{display:none;font-size:10.5px;color:var(--muted)}
+.mes-mas{position:absolute;top:5px;right:5px;width:28px;height:28px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--accent);font:600 14px/1 var(--sans);cursor:pointer}
 /* Toast de "Deshacer" (2d): se cierra solo a los 5 s */
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:20;display:flex;align-items:center;gap:14px;max-width:calc(100% - 32px);box-sizing:border-box;padding:10px 12px 10px 16px;border-radius:12px;background:var(--hero);color:var(--hero-text);font-size:12px;box-shadow:0 8px 24px var(--shadow)}
 .toast[hidden]{display:none}
@@ -282,6 +306,8 @@ textarea.field{resize:vertical;line-height:1.45}
 .av.nueva{background:var(--pend-bg);color:var(--pend-text)}
 .chips{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
 .chips.horas{gap:6px;margin-top:4px}
+.otra{display:flex;align-items:center;gap:10px;font-size:11.5px;color:var(--muted)}
+.otra .field{flex:1;width:auto;min-height:40px;padding:8px 12px}
 .chip{min-height:44px;padding:6px 8px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border:1px solid var(--line);background:var(--surface);color:var(--accent);font:600 11.5px var(--sans);font-variant-numeric:tabular-nums;white-space:nowrap;cursor:pointer}
 .chip small{font-size:10px;font-weight:400;color:var(--muted)}
 .chip.on{background:var(--solid-bg);border-color:var(--solid-bg);color:var(--solid-text)}
@@ -402,6 +428,11 @@ textarea.field{resize:vertical;line-height:1.45}
 }
 @container (max-width:640px){
   .wk-in{min-width:760px}
+  .mes-top div{padding:6px 4px;text-align:center;font-size:10px;letter-spacing:0}
+  .mes-d{min-height:64px}
+  .mes-ir{padding:6px 5px}
+  .mes-t{display:none} .mes-c{display:block}
+  .mes-mas{top:auto;bottom:4px;right:4px}
   .home{padding:0 0 28px;gap:28px}
   .home-head,.hero-top,.need-row{flex-direction:column;align-items:stretch;gap:16px}
   .home .hoy{font-size:57.5px}
@@ -464,8 +495,11 @@ textarea.field{resize:vertical;line-height:1.45}
         <p class="sub" id="bajada" hidden></p>
       </div>
       <div class="switch">
+        <div class="seg" id="paso" role="group" aria-label="Cambiar de período" hidden><button id="paso-ant" onclick="pasar(-1)">‹</button>
+        <button id="paso-hoy" onclick="pasar(0)">Hoy</button><button id="paso-sig" onclick="pasar(1)">›</button></div>
         <div class="seg" role="group" aria-label="Vista"><button class="on" id="btn-dia" aria-pressed="true" onclick="ver('dia')">Día</button>
-        <button id="btn-semana" aria-pressed="false" onclick="ver('semana')">Semana</button></div>
+        <button id="btn-semana" aria-pressed="false" onclick="ver('semana')">Semana</button>
+        <button id="btn-mes" aria-pressed="false" onclick="ver('mes')">Mes</button></div>
         <button class="btn primary" id="btn-turno" onclick="nuevoTurno()">+ Nuevo turno</button>
       </div>
     </header>
@@ -488,6 +522,11 @@ textarea.field{resize:vertical;line-height:1.45}
         <span><i class="bl-pend"></i>Sin confirmar</span>
         <span><i class="bl-past"></i>Atendido</span>
       </div>
+    </div>
+
+    <!-- Mes: un casillero por día. Tocar el día abre su semana; "+" agenda un turno ese día. -->
+    <div id="vista-mes" hidden>
+      <section id="cal-mes" class="mes" aria-label="Agenda del mes"></section>
     </div>
     <p class="legend">Datos ficticios · logo provisorio</p>
     </section>
@@ -541,14 +580,19 @@ var HOY_FECHA = new Date(); HOY_FECHA.setHours(12, 0, 0, 0);
 var HOY_D = (HOY_FECHA.getDay() + 6) % 7; // lunes = 0
 if (HOY_D > 4) { HOY_FECHA.setDate(HOY_FECHA.getDate() + 7 - HOY_D); HOY_D = 0; }
 function fechaDe(desdeHoy){ var x = new Date(HOY_FECHA); x.setDate(x.getDate() + desdeHoy); return x; }
-// Dos semanas desde el lunes de esta: la Semana muestra lunes a sábado; el resto es para turnos de la que viene.
+// Diez semanas desde el lunes de esta (índice 0): alcanza para ver y agendar el mes que viene entero.
+// De la tercera semana en adelante, las fechas llevan el mes ("martes 10 de noviembre"), si no se confunden.
 var DIAS = [];
-for (var k = 0; k < 14; k++) {
-  var fk = fechaDe(k - HOY_D);
-  DIAS.push({d:CORTOS[k % 7], n:fk.getDate(), largo:NOMBRES[k % 7] + ' ' + fk.getDate(), mes:MESES[fk.getMonth()]});
+for (var k = 0; k < 70; k++) {
+  var fk = fechaDe(k - HOY_D), mk = MESES[fk.getMonth()];
+  DIAS.push({d:CORTOS[k % 7], n:fk.getDate(), f:fk, mes:mk,
+    largo:NOMBRES[k % 7] + ' ' + fk.getDate() + (k >= 14 ? ' de ' + mk : ''),
+    c:CORTOS[k % 7] + ' ' + fk.getDate() + (k >= 14 ? ' ' + mk.slice(0, 3) : '')});
 }
+// Índice en DIAS de una fecha (puede dar fuera de rango).
+function indice(x){ return Math.round((x - DIAS[0].f) / 864e5); }
 function finde(d){ return d % 7 >= 5; }
-function fechaLarga(d){ return DIAS[d].largo + ' de ' + DIAS[d].mes; } // "viernes 9 de octubre"
+function fechaLarga(d){ return NOMBRES[d % 7] + ' ' + DIAS[d].n + ' de ' + DIAS[d].mes; } // "viernes 9 de octubre"
 // Separador de día en un chat ("Lunes 5"), contado desde hoy.
 function diaChat(desdeHoy){ var x = fechaDe(desdeHoy), n = NOMBRES[(x.getDay() + 6) % 7]; return n.charAt(0).toUpperCase() + n.slice(1) + ' ' + x.getDate(); }
 var SIG = HOY_D < 4 ? HOY_D + 1 : 7; // próximo día hábil
@@ -571,7 +615,8 @@ var ESTADOS = {
 var CLIENTAS = [
   {nombre:'Agustina Paz', tel:'+54 351 000-0001', desde:'enero 2026', ultima:'Jueves 20 de agosto · Peeling facial',
    prox:{tx:'Peeling facial', estado:'ok'}},
-  {nombre:'Camila Reyes', tel:'+54 351 000-0002', desde:'mayo 2026', ultima:'Martes 8 de septiembre · Limpieza facial profunda', prox:null},
+  {nombre:'Camila Reyes', tel:'+54 351 000-0002', desde:'mayo 2026', ultima:'Martes 8 de septiembre · Limpieza facial profunda',
+   prox:{tx:'Limpieza facial profunda', estado:'ok'}},
   {nombre:'Florencia Díaz', tel:'+54 351 000-0003', desde:'junio 2026', ultima:'Jueves 27 de agosto · Depilación definitiva', prox:null},
   {nombre:'Luciana Ferreyra', tel:'+54 351 000-0000', desde:'marzo 2026', ultima:'Jueves 3 de septiembre · Peeling facial',
    prox:{tx:'Peeling facial + Depilación definitiva', estado:'pend'}},
@@ -696,12 +741,13 @@ function elegirConversacion(i){
 }
 
 // Turnos de clientas con ficha (casi todos hoy; d = día si no es hoy). Estado y tratamientos salen de CLIENTAS;
-// rec = cómo va el recordatorio. La demo tiene 6 turnos en toda la semana: estos 4 y los 2 de OTROS.
+// rec = cómo va el recordatorio. La demo tiene 7 turnos: estos 5 y los 2 de OTROS. Camila es de la semana que viene.
 var HOY = [
   {c:'Valentina Sosa',   ini:'09:00', fin:'10:00', rec:'Enviado ayer · confirmó'},
   {c:'Sofía Ramos',      ini:'15:00', fin:'15:40', rec:'Enviado · avisó que no puede venir'},
   {c:'Luciana Ferreyra', ini:'16:00', fin:'17:30', rec:'Todavía no enviado'},
-  {c:'Agustina Paz',     ini:'10:00', fin:'11:00', rec:'Enviado hoy · confirmó', d:SIG}
+  {c:'Agustina Paz',     ini:'10:00', fin:'11:00', rec:'Enviado hoy · confirmó', d:SIG},
+  {c:'Camila Reyes',     ini:'11:00', fin:'12:00', rec:'Todavía no enviado', d:8} // martes de la semana que viene
 ];
 HOY.forEach(function(t){ var p = clientaDe(t.c).prox; if (t.d == null) t.d = HOY_D; t.tx = p.tx; t.estado = p.estado; });
 // Toda la semana en una sola lista, para poder mover turnos entre días. Los de hoy van primero:
@@ -721,7 +767,7 @@ function delDia(d){
 function deHoy(){ return delDia(HOY_D); }
 function diaLargo(d){ return d === HOY_D ? 'hoy, ' + DIAS[d].largo : DIAS[d].largo; }
 // Fecha del turno de una clienta, para Clientes y Mensajes. Sale del turno, así sigue bien si se lo mueve.
-function cuandoCorto(nombre){ var t = TURNOS[turnoDe(nombre)]; return DIAS[t.d].d + ' ' + DIAS[t.d].n + ' · ' + t.ini; }
+function cuandoCorto(nombre){ var t = TURNOS[turnoDe(nombre)]; return DIAS[t.d].c + ' · ' + t.ini; }
 function cuandoLargo(nombre){ var t = TURNOS[turnoDe(nombre)], l = DIAS[t.d].largo; return l.charAt(0).toUpperCase() + l.slice(1) + ' · ' + t.ini + '–' + t.fin; }
 
 // Estado de un turno de hoy, visto desde recepción. "Avisó que no viene" y "sin confirmar" pesan más que la hora.
@@ -819,7 +865,7 @@ function bloque(i, dia){
   var dentro = dia
     ? '<span class="fila">' + hora + '<b>' + t.c + '</b></span><span class="tx">' + t.tx + '</span>'
     : hora + '<b>' + t.c + '</b>' + (alto > 58 ? '<span class="tx">' + t.tx + '</span>' : '');
-  return '<button class="bl bl-' + tipo + (alto < 44 ? ' una' : '') + (dia && i === turnoSel ? ' sel' : '') + '" data-i="' + i + '"' +
+  return '<button class="bl bl-' + tipo + (alto < 44 ? ' una' : '') + ((dia ? i === turnoSel : i === marcado) ? ' sel' : '') + '" data-i="' + i + '"' +
     ' style="top:' + (yS(a) + 1) + 'px;height:' + alto + 'px;left:calc(' + (100 * t.k / t.n) + '% + 3px);width:calc(' + (100 / t.n) + '% - 6px)"' +
     ' title="' + t.ini + '–' + t.fin + ' · ' + t.c + ' — ' + t.tx + ' · ' + estado + '"' +
     (pasado ? '' : ' onpointerdown="agarrar(event,' + i + ')" onpointermove="arrastrar(event)" onpointerup="soltar()" onpointercancel="cancelar()"') +
@@ -841,10 +887,57 @@ function pintarCal(id, dias){
   document.getElementById(id).innerHTML = '<div class="wk-in"><div class="wk-top">' + top + '</div><div class="wk-body">' + body + '</div></div>';
 }
 
+// semana: cuál se ve (0 = esta, hasta la última de DIAS). mes: 0 = este, 1 = el que viene.
+// marcado: el turno que se fue a buscar con "Ver en Agenda", resaltado en la Semana.
+var semana = 0, mes = 0, marcado = -1, ULT_SEM = DIAS.length / 7 - 1;
 function pintarSemana(){
-  pintarCal('cal-semana', [0, 1, 2, 3, 4, 5]);
+  var lun = semana * 7, n = TURNOS.filter(function(t){ return Math.floor(t.d / 7) === semana; }).length;
+  pintarCal('cal-semana', [lun, lun + 1, lun + 2, lun + 3, lun + 4, lun + 5]);
+  document.getElementById('titulo').textContent = 'Semana del ' + DIAS[lun].n + ' de ' + DIAS[lun].mes;
   document.getElementById('bajada').textContent = REPROG ? 'Reprogramando a ' + REPROG + ' · Tocá un espacio libre y el turno nuevo sale con sus datos'
-    : TURNOS.length + ' turnos · Arrastrá un turno para moverlo · Tocalo para ver el detalle';
+    : n + (n === 1 ? ' turno' : ' turnos') + ' · Arrastrá un turno para moverlo · Tocalo para ver el detalle';
+  pasos(semana > 0, semana < ULT_SEM, 'Semana anterior', 'Semana siguiente', 'Volver a esta semana');
+}
+function pasos(ant, sig, lAnt, lSig, lHoy){
+  document.getElementById('paso-ant').disabled = !ant; document.getElementById('paso-ant').setAttribute('aria-label', lAnt);
+  document.getElementById('paso-sig').disabled = !sig; document.getElementById('paso-sig').setAttribute('aria-label', lSig);
+  document.getElementById('paso-hoy').setAttribute('aria-label', lHoy);
+}
+// ‹ › Hoy: semana o mes, según la vista. Si el botón tocado se deshabilita, el foco pasa a "Hoy".
+function pasar(n){
+  if (vista === 'semana') { semana = n ? Math.max(0, Math.min(ULT_SEM, semana + n)) : 0; pintarSemana(); mostrarAhora(); }
+  else { mes = n ? Math.max(0, Math.min(1, mes + n)) : 0; pintarMes(); }
+  if (document.activeElement && document.activeElement.disabled) document.getElementById('paso-hoy').focus();
+}
+function irASemana(d){ semana = Math.floor(d / 7); ver('semana'); }
+
+// Mes: casilleros de lunes a domingo. Los días fuera de DIAS (antes de este lunes) se ven sin datos.
+function pintarMes(){
+  var p = new Date(HOY_FECHA.getFullYear(), HOY_FECHA.getMonth() + mes, 1, 12), m = p.getMonth();
+  var x = new Date(p); x.setDate(1 - (p.getDay() + 6) % 7);
+  var celdas = Math.ceil(((p.getDay() + 6) % 7 + new Date(p.getFullYear(), m + 1, 0).getDate()) / 7) * 7;
+  var html = '', n = 0;
+  for (var j = 0; j < celdas; j++, x.setDate(x.getDate() + 1)) {
+    var d = indice(x), hay = d >= 0 && d < DIAS.length, ids = hay ? delDia(d) : [], cerr = j % 7 >= 5;
+    var clase = 'mes-d' + (x.getMonth() !== m ? ' fuera' : '') + (cerr ? ' cerr' : '') + (d === HOY_D ? ' hoy' : '') + (d < HOY_D ? ' pasado' : '');
+    if (x.getMonth() === m) n += ids.length;
+    var fecha = NOMBRES[j % 7] + ' ' + x.getDate() + ' de ' + MESES[x.getMonth()];
+    var dentro = '<span class="mes-n">' + x.getDate() + '</span>' + (cerr ? '<small class="mes-t">Cerrado</small>' : '') +
+      ids.slice(0, 3).map(function(i){ var t = TURNOS[i]; return '<span class="mes-t">' + (t.estado !== 'ok' && !fue(t) ? '<i class="dot"></i>' : '') + '<b>' + t.ini + '</b><span>' + t.c + '</span></span>'; }).join('') +
+      (ids.length > 3 ? '<small class="mes-t">+' + (ids.length - 3) + ' más</small>' : '') +
+      (ids.length ? '<small class="mes-c">' + ids.length + '</small>' : '');
+    var cuantos = ids.length ? ids.length + (ids.length === 1 ? ' turno' : ' turnos') : 'sin turnos';
+    html += '<div class="' + clase + '">' +
+      (hay && !cerr ? '<button class="mes-ir" onclick="irASemana(' + d + ')" aria-label="' + fecha + ', ' + cuantos + '. Ver la semana">' + dentro + '</button>'
+                    : '<div class="mes-ir">' + dentro + '</div>') +
+      (hay && !cerr && d >= HOY_D && x.getMonth() === m ? '<button class="mes-mas" onclick="abrirNuevo({d:' + d + '})" aria-label="Nuevo turno el ' + fecha + '">+</button>' : '') + '</div>';
+  }
+  document.getElementById('cal-mes').innerHTML = '<div class="mes-top">' + CORTOS.map(function(c){ return '<div>' + c + '</div>'; }).join('') + '</div>' +
+    '<div class="mes-grid">' + html + '</div>';
+  document.getElementById('titulo').textContent = MESES[m].charAt(0).toUpperCase() + MESES[m].slice(1) + ' ' + p.getFullYear();
+  document.getElementById('bajada').textContent = REPROG ? 'Reprogramando a ' + REPROG + ' · Tocá + en un día para elegir el horario'
+    : n + (n === 1 ? ' turno' : ' turnos') + ' · Tocá un día para ver su semana · Con + agendás un turno ese día';
+  pasos(mes > 0, mes < 1, 'Mes anterior', 'Mes siguiente', 'Volver a este mes');
 }
 // Reprogramar desde Mensajes: la Semana recuerda a la clienta hasta que se agenda o se sale de Agenda.
 var REPROG = null;
@@ -934,7 +1027,7 @@ function libres(d, dur){
   }
   return out;
 }
-function diaCorto(d){ return d === HOY_D ? 'Hoy' : DIAS[d].d + ' ' + DIAS[d].n; }
+function diaCorto(d){ return d === HOY_D ? 'Hoy' : DIAS[d].c; }
 function iniciales(n){ return n.split(' ').map(function(w){ return w[0]; }).slice(0, 2).join('').toUpperCase(); }
 
 // pre: {d, hora} desde un espacio libre de la Semana, o {cliente} desde una ficha.
@@ -942,7 +1035,7 @@ function abrirNuevo(pre){
   pre = pre || {};
   var r = !pre.cliente && REPROG && clientaDe(REPROG), tx = r && r.prox && durDe(r.prox.tx) ? r.prox.tx : '';
   if (r) pre.cliente = r.nombre;
-  F = {q:'', cliente: pre.cliente ? {nombre:pre.cliente} : null, tel:'', tx:tx, d: pre.d != null && pre.d >= HOY_D ? pre.d : HOY_D,
+  F = {q:'', cliente: pre.cliente ? {nombre:pre.cliente} : null, tel:'', tx:tx, d: pre.d >= HOY_D && pre.d < DIAS.length ? pre.d : HOY_D,
        hora: pre.hora || '', wa:true, notas:'', intentado:false};
   F.inicial = cargado();
   F.volver = document.activeElement;
@@ -996,9 +1089,9 @@ function pintarForm(){
   var err = erroresForm(), dur = durDe(F.tx), slots = F.tx ? libres(F.d, dur) : [], hora = slots.indexOf(F.hora) >= 0 ? F.hora : '';
   var c = F.cliente, cuerpo;
   if (c) {
-    var semana = TURNOS.filter(function(t){ return t.c === c.nombre && !fue(t); }).length;
+    var reservados = TURNOS.filter(function(t){ return t.c === c.nombre && !fue(t); }).length;
     cuerpo = '<div class="cli"><div><span class="av' + (c.nueva ? ' nueva' : '') + '">' + iniciales(c.nombre) + '</span><span><b>' + esc(c.nombre) + '</b><small>' +
-      (c.nueva ? 'Nueva clienta' : semana ? semana + (semana === 1 ? ' turno' : ' turnos') + ' esta semana' : 'Clienta existente') + '</small></span></div>' +
+      (c.nueva ? 'Nueva clienta' : reservados ? reservados + (reservados === 1 ? ' turno reservado' : ' turnos reservados') : 'Clienta existente') + '</small></span></div>' +
       (c.nueva ? '<input class="field" id="nt-tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="Ej.: 351 555 0101…" aria-label="Teléfono (WhatsApp)" value="' + esc(F.tel) + '" oninput="F.tel=this.value;pintarPie()">' : '') + '</div>';
   } else {
     cuerpo = '<input class="field" id="nt-q" name="clienta" type="search" autocomplete="off" spellcheck="false" placeholder="Buscar por nombre…" aria-label="Buscar clienta" value="' + esc(F.q) + '" oninput="F.q=this.value;pintarResultados()"><div id="nt-res"></div>';
@@ -1019,10 +1112,14 @@ function pintarForm(){
     dias += '<button class="chip' + (F.d === d ? ' on' : '') + '" id="nt-d' + d + '" aria-pressed="' + (F.d === d) + '"' + (cerradoTodo ? ' disabled' : '') + ' onclick="F.d=' + d + ';pintarForm()">' + diaCorto(d) +
       '<small>' + (cerradoTodo ? 'Cerrado' : n == null ? '&nbsp;' : n ? n + ' libres' : 'Completo') + '</small></button>';
   }
-  var horas = !F.tx ? '<p class="nt-vacio">Elegí un tratamiento para ver los horarios libres.</p>'
+  // Otra fecha, hasta el último día de DIAS (unas 9 semanas): para los tratamientos que se repiten cada mes.
+  dias += '</div><label class="otra"><span>Otra fecha</span><input class="field" type="date" id="nt-fecha" min="' + iso(HOY_D) + '" max="' + iso(DIAS.length - 1) + '"' +
+    ' value="' + iso(F.d) + '" onchange="elegirFecha(this.value)"></label>';
+  var horas = finde(F.d) ? '<p class="nt-vacio">Sábados y domingos Okio está cerrado. Elegí otro día.</p>'
+    : !F.tx ? '<p class="nt-vacio">Elegí un tratamiento para ver los horarios libres.</p>'
     : !slots.length ? '<p class="nt-vacio">No hay horarios libres ese día. Probá otro día.</p>'
     : '<div class="chips horas">' + slots.map(function(s){ return '<button class="chip' + (s === hora ? ' on' : '') + '" id="nt-h' + s.replace(':', '') + '" aria-pressed="' + (s === hora) + '" onclick="F.hora=\'' + s + '\';pintarForm()">' + s + '</button>'; }).join('') + '</div>';
-  html += seccion('Día y horario', '<div class="chips">' + dias + '</div>' + horas, err.hora,
+  html += seccion('Día y horario', '<div class="chips">' + dias + horas, err.hora,
     hora ? '<b class="rango">' + hora + ' – ' + hhmm(minutos(hora) + dur) + '</b>' : '');
 
   html += seccion('Confirmación', '<label class="check"><input type="checkbox" id="nt-wa"' + (F.wa ? ' checked' : '') + ' onchange="F.wa=this.checked;pintarForm()">' +
@@ -1033,6 +1130,13 @@ function pintarForm(){
   if (!c) pintarResultados();
   pintarPie();
   var el = foco && document.getElementById(foco); if (el) el.focus();
+}
+
+function iso(d){ var x = DIAS[d].f; return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0'); }
+function elegirFecha(v){
+  var d = v ? indice(new Date(v + 'T12:00')) : -1;
+  if (d >= HOY_D && d < DIAS.length) F.d = d;
+  pintarForm();
 }
 
 // Coincidencias de la búsqueda (hasta 5, sin acentos ni mayúsculas) + "Agregar como nueva". Solo clientas con ficha.
@@ -1127,6 +1231,7 @@ function quitarTurno(j){
 function refrescar(){
   elegirTurno(turnoSel);
   if (!document.getElementById('vista-semana').hidden) pintarSemana();
+  if (!document.getElementById('vista-mes').hidden) pintarMes();
   if (!document.getElementById('pantalla-inicio').hidden) pintarInicio();
   if (!document.getElementById('pantalla-clientes').hidden) pintarListaClientas();
   pintarListaMensajes(-1);
@@ -1165,7 +1270,19 @@ function elegirTurno(i){
 // Desde un click: en pantallas angostas el detalle queda abajo de la lista, así que se lo trae a la vista.
 function verTurno(i){ elegirTurno(i); document.getElementById('detalle').scrollIntoView({block:'nearest', behavior:'smooth'}); }
 
-function verEnAgenda(nombre){ ir('agenda'); ver('dia'); var i = turnoDe(nombre); if (i >= 0) elegirTurno(i); }
+// Turno de hoy: vista Día con el detalle. De otro día: la Semana que lo tiene, con el turno marcado, a la vista y con el foco.
+function verEnAgenda(nombre){
+  var i = turnoDe(nombre);
+  ir('agenda');
+  if (i < 0 || TURNOS[i].d === HOY_D) { ver('dia'); if (i >= 0) elegirTurno(i); return; }
+  elegirTurno(i); marcado = i; irASemana(TURNOS[i].d);
+  var cal = document.getElementById('cal-semana'), b = cal.querySelector('.bl[data-i="' + i + '"]');
+  cal.scrollTop = Math.max(0, yS(minutos(TURNOS[i].ini)) - cal.clientHeight / 3);
+  // En pantallas angostas la semana también se corre de costado, hasta dejar el turno en el medio.
+  var rc = cal.getBoundingClientRect(), rb = b.getBoundingClientRect();
+  cal.scrollLeft += rb.left - rc.left - (rc.width - rb.width) / 2;
+  b.focus({preventScroll:true});
+}
 function verFicha(nombre){ ir('clientes'); elegirClienta(CLIENTAS.indexOf(clientaDe(nombre))); }
 // Avisos de "no puedo ir": los responde recepción por WhatsApp, desde el chat de la clienta.
 function responder(nombre){
@@ -1288,7 +1405,7 @@ function pintarInicio(){
 }
 
 function ir(p){
-  REPROG = null;
+  REPROG = null; marcado = -1;
   ['inicio','agenda','clientes','mensajes'].forEach(function(x){
     document.getElementById('pantalla-' + x).hidden = x !== p;
     document.getElementById('nav-' + x).classList.toggle('on', x === p);
@@ -1303,28 +1420,31 @@ function ir(p){
 
 // La vista de Agenda queda en la URL (?view=day|week): se puede recargar o compartir el link y abre igual.
 var vista = 'dia';
+var EN_URL = {dia:'day', semana:'week', mes:'month'};
 function urlVista(){
   // En el visor de la maqueta publicada cambiar la URL puede estar bloqueado: la página sigue igual.
-  try { history.replaceState(null, '', document.getElementById('pantalla-agenda').hidden ? location.pathname : '?view=' + (vista === 'dia' ? 'day' : 'week')); } catch (e) {}
+  try { history.replaceState(null, '', document.getElementById('pantalla-agenda').hidden ? location.pathname : '?view=' + EN_URL[vista]); } catch (e) {}
 }
 function ver(v){
   var dia = v === 'dia';
   vista = v;
-  document.getElementById('vista-dia').hidden = !dia;
-  document.getElementById('vista-semana').hidden = dia;
+  ['dia', 'semana', 'mes'].forEach(function(x){
+    document.getElementById('vista-' + x).hidden = x !== v;
+    document.getElementById('btn-' + x).classList.toggle('on', x === v); document.getElementById('btn-' + x).setAttribute('aria-pressed', x === v);
+  });
   document.getElementById('btn-turno').hidden = dia; // en Día, el botón está en el resumen
   document.getElementById('bajada').hidden = dia;
-  document.getElementById('btn-dia').classList.toggle('on', dia); document.getElementById('btn-dia').setAttribute('aria-pressed', dia);
-  document.getElementById('btn-semana').classList.toggle('on', !dia); document.getElementById('btn-semana').setAttribute('aria-pressed', !dia);
-  document.getElementById('eyebrow').textContent = dia ? 'Agenda · Día' : 'Agenda · Semana';
-  document.getElementById('titulo').textContent = dia ? 'Agenda' : 'Semana del ' + DIAS[0].n + ' de ' + DIAS[0].mes;
+  document.getElementById('paso').hidden = dia;
+  document.getElementById('eyebrow').textContent = 'Agenda · ' + {dia:'Día', semana:'Semana', mes:'Mes'}[v];
+  if (dia) document.getElementById('titulo').textContent = 'Agenda';
   urlVista();
-  if (!dia) pintarSemana();
+  if (v === 'semana') pintarSemana();
+  if (v === 'mes') pintarMes();
   mostrarAhora();
 }
 // El calendario arranca mostrando la hora actual. Solo funciona con la Agenda visible, por eso lo llaman ver() e ir().
 function mostrarAhora(){
-  document.getElementById(vista === 'dia' ? 'lista-dia' : 'cal-semana').scrollTop = Math.max(0, yS(minutos(AHORA)) - 200);
+  if (vista !== 'mes') document.getElementById(vista === 'dia' ? 'lista-dia' : 'cal-semana').scrollTop = Math.max(0, yS(minutos(AHORA)) - 200);
 }
 
 pintarListaClientas();
@@ -1333,7 +1453,7 @@ pintarListaMensajes(-1);
 elegirConversacion(1); // Luciana, la del recorrido de la demo
 elegirTurno(turnoSel);
 var pedida = new URLSearchParams(location.search).get('view');
-ver(pedida === 'week' ? 'semana' : 'dia');
+ver({week:'semana', month:'mes'}[pedida] || 'dia');
 ir(pedida ? 'agenda' : 'inicio');
 </script>
 </body>

@@ -26,7 +26,7 @@ Reemplaza la demo del 16/09 (`Clinic Platform UX v2.dc.html`), que queda como re
 | 2:00–2:45 | Leer el borrador. Editar una palabra. | "Lo escribe en el tono de ustedes por WhatsApp, y suma el cuidado previo. Pero es un borrador: recepción lo lee, lo cambia si quiere y recién ahí lo aprueba. Nada sale solo." |
 | 2:45–3:15 | **Aprobar y enviar** → volver a Agenda | "El turno ahora dice que el recordatorio se mandó, y sigue sin confirmar hasta que Luciana conteste." |
 | 3:15–3:45 | Mensajes → Sofía → **Ver huecos en la semana** | "Cuando alguien cancela, esto no lo resuelve la IA: lo resuelve recepción, y la semana le muestra dónde hay lugar para reacomodar." |
-| 3:45–4:15 | Tocá un hueco del viernes. Se abre **Nuevo turno** con el día y la hora. Elegí a Sofía y un tratamiento. | "Tocás un hueco y el turno ya viene con día y hora. Solo ofrece horarios en que hay lugar. La confirmación por WhatsApp queda como borrador, igual que el recordatorio: nada sale solo." Después, **Cancelar**: la pregunta 3 importa más que agendarlo. |
+| 3:45–4:15 | Tocá un hueco del viernes. Se abre **Nuevo turno** con el día y la hora. Elegí a Sofía y un tratamiento. | "Tocás un hueco y el turno ya viene con día y hora. Solo ofrece horarios en que hay lugar. La confirmación por WhatsApp queda como borrador, igual que el recordatorio: nada sale solo." Después, **Cancelar** y **Descartar**: la pregunta 3 importa más que agendarlo. |
 | 4:15–5:00 | Dejar de navegar | Las preguntas de abajo. |
 
 ## Si la dueña quiere tocar por su cuenta

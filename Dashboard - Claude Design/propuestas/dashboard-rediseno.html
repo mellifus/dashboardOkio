@@ -1272,7 +1272,8 @@ function ir(p){
 // La vista de Agenda queda en la URL (?view=day|week): se puede recargar o compartir el link y abre igual.
 var vista = 'dia';
 function urlVista(){
-  history.replaceState(null, '', document.getElementById('pantalla-agenda').hidden ? location.pathname : '?view=' + (vista === 'dia' ? 'day' : 'week'));
+  // En el visor de la maqueta publicada cambiar la URL puede estar bloqueado: la página sigue igual.
+  try { history.replaceState(null, '', document.getElementById('pantalla-agenda').hidden ? location.pathname : '?view=' + (vista === 'dia' ? 'day' : 'week')); } catch (e) {}
 }
 function ver(v){
   var dia = v === 'dia';

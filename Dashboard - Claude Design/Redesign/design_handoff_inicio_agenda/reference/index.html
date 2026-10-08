@@ -1,0 +1,175 @@
+<!-- @dsCard group="Clinic Platform" viewport="1440x820" name="Okio — clinic ops screens" subtitle="Agenda, Centro de Solicitudes, Clientes, Catálogo, Seguimientos, Analítica (interactive)" -->
+<!-- @startingPoint section="Clinic Platform" subtitle="Interactive click-through: confirm turnos, approve/edit AI replies, tabs, follow-up actions" viewport="1440x820" -->
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 56"><rect width="80" height="56" fill="#1a1a2e"/><circle cx="40" cy="28" r="12" fill="#5B6FE0"/><text x="40" y="32" font-size="10" fill="white" text-anchor="middle" font-family="sans-serif">Ok</text></svg>
+</template>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap">
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<!-- _ds_bundle.js omitted: not generated until project file type is set to "Design System" in org settings. components-inline.jsx below provides a standalone fallback so this screen still renders. -->
+<style>body{margin:0}</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/plain" id="fallback-src">
+// Standalone fallback so this screen renders without the compiled _ds_bundle.js.
+// Mirrors components/** — only fills window.Okio entries that aren't already provided by the bundle.
+window.Okio = window.Okio || {};
+
+function Avatar({ initials, size = 32, tone = "accent" }) {
+  const bg = tone === "accent" ? "var(--accent)" : "var(--accent-tint)";
+  const color = tone === "accent" ? "var(--text-on-accent)" : "var(--accent-strong)";
+  return (
+    <div style={{ width: size, height: size, borderRadius: "var(--radius-full)", background: bg, color, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-sans)", fontSize: size <= 32 ? "11.5px" : "13px", fontWeight: 600, flexShrink: 0 }}>
+      {initials}
+    </div>
+  );
+}
+
+const BADGE_TONES = {
+  accent: { background: "var(--accent-tint)", color: "var(--accent-strong)" },
+  neutral: { background: "var(--gray-7)", color: "var(--gray-17)" },
+  warning: { background: "var(--danger-bg)", color: "var(--danger-text)" },
+  danger: { background: "var(--danger-bg)", color: "var(--danger-text)" },
+  success: { background: "var(--success-bg)", color: "var(--success)" },
+  dark: { background: "oklch(56% 0.19 264 / 0.22)", color: "oklch(80% 0.09 264)" },
+};
+function Badge({ tone = "neutral", uppercase = false, children }) {
+  const t = BADGE_TONES[tone] || BADGE_TONES.neutral;
+  return (
+    <span style={{ display: "inline-block", fontFamily: "var(--font-sans)", fontSize: uppercase ? "var(--text-2xs)" : "var(--text-xs-alt)", fontWeight: 700, padding: uppercase ? "1px 6px" : "2px 7px", borderRadius: uppercase ? "var(--radius-pill)" : "var(--radius-sm)", textTransform: uppercase ? "uppercase" : "none", letterSpacing: uppercase ? "var(--tracking-wide)" : "normal", whiteSpace: "nowrap", ...t }}>
+      {children}
+    </span>
+  );
+}
+
+const BTN_SIZES = {
+  sm: { padding: "6px 12px", fontSize: "var(--text-sm-alt)" },
+  md: { padding: "8px 14px", fontSize: "var(--text-base-alt)" },
+  lg: { padding: "9px 15px", fontSize: "var(--text-base-alt)" },
+};
+const BTN_VARIANTS = {
+  primary: { background: "var(--accent)", color: "var(--text-on-accent)", border: "none" },
+  secondary: { background: "var(--surface-card)", color: "var(--text-primary)", border: "1px solid var(--border-11, var(--border-strong))" },
+  ghost: { background: "transparent", color: "var(--text-secondary)", border: "none" },
+};
+function Button({ variant = "primary", size = "md", withShadow = false, disabled = false, children, onClick, style }) {
+  const v = BTN_VARIANTS[variant] || BTN_VARIANTS.primary;
+  const s = BTN_SIZES[size] || BTN_SIZES.md;
+  return (
+    <button onClick={onClick} disabled={disabled} style={{ fontFamily: "var(--font-sans)", borderRadius: "var(--radius-md)", fontWeight: 600, cursor: disabled ? "default" : "pointer", opacity: disabled ? 0.5 : 1, boxShadow: withShadow && variant === "primary" ? "var(--shadow-button-accent)" : "none", ...s, ...v, ...style }}>
+      {children}
+    </button>
+  );
+}
+
+const CARD_TONES = {
+  default: { background: "var(--surface-card)", border: "1px solid var(--border-default)" },
+  subtle: { background: "var(--gray-4)", border: "1px solid var(--gray-10)" },
+  accent: { background: "var(--accent-tint-soft)", border: "1px solid var(--accent-tint-border)" },
+  warning: { background: "var(--warning-bg-strong)", border: "1px solid var(--warning-border)" },
+};
+function Card({ padding = "18px", tone = "default", children, style }) {
+  const t = CARD_TONES[tone] || CARD_TONES.default;
+  return (
+    <div style={{ borderRadius: "var(--radius-3xl)", boxShadow: tone === "default" ? "var(--shadow-card)" : "none", padding, fontFamily: "var(--font-sans)", ...t, ...style }}>
+      {children}
+    </div>
+  );
+}
+
+function Dot({ color = "var(--accent)", size = 6 }) {
+  return <span style={{ display: "inline-block", width: size, height: size, borderRadius: "var(--radius-full)", background: color, flexShrink: 0 }} />;
+}
+
+function NavItem({ label, active = false, badge, onClick }) {
+  return (
+    <div onClick={onClick} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 10px", marginBottom: 2, cursor: "pointer", background: active ? "oklch(22% 0.03 260)" : "transparent", color: active ? "var(--ink-sidebar-text-strong)" : "var(--ink-sidebar-text)", borderRadius: "var(--radius-md)", fontWeight: active ? 650 : 500, fontSize: "var(--text-md)", fontFamily: "var(--font-sans)" }}>
+      <span style={{ width: 5, height: 5, borderRadius: "50%", background: active ? "var(--accent)" : "var(--accent-dot-inactive)", flexShrink: 0 }} />
+      <span>{label}</span>
+      {badge != null && (
+        <span style={{ marginLeft: "auto", background: "oklch(56% 0.19 264 / 0.22)", color: "oklch(80% 0.09 264)", fontSize: 10.5, fontWeight: 600, padding: "1px 7px", borderRadius: 10 }}>{badge}</span>
+      )}
+    </div>
+  );
+}
+
+function Tabs({ tabs, activeId, onChange }) {
+  return (
+    <div style={{ display: "flex", gap: 4, borderBottom: "1px solid var(--border-8, var(--gray-8))", fontFamily: "var(--font-sans)" }}>
+      {tabs.map((t) => (
+        <div key={t.id} onClick={() => onChange(t.id)} style={{ padding: "9px 14px", cursor: "pointer", fontSize: "var(--text-base-alt)", fontWeight: t.id === activeId ? 650 : 500, color: t.id === activeId ? "var(--text-primary)" : "var(--text-muted)", borderBottom: `2px solid ${t.id === activeId ? "var(--accent)" : "transparent"}` }}>
+          {t.label}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function SearchInput({ placeholder = "Buscar…", value, onChange, width = 280 }) {
+  return (
+    <input placeholder={placeholder} value={value} onChange={(e) => onChange && onChange(e.target.value)} style={{ width, padding: "7px 12px", border: "1px solid var(--border-9, var(--gray-9))", borderRadius: "var(--radius-md)", fontSize: "var(--text-base-alt)", background: "var(--surface-input)", color: "var(--text-primary)", fontFamily: "var(--font-sans)" }} />
+  );
+}
+
+function ListRow({ leading, title, subtitle, trailing, active = false, onClick }) {
+  return (
+    <div onClick={onClick} style={{ display: "flex", alignItems: "center", gap: 12, padding: "13px 18px", borderTop: "1px solid var(--gray-7)", cursor: onClick ? "pointer" : "default", background: active ? "oklch(96.5% 0.01 264)" : "transparent", fontFamily: "var(--font-sans)" }}>
+      {leading}
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontWeight: 600, fontSize: "var(--text-base-alt)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{title}</div>
+        {subtitle && <div style={{ fontSize: "var(--text-sm)", color: "var(--text-muted)" }}>{subtitle}</div>}
+      </div>
+      {trailing}
+    </div>
+  );
+}
+
+function ProgressBar({ label, pct }) {
+  return (
+    <div style={{ marginBottom: 11, fontFamily: "var(--font-sans)" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--text-base)", marginBottom: 4 }}>
+        <span>{label}</span>
+        <span style={{ fontWeight: 600, fontVariantNumeric: "tabular-nums" }}>{pct}%</span>
+      </div>
+      <div style={{ height: 6, background: "var(--gray-7)", borderRadius: 3 }}>
+        <div style={{ height: "100%", width: `${pct}%`, background: "var(--accent)", borderRadius: 3 }} />
+      </div>
+    </div>
+  );
+}
+
+function StatCard({ label, value, sub }) {
+  return (
+    <div style={{ background: "var(--surface-card)", border: "1px solid var(--border-default)", borderRadius: "var(--radius-3xl)", padding: 18, boxShadow: "var(--shadow-card)", fontFamily: "var(--font-sans)" }}>
+      <div style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 650, textTransform: "uppercase", letterSpacing: "var(--tracking-wider)" }}>{label}</div>
+      <div style={{ fontSize: 25, fontWeight: 650, marginTop: 7, letterSpacing: "var(--tracking-tight)" }}>{value}</div>
+      {sub && <div style={{ fontSize: 12, color: "var(--accent)", marginTop: 5, fontWeight: 600 }}>{sub}</div>}
+    </div>
+  );
+}
+
+const FALLBACKS = { Avatar, Badge, Button, Card, Dot, NavItem, Tabs, SearchInput, ListRow, ProgressBar, StatCard };
+Object.keys(FALLBACKS).forEach((k) => { if (!window.Okio[k]) window.Okio[k] = FALLBACKS[k]; });
+</script>
+<script>
+// Manually transform with classic JSX runtime only (no preset-env), then eval as a plain script —
+// avoids auto text/babel handling, whose defaults vary by CDN version (ESM import injection or CJS require).
+(async () => {
+  const opts = { presets: [["react", { runtime: "classic" }]] };
+  const fallbackSrc = document.getElementById("fallback-src").textContent;
+  let appSrc = await fetch("App.jsx").then((r) => r.text());
+  appSrc = appSrc.replace('import React from "react";', "");
+  window.eval(Babel.transform(fallbackSrc, opts).code);
+  window.eval(Babel.transform(appSrc, opts).code);
+})();
+</script>
+</body>
+</html>

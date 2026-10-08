@@ -37,7 +37,8 @@ addEventListener('DOMContentLoaded', function(){
   --ok:#003F36; --ok-bg:#E3ECE9; --ok-text:#003F36;
   --pend:#9A7550; --pend-bg:#F4EADF; --pend-text:#6B4F33;
   --alert:#8E5A5F; --alert-bg:#F2E4E3; --alert-text:#5D3A33; --alert-line:#E6CFCD; --why:#5A5A5A;
-  --ic-text:#FFFFFF;
+  --ic-text:#FFFFFF; --done-bg:#ECE7E2;
+  --wk-ok-line:#C9DAD5; --wk-past-bg:#F1ECE8; --wk-past-line:#E6DED9; --today-head:#F8F5F1; --today-col:#FBF8F4; --hour-line:#EEE6E1;
   --serif:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,sans-serif;
   color-scheme:light;
 }
@@ -50,7 +51,8 @@ addEventListener('DOMContentLoaded', function(){
     --ok:#6FA394; --ok-bg:#1C2E29; --ok-text:#CFE3DC;
     --pend:#C9A583; --pend-bg:#2E271D; --pend-text:#EBD5B5;
     --alert:#C08A8F; --alert-bg:#2F2023; --alert-text:#F0CFD1; --alert-line:#4A3236; --why:#C9C1BA;
-    --ic-text:#15201D;
+    --ic-text:#15201D; --done-bg:#1F2A27;
+  --wk-ok-line:#2E4A42; --wk-past-bg:#1A2421; --wk-past-line:#26332F; --today-head:#1B2925; --today-col:#18241F; --hour-line:#1F2B28;
     color-scheme:dark;
   }
 }
@@ -61,7 +63,8 @@ addEventListener('DOMContentLoaded', function(){
   --ok:#6FA394; --ok-bg:#1C2E29; --ok-text:#CFE3DC;
   --pend:#C9A583; --pend-bg:#2E271D; --pend-text:#EBD5B5;
   --alert:#C08A8F; --alert-bg:#2F2023; --alert-text:#F0CFD1; --alert-line:#4A3236; --why:#C9C1BA;
-  --ic-text:#15201D;
+  --ic-text:#15201D; --done-bg:#1F2A27;
+  --wk-ok-line:#2E4A42; --wk-past-bg:#1A2421; --wk-past-line:#26332F; --today-head:#1B2925; --today-col:#18241F; --hour-line:#1F2B28;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -92,66 +95,230 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
 .pill{font:600 13px var(--sans);letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:10px 18px;border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer;white-space:nowrap}
 .pill.solid{background:var(--solid-bg);border-color:var(--solid-bg);color:var(--solid-text)}
 .pill.sm{padding:7px 14px;font-size:12px}
-.seg{display:inline-flex;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
-.seg button{font:600 13px var(--sans);letter-spacing:.06em;text-transform:uppercase;border:0;border-radius:999px;padding:8px 18px;background:transparent;color:var(--muted);cursor:pointer}
-.seg button.on{background:var(--ok-bg);color:var(--ok-text)}
+.switch{align-items:center;gap:12px}
+/* Toggle Día / Semana (segmented) */
+.seg{display:inline-flex;gap:6px}
+.seg button{font:600 12px var(--sans);padding:6px 11px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer}
+.seg button.on{background:var(--solid-bg);border-color:var(--solid-bg);color:var(--solid-text)}
 
-/* Requiere atención */
-.attn{background:var(--alert-bg);border:1px solid var(--alert-line);border-left:3px solid var(--alert);border-radius:14px;padding:12px 16px;margin-bottom:18px}
-.attn h2{font:600 12.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--alert);margin:0 0 6px}
-.attn-row{display:grid;grid-template-columns:48px 1fr auto;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--alert-line)}
-.attn-row:first-of-type{border-top:0}
-.attn-row time{font-variant-numeric:tabular-nums;font-weight:600}
-.attn-row .why{display:block;color:var(--why);font-size:13.5px} /* sobre el fondo rosado, --muted no alcanza 4.5:1 */
-.side{display:grid;gap:14px}
-.side .attn{margin:0}
+/* Botones del rediseño (Inicio y Agenda · Día) */
+.btn{font:600 13.5px var(--sans);border-radius:10px;padding:10px 16px;min-height:40px;cursor:pointer;white-space:nowrap;border:1px solid var(--line);background:var(--surface);color:var(--accent)}
+.btn.primary{background:var(--solid-bg);border-color:var(--solid-bg);color:var(--solid-text)}
+.link{font:600 12.5px var(--sans);color:var(--accent);background:none;border:0;padding:6px 0;cursor:pointer;white-space:nowrap}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold);flex:none}
+.over{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+main{container-type:inline-size} /* Inicio y Agenda se acomodan al ancho del contenido, no de la ventana */
+
+/* Inicio: editorial, sin tarjetas salvo "Para resolver ahora" */
+.home{max-width:1120px;margin:0 auto;padding:20px 20px 32px;display:flex;flex-direction:column;gap:40px}
+.home-head{display:flex;align-items:flex-end;gap:32px}
+.home-head>div{flex:1;min-width:0}
+.home .hoy{font-size:112px;line-height:.92;letter-spacing:-.035em;color:var(--accent)}
+.home .fecha{font:italic 400 32px/1.15 var(--serif);letter-spacing:-.01em;color:var(--accent);margin:14px 0 0}
+.home .bajada{margin:18px 0 0;font-size:16.5px;line-height:1.5;color:var(--muted);max-width:480px;text-wrap:pretty}
+.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.metrics div{padding:18px 24px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.metrics div:first-child{padding-left:0}
+.metrics div+div{border-left:1px solid var(--line)}
+.metrics b{font:400 44px/1 var(--serif);color:var(--accent);font-variant-numeric:tabular-nums}
+.metrics span{font-size:13.5px;color:var(--muted);line-height:1.3}
+.home-cols{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:40px;align-items:start}
+.sec-head{display:flex;align-items:baseline;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--accent)}
+.sec-head h2{margin:0;font:400 24px var(--serif);color:var(--accent)}
+.sec-head small{font-size:13px;color:var(--muted)}
+.sec-head .link{margin-left:auto}
+.h-row{display:grid;grid-template-columns:64px minmax(0,1fr) auto;column-gap:20px;row-gap:4px;align-items:baseline;width:100%;padding:14px 0;border:0;border-bottom:1px solid var(--line);background:none;color:var(--text);font:inherit;text-align:left;cursor:pointer}
+.h-row:hover{background:color-mix(in srgb,var(--surface) 60%,transparent)}
+.h-row time{font:400 20px var(--serif);color:var(--accent);font-variant-numeric:tabular-nums}
+.h-row .who{min-width:0;display:flex;flex-direction:column;gap:3px;font-size:15px;line-height:1.35;text-wrap:pretty}
+.h-row .who b{font-weight:600}
+.h-row .who small{font-size:12.5px;color:var(--muted)}
+.h-row.fue,.h-row.fue time{color:var(--muted)}
+.st{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:6px;white-space:nowrap;justify-self:end}
+.st.flag{color:var(--text);font-weight:600}
+.st.sigue{color:var(--accent);font-weight:600}
+.resolver{background:var(--surface);border-radius:18px;box-shadow:0 1px 2px rgba(0,63,54,.05),0 10px 30px rgba(0,63,54,.06);overflow:hidden;min-width:0}
+.resolver h2{display:flex;align-items:center;gap:10px;margin:0;padding:18px 24px 14px;font:400 22px var(--serif);color:var(--accent)}
+.resolver h2 .dot{width:8px;height:8px}
+.r-sub{display:flex;align-items:center;justify-content:space-between;padding:6px 24px;border-top:1px solid var(--line)}
+.r-item{display:flex;flex-direction:column;gap:8px;padding:12px 24px 14px;border-top:1px solid var(--line)}
+.r-item>div{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.r-item .canal{font-size:11.5px;font-weight:600;color:var(--accent);background:var(--page);padding:3px 8px;border-radius:6px}
+.r-item b{font-size:14.5px;font-weight:600}
+.r-item time{font-size:12.5px;color:var(--muted);margin-left:auto}
+.r-item q{font-size:14px;line-height:1.45;text-wrap:pretty}
+.r-item .btn{align-self:flex-start}
+.r-fu{flex-direction:row;align-items:center;gap:12px}
+.r-fu span{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.r-fu small{font-size:13px;color:var(--muted);text-wrap:pretty}
+.r-empty{padding:8px 24px 18px;font-size:13.5px;color:var(--muted)}
+
+/* Agenda · Día (V1 Tarjeta): resumen en verde, "Requiere atención" y la lista del día */
+.hero{background:#003F36;color:#F5F1EC;border-radius:18px;padding:26px 28px;display:flex;flex-direction:column;gap:22px;margin-bottom:18px}
+.hero-top{display:flex;align-items:flex-end;gap:24px}
+.hero-top>div{flex:1;min-width:0}
+.hero .over{color:var(--gold);margin-bottom:8px}
+.hero h2{margin:0;font:500 36px/1.1 var(--serif);letter-spacing:-.01em;text-wrap:pretty}
+.hero .btn{background:#fff;color:#003F36;border-color:#DED1CB}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:rgba(245,241,236,.16);border-radius:12px;overflow:hidden}
+.stats>div{background:#003F36;padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.stats span,.stats small{font-size:12px;color:rgba(245,241,236,.78);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.3}
+.stats small{color:rgba(245,241,236,.72)}
+.stats b{font:500 30px/1 var(--serif);font-variant-numeric:tabular-nums}
+.stats b.warn{color:var(--gold)}
+.need{background:var(--surface);border:1px solid var(--gold);border-radius:16px;overflow:hidden;margin-bottom:18px}
+.need-head{display:flex;align-items:center;gap:10px;padding:14px 20px;background:var(--pend-bg);border-bottom:1px solid var(--line)}
+.need-head h2{margin:0;font:500 18px var(--serif);color:var(--accent)}
+.need-head small{margin-left:auto;font-size:12.5px;font-weight:600;color:var(--gold-text)}
+.need-row{display:flex;align-items:center;gap:20px;padding:16px 20px}
+.need-row+.need-row{border-top:1px solid var(--line)}
+.need-row>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.need-row b{font-size:14.5px;font-weight:600}
+.need-row b span{font-weight:500;color:var(--muted)}
+.need-row p{margin:0;font-size:13.5px;line-height:1.45;text-wrap:pretty}
+.dlist{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.dlist-head{display:flex;align-items:baseline;gap:10px;padding:14px 20px;border-bottom:1px solid var(--line)}
+.dlist-head h2{margin:0;font:500 18px var(--serif);color:var(--accent)}
+.dlist-head small{font-size:12.5px;color:var(--muted)}
+.d-row{display:grid;grid-template-columns:72px minmax(0,1fr) auto;align-items:center;column-gap:18px;row-gap:8px;width:100%;padding:14px 20px;border:0;background:var(--surface);color:var(--text);font:inherit;text-align:left;cursor:pointer}
+.d-row+.d-row{border-top:1px solid var(--line)}
+.d-row:hover{background:var(--page)}
+.d-row.sig{background:var(--page);box-shadow:inset 3px 0 0 var(--accent)}
+.d-row.fue{opacity:.62}
+.d-row.sel{outline:2px solid var(--text);outline-offset:-2px}
+.d-row .hora{align-self:start;display:flex;flex-direction:column;gap:2px}
+.d-row .hora time{font:500 20px/1.1 var(--serif);color:var(--accent);font-variant-numeric:tabular-nums}
+.d-row .hora small{font-size:11.5px;color:var(--muted)}
+.d-row .who{min-width:0;display:flex;flex-direction:column;gap:3px}
+.d-row .who>span{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.d-row .who b{font-size:15px;font-weight:600}
+.d-row .who em{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.d-row .who .dot{width:7px;height:7px}
+.d-row .who small{font-size:13.5px;text-wrap:pretty}
+.st-pill{justify-self:end;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.st-pill.donep{background:var(--done-bg);color:var(--muted)}
 
 .layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;align-items:start}
+.layout .detail{position:sticky;top:16px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:14px}
 
-/* Calendario: filas por hora y una columna por profesional (en Semana, por día y profesional).
-   Escala fija: 64 px por hora. El corte 13–15 es una franja angosta, no dos horas vacías. */
-.cal{overflow:auto;max-height:calc(100dvh - 150px);overscroll-behavior:contain}
-.cal-top{position:sticky;top:0;z-index:3;display:grid;background:var(--surface);border-bottom:1px solid var(--line)}
-.cal-dia{padding:12px 8px 2px;text-align:center;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-left:1px solid var(--line)}
-.cal-dia b{font:400 22px var(--serif);letter-spacing:0;color:var(--text);margin-left:4px}
-.cal-dia.hoy{color:var(--gold-text)} .cal-dia.hoy b{color:var(--gold-big)}
-.cal-dia.click{cursor:pointer} .cal-dia.click:hover{background:var(--page)}
-.cal-pro{padding:10px 8px;text-align:center;font:400 18px var(--serif)}
-.cal-pro.chico{font:500 13.5px var(--sans);color:var(--muted);padding:2px 8px 8px}
-#vista-semana .cal-pro.first{border-left:1px solid var(--line)}
-.cal-pro small{display:block;font:13px var(--sans);color:var(--muted)}
-.cal-body{position:relative;display:grid}
-.cal-horas{position:relative}
-.cal-horas span{position:absolute;right:10px;transform:translateY(-50%);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
-.cal-horas span:first-child{transform:none;margin-top:2px}
-.cal-horas .now-l{background:var(--text);color:var(--page);font-weight:600;padding:1px 6px;border-radius:999px;z-index:2}
-.hl{position:absolute;z-index:1;left:64px;right:0;border-top:1px solid color-mix(in srgb,var(--line) 55%,transparent);pointer-events:none}
-.cal-cerrado{position:absolute;left:64px;right:0;display:flex;align-items:center;justify-content:center;background:var(--page);color:var(--muted);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;pointer-events:none;z-index:1}
-.cal-cerrado span{padding:1px 10px;border-radius:999px}
-.col{position:relative;cursor:pointer}
-.col:hover{background:color-mix(in srgb,var(--page) 70%,transparent)}
-#vista-semana .col.first{border-left:1px solid var(--line)} /* en Semana, solo se separan los días */
-.now{position:absolute;left:0;right:0;border-top:2px solid var(--text);z-index:2;pointer-events:none}
+/* Semana (2b): lunes a sábado, 08–20 h, 1,2 px por minuto (72 px por hora). Encabezado de días fijo al scrollear. */
+.wk{overflow:auto;max-height:calc(100dvh - 210px);overscroll-behavior:contain;background:var(--surface);border:1px solid var(--line);border-radius:16px}
+.wk-in{min-width:860px}
+.wk-top,.wk-body{display:grid;grid-template-columns:52px repeat(6,minmax(0,1fr))}
+.wk-top{position:sticky;top:0;z-index:6;background:var(--surface);border-bottom:1px solid var(--line)}
+.wk-top>div{display:flex;align-items:baseline;gap:6px;padding:10px;border-left:1px solid var(--line);min-width:0}
+.wk-top>div:first-child{border-left:0}
+.wk-top b{font-size:13.5px;font-weight:600;white-space:nowrap}
+.wk-top .hoy{background:var(--today-head)} .wk-top .hoy b{font-weight:700;color:var(--accent)}
+.wk-top em{font-style:normal;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.wk-top small{margin-left:auto;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.wk-horas{position:relative}
+.wk-horas span{position:absolute;right:8px;transform:translateY(-7px);font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.wk-dia{position:relative;border-left:1px solid var(--line);background:repeating-linear-gradient(to bottom,var(--hour-line) 0,var(--hour-line) 1px,transparent 1px,transparent 72px);cursor:copy}
+.wk-dia.hoy{background-color:var(--today-col)}
+.wk-dia.pasado{cursor:default}
+/* Franja cerrada: rayada, no se puede soltar ni agendar ahí */
+.wk-cerrado{position:absolute;left:0;right:0;z-index:1;display:flex;align-items:center;justify-content:center;cursor:not-allowed;background:repeating-linear-gradient(135deg,transparent 0 6px,color-mix(in srgb,var(--line) 70%,transparent) 6px 7px),color-mix(in srgb,var(--page) 80%,transparent)}
+.wk-cerrado span{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--surface);padding:1px 8px;border-radius:999px}
+.wk-now{position:absolute;left:0;right:0;height:2px;background:var(--accent);z-index:4;pointer-events:none}
+.wk-now::before{content:"";position:absolute;left:-4px;top:-3px;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+/* Bloque: alto = duración. Menos de 44 px, una línea (hora · punto · clienta); desde 58 px suma el tratamiento. */
+.bl{position:absolute;z-index:2;box-sizing:border-box;display:flex;flex-direction:column;gap:1px;padding:4px 7px;border-radius:8px;overflow:hidden;font:inherit;color:var(--text);text-align:left;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.bl:active{cursor:grabbing}
+.bl-ok{background:var(--ok-bg);border:1px solid var(--wk-ok-line)}
+.bl-pend{background:var(--surface);border:1px dashed var(--gold)}
+.bl-past{background:var(--wk-past-bg);border:1px solid var(--wk-past-line);color:var(--muted);cursor:pointer}
+.bl .h{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums}
+.bl-past .h{color:var(--muted)}
+.bl b{font-size:12px;font-weight:600;line-height:1.25}
+.bl .tx{font-size:11px;line-height:1.25}
+.bl b,.bl .tx{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bl.una{flex-direction:row;align-items:center;gap:5px;font-size:11.5px;line-height:1.3}
+.bl.una .h,.bl.una b{font-size:11.5px}
+.bl.una .h{flex:none} .bl.una b{min-width:0}
+.bl.lev{opacity:.4}
+.ghost{position:absolute;left:3px;right:3px;z-index:5;box-sizing:border-box;padding:3px 6px;border:2px solid var(--accent);border-radius:8px;background:color-mix(in srgb,var(--accent) 6%,transparent);pointer-events:none}
+.ghost span{font-size:11px;font-weight:700;padding:1px 6px;border-radius:4px;background:var(--solid-bg);color:var(--solid-text);font-variant-numeric:tabular-nums}
+.legend.wk-legend i{display:inline-block;width:14px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;box-sizing:border-box}
+.sub{margin:6px 0 0;font-size:13.5px;color:var(--muted)}
+/* Toast de "Deshacer" (2d): se cierra solo a los 5 s */
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:20;display:flex;align-items:center;gap:14px;max-width:calc(100% - 32px);box-sizing:border-box;padding:10px 12px 10px 16px;border-radius:12px;background:#003F36;color:#F5F1EC;font-size:13.5px;box-shadow:0 8px 24px rgba(0,63,54,.25)}
+.toast[hidden]{display:none}
+.toast button{font:600 13px var(--sans);color:#F5F1EC;background:rgba(245,241,236,.14);border:0;border-radius:8px;padding:6px 10px;cursor:pointer;white-space:nowrap}
 
-/* Turno: alto = duración. Línea 1: ícono de estado (si no está confirmado) + clienta. Línea 2: horario · tratamiento. */
-.ev{position:absolute;left:4px;right:4px;z-index:1;display:flex;flex-direction:column;gap:1px;overflow:hidden;padding:5px 9px;border:0;border-left:3px solid;border-radius:8px;font:inherit;font-size:13.5px;line-height:1.3;text-align:left;cursor:pointer;transition:filter .15s}
-.ev:hover{filter:brightness(.96)}
-.ev>b,.ev>span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ev b{font-weight:600;font-size:14.5px}
-.ev .ic{margin-right:5px;vertical-align:-2px}
-.ev.short{flex-direction:row;align-items:center;gap:8px}
-.ev.short>span{flex:1;min-width:0}
-.ev.sel{outline:2px solid var(--text);outline-offset:1px;z-index:2}
-#cal-dia .ev{padding:7px 12px} #cal-dia .ev b{font-size:16px} #cal-dia .ev>span{font-size:14.5px}
-#cal-dia .ev.short{padding:4px 12px}
+/* Nuevo turno (2e): panel derecho de 460 px; en celular, hoja desde abajo */
+.nt{position:fixed;inset:0;z-index:30}
+.nt[hidden]{display:none}
+.nt-ov{position:absolute;inset:0;background:rgba(29,43,40,.32)}
+.nt-panel{position:absolute;top:0;right:0;bottom:0;width:460px;max-width:100%;display:flex;flex-direction:column;overflow:hidden;background:var(--page);box-shadow:0 10px 40px rgba(0,63,54,.18)}
+.nt-head{display:flex;align-items:flex-start;gap:12px;padding:22px 24px 16px;border-bottom:1px solid var(--line)}
+.nt-head>div{flex:1;min-width:0}
+.nt-head .over{margin:0}
+.nt-head h2{margin:4px 0 0;font:500 30px/1.1 var(--serif);color:var(--accent)}
+.x{width:36px;height:36px;flex:none;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--accent);font-size:18px;line-height:1;cursor:pointer}
+.nt-body{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:20px 24px 24px;display:flex;flex-direction:column;gap:24px}
+.fs{display:flex;flex-direction:column;gap:8px}
+.fs-h{display:flex;align-items:baseline;gap:8px}
+.fs-h>:nth-child(2){margin-left:auto}
+.fs-err{margin:0;display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--gold-text)}
+.rango{font-size:13px;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums}
+.field{width:100%;box-sizing:border-box;min-height:44px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);font:14px var(--sans)}
+.field:focus-visible{outline:2px solid var(--accent);outline-offset:-1px}
+.field::placeholder{color:var(--muted)}
+textarea.field{resize:vertical;line-height:1.45}
+.field.abierto{border-radius:10px 10px 0 0}
+.sel{position:relative;display:block}
+.sel select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:36px}
+.sel::after{content:"";position:absolute;right:16px;top:50%;width:7px;height:7px;border-right:1.6px solid var(--accent);border-bottom:1.6px solid var(--accent);transform:translateY(-70%) rotate(45deg);pointer-events:none}
+.res{background:var(--surface);border:1px solid var(--line);border-top:0;border-radius:0 0 10px 10px;overflow:hidden}
+.res button{display:flex;align-items:center;width:100%;min-height:44px;padding:0 12px;border:0;border-top:1px solid var(--line);background:transparent;color:var(--text);font:14px var(--sans);text-align:left;cursor:pointer}
+.res button:first-child{border-top:0}
+.res button:hover{background:var(--page)}
+.res button.add{font-weight:600;color:var(--accent);background:var(--page)}
+.cli{display:flex;flex-direction:column;gap:10px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.cli>div{display:flex;align-items:center;gap:12px}
+.cli b{display:block;font-size:15px;font-weight:600}
+.cli small{font-size:12.5px;color:var(--muted)}
+.av{width:36px;height:36px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;background:var(--ok-bg);color:var(--ok-text)}
+.av.nueva{background:var(--pend-bg);color:var(--pend-text)}
+.chips{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.chips.horas{gap:6px;margin-top:4px}
+.chip{min-height:44px;padding:6px 8px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border:1px solid var(--line);background:var(--surface);color:var(--accent);font:600 13px var(--sans);font-variant-numeric:tabular-nums;white-space:nowrap;cursor:pointer}
+.chip small{font-size:11px;font-weight:400;color:var(--muted)}
+.chip.on{background:var(--solid-bg);border-color:var(--solid-bg);color:var(--solid-text)}
+.chip.on small{color:inherit;opacity:.78}
+.chip:disabled{background:transparent;color:#A9AFAC;opacity:.7;cursor:default}
+.nt-vacio{margin:0;padding:10px 0 2px;font-size:13px;color:var(--muted)}
+.check{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;cursor:pointer}
+.check input{width:18px;height:18px;margin:1px 0 0;flex:none;accent-color:var(--accent)}
+.check b{display:block;font-size:14px;font-weight:600}
+.check small{display:block;margin-top:2px;font-size:12.5px;line-height:1.4;color:var(--muted);text-wrap:pretty}
+.nt-pie{display:flex;flex-direction:column;gap:10px;padding:14px 24px 16px;border-top:1px solid var(--line);background:var(--surface)}
+.nt-pie p{margin:0;min-height:18px;font-size:13px;line-height:1.4;color:var(--muted)}
+.nt-pie p.listo{color:var(--text)}
+.nt-pie>div{display:flex;gap:8px}
+.nt-pie .btn.primary{flex:1}
+.nt-pie[hidden]{display:none}
+.nt-descartar p{color:var(--text)}
+.btn.quiet{background:transparent;border-color:transparent;color:var(--muted)}
+@media (max-width:640px){
+  .nt-panel{top:6%;left:0;width:auto;border-radius:20px 20px 0 0}
+  .nt-head{padding:16px 18px}
+  .nt-head h2{font-size:26px}
+  .nt-body{padding:20px 18px 24px}
+  .nt-pie{padding:14px 18px 18px}
+  .nt-pie>div{flex-direction:column-reverse}
+  .chips{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .chips.horas{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+
+/* Estados (badges, píldoras y avisos) */
 .ok{background:var(--ok-bg);border-color:var(--ok);color:var(--ok-text)}
 .pend{background:var(--pend-bg);border-color:var(--pend);color:var(--pend-text)}
 .alert{background:var(--alert-bg);border-color:var(--alert);color:var(--alert-text)}
-.past{background:var(--page);border-color:var(--line);color:var(--muted)}
 .ic{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;font-size:11px;font-weight:700;color:var(--ic-text);flex:none;align-self:center}
 .alert .ic{background:var(--alert)} .pend .ic{background:var(--pend)}
-#vista-semana .ev.short>span{display:none} /* en Semana, los turnos cortos muestran solo la clienta */
 
 /* Detalle */
 .detail{padding:20px}
@@ -231,15 +398,46 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
   main{padding:16px}
   .layout{grid-template-columns:minmax(0,1fr)}
 }
-/* Celular: "Requiere atención" primero */
-@media (max-width:640px){
-  .side{display:contents}
-  .side .attn{order:-1}
+@container (max-width:960px){
+  .home-cols{grid-template-columns:minmax(0,1fr);gap:32px}
+}
+@container (max-width:640px){
+  .wk-in{min-width:760px}
+  .home{padding:8px 2px 28px;gap:28px}
+  .home-head,.hero-top,.need-row{flex-direction:column;align-items:stretch;gap:16px}
+  .home .hoy{font-size:72px}
+  .home .fecha{font-size:24px;margin-top:10px}
+  .home .bajada{font-size:15px;margin-top:14px}
+  .metrics div{padding:14px 10px 14px 12px}
+  .metrics b{font-size:34px}
+  .metrics span{font-size:12.5px}
+  .h-row,.d-row{grid-template-columns:52px minmax(0,1fr);column-gap:12px}
+  .h-row time,.d-row .hora time{font-size:18px}
+  .h-row .st,.d-row .st-pill{grid-column:2;justify-self:start}
+  .r-sub,.r-item{padding-left:16px;padding-right:16px}
+  .r-item .btn{align-self:stretch}
+  .hero{padding:20px 18px}
+  .hero h2{font-size:28px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stats span,.stats small{white-space:normal}
+  .stats b{font-size:26px}
+  .d-row,.need-row,.need-head,.dlist-head{padding-left:16px;padding-right:16px}
 }
 </style>
 </head>
 <body>
 <div class="aviso" id="aviso" role="status" hidden></div>
+<div class="toast" id="toast" role="status" hidden><span id="toast-txt"></span><button onclick="deshacer()">Deshacer</button></div>
+<!-- Nuevo turno (2e): panel a la derecha; en celular, hoja desde abajo. Se arma en pintarForm(). -->
+<div class="nt" id="nt" hidden>
+  <div class="nt-ov" onclick="cerrarNuevo()"></div>
+  <div class="nt-panel" role="dialog" aria-modal="true" aria-labelledby="nt-tit">
+    <div class="nt-head"><div><p class="over">Nuevo turno</p><h2 id="nt-tit">Agendar turno</h2></div><button class="x" aria-label="Cerrar" onclick="cerrarNuevo()">×</button></div>
+    <div class="nt-body" id="nt-body"></div>
+    <div class="nt-pie" id="nt-pie"><p id="nt-resumen"></p><div><button class="btn quiet" onclick="cerrarNuevo()">Cancelar</button><button class="btn primary" id="nt-ok" onclick="agendar()">Agendar turno</button></div></div>
+    <div class="nt-pie nt-descartar" id="nt-descartar" role="alert" hidden><p><strong>Descartar el turno?</strong> Se pierde lo que cargaste.</p><div><button class="btn quiet" id="nt-seguir" onclick="seguirEditando()">Seguir editando</button><button class="btn primary" onclick="cerrarNuevo(true)">Descartar</button></div></div>
+  </div>
+</div>
 <div class="app">
   <aside class="sidebar">
     <div class="brand">
@@ -247,7 +445,8 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
       <div><b>Okio</b><small>ESTÉTICA Y BIENESTAR</small></div>
     </div>
     <nav>
-      <a class="on" href="#" id="nav-agenda" onclick="ir('agenda');return false">Agenda<span class="count" title="2 turnos requieren atención hoy">2</span></a>
+      <a class="on" href="#" id="nav-inicio" onclick="ir('inicio');return false">Inicio</a>
+      <a href="#" id="nav-agenda" onclick="ir('agenda');return false">Agenda<span class="count" title="2 turnos requieren atención hoy">2</span></a>
       <a href="#" id="nav-clientes" onclick="ir('clientes');return false">Clientes</a>
       <a href="#" id="nav-mensajes" onclick="ir('mensajes');return false">Mensajes<span class="count" title="1 mensaje sin leer">1</span></a>
     </nav>
@@ -255,44 +454,43 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
   </aside>
 
   <main>
-    <section id="pantalla-agenda">
+    <!-- Inicio: el día de un vistazo y lo que hay que resolver. Se arma en pintarInicio(). -->
+    <section id="pantalla-inicio"><div class="home" id="home"></div></section>
+
+    <section id="pantalla-agenda" hidden>
     <header>
       <div>
         <p class="eyebrow" id="eyebrow">Agenda · Día</p>
-        <h1 id="titulo">Jueves <em>17</em> de septiembre</h1>
+        <h1 id="titulo">Agenda</h1>
+        <p class="sub" id="bajada" hidden></p>
       </div>
       <div class="switch">
         <div class="seg" role="group" aria-label="Vista"><button class="on" id="btn-dia" aria-pressed="true" onclick="ver('dia')">Día</button>
         <button id="btn-semana" aria-pressed="false" onclick="ver('semana')">Semana</button></div>
-        <button class="pill solid" style="margin-left:10px" onclick="aviso('Cargar turnos nuevos todavía no está en la demo.')">+ Turno</button>
+        <button class="btn primary" id="btn-turno" onclick="nuevoTurno()">+ Nuevo turno</button>
       </div>
     </header>
 
+    <!-- Día: resumen, lo que requiere atención y la lista del día. Maqueta: hora fija 15:20. -->
     <div id="vista-dia">
-    <div class="layout">
-      <!-- Calendario del día: una columna por profesional, bloques del alto de su duración.
-           Click en un horario libre = turno nuevo. Maqueta: hora fija 15:20. -->
-      <section class="card cal" id="cal-dia" aria-label="Agenda del día"></section>
-
-      <div class="side">
-      <section class="attn" id="attn" aria-label="Requiere atención"></section>
-      <aside class="card detail" id="detalle" aria-live="polite"></aside>
+      <section class="hero" id="hero" aria-label="Resumen del día"></section>
+      <section class="need" id="attn" aria-label="Requiere atención"></section>
+      <div class="layout">
+        <section class="dlist" id="lista-dia" aria-label="Turnos del día"></section>
+        <aside class="card detail" id="detalle" aria-live="polite"></aside>
       </div>
     </div>
 
+    <!-- Semana: lunes a sábado, una columna por día. Arrastrar = mover; click en un espacio libre = turno nuevo. -->
+    <div id="vista-semana" hidden>
+      <section id="cal-semana" class="wk" aria-label="Agenda de la semana"></section>
+      <div class="legend wk-legend">
+        <span><i class="bl-ok"></i>Confirmado</span>
+        <span><i class="bl-pend"></i>Sin confirmar</span>
+        <span><i class="bl-past"></i>Atendido</span>
+      </div>
     </div>
-
-    <!-- Semana: el mismo calendario, lunes a viernes, una subcolumna por profesional dentro de cada día. -->
-    <section id="vista-semana" class="card cal" aria-label="Agenda de la semana" hidden></section>
-
-    <div class="legend">
-      <span><i style="background:var(--ok)"></i>Confirmado</span>
-      <span><i style="background:var(--gold)"></i>Sin confirmar</span>
-      <span><i style="background:var(--alert)"></i>Requiere atención</span>
-      <span><i style="background:var(--line)"></i>Ya pasó</span>
-      <span>Click en un horario libre para agendar</span>
-      <span>Datos ficticios · logo provisorio</span>
-    </div>
+    <p class="legend">Datos ficticios · logo provisorio</p>
     </section>
 
     <!-- Clientes: la lista responde "quién es?"; la ficha, "quién es y cuándo vuelve?". Lo clínico queda detrás de un acceso restringido. -->
@@ -335,33 +533,17 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
   </main>
 </div>
 <script>
-// Semana ficticia: lunes a viernes, 09–13 y 15–20. El jueves (hoy) sale de HOY, más abajo.
+// Semana ficticia, lunes a sábado (el sábado sin turnos). El jueves (hoy) sale de HOY, más abajo.
 var DIAS = [
   {d:'Lun', n:14, largo:'lunes 14'}, {d:'Mar', n:15, largo:'martes 15'}, {d:'Mié', n:16, largo:'miércoles 16'},
-  {d:'Jue', n:17, largo:'jueves 17', hoy:true}, {d:'Vie', n:18, largo:'viernes 18'}
+  {d:'Jue', n:17, largo:'jueves 17', hoy:true}, {d:'Vie', n:18, largo:'viernes 18'}, {d:'Sáb', n:19, largo:'sábado 19'}
 ];
-var HOY_D = 3, PROS = ['Ingrid', 'Eliana'];
-// día|profesional|inicio|fin|clienta|tratamiento|estado (sin estado = ya pasó)
+var HOY_D = 3;
+// día|inicio|fin|clienta|tratamiento|estado (sin estado = ya pasó)
 var OTROS = [
-  '0|Ingrid|09:00|10:00|Julieta Moreno|Limpieza facial profunda', '0|Ingrid|10:30|11:10|Rocío Benítez|Depilación definitiva',
-  '0|Ingrid|15:00|16:30|Paula Ledesma|Peeling facial + Dermaplaning', '0|Ingrid|17:00|18:00|Carolina Funes|Radiofrecuencia facial',
-  '0|Eliana|09:30|10:30|Milagros Ortiz|Peeling corporal', '0|Eliana|11:00|12:30|Brenda Acosta|Limpieza facial profunda',
-  '0|Eliana|16:00|16:40|Abril Correa|Depilación definitiva',
-  '1|Ingrid|09:00|10:30|Antonella Vera|Microneedling', '1|Ingrid|11:00|12:00|Abril Correa|Peeling facial',
-  '1|Ingrid|15:30|16:10|Micaela Juárez|Depilación definitiva', '1|Ingrid|18:00|19:00|Daniela Quiroga|Limpieza facial profunda',
-  '1|Eliana|10:00|11:00|Lourdes Peralta|Radiofrecuencia facial', '1|Eliana|15:00|16:00|Natalia Godoy|Peeling corporal',
-  '1|Eliana|16:30|18:00|Julieta Moreno|Drenaje linfático',
-  '2|Ingrid|09:30|10:30|Brenda Acosta|Dermaplaning', '2|Ingrid|11:00|12:30|Rocío Benítez|Limpieza facial profunda',
-  '2|Ingrid|15:00|15:40|Paula Ledesma|Depilación definitiva', '2|Ingrid|16:00|17:00|Milagros Ortiz|Peeling facial',
-  '2|Ingrid|18:30|19:30|Abril Correa|Radiofrecuencia facial',
-  '2|Eliana|09:00|10:00|Carolina Funes|Peeling corporal', '2|Eliana|15:30|17:00|Antonella Vera|Drenaje linfático',
-  '4|Ingrid|09:00|10:00|Natalia Godoy|Peeling facial|ok', '4|Ingrid|10:30|11:30|Daniela Quiroga|Limpieza facial profunda|pend',
-  '4|Ingrid|12:00|12:40|Micaela Juárez|Depilación definitiva|ok', '4|Ingrid|15:00|16:30|Lourdes Peralta|Microneedling|pend',
-  '4|Ingrid|17:00|18:00|Antonella Vera|Dermaplaning|ok',
-  '4|Eliana|10:30|12:00|Julieta Moreno|Drenaje linfático|ok', '4|Eliana|12:00|13:00|Brenda Acosta|Peeling corporal|pend',
-  '4|Eliana|15:00|16:00|Rocío Benítez|Radiofrecuencia facial|ok', '4|Eliana|16:30|17:10|Carolina Funes|Depilación definitiva|ok',
-  '4|Eliana|17:30|19:00|Paula Ledesma|Limpieza facial profunda|ok'
-].map(function(s){ var x = s.split('|'); return {d:+x[0], pro:x[1], ini:x[2], fin:x[3], c:x[4], tx:x[5], estado:x[6] || 'past'}; });
+  '0|10:00|11:00|Julieta Moreno|Limpieza facial profunda',
+  '2|17:00|18:00|Rocío Benítez|Radiofrecuencia facial'
+].map(function(s){ var x = s.split('|'); return {d:+x[0], ini:x[1], fin:x[2], c:x[3], tx:x[4], estado:x[5] || 'past'}; });
 
 // Escala del calendario: 64 px por hora; el corte 13–15 ocupa una franja de 34 px.
 var PX = 64 / 60, CORTE = 34;
@@ -377,19 +559,17 @@ var ESTADOS = {
   alert: {texto:'Avisó que no puede venir', ic:'!'}
 };
 var CLIENTAS = [
-  {nombre:'Agustina Paz', tel:'000-0001', desde:'enero 2026', ultima:'Jueves 20 de agosto · Peeling facial · Ingrid',
-   prox:{corto:'Jue 17 · 10:00', largo:'Jueves 17 · 10:00–11:00 · Ingrid', tx:'Peeling facial', estado:'ok'}},
-  {nombre:'Camila Reyes', tel:'000-0002', desde:'mayo 2026', ultima:'Martes 8 de septiembre · Limpieza facial profunda · Eliana', prox:null},
-  {nombre:'Florencia Díaz', tel:'000-0003', desde:'junio 2026', ultima:'Jueves 27 de agosto · Depilación definitiva · Eliana',
-   prox:{corto:'Jue 17 · 17:30', largo:'Jueves 17 · 17:30–18:10 · Eliana', tx:'Depilación definitiva', estado:'ok'}},
-  {nombre:'Luciana Ferreyra', tel:'000-0000', desde:'marzo 2026', ultima:'Jueves 3 de septiembre · Peeling facial · Ingrid',
-   prox:{corto:'Jue 17 · 16:00', largo:'Jueves 17 · 16:00–17:30 · Ingrid', tx:'Peeling facial + Depilación definitiva', estado:'pend'}},
-  {nombre:'Martina Gil', tel:'000-0004', desde:'abril 2026', ultima:'Viernes 21 de agosto · Limpieza facial profunda · Eliana',
-   prox:{corto:'Jue 17 · 11:30', largo:'Jueves 17 · 11:30–12:30 · Eliana', tx:'Limpieza facial profunda', estado:'ok'}},
-  {nombre:'Sofía Ramos', tel:'000-0005', desde:'febrero 2026', ultima:'Lunes 31 de agosto · Depilación definitiva · Ingrid',
-   prox:{corto:'Jue 17 · 15:00', largo:'Jueves 17 · 15:00–15:40 · Ingrid', tx:'Depilación definitiva', estado:'alert'}},
-  {nombre:'Valentina Sosa', tel:'000-0006', desde:'julio 2026', ultima:'Miércoles 2 de septiembre · Peeling corporal · Eliana',
-   prox:{corto:'Jue 17 · 09:00', largo:'Jueves 17 · 09:00–10:00 · Eliana', tx:'Peeling corporal', estado:'ok'}}
+  {nombre:'Agustina Paz', tel:'+54 351 000-0001', desde:'enero 2026', ultima:'Jueves 20 de agosto · Peeling facial',
+   prox:{tx:'Peeling facial', estado:'ok'}},
+  {nombre:'Camila Reyes', tel:'+54 351 000-0002', desde:'mayo 2026', ultima:'Martes 8 de septiembre · Limpieza facial profunda', prox:null},
+  {nombre:'Florencia Díaz', tel:'+54 351 000-0003', desde:'junio 2026', ultima:'Jueves 27 de agosto · Depilación definitiva', prox:null},
+  {nombre:'Luciana Ferreyra', tel:'+54 351 000-0000', desde:'marzo 2026', ultima:'Jueves 3 de septiembre · Peeling facial',
+   prox:{tx:'Peeling facial + Depilación definitiva', estado:'pend'}},
+  {nombre:'Martina Gil', tel:'+54 351 000-0004', desde:'abril 2026', ultima:'Viernes 21 de agosto · Limpieza facial profunda', prox:null},
+  {nombre:'Sofía Ramos', tel:'+54 351 000-0005', desde:'febrero 2026', ultima:'Lunes 31 de agosto · Depilación definitiva',
+   prox:{tx:'Depilación definitiva', estado:'alert'}},
+  {nombre:'Valentina Sosa', tel:'+54 351 000-0006', desde:'julio 2026', ultima:'Miércoles 2 de septiembre · Peeling corporal',
+   prox:{tx:'Peeling corporal', estado:'ok'}}
 ];
 
 function icono(estado){
@@ -405,13 +585,13 @@ function elegirClienta(i){
   });
   var proximo = p
     ? '<div class="next ' + p.estado + '">' + icono(p.estado) +
-        '<div class="grow"><strong>' + p.largo + '</strong><span>' + p.tx + ' · ' + ESTADOS[p.estado].texto + '</span></div>' +
+        '<div class="grow"><strong>' + cuandoLargo(c.nombre) + '</strong><span>' + p.tx + ' · ' + ESTADOS[p.estado].texto + '</span></div>' +
         '<button class="pill sm" onclick="verEnAgenda(\'' + c.nombre + '\')">Ver en Agenda</button></div>'
-    : '<p class="plain muted">No tiene turnos reservados.</p><button class="pill sm" onclick="aviso(\'Cargar turnos nuevos todavía no está en la demo.\')">+ Turno para ' + c.nombre.split(' ')[0] + '</button>';
+    : '<p class="plain muted">No tiene turnos reservados.</p><button class="pill sm" onclick="abrirNuevo({cliente:\'' + c.nombre + '\'})">+ Turno para ' + c.nombre.split(' ')[0] + '</button>';
   document.getElementById('ficha').innerHTML =
     '<p class="eyebrow">Ficha · Datos ficticios</p>' +
     '<h2>' + c.nombre + '</h2>' +
-    '<p class="meta">WhatsApp +54 351 ' + c.tel + ' · Clienta desde ' + c.desde + '</p>' +
+    '<p class="meta">WhatsApp ' + c.tel + ' · Clienta desde ' + c.desde + '</p>' +
     '<div class="block"><p class="eyebrow">Próximo turno</p>' + proximo + '</div>' +
     '<div class="block"><p class="eyebrow">Última visita</p><p class="plain">' + c.ultima + '</p></div>' +
     '<div class="block"><p class="eyebrow">Historial clínico</p>' +
@@ -419,11 +599,12 @@ function elegirClienta(i){
       '<button class="pill sm" onclick="aviso(\'El historial clínico queda fuera de la demo: son datos de salud y solo lo ven las profesionales.\')">Ver historial</button></div>';
 }
 
-document.getElementById('lista-clientas').innerHTML = CLIENTAS.map(function(c, i){
-  return '<button class="row" onclick="elegirClienta(' + i + ')">' + (c.prox ? icono(c.prox.estado) : '') +
-    '<span class="who"><b>' + c.nombre + '</b><small>' + (c.prox ? 'Próximo: ' + c.prox.corto : 'Sin turno próximo') + '</small></span></button>';
-}).join('');
-elegirClienta(3); // Luciana, la del recorrido de la demo
+function pintarListaClientas(){
+  document.getElementById('lista-clientas').innerHTML = CLIENTAS.map(function(c, i){
+    return '<button class="row" onclick="elegirClienta(' + i + ')">' + (c.prox ? icono(c.prox.estado) : '') +
+      '<span class="who"><b>' + c.nombre + '</b><small>' + (c.prox ? 'Próximo: ' + cuandoCorto(c.nombre) : 'Sin turno próximo') + '</small></span></button>';
+  }).join('');
+}
 
 // Conversaciones ficticias. El turno vinculado sale de CLIENTAS por nombre.
 // cierre: 'borrador' = el copiloto preparó un mensaje · 'humano' = lo resuelve recepción · 'ok' = ya confirmó.
@@ -441,11 +622,11 @@ var CONVERSACIONES = [
      {dia:'Lunes 14'},
      {de:'out', texto:'Hola Luciana! Te reservamos el jueves 17 a las 16:00 para peeling facial y depilación definitiva. Estos días no uses ácidos ni retinol, y en la zona nada de cera ni pinza: solo rasurar.', hora:'Okio · 10:12'},
      {de:'in', texto:'Genial, gracias!!', hora:'Luciana · 10:40'}]},
-  {nombre:'Agustina Paz', hora:'Ayer', cierre:'ok',
+  {nombre:'Agustina Paz', hora:'12:41', cierre:'ok',
    mensajes:[
-     {dia:'Ayer'},
-     {de:'out', texto:'Hola Agustina! Te esperamos mañana a las 10 hs para peeling facial. Vení con la cara limpia y sin maquillaje. Nos confirmás si venís? Saludos!', hora:'Okio · 16:30'},
-     {de:'in', texto:'Gracias! Ahí estaré', hora:'Agustina · 16:41'}]},
+     {dia:'Hoy'},
+     {de:'out', texto:'Hola Agustina! Te esperamos mañana a las 10 hs para peeling facial. Vení con la cara limpia y sin maquillaje. Nos confirmás si venís? Saludos!', hora:'Okio · 12:30'},
+     {de:'in', texto:'Gracias! Ahí estaré', hora:'Agustina · 12:41'}]},
   {nombre:'Valentina Sosa', hora:'Ayer', cierre:'ok',
    mensajes:[
      {dia:'Ayer'},
@@ -477,12 +658,13 @@ function elegirConversacion(i){
     return m.dia ? '<span class="day">' + m.dia + '</span>'
                  : '<p class="msg ' + m.de + '">' + esc(m.texto) + ' <small>' + m.hora + '</small></p>';
   }).join('');
+  var reserva = conv.tipo === 'reserva';
   var cierre = {
-    borrador: '<div class="draft"><label for="borrador" id="borrador-label">Borrador del copiloto · Revisalo antes de enviar</label>' +
+    borrador: '<div class="draft"><label for="borrador" id="borrador-label">' + (reserva ? 'Confirmación del turno nuevo' : 'Borrador del copiloto') + ' · Revisalo antes de enviar</label>' +
       '<textarea id="borrador" rows="4">' + esc(conv.borrador) + '</textarea>' +
       '<div class="act"><small>Simulación: nada se envía a un teléfono real.</small>' +
-      '<button class="pill" onclick="prepararRecordatorio(turnoDe(\'' + conv.nombre + '\'))">Redactar de nuevo</button><button class="pill solid" id="btn-aprobar" onclick="aprobar(' + i + ')">Aprobar y enviar</button></div></div>',
-    enviado: '<p class="fine done">Recordatorio enviado (simulación) · Esperando que ' + nombre + ' confirme.</p>',
+      (reserva ? '' : '<button class="pill" onclick="prepararRecordatorio(turnoDe(\'' + conv.nombre + '\'))">Redactar de nuevo</button>') + '<button class="pill solid" id="btn-aprobar" onclick="aprobar(' + i + ')">Aprobar y enviar</button></div></div>',
+    enviado: '<p class="fine done">' + (reserva ? 'Confirmación enviada' : 'Recordatorio enviado') + ' (simulación) · Esperando que ' + nombre + ' confirme.</p>',
     humano: '<div class="next alert notice"><span class="ic" role="img" aria-label="Requiere atención">!</span>' +
       '<div class="grow"><strong>Lo resuelve recepción, no el copiloto</strong>' +
       '<span>' + nombre + ' avisó que no puede venir. Respondele y ofrecele otro horario. El turno sigue sin confirmar: no se canceló.</span></div>' +
@@ -497,114 +679,461 @@ function elegirConversacion(i){
   }[conv.cierre];
   document.getElementById('chat').innerHTML =
     '<div class="linked">' + icono(p.estado) +
-      '<span class="grow"><strong>' + conv.nombre + '</strong> · ' + p.largo + ' · ' + p.tx + '</span>' +
+      '<span class="grow"><strong>' + conv.nombre + '</strong> · ' + cuandoLargo(conv.nombre) + ' · ' + p.tx + '</span>' +
       '<button class="pill sm" onclick="verEnAgenda(\'' + conv.nombre + '\')">Ver en Agenda</button></div>' +
     '<div class="thread">' + hilo + '</div>' + cierre +
     '<p class="fine">Las consultas clínicas o sensibles se derivan a una persona. El copiloto no da indicaciones médicas.</p>';
 }
 
-// Turnos de hoy. Estado y tratamientos salen de CLIENTAS; rec = cómo va el recordatorio.
+// Turnos de clientas con ficha (casi todos hoy; d = día si no es hoy). Estado y tratamientos salen de CLIENTAS;
+// rec = cómo va el recordatorio. La demo tiene 6 turnos en toda la semana: estos 4 y los 2 de OTROS.
 var HOY = [
-  {c:'Valentina Sosa',   pro:'Eliana', ini:'09:00', fin:'10:00', rec:'Enviado ayer · confirmó'},
-  {c:'Agustina Paz',     pro:'Ingrid', ini:'10:00', fin:'11:00', rec:'Enviado ayer · confirmó'},
-  {c:'Martina Gil',      pro:'Eliana', ini:'11:30', fin:'12:30', rec:'Enviado ayer · confirmó'},
-  {c:'Sofía Ramos',      pro:'Ingrid', ini:'15:00', fin:'15:40', rec:'Enviado · avisó que no puede venir'},
-  {c:'Luciana Ferreyra', pro:'Ingrid', ini:'16:00', fin:'17:30', rec:'Todavía no enviado'},
-  {c:'Florencia Díaz',   pro:'Eliana', ini:'17:30', fin:'18:10', rec:'Enviado ayer · confirmó'}
+  {c:'Valentina Sosa',   ini:'09:00', fin:'10:00', rec:'Enviado ayer · confirmó'},
+  {c:'Sofía Ramos',      ini:'15:00', fin:'15:40', rec:'Enviado · avisó que no puede venir'},
+  {c:'Luciana Ferreyra', ini:'16:00', fin:'17:30', rec:'Todavía no enviado'},
+  {c:'Agustina Paz',     ini:'10:00', fin:'11:00', rec:'Enviado hoy · confirmó', d:4}
 ];
-var AHORA = '15:20', turnoSel = 4; // Luciana, la del recorrido de la demo
+HOY.forEach(function(t){ var p = clientaDe(t.c).prox; if (t.d == null) t.d = HOY_D; t.tx = p.tx; t.estado = p.estado; });
+// Toda la semana en una sola lista, para poder mover turnos entre días. Los de hoy van primero:
+// su índice es el mismo en HOY y en TURNOS. El día de cada turno está en t.d (puede cambiar al arrastrarlo).
+var TURNOS = HOY.concat(OTROS);
+var AHORA = '15:20', turnoSel = 2; // Luciana, la del recorrido de la demo
 
 function minutos(h){ var x = h.split(':'); return +x[0] * 60 + +x[1]; }
-function turnoDe(nombre){ for (var i = 0; i < HOY.length; i++) if (HOY[i].c === nombre) return i; return -1; }
+function turnoDe(nombre){ for (var i = 0; i < TURNOS.length; i++) if (TURNOS[i].c === nombre) return i; return -1; }
 function convDe(nombre){ for (var i = 0; i < CONVERSACIONES.length; i++) if (CONVERSACIONES[i].nombre === nombre) return i; return -1; }
-
-function turnosDe(d, pro){
-  if (d === HOY_D) return HOY.map(function(t, i){
-    var p = clientaDe(t.c).prox;
-    return {pro:t.pro, ini:t.ini, fin:t.fin, c:t.c, tx:p.tx, estado:p.estado, i:i};
-  }).filter(function(t){ return t.pro === pro; });
-  return OTROS.filter(function(t){ return t.d === d && t.pro === pro; });
+function nuevoTurno(){ abrirNuevo(); }
+// Índices de los turnos de un día, en orden cronológico.
+function delDia(d){
+  return TURNOS.map(function(t, i){ return i; }).filter(function(i){ return TURNOS[i].d === d; })
+    .sort(function(a, b){ return minutos(TURNOS[a].ini) - minutos(TURNOS[b].ini); });
 }
+function deHoy(){ return delDia(HOY_D); }
+function diaLargo(d){ return d === HOY_D ? 'hoy, ' + DIAS[d].largo : DIAS[d].largo; }
+// Fecha del turno de una clienta, para Clientes y Mensajes. Sale del turno, así sigue bien si se lo mueve.
+function cuandoCorto(nombre){ var t = TURNOS[turnoDe(nombre)]; return DIAS[t.d].d + ' ' + DIAS[t.d].n + ' · ' + t.ini; }
+function cuandoLargo(nombre){ var t = TURNOS[turnoDe(nombre)], l = DIAS[t.d].largo; return l.charAt(0).toUpperCase() + l.slice(1) + ' · ' + t.ini + '–' + t.fin; }
 
-function bloque(t, semana){
-  var a = minutos(t.ini), b = minutos(t.fin), estado = t.estado === 'past' ? 'Ya pasó' : ESTADOS[t.estado].texto;
-  var accion = t.i != null ? 'ver(\'dia\');elegirTurno(' + t.i + ')' : 'aviso(\'La demo solo tiene el detalle de hoy, jueves 17.\')';
-  return '<button class="ev ' + t.estado + (b - a < 50 ? ' short' : '') + (!semana && t.i === turnoSel ? ' sel' : '') + '"' +
-    ' style="top:' + (y(a) + 1) + 'px;height:' + (y(b) - y(a) - 2) + 'px" onclick="' + accion + '"' +
-    ' aria-label="' + t.c + ', ' + t.ini + ' a ' + t.fin + ', ' + t.tx + ', con ' + t.pro + '. ' + estado + '">' +
-    '<b>' + (t.estado === 'past' ? '' : icono(t.estado)) + (semana ? corto(t.c) : t.c) + '</b>' +
-    '<span>' + t.ini + '–' + t.fin + ' · ' + t.tx + '</span></button>';
+// Estado de un turno de hoy, visto desde recepción. "Avisó que no viene" y "sin confirmar" pesan más que la hora.
+var TEXTO_HOY = {done:'Atendida', sent:'Recordatorio enviado'};
+function estadoHoy(t){
+  if (t.estado === 'alert') return 'alert';
+  if (fue(t)) return 'done';
+  return t.estado === 'pend' && t.enviado ? 'sent' : t.estado;
 }
-
-// Un solo calendario para Día (un día) y Semana (cinco días): columnas = días × profesionales.
-function pintarCal(id, dias){
-  var semana = dias.length > 1, ahora = minutos(AHORA);
-  var cols = 'grid-template-columns:64px repeat(' + dias.length * PROS.length + ',minmax(' + (semana ? 92 : 0) + 'px,1fr))';
-  var top = '<div class="cal-top" style="' + cols + '"><div></div>';
-  if (semana) top += dias.map(function(d){
-    var x = DIAS[d];
-    return '<div class="cal-dia' + (x.hoy ? ' hoy click" onclick="ver(\'dia\')" title="Abrir el día' : '') + '" style="grid-column:span ' + PROS.length + '">' +
-      x.d + '<b>' + x.n + '</b>' + (x.hoy ? ' · hoy' : '') + '</div>';
-  }).join('') + '<div></div>';
-  var body = '<div class="cal-body" style="' + cols + ';height:' + y(1200) + 'px"><div class="cal-horas">';
-  for (var h = 9; h <= 20; h++) if (h <= 13 || h >= 15) body += '<span style="top:' + y(h * 60) + 'px">' + hhmm(h * 60) + '</span>';
-  if (dias.indexOf(HOY_D) >= 0) body += '<span class="now-l" style="top:' + y(ahora) + 'px">' + AHORA + '</span>';
-  body += '</div>';
-  for (var m = 600; m < 1200; m += 60) if (m <= 780 || m > 900) body += '<i class="hl" style="top:' + y(m) + 'px"></i>';
-  body += '<div class="cal-cerrado" style="top:' + y(780) + 'px;height:' + CORTE + 'px"><span>Cerrado 13–15</span></div>';
-  dias.forEach(function(d){
-    PROS.forEach(function(p, j){
-      var turnos = turnosDe(d, p);
-      top += '<div class="cal-pro' + (semana ? ' chico' : '') + (j === 0 ? ' first' : '') + '">' + p + (semana ? '' : '<small>' + turnos.length + ' turnos</small>') + '</div>';
-      body += '<div class="col' + (j === 0 ? ' first' : '') + '" data-d="' + d + '" data-pro="' + p + '" onclick="nuevoEn(event,this)" title="Click en un horario libre para agendar con ' + p + '">' +
-        turnos.map(function(t){ return bloque(t, semana); }).join('') +
-        (DIAS[d].hoy ? '<div class="now" style="top:' + y(ahora) + 'px"></div>' : '') + '</div>';
-    });
-  });
-  document.getElementById(id).innerHTML = top + '</div>' + body + '</div>';
-}
-
-// Click en un hueco del calendario: arma el turno nuevo con profesional, día y hora (redondeada a la media hora).
-function nuevoEn(e, col){
-  if (e.target !== col) return;
-  var m = Math.floor(minDeY(e.offsetY) / 30) * 30;
-  if (m >= 780 && m < 900) return;
-  aviso('Turno nuevo con ' + col.dataset.pro + ', ' + DIAS[+col.dataset.d].largo + ' a las ' + hhmm(m) + '. Cargar turnos todavía no está en la demo.');
-}
-
-function pintarAtencion(){
-  var filas = HOY.map(function(t, i){
-    var e = clientaDe(t.c).prox.estado;
-    if (e === 'ok') return '';
-    var boton = e === 'alert'
-      ? '<button class="pill sm" onclick="responder(\'' + t.c + '\')">Responder</button>'
-      : (t.enviado ? '' : '<button class="pill sm solid" onclick="prepararRecordatorio(' + i + ')">Recordatorio</button>');
-    var why = e === 'alert' ? 'Avisó que no puede venir' : (t.enviado ? t.rec : 'Sin confirmar');
-    return '<div class="attn-row"><time>' + t.ini + '</time><div><strong>' + t.c + '</strong><span class="why">' + why + '</span></div>' + boton + '</div>';
+function fue(t){ return t.estado === 'past' || t.d < HOY_D || (t.d === HOY_D && minutos(t.fin) <= minutos(AHORA)); }
+function textoEstado(s){ return TEXTO_HOY[s] || ESTADOS[s].texto; }
+function pillEstado(s){ return '<span class="st-pill ' + ({done:'donep', sent:'pend'}[s] || s) + '">' + textoEstado(s) + '</span>'; }
+function proximo(){ return deHoy().filter(function(i){ return minutos(TURNOS[i].ini) > minutos(AHORA); })[0]; }
+function duracion(t){ return (minutos(t.fin) - minutos(t.ini)) + ' min'; }
+// Lo que recepción tiene que hacer antes del turno. accion = botón; sin botón, la fila queda como aviso.
+// El recordatorio con IA solo está para las clientas con ficha en la demo.
+function pendientesHoy(){
+  return deHoy().map(function(i){
+    var t = TURNOS[i], s = estadoHoy(t);
+    if (s === 'alert') return {i:i, texto:'Avisó por WhatsApp que no puede venir. El turno sigue en pie hasta que elija otro horario.',
+      accion:'<button class="btn primary" onclick="responder(\'' + t.c + '\')">Responder</button>'};
+    if (s === 'pend' && t.reserva) return {i:i, texto:'Turno nuevo. La confirmación por WhatsApp está en borrador.',
+      accion:'<button class="btn primary" onclick="ir(\'mensajes\');elegirConversacion(convDe(\'' + t.c + '\'))">Revisar confirmación</button>'};
+    if (s === 'pend') return {i:i, texto:'Sin confirmar y todavía no se le mandó el recordatorio.',
+      accion: clientaDe(t.c) ? '<button class="btn primary" onclick="prepararRecordatorio(' + i + ')">Preparar recordatorio</button>' : ''};
+    if (s === 'sent') return {i:i, texto:'Sin confirmar. ' + t.rec + '.', accion:''};
   }).filter(Boolean);
-  document.getElementById('attn').innerHTML = '<h2>Requiere atención hoy · ' + filas.length + '</h2>' + filas.join('');
+}
+
+// Agenda · Día (V1 Tarjeta): resumen, requiere atención y la lista en orden cronológico.
+function pintarDia(){
+  var hoy = deHoy(), sig = proximo(), pend = pendientesHoy(), porHacer = pend.filter(function(x){ return x.accion; }).length;
+  var conf = hoy.filter(function(i){ return TURNOS[i].estado === 'ok'; }).length;
+  var stats = [
+    ['Turnos hoy', hoy.length, hoy.length ? TURNOS[hoy[0]].ini + ' a ' + TURNOS[hoy[hoy.length - 1]].fin : 'Sin turnos'],
+    ['Confirmados', conf, 'de ' + hoy.length],
+    ['Requieren atención', pend.length, porHacer ? porHacer + ' por resolver' : 'Todo al día', pend.length > 0]
+  ];
+  if (sig != null) stats.push(['Próximo turno · en ' + (minutos(TURNOS[sig].ini) - minutos(AHORA)) + ' min', TURNOS[sig].ini, TURNOS[sig].c]);
+  document.getElementById('hero').innerHTML =
+    '<div class="hero-top"><div><p class="over">Resumen del día</p><h2>Hoy, jueves 17 de septiembre</h2></div>' +
+    '<button class="btn" onclick="nuevoTurno()">+ Nuevo turno</button></div>' +
+    '<div class="stats">' + stats.map(function(s){
+      return '<div><span>' + s[0] + '</span><b' + (s[3] ? ' class="warn"' : '') + '>' + s[1] + '</b><small>' + s[2] + '</small></div>';
+    }).join('') + '</div>';
+
+  var attn = document.getElementById('attn');
+  attn.hidden = !pend.length;
+  attn.innerHTML = '<div class="need-head"><i class="dot" style="width:8px;height:8px"></i><h2>Requiere atención</h2>' +
+    '<small>' + pend.length + (pend.length === 1 ? ' turno' : ' turnos') + '</small></div>' +
+    pend.map(function(x){
+      var t = TURNOS[x.i];
+      return '<div class="need-row"><div><b>' + t.c + ' <span>· ' + t.ini + ' · ' + t.tx + '</span></b><p>' + x.texto + '</p></div>' + x.accion + '</div>';
+    }).join('');
+
+  document.getElementById('lista-dia').innerHTML =
+    '<div class="dlist-head"><h2>Turnos del día</h2><small>Orden cronológico</small></div>' +
+    hoy.map(function(i){
+      var t = TURNOS[i], s = estadoHoy(t), marca = s === 'alert' || s === 'pend' || s === 'sent';
+      return '<button class="d-row' + (i === sig ? ' sig' : '') + (s === 'done' ? ' fue' : '') + (i === turnoSel ? ' sel" aria-current="true' : '') + '" onclick="verTurno(' + i + ')">' +
+        '<span class="hora"><time>' + t.ini + '</time><small>' + duracion(t) + '</small></span>' +
+        '<span class="who"><span><b>' + t.c + '</b>' + (i === sig ? '<em>Próximo</em>' : '') + (marca ? '<i class="dot" role="img" aria-label="Requiere atención"></i>' : '') + '</span>' +
+        '<small>' + t.tx + '</small></span>' + pillEstado(s) + '</button>';
+    }).join('');
+}
+
+// Semana (2b): lunes a sábado, 08–20 h, 1,2 px por minuto. Los turnos que se pisan van lado a lado
+// (carriles), sin decir de quién es cada uno. Se arrastran con el puntero (mouse o dedo), de a 15 min.
+var WK0 = 480, WK1 = 1200, WPX = 1.2, SNAP = 15;
+function yS(m){ return (m - WK0) * WPX; }
+// Horario de Okio: lunes a viernes, 09–13 y 15–20. El sábado y las franjas de 08–09 y 13–15 se ven "Cerrado"
+// y no aceptan turnos (ni soltados ni nuevos). Cada franja: [desde, hasta] en minutos.
+var SABADO = 5, CERRADO = [[480, 540], [780, 900]];
+function cerrado(d, a, b){
+  return d === SABADO || CERRADO.some(function(f){ return a < f[1] && b > f[0]; });
+}
+function franjasCerradas(d){
+  var fr = d === SABADO ? [[WK0, WK1]] : CERRADO;
+  return fr.map(function(f){
+    return '<div class="wk-cerrado" style="top:' + yS(f[0]) + 'px;height:' + (f[1] - f[0]) * WPX + 'px"><span>Cerrado</span></div>';
+  }).join('');
+}
+function carriles(ids){
+  var fines = [], grupo = [], hasta = -1;
+  function cerrar(){ grupo.forEach(function(t){ t.n = fines.length; }); grupo = []; fines = []; }
+  ids.forEach(function(i){
+    var t = TURNOS[i], a = minutos(t.ini), b = minutos(t.fin);
+    if (a >= hasta) cerrar();
+    var k = fines.findIndex(function(f){ return f <= a; });
+    if (k < 0) { k = fines.length; fines.push(b); } else fines[k] = b;
+    hasta = Math.max(hasta, b); t.k = k; grupo.push(t);
+  });
+  cerrar();
+  return ids;
+}
+
+function bloque(i){
+  var t = TURNOS[i], a = minutos(t.ini), alto = (minutos(t.fin) - a) * WPX - 3, pasado = fue(t);
+  var sinConf = !pasado && t.estado !== 'ok', tipo = pasado ? 'past' : sinConf ? 'pend' : 'ok';
+  var estado = pasado ? 'Atendido' : ESTADOS[t.estado].texto;
+  var hora = '<span class="h">' + t.ini + (sinConf ? '<i class="dot"></i>' : '') + '</span>';
+  return '<button class="bl bl-' + tipo + (alto < 44 ? ' una' : '') + '" data-i="' + i + '"' +
+    ' style="top:' + (yS(a) + 1) + 'px;height:' + alto + 'px;left:calc(' + (100 * t.k / t.n) + '% + 3px);width:calc(' + (100 / t.n) + '% - 6px)"' +
+    ' title="' + t.ini + '–' + t.fin + ' · ' + t.c + ' — ' + t.tx + ' · ' + estado + '"' +
+    (pasado ? '' : ' onpointerdown="agarrar(event,' + i + ')" onpointermove="arrastrar(event)" onpointerup="soltar()" onpointercancel="cancelar()"') +
+    ' onclick="tocar(' + i + ')">' + hora + '<b>' + t.c + '</b>' + (alto > 58 ? '<span class="tx">' + t.tx + '</span>' : '') + '</button>';
+}
+
+function pintarSemana(){
+  var dias = [0, 1, 2, 3, 4, 5], top = '<div></div>', body = '<div class="wk-horas" style="height:' + yS(WK1) + 'px">';
+  for (var m = WK0 + 60; m < WK1; m += 60) body += '<span style="top:' + yS(m) + 'px">' + hhmm(m) + '</span>';
+  body += '</div>';
+  dias.forEach(function(d){
+    var x = DIAS[d], ids = delDia(d), hoy = d === HOY_D;
+    top += '<div' + (hoy ? ' class="hoy"' : '') + '><b>' + x.d + ' ' + x.n + '</b>' + (hoy ? '<em>Hoy</em>' : '') + '<small>' + ids.length + '</small></div>';
+    body += '<div class="wk-dia' + (hoy ? ' hoy' : '') + (d < HOY_D ? ' pasado' : '') + '" data-d="' + d + '" style="height:' + yS(WK1) + 'px" onclick="nuevoEn(event,this)">' +
+      franjasCerradas(d) + carriles(ids).map(bloque).join('') +
+      (hoy ? '<div class="wk-now" style="top:' + yS(minutos(AHORA)) + 'px"></div>' : '') + '</div>';
+  });
+  document.getElementById('cal-semana').innerHTML = '<div class="wk-in"><div class="wk-top">' + top + '</div><div class="wk-body">' + body + '</div></div>';
+  document.getElementById('bajada').textContent = TURNOS.length + ' turnos · Arrastrá un turno para moverlo · Tocalo para ver el detalle';
+}
+
+// Arrastre con Pointer Events: anda con mouse y con el dedo. El fantasma muestra adónde cae y a qué hora.
+// sinClick: el click que el navegador manda al soltar un arrastre no abre el turno. Cada pointerdown lo limpia.
+var arrastre = null, sinClick = false;
+function agarrar(e, i){
+  sinClick = false;
+  if (e.button) return;
+  var t = TURNOS[i], r = e.currentTarget.getBoundingClientRect();
+  arrastre = {i:i, el:e.currentTarget, dy:e.clientY - r.top, x:e.clientX, y:e.clientY, dur:minutos(t.fin) - minutos(t.ini), dest:null, mov:false};
+  e.currentTarget.setPointerCapture(e.pointerId);
+}
+function arrastrar(e){
+  var a = arrastre;
+  if (!a || (!a.mov && Math.abs(e.clientX - a.x) + Math.abs(e.clientY - a.y) < 5)) return;
+  a.mov = true; a.el.classList.add('lev');
+  var g = document.getElementById('ghost'); if (g) g.remove();
+  a.dest = null;
+  var col = [].filter.call(document.querySelectorAll('#cal-semana .wk-dia'), function(c){
+    var r = c.getBoundingClientRect(); return e.clientX >= r.left && e.clientX < r.right;
+  })[0];
+  if (!col) return;
+  var d = +col.dataset.d, m = WK0 + Math.round((e.clientY - col.getBoundingClientRect().top - a.dy) / WPX / SNAP) * SNAP;
+  m = Math.max(WK0, Math.min(WK1 - a.dur, m));
+  if (d < HOY_D || (d === HOY_D && m < minutos(AHORA))) return; // un turno no se mueve al pasado
+  if (cerrado(d, m, m + a.dur)) return; // ni a un horario en que Okio está cerrado
+  a.dest = {d:d, m:m};
+  col.insertAdjacentHTML('beforeend', '<div class="ghost" id="ghost" style="top:' + (yS(m) + 1) + 'px;height:' + (a.dur * WPX - 3) + 'px"><span>' + hhmm(m) + '</span></div>');
+}
+function soltar(){
+  var a = arrastre;
+  cancelar();
+  if (!a || !a.mov) return; // fue un toque: lo resuelve onclick
+  sinClick = true;
+  var t = TURNOS[a.i];
+  if (a.dest && (a.dest.d !== t.d || hhmm(a.dest.m) !== t.ini)) mover(a.i, a.dest.d, a.dest.m);
+}
+function cancelar(){
+  var g = document.getElementById('ghost'); if (g) g.remove();
+  if (arrastre) arrastre.el.classList.remove('lev');
+  arrastre = null;
+}
+function tocar(i){
+  if (sinClick) { sinClick = false; return; }
+  if (TURNOS[i].d === HOY_D) { ver('dia'); verTurno(i); }
+  else aviso('La demo solo tiene el detalle de hoy, jueves 17.');
+}
+
+var deshacerUltimo = null, toastTimer;
+function mover(i, d, m, sinToast){
+  var t = TURNOS[i], antes = {d:t.d, m:minutos(t.ini)}, dur = minutos(t.fin) - minutos(t.ini);
+  t.d = d; t.ini = hhmm(m); t.fin = hhmm(m + dur);
+  pintarSemana(); elegirTurno(turnoSel);
+  if (sinToast) return;
+  avisarConDeshacer('Turno movido: ' + t.c + ' → ' + diaCorto(d) + ', ' + t.ini, function(){ mover(i, antes.d, antes.m, true); });
+}
+// Toast de 5 s con "Deshacer" (mover y agendar).
+function avisarConDeshacer(texto, fn){
+  deshacerUltimo = fn;
+  document.getElementById('toast-txt').textContent = texto;
+  document.getElementById('toast').hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(cerrarToast, 5000);
+}
+function deshacer(){ if (deshacerUltimo) deshacerUltimo(); deshacerUltimo = null; cerrarToast(); }
+function cerrarToast(){ document.getElementById('toast').hidden = true; }
+
+// Nuevo turno (2e). Tratamientos de la demo con su duración; sin precios (Okio es real y un precio inventado confunde).
+var TRATAMIENTOS = [
+  ['Limpieza facial profunda', 60], ['Peeling facial', 60], ['Peeling corporal', 60], ['Depilación definitiva', 40],
+  ['Dermaplaning', 60], ['Radiofrecuencia facial', 60], ['Microneedling', 90], ['Drenaje linfático', 90]
+];
+// Cupo: cuántos turnos puede haber a la vez. Nunca se muestra; la pantalla no nombra ni cuenta a las profesionales.
+var CUPO = 2;
+var F = null; // estado del formulario abierto
+function sinAcentos(x){ return x.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); }
+function durDe(tx){ var t = TRATAMIENTOS.filter(function(x){ return x[0] === tx; })[0]; return t ? t[1] : 0; }
+// Horarios libres de un día, cada 30 min: abierto, sin pasarse del cupo y, si es hoy, desde ahora + 20 min.
+function libres(d, dur){
+  var desde = d === HOY_D ? Math.ceil((minutos(AHORA) + 20) / 30) * 30 : WK0, out = [];
+  for (var m = WK0; m + dur <= WK1; m += 30) {
+    if (m < desde || cerrado(d, m, m + dur)) continue;
+    var aLaVez = TURNOS.filter(function(t){ return t.d === d && minutos(t.ini) < m + dur && minutos(t.fin) > m; }).length;
+    if (aLaVez < CUPO) out.push(hhmm(m));
+  }
+  return out;
+}
+function diaCorto(d){ return d === HOY_D ? 'Hoy' : DIAS[d].d + ' ' + DIAS[d].n; }
+function iniciales(n){ return n.split(' ').map(function(w){ return w[0]; }).slice(0, 2).join('').toUpperCase(); }
+
+// pre: {d, hora} desde un espacio libre de la Semana, o {cliente} desde una ficha.
+function abrirNuevo(pre){
+  pre = pre || {};
+  F = {q:'', cliente: pre.cliente ? {nombre:pre.cliente} : null, tel:'', tx:'', d: pre.d != null && pre.d >= HOY_D ? pre.d : HOY_D,
+       hora: pre.hora || '', wa:true, notas:'', intentado:false};
+  F.inicial = cargado();
+  F.volver = document.activeElement;
+  document.querySelector('.app').inert = true; // Tab no se escapa a la pantalla de atrás
+  document.getElementById('nt').hidden = false;
+  pintarForm();
+  var q = document.getElementById('nt-q'); if (q) q.focus();
+}
+// Lo que la persona cargó: si cambió desde que se abrió, cerrar pregunta antes de descartar.
+function cargado(){ return JSON.stringify([F.q, F.cliente, F.tel, F.tx, F.d, F.hora, F.wa, F.notas]); }
+function seguirEditando(){
+  document.getElementById('nt-descartar').hidden = true;
+  document.getElementById('nt-pie').hidden = false;
+  document.getElementById('nt-ok').focus();
+}
+function cerrarNuevo(descartar){
+  if (!descartar && F && cargado() !== F.inicial) {
+    document.getElementById('nt-pie').hidden = true;
+    document.getElementById('nt-descartar').hidden = false;
+    document.getElementById('nt-seguir').focus();
+    return;
+  }
+  seguirEditando(); // deja el pie normal para la próxima vez
+  var volver = F && F.volver;
+  document.getElementById('nt').hidden = true; F = null;
+  document.querySelector('.app').inert = false;
+  if (volver && document.contains(volver)) volver.focus();
+}
+addEventListener('keydown', function(e){
+  if (e.key !== 'Escape' || !F) return;
+  if (!document.getElementById('nt-descartar').hidden) seguirEditando(); else cerrarNuevo();
+});
+
+function erroresForm(){
+  var dur = durDe(F.tx), ok = F.tx && libres(F.d, dur).indexOf(F.hora) >= 0;
+  return {
+    cliente: !F.cliente && 'Elegí una clienta o agregala como nueva.',
+    tel: F.cliente && F.cliente.nueva && F.wa && F.tel.replace(/\D/g, '').length < 8 && 'Agregá un teléfono para mandarle la confirmación.',
+    tx: !F.tx && 'Elegí un tratamiento.',
+    hora: F.tx && !ok && 'Elegí un horario libre.',
+    ok: !!(F.cliente && F.tx && ok)
+  };
+}
+function seccion(label, cuerpo, error, derecha){
+  return '<div class="fs"><div class="fs-h"><span class="over">' + label + '</span>' + (derecha || '') + '</div>' + cuerpo +
+    (F.intentado && error ? '<p class="fs-err"><i class="dot"></i>' + error + '</p>' : '') + '</div>';
+}
+
+function pintarForm(){
+  var foco = document.activeElement && document.activeElement.id; // al repintar no se pierde dónde estabas
+  var err = erroresForm(), dur = durDe(F.tx), slots = F.tx ? libres(F.d, dur) : [], hora = slots.indexOf(F.hora) >= 0 ? F.hora : '';
+  var c = F.cliente, cuerpo;
+  if (c) {
+    var semana = TURNOS.filter(function(t){ return t.c === c.nombre && !fue(t); }).length;
+    cuerpo = '<div class="cli"><div><span class="av' + (c.nueva ? ' nueva' : '') + '">' + iniciales(c.nombre) + '</span><span><b>' + esc(c.nombre) + '</b><small>' +
+      (c.nueva ? 'Nueva clienta' : semana ? semana + (semana === 1 ? ' turno' : ' turnos') + ' esta semana' : 'Clienta existente') + '</small></span></div>' +
+      (c.nueva ? '<input class="field" id="nt-tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="Ej.: 351 555 0101…" aria-label="Teléfono (WhatsApp)" value="' + esc(F.tel) + '" oninput="F.tel=this.value;pintarPie()">' : '') + '</div>';
+  } else {
+    cuerpo = '<input class="field" id="nt-q" name="clienta" type="search" autocomplete="off" spellcheck="false" placeholder="Buscar por nombre…" aria-label="Buscar clienta" value="' + esc(F.q) + '" oninput="F.q=this.value;pintarResultados()"><div id="nt-res"></div>';
+  }
+  var html = seccion('Clienta', cuerpo, err.cliente || err.tel, c ? '<button class="link" onclick="F.cliente=null;F.q=\'\';pintarForm();document.getElementById(\'nt-q\').focus()">Cambiar</button>' : '');
+
+  html += seccion('Tratamiento', '<span class="sel"><select class="field" id="nt-tx" aria-label="Tratamiento" onchange="F.tx=this.value;pintarForm()">' +
+    '<option value="" disabled' + (F.tx ? '' : ' selected') + '>Elegí un tratamiento</option>' +
+    TRATAMIENTOS.map(function(t){ return '<option' + (t[0] === F.tx ? ' selected' : '') + '>' + t[0] + '</option>'; }).join('') + '</select></span>' +
+    (F.tx ? '<small class="muted" style="font-size:13px">' + dur + ' min</small>' : ''), err.tx);
+
+  var dias = '';
+  for (var d = HOY_D; d < DIAS.length; d++) {
+    var n = F.tx ? libres(d, dur).length : null, cerradoTodo = d === SABADO;
+    dias += '<button class="chip' + (F.d === d ? ' on' : '') + '" id="nt-d' + d + '" aria-pressed="' + (F.d === d) + '"' + (cerradoTodo ? ' disabled' : '') + ' onclick="F.d=' + d + ';pintarForm()">' + diaCorto(d) +
+      '<small>' + (cerradoTodo ? 'Cerrado' : n == null ? '&nbsp;' : n ? n + ' libres' : 'Completo') + '</small></button>';
+  }
+  var horas = !F.tx ? '<p class="nt-vacio">Elegí un tratamiento para ver los horarios libres.</p>'
+    : !slots.length ? '<p class="nt-vacio">No hay horarios libres ese día. Probá otro día.</p>'
+    : '<div class="chips horas">' + slots.map(function(s){ return '<button class="chip' + (s === hora ? ' on' : '') + '" id="nt-h' + s.replace(':', '') + '" aria-pressed="' + (s === hora) + '" onclick="F.hora=\'' + s + '\';pintarForm()">' + s + '</button>'; }).join('') + '</div>';
+  html += seccion('Día y horario', '<div class="chips">' + dias + '</div>' + horas, err.hora,
+    hora ? '<b class="rango">' + hora + ' – ' + hhmm(minutos(hora) + dur) + '</b>' : '');
+
+  html += seccion('Confirmación', '<label class="check"><input type="checkbox" id="nt-wa"' + (F.wa ? ' checked' : '') + ' onchange="F.wa=this.checked;pintarForm()">' +
+    '<span><b>Preparar confirmación por WhatsApp</b><small>Queda como borrador en Mensajes: lo revisás y lo aprobás antes de que salga.</small></span></label>');
+  html += seccion('Notas internas', '<textarea class="field" id="nt-notas" rows="3" placeholder="Opcional. Solo lo ve el equipo." aria-label="Notas internas" oninput="F.notas=this.value">' + esc(F.notas) + '</textarea>');
+
+  document.getElementById('nt-body').innerHTML = html;
+  if (!c) pintarResultados();
+  pintarPie();
+  var el = foco && document.getElementById(foco); if (el) el.focus();
+}
+
+// Coincidencias de la búsqueda (hasta 5, sin acentos ni mayúsculas) + "Agregar como nueva". Solo clientas con ficha.
+var NT_RES = [];
+function pintarResultados(){
+  var q = F.q.trim().replace(/\s+/g, ' '), box = document.getElementById('nt-res');
+  document.getElementById('nt-q').classList.toggle('abierto', !!q);
+  if (!q) { box.innerHTML = ''; return; }
+  NT_RES = CLIENTAS.map(function(c){ return c.nombre; }).filter(function(n){ return sinAcentos(n).indexOf(sinAcentos(q)) >= 0; }).slice(0, 5);
+  var exacta = CLIENTAS.some(function(c){ return sinAcentos(c.nombre) === sinAcentos(q); });
+  box.innerHTML = '<div class="res">' + NT_RES.map(function(n, j){ return '<button onclick="F.cliente={nombre:NT_RES[' + j + ']};pintarForm()">' + n + '</button>'; }).join('') +
+    (exacta ? '' : '<button class="add" onclick="agregarClienta()">+ Agregar “' + esc(q) + '” como nueva clienta</button>') + '</div>';
+}
+// El nombre se usa en botones y en el HTML de varias pantallas: sin comillas ni < > &.
+function agregarClienta(){
+  var nombre = F.q.replace(/[<>&"'\\]/g, '').trim().replace(/\s+/g, ' ');
+  if (!nombre) return;
+  F.cliente = {nombre:nombre, nueva:true};
+  pintarForm();
+  document.getElementById('nt-tel').focus();
+}
+
+function pintarPie(){
+  var err = erroresForm(), dur = durDe(F.tx);
+  document.getElementById('nt-resumen').innerHTML = err.ok
+    ? '<strong>' + esc(F.cliente.nombre) + '</strong> · ' + F.tx + ' · ' + diaCorto(F.d) + ' ' + F.hora + '–' + hhmm(minutos(F.hora) + dur)
+    : 'Completá clienta, tratamiento y horario.';
+  document.getElementById('nt-resumen').classList.toggle('listo', err.ok);
+  document.getElementById('nt-ok').textContent = F.wa ? 'Agendar y preparar confirmación' : 'Agendar turno';
+}
+
+// Mensaje de reserva: fecha, hora, tratamiento y las indicaciones de "días antes" (las sirve el servidor
+// desde generadores.mjs). Si no hay servidor, sale sin indicaciones.
+var INDICACIONES = null;
+fetch('/api/indicaciones').then(function(r){ return r.ok ? r.json() : null; }).then(function(x){ INDICACIONES = x; }).catch(function(){});
+function mensajeReserva(t){
+  var tx = t.tx.toLowerCase(), antes = INDICACIONES && INDICACIONES[tx] && INDICACIONES[tx].antes;
+  return 'Hola ' + t.c.split(' ')[0] + '! Te reservamos el ' + DIAS[t.d].largo + ' a las ' + t.ini + ' para ' + tx + '.' +
+    (antes ? ' Hasta entonces: ' + antes + '.' : '') + ' Nos confirmás si te queda bien? Saludos!';
+}
+
+function agendar(){
+  var err = erroresForm();
+  if (!err.ok || err.tel) {
+    F.intentado = true; pintarForm();
+    var hora = document.querySelector('#nt-body .chips.horas .chip');
+    var id = err.cliente ? 'nt-q' : err.tel ? 'nt-tel' : err.tx ? 'nt-tx' : hora ? hora.id : 'nt-d' + F.d;
+    document.getElementById(id).focus();
+    return;
+  }
+  var nombre = F.cliente.nombre, dur = durDe(F.tx);
+  var t = {d:F.d, ini:F.hora, fin:hhmm(minutos(F.hora) + dur), c:nombre, tx:F.tx, estado:'pend',
+           rec: F.wa ? 'Confirmación en borrador · falta aprobarla' : 'Todavía no enviado', notas:F.notas.trim(), reserva:F.wa};
+  TURNOS.push(t);
+  // Ficha: la clienta nueva se suma a Clientes; a una existente sin turno se le anota este como próximo.
+  var c = clientaDe(nombre), nuevaFicha = !c, proxAntes = c && c.prox;
+  if (!c) { c = {nombre:nombre, tel:F.tel.trim(), desde:'septiembre 2026', ultima:'Todavía no vino', prox:null}; CLIENTAS.push(c); }
+  if (!c.prox) c.prox = {tx:F.tx, estado:'pend'};
+  // Confirmación por WhatsApp: borrador en Mensajes. No sale hasta que recepción lo aprueba.
+  var conv = null, convNueva = false, convAntes = null;
+  if (F.wa) {
+    var k = convDe(nombre);
+    if (k < 0) { CONVERSACIONES.push({nombre:nombre, hora:AHORA, mensajes:[]}); k = CONVERSACIONES.length - 1; convNueva = true; }
+    conv = CONVERSACIONES[k];
+    convAntes = {cierre:conv.cierre, borrador:conv.borrador, resumen:conv.resumen, tipo:conv.tipo, turno:conv.turno, hora:conv.hora};
+    conv.cierre = 'borrador'; conv.tipo = 'reserva'; conv.turno = t; conv.hora = AHORA;
+    conv.resumen = 'Confirmación lista para revisar'; conv.borrador = mensajeReserva(t);
+  }
+  cerrarNuevo(true);
+  refrescar();
+  avisarConDeshacer('Turno agendado: ' + nombre + ' · ' + diaCorto(t.d) + ', ' + t.ini, function(){
+    var j = TURNOS.indexOf(t);
+    if (j >= 0) { TURNOS.splice(j, 1); if (turnoSel === j) turnoSel = proximo() != null ? proximo() : 0; else if (turnoSel > j) turnoSel--; }
+    if (nuevaFicha) CLIENTAS.splice(CLIENTAS.indexOf(c), 1); else c.prox = proxAntes;
+    if (convNueva) CONVERSACIONES.splice(CONVERSACIONES.indexOf(conv), 1);
+    else if (conv) Object.keys(convAntes).forEach(function(key){ conv[key] = convAntes[key]; });
+    refrescar();
+  });
+}
+
+// Repinta lo que esté a la vista después de crear, mover o deshacer.
+function refrescar(){
+  elegirTurno(turnoSel);
+  if (!document.getElementById('vista-semana').hidden) pintarSemana();
+  if (!document.getElementById('pantalla-inicio').hidden) pintarInicio();
+  if (!document.getElementById('pantalla-clientes').hidden) pintarListaClientas();
+  pintarListaMensajes(-1);
+}
+
+// Click en un espacio libre: abre Nuevo turno con día y hora (redondeada a la media hora). No en días pasados ni cerrados.
+function nuevoEn(e, col){
+  var d = +col.dataset.d;
+  if (e.target !== col || d < HOY_D) return;
+  var m = Math.min(WK0 + Math.floor((e.clientY - col.getBoundingClientRect().top) / WPX / 30) * 30, WK1 - 30);
+  if (cerrado(d, m, m + 30)) return;
+  abrirNuevo({d:d, hora:hhmm(m)});
 }
 
 function elegirTurno(i){
   turnoSel = i;
-  var t = HOY[i], c = clientaDe(t.c), p = c.prox, dur = minutos(t.fin) - minutos(t.ini), k = convDe(t.c);
+  var t = TURNOS[i], c = clientaDe(t.c), k = convDe(t.c);
   var principal = '';
-  if (p.estado === 'pend' && !t.enviado) principal = '<button class="pill solid" style="width:100%" onclick="prepararRecordatorio(' + i + ')">Preparar recordatorio</button>';
+  if (t.reserva && k >= 0) principal = '<button class="pill solid" style="width:100%" onclick="ir(\'mensajes\');elegirConversacion(' + k + ')">Revisar confirmación</button>';
+  else if (c && t.estado === 'pend' && !t.enviado) principal = '<button class="pill solid" style="width:100%" onclick="prepararRecordatorio(' + i + ')">Preparar recordatorio</button>';
   else if (k >= 0) principal = '<button class="pill solid" style="width:100%" onclick="ir(\'mensajes\');elegirConversacion(' + k + ')">Ver conversación</button>';
   document.getElementById('detalle').innerHTML =
     '<p class="eyebrow">Turno seleccionado</p>' +
     '<h2>' + t.c + '</h2>' +
-    '<p class="when">' + t.ini + ' – ' + t.fin + ' · ' + dur + ' min</p>' +
-    '<span class="badge ' + p.estado + '">' + ESTADOS[p.estado].texto + '</span>' +
+    '<p class="when">' + (t.d === HOY_D ? '' : DIAS[t.d].largo + ' · ') + t.ini + ' – ' + t.fin + ' · ' + duracion(t) + '</p>' +
+    pillEstado(estadoHoy(t)) +
     '<p class="eyebrow" style="margin-top:18px">Tratamientos</p>' +
-    '<ul>' + p.tx.split(' + ').map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul>' +
-    '<dl><dt>Profesional</dt><dd>' + t.pro + '</dd>' +
-    '<dt>WhatsApp</dt><dd>+54 351 ' + c.tel + '</dd>' +
-    '<dt>Recordatorio</dt><dd>' + t.rec + '</dd></dl>' +
+    '<ul>' + t.tx.split(' + ').map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul>' +
+    '<dl>' + (c ? '<dt>WhatsApp</dt><dd>' + c.tel + '</dd>' : '') +
+    '<dt>Recordatorio</dt><dd>' + (t.rec || 'Todavía no enviado') + '</dd>' +
+    (t.notas ? '<dt>Notas</dt><dd>' + esc(t.notas) + '</dd>' : '') + '</dl>' +
     principal +
-    '<button class="pill" style="width:100%;margin-top:8px" onclick="verFicha(\'' + t.c + '\')">Ver ficha</button>';
-  pintarCal('cal-dia', [HOY_D]);
+    (c ? '<button class="pill" style="width:100%;margin-top:8px" onclick="verFicha(\'' + t.c + '\')">Ver ficha</button>' : '');
+  pintarDia();
 }
+// Desde un click: en pantallas angostas el detalle queda abajo de la lista, así que se lo trae a la vista.
+function verTurno(i){ elegirTurno(i); document.getElementById('detalle').scrollIntoView({block:'nearest', behavior:'smooth'}); }
 
 function verEnAgenda(nombre){ ir('agenda'); ver('dia'); var i = turnoDe(nombre); if (i >= 0) elegirTurno(i); }
 function verFicha(nombre){ ir('clientes'); elegirClienta(CLIENTAS.indexOf(clientaDe(nombre))); }
@@ -639,15 +1168,15 @@ function aviso(texto){
 // Si no hay servidor, falta la key o tarda más de 15 s, queda un borrador de ejemplo y la demo sigue.
 async function prepararRecordatorio(i){
   if (i == null) i = turnoSel;
-  var t = HOY[i], p = clientaDe(t.c).prox, nombre = t.c.split(' ')[0], k = convDe(t.c);
-  var tratamiento = p.tx.toLowerCase().replace(' + ', ' y ');
+  var t = TURNOS[i], nombre = t.c.split(' ')[0], k = convDe(t.c), dia = diaLargo(t.d);
+  var tratamiento = t.tx.toLowerCase().replace(' + ', ' y ');
   if (k < 0) {
     CONVERSACIONES.push({nombre:t.c, hora:'15:21', mensajes:[]});
     k = CONVERSACIONES.length - 1;
   }
   var conv = CONVERSACIONES[k];
-  conv.cierre = 'borrador'; conv.resumen = 'Borrador listo para revisar';
-  conv.borrador = conv.borrador || ('Hola ' + nombre + '! Te recordamos tu turno de hoy, jueves 17, a las ' + t.ini +
+  conv.cierre = 'borrador'; conv.resumen = 'Borrador listo para revisar'; conv.tipo = null; conv.turno = null;
+  conv.borrador = conv.borrador || ('Hola ' + nombre + '! Te recordamos tu turno de ' + dia + ', a las ' + t.ini +
     ' para ' + tratamiento + '. Nos confirmás si venís? Saludos!');
   ir('mensajes'); elegirConversacion(k);
   var ta = document.getElementById('borrador'), label = document.getElementById('borrador-label'), btn = document.getElementById('btn-aprobar');
@@ -656,7 +1185,7 @@ async function prepararRecordatorio(i){
     var r = await fetch('/api/recordatorio', {
       method: 'POST', headers: {'Content-Type': 'application/json'},
       signal: AbortSignal.timeout(15000),
-      body: JSON.stringify({turnos: [{nombre: nombre, tratamiento: tratamiento, dia: 'hoy, jueves 17', hora: t.ini}]})
+      body: JSON.stringify({turnos: [{nombre: nombre, tratamiento: tratamiento, dia: dia, hora: t.ini}]})
     });
     var data = await r.json();
     if (!r.ok) throw new Error(data.error);
@@ -670,41 +1199,107 @@ async function prepararRecordatorio(i){
 }
 
 function aprobar(k){
-  var conv = CONVERSACIONES[k], t = HOY[turnoDe(conv.nombre)];
+  var conv = CONVERSACIONES[k], t = conv.turno || TURNOS[turnoDe(conv.nombre)], reserva = conv.tipo === 'reserva';
   conv.mensajes.push({dia:'Hoy'}, {de:'out', texto: document.getElementById('borrador').value, hora:'Okio · 15:21'});
-  conv.cierre = 'enviado'; conv.resumen = 'Recordatorio enviado · esperando respuesta';
+  conv.cierre = 'enviado'; conv.resumen = (reserva ? 'Confirmación enviada' : 'Recordatorio enviado') + ' · esperando respuesta';
   elegirConversacion(k);
-  if (t) { t.enviado = true; t.rec = 'Enviado hoy 15:21 · esperando respuesta'; }
-  pintarAtencion(); elegirTurno(turnoSel);
+  if (t) { t.enviado = true; t.reserva = false; t.rec = 'Enviado hoy 15:21 · esperando respuesta'; }
+  elegirTurno(turnoSel);
 }
 
-pintarListaMensajes(-1);
-elegirConversacion(1); // Luciana, la del recorrido de la demo
-pintarAtencion();
-elegirTurno(turnoSel);
+// Inicio (V3 Editorial): los turnos de hoy y lo que hay que resolver. Lee los mismos datos que Agenda y Mensajes.
+function espera(hora){
+  if (!/^\d\d:\d\d$/.test(hora)) return hora;
+  var m = minutos(AHORA) - minutos(hora);
+  return m < 1 ? 'recién' : 'hace ' + m + ' min';
+}
+function pintarInicio(){
+  var hoy = deHoy(), sig = proximo();
+  var convs = CONVERSACIONES.map(function(c, k){ return {c:c, k:k}; })
+    .filter(function(x){ return x.c.cierre === 'humano' || x.c.cierre === 'borrador'; });
+  var seguir = CLIENTAS.filter(function(c){ return !c.prox; });
+  var pend = hoy.filter(function(i){ var s = estadoHoy(TURNOS[i]); return s === 'alert' || s === 'pend' || s === 'sent'; }).length;
+  var metricas = [[hoy.length, 'Turnos de hoy'], [pend, 'Pendientes'], [convs.length, 'Conversaciones por resolver']];
+
+  var turnos = hoy.map(function(i){
+    var t = TURNOS[i], s = estadoHoy(t), marca = s === 'alert' || s === 'pend' || s === 'sent', sigue = i === sig && !marca;
+    return '<button class="h-row' + (s === 'done' ? ' fue' : '') + '" onclick="verEnAgenda(\'' + t.c + '\')">' +
+      '<time>' + t.ini + '</time>' +
+      '<span class="who"><span><b>' + t.c + '</b> — ' + t.tx + '</span><small>' + duracion(t) + '</small></span>' +
+      '<span class="st' + (marca ? ' flag' : sigue ? ' sigue' : '') + '">' + (marca ? '<i class="dot"></i>' : '') + (sigue ? 'Sigue' : textoEstado(s)) + '</span></button>';
+  }).join('');
+
+  var conversaciones = convs.length ? convs.map(function(x){
+    var c = x.c, borrador = c.cierre === 'borrador', ultimo = c.mensajes[c.mensajes.length - 1];
+    return '<div class="r-item"><div><span class="canal">WhatsApp</span><b>' + c.nombre + '</b><time>' + espera(c.hora) + '</time></div>' +
+      (borrador ? '<p style="margin:0;font-size:14px">' + (c.tipo === 'reserva' ? 'La confirmación del turno nuevo está lista' : 'El borrador del recordatorio está listo') + ' para revisar.</p>' : '<q>' + esc(ultimo.texto) + '</q>') +
+      (borrador ? '<button class="btn" onclick="ir(\'mensajes\');elegirConversacion(' + x.k + ')">' + (c.tipo === 'reserva' ? 'Revisar confirmación' : 'Revisar borrador') + '</button>'
+                : '<button class="btn" onclick="responder(\'' + c.nombre + '\')">Responder</button>') + '</div>';
+  }).join('') : '<p class="r-empty">No hay mensajes sin responder.</p>';
+
+  var seguimientos = seguir.length ? seguir.map(function(c){
+    return '<div class="r-item r-fu"><span><b>' + c.nombre + '</b><small>Sin turno reservado · última visita ' + c.ultima.charAt(0).toLowerCase() + c.ultima.slice(1) + '</small></span>' +
+      '<button class="btn" onclick="verFicha(\'' + c.nombre + '\')">Contactar</button></div>';
+  }).join('') : '<p class="r-empty">Nadie para contactar por ahora.</p>';
+
+  document.getElementById('home').innerHTML =
+    '<div class="home-head"><div><h1 class="hoy">Hoy</h1><p class="fecha">jueves 17 de septiembre</p>' +
+      '<p class="bajada">Tus turnos y conversaciones, en un solo lugar.</p></div>' +
+      '<button class="btn primary" onclick="nuevoTurno()">+ Nuevo turno</button></div>' +
+    '<div class="metrics">' + metricas.map(function(m){ return '<div><b>' + m[0] + '</b><span>' + m[1] + '</span></div>'; }).join('') + '</div>' +
+    '<div class="home-cols">' +
+      '<section aria-label="Turnos de hoy"><div class="sec-head"><h2>Turnos</h2><small>' + hoy.length + ' hoy</small>' +
+        '<button class="link" onclick="ir(\'agenda\');ver(\'dia\')">Ver agenda →</button></div>' + turnos + '</section>' +
+      '<section class="resolver" aria-label="Para resolver ahora"><h2><i class="dot"></i>Para resolver ahora</h2>' +
+        '<div class="r-sub"><span class="over">Conversaciones</span><button class="link" onclick="ir(\'mensajes\')">Ver todas →</button></div>' + conversaciones +
+        '<div class="r-sub" style="padding-top:14px"><span class="over">Seguimientos</span><button class="link" onclick="ir(\'clientes\')">Ver clientas →</button></div>' + seguimientos +
+      '</section>' +
+    '</div>';
+}
 
 function ir(p){
-  ['agenda','clientes','mensajes'].forEach(function(x){
+  ['inicio','agenda','clientes','mensajes'].forEach(function(x){
     document.getElementById('pantalla-' + x).hidden = x !== p;
     document.getElementById('nav-' + x).classList.toggle('on', x === p);
     if (x === p) document.getElementById('nav-' + x).setAttribute('aria-current', 'page');
     else document.getElementById('nav-' + x).removeAttribute('aria-current');
   });
+  if (p === 'inicio') pintarInicio();
+  if (p === 'clientes') { pintarListaClientas(); filtrarClientas(document.getElementById('buscar').value); }
+  urlVista();
 }
 
+// La vista de Agenda queda en la URL (?view=day|week): se puede recargar o compartir el link y abre igual.
+var vista = 'dia';
+function urlVista(){
+  history.replaceState(null, '', document.getElementById('pantalla-agenda').hidden ? location.pathname : '?view=' + (vista === 'dia' ? 'day' : 'week'));
+}
 function ver(v){
   var dia = v === 'dia';
+  vista = v;
   document.getElementById('vista-dia').hidden = !dia;
   document.getElementById('vista-semana').hidden = dia;
+  document.getElementById('btn-turno').hidden = dia; // en Día, el botón está en el resumen
+  document.getElementById('bajada').hidden = dia;
   document.getElementById('btn-dia').classList.toggle('on', dia); document.getElementById('btn-dia').setAttribute('aria-pressed', dia);
   document.getElementById('btn-semana').classList.toggle('on', !dia); document.getElementById('btn-semana').setAttribute('aria-pressed', !dia);
   document.getElementById('eyebrow').textContent = dia ? 'Agenda · Día' : 'Agenda · Semana';
-  document.getElementById('titulo').innerHTML = dia ? 'Jueves <em>17</em> de septiembre' : 'Semana del <em>14</em> al 18 de septiembre';
-  if (!dia) pintarCal('vista-semana', [0, 1, 2, 3, 4]);
-  var cal = document.getElementById(dia ? 'cal-dia' : 'vista-semana');
-  cal.scrollTop = Math.max(0, y(minutos(AHORA)) - 180); // arranca mostrando la hora actual
+  document.getElementById('titulo').textContent = dia ? 'Agenda' : 'Semana del 14 de septiembre';
+  urlVista();
+  if (dia) return;
+  pintarSemana();
+  var cal = document.getElementById('cal-semana');
+  cal.scrollTop = Math.max(0, yS(minutos(AHORA)) - 200); // arranca mostrando la hora actual
 }
-ver('dia');
+
+pintarListaClientas();
+elegirClienta(3); // Luciana, la del recorrido de la demo
+pintarListaMensajes(-1);
+elegirConversacion(1); // Luciana, la del recorrido de la demo
+elegirTurno(turnoSel);
+var pedida = new URLSearchParams(location.search).get('view');
+ver(pedida === 'week' ? 'semana' : 'dia');
+ir(pedida ? 'agenda' : 'inicio');
 </script>
 </body>
 </html>

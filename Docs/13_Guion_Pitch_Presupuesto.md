@@ -18,7 +18,9 @@
 
 > La primera es Esencial: la agenda en un solo lugar, cada turno con su tratamiento, recordatorios que dicen qué tratamiento es, y una lista de los turnos que quedaron sin fecha para que no se pierda ninguno. Paso todo lo que hoy tienen en el Calendar y el Excel, y capacito a recepción.
 
-> La segunda es Completo, que suma la IA. Les escribe los recordatorios y las confirmaciones como escribe recepción, y ustedes los revisan antes de mandarlos. Les ahorra más tiempo en los mensajes que cambian cada vez, como las indicaciones antes de un tratamiento o un cambio de horario.
+> La segunda es Completo, que suma la IA para contestar. Cuando una clienta escribe algo que cambia cada vez, como una cancelación, un cambio de horario o una consulta, recepción pega el mensaje y la IA propone la respuesta. Mira la agenda, así que puede ofrecer un hueco libre y tener en cuenta qué tratamientos tiene esa clienta. Recepción la revisa y la manda.
+
+> Los recordatorios no necesitan IA: un mensaje fijo con el tratamiento ya funciona perfecto, y eso viene en los dos paquetes.
 
 ## 3. El precio (30 segundos)
 
@@ -40,7 +42,10 @@
 > Sí, hay sistemas genéricos de unos 30 dólares por mes. La diferencia es que este está hecho para cómo trabajan ustedes, la IA escribe como escribe recepción y yo estoy cerca para ajustarlo. Si les queda alto, podemos arrancar con Esencial y sumar la IA más adelante.
 
 **"Qué pasa con los mensajes que mandan las clientas?":**
-> Por ahora siguen llegando a WhatsApp como hoy. Que lleguen solos al sistema es el paso siguiente, cuando la agenda ya esté funcionando.
+> Siguen llegando a WhatsApp como hoy. Con Completo, recepción copia el mensaje y lo pega en el sistema para que la IA proponga la respuesta. Que lleguen solos, sin copiar y pegar, es el paso siguiente.
+
+**"Pero en la demo la IA escribía el recordatorio":**
+> Sí, la IA lo puede escribir, pero para eso alcanza con un mensaje fijo. Donde la IA ayuda de verdad es contestando los mensajes que cambian cada vez.
 
 **"Lo tengo que pensar":**
 > Dale, obvio. Te escribo el jueves y lo hablamos.

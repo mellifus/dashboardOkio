@@ -1,0 +1,165 @@
+<title>Mensajes Okio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: carilla de una columna, cabecera verde institucional, bloques en grilla de 3 y 2 que se apilan en celular */
+:root {
+  --bg: #F5F1EC;
+  --surface: #FFFFFF;
+  --ink: #3A3A3A;
+  --muted: #6E6862;
+  --green: #003F36;
+  --on-green: #F5F1EC;
+  --gold: #B99269;
+  --gold-light: #C9A583;
+  --blush: #DED1CB;
+  --line: #E4DCD3;
+  --wa: #1E9E50;
+  --serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F1E1B; --surface: #172A26; --ink: #ECE6DF; --muted: #B3AAA1;
+    --green: #0A332C; --on-green: #F5F1EC; --gold: #CDA67D; --gold-light: #D6B794;
+    --blush: #2A3C37; --line: #2C403B; --wa: #3CC47A; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F1E1B; --surface: #172A26; --ink: #ECE6DF; --muted: #B3AAA1;
+  --green: #0A332C; --on-green: #F5F1EC; --gold: #CDA67D; --gold-light: #D6B794;
+  --blush: #2A3C37; --line: #2C403B; --wa: #3CC47A; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 400 15px/1.55 var(--sans); padding-inline: 16px; padding-block: 24px 40px; }
+.page { max-width: 880px; margin: 0 auto; display: grid; gap: 20px; }
+
+header { background: var(--green); color: var(--on-green); border-radius: 20px; padding: 28px 28px 30px; display: grid; gap: 14px; }
+.brand { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.brand b { font: 500 26px/1 var(--serif); color: var(--gold-light); }
+.brand span { font: 500 11.5px/1 var(--sans); letter-spacing: .26em; color: var(--gold-light); text-transform: uppercase; }
+h1 { font: 400 clamp(26px, 4.4vw, 36px)/1.15 var(--serif); margin: 0; text-wrap: balance; }
+h1 em, h2 em { font-style: italic; color: var(--gold-light); }
+header p { margin: 0; max-width: 62ch; color: var(--on-green); opacity: .9; font-size: 16px; }
+
+.eyebrow { font: 600 12.5px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin: 0 0 8px; }
+h2 { font: 400 22px/1.25 var(--serif); margin: 0 0 12px; color: var(--green); text-wrap: balance; }
+h2 em { color: var(--gold); }
+:root[data-theme="dark"] h2, :root[data-theme="dark"] h3 { color: var(--ink); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) h2, :root:not([data-theme="light"]) h3 { color: var(--ink); } }
+h3 { font: 500 18px/1.3 var(--serif); margin: 0 0 6px; color: var(--green); }
+p { margin: 0; }
+section { display: grid; gap: 4px; }
+
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px 18px 20px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.card p { font-size: 14.5px; color: var(--ink); }
+.card .q { font: 600 12.5px/1.3 var(--sans); color: var(--muted); letter-spacing: .04em; }
+
+.flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 4px; }
+.step { background: var(--blush); color: var(--ink); border-radius: 999px; padding: 8px 14px; font: 500 13.5px/1.2 var(--sans); }
+.arrow { color: var(--gold); font-size: 15px; }
+.step.wa { background: transparent; border: 1.5px solid var(--wa); color: var(--ink); }
+
+.costs { width: 100%; border-collapse: collapse; font-size: 14.5px; font-variant-numeric: tabular-nums; }
+.costs th, .costs td { text-align: left; padding: 11px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.costs th { font: 600 12.5px/1.2 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.costs td:last-child { white-space: nowrap; font-weight: 600; }
+.free { color: var(--wa); }
+.table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; }
+
+.stages { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.stages li { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.stages .n { font: 400 italic 26px/1 var(--serif); color: var(--gold); }
+.stages .when { font: 600 12.5px/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.stages p { font-size: 14.5px; }
+
+.promise { background: var(--blush); border-radius: 20px; padding: 22px 24px; display: grid; gap: 8px; }
+.promise p { font: 400 19px/1.4 var(--serif); color: var(--ink); max-width: 60ch; }
+.promise p em { color: var(--gold); }
+
+.notes { display: grid; gap: 6px; font-size: 13px; color: var(--muted); }
+.notes p::before { content: "✦ "; color: var(--gold); }
+
+@media (max-width: 720px) {
+  .grid3, .grid2, .stages { grid-template-columns: 1fr; }
+  header { padding: 22px 20px 24px; }
+}
+</style>
+
+<div class="page">
+  <header>
+    <div class="brand"><b>Okio</b><span>Estética y Bienestar</span></div>
+    <h1>Los mensajes de WhatsApp, <em>en una sola pantalla</em></h1>
+    <p>La IA prepara la respuesta, ustedes la aprueban y el mensaje sale. Nada se envía sin su OK, y el arranque no suma costos de WhatsApp.</p>
+  </header>
+
+  <section>
+    <p class="eyebrow">Las tres preguntas</p>
+    <div class="grid3">
+      <div class="card">
+        <span class="q">Dónde quedan las conversaciones?</span>
+        <h3>Una copia en el dashboard</h3>
+        <p>WhatsApp sigue guardando su historial como siempre. El dashboard guarda su propia copia, conectada a la API oficial de Meta, y ustedes siguen usando WhatsApp en el celular.</p>
+      </div>
+      <div class="card">
+        <span class="q">Cuánto cuesta?</span>
+        <h3>Recibir es gratis</h3>
+        <p>Meta no cobra los mensajes que mandan las clientas. Cobra solo lo que se envía por la API. Si la respuesta sale desde la app de siempre, cuesta $0.</p>
+      </div>
+      <div class="card">
+        <span class="q">Qué pasa al tocar "Enviar"?</span>
+        <h3>Se abre WhatsApp, listo</h3>
+        <p>Se abre el chat de esa clienta con el mensaje ya escrito. Ustedes lo revisan, lo editan si quieren y lo mandan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Cómo llega un mensaje y cómo sale</p>
+    <div class="flow" aria-label="Recorrido de un mensaje">
+      <span class="step wa">La clienta escribe por WhatsApp</span><span class="arrow">→</span>
+      <span class="step">Aparece en el dashboard</span><span class="arrow">→</span>
+      <span class="step">La IA redacta la respuesta</span><span class="arrow">→</span>
+      <span class="step">Ustedes la aprueban</span><span class="arrow">→</span>
+      <span class="step wa">Sale por WhatsApp</span>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Qué se paga y qué no</p>
+    <div class="table-wrap">
+      <table class="costs">
+        <thead><tr><th>Mensaje</th><th>Cómo sale</th><th>Costo</th></tr></thead>
+        <tbody>
+          <tr><td>Lo que escriben las clientas</td><td>Llega solo al dashboard</td><td class="free">Gratis</td></tr>
+          <tr><td>Respuestas a clientas</td><td>Desde la app de WhatsApp de siempre</td><td class="free">$0</td></tr>
+          <tr><td>Respuestas a clientas, desde el dashboard</td><td>Por la API, dentro de las 24 h</td><td>1.000 por mes gratis*</td></tr>
+          <tr><td>Recordatorios del día siguiente</td><td>Por la API, aprobados todos juntos</td><td>≈ US$0,03 c/u*</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">El camino, sin apurarse</p>
+    <h2>Arrancamos en $0 y sumamos <em>solo lo que haga falta</em></h2>
+    <ol class="stages">
+      <li><span class="n">1</span><span class="when">Ahora</span><h3>Enviar abre WhatsApp</h3><p>El borrador se abre en WhatsApp con un toque. Sirve para ver si a recepción le simplifica el día. Costo: $0.</p></li>
+      <li><span class="n">2</span><span class="when">Después</span><h3>Una sola bandeja</h3><p>Todo lo que entra por WhatsApp aparece solo en el dashboard, sin copiar y pegar. Recibir es gratis. Instagram se puede sumar a la misma bandeja.</p></li>
+      <li><span class="n">3</span><span class="when">Cuando haya volumen</span><h3>Recordatorios con un clic</h3><p>Todas las tardes se arman los de mañana y se aprueban juntos. Si la clienta responde "confirmo", el turno se actualiza solo. Cerca de US$3 por mes cada 100 recordatorios*.</p></li>
+    </ol>
+  </section>
+
+  <div class="promise">
+    <p class="eyebrow">Lo que no cambia</p>
+    <p>La IA les ahorra escribir. <em>La decisión sigue siendo de ustedes</em>: cada mensaje sale con su OK, con la voz de Okio.</p>
+  </div>
+
+  <div class="notes">
+    <p>Las conversaciones son datos de salud. Se guardan en una base protegida, con acceso solo para el equipo de Okio, según la Ley 25.326 de datos personales.</p>
+    <p>*Montos aproximados para Argentina, a confirmar con la página oficial de precios de Meta antes de contratar.</p>
+    <p>La demo de hoy usa conversaciones de ejemplo. Todavía no hay nada conectado al WhatsApp real.</p>
+  </div>
+</div>

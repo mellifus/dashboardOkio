@@ -1,0 +1,235 @@
+<title>Propuesta Okio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: carilla de una columna; cabecera verde, dos paquetes lado a lado, condiciones en grilla; todo se apila en celular */
+:root {
+  --bg: #F5F1EC;
+  --surface: #FFFFFF;
+  --ink: #3A3A3A;
+  --muted: #6E6862;
+  --green: #003F36;
+  --on-green: #F5F1EC;
+  --gold: #B99269;
+  --gold-light: #C9A583;
+  --blush: #DED1CB;
+  --line: #E4DCD3;
+  --heading: #003F36;
+  --serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F1E1B; --surface: #172A26; --ink: #ECE6DF; --muted: #B3AAA1;
+    --green: #0A332C; --on-green: #F5F1EC; --gold: #CDA67D; --gold-light: #D6B794;
+    --blush: #2A3C37; --line: #2C403B; --heading: #ECE6DF; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F1E1B; --surface: #172A26; --ink: #ECE6DF; --muted: #B3AAA1;
+  --green: #0A332C; --on-green: #F5F1EC; --gold: #CDA67D; --gold-light: #D6B794;
+  --blush: #2A3C37; --line: #2C403B; --heading: #ECE6DF; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 400 15px/1.55 var(--sans); padding-inline: 16px; padding-block: 24px 40px; }
+.page { max-width: 880px; margin: 0 auto; display: grid; gap: 22px; }
+p { margin: 0; }
+
+header { background: var(--green); color: var(--on-green); border-radius: 20px; padding: 28px 28px 30px; display: grid; gap: 14px; }
+.brand { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.brand b { font: 500 26px/1 var(--serif); color: var(--gold-light); }
+.brand span { font: 500 11.5px/1 var(--sans); letter-spacing: .26em; color: var(--gold-light); text-transform: uppercase; }
+h1 { font: 400 clamp(26px, 4.4vw, 36px)/1.15 var(--serif); margin: 0; text-wrap: balance; }
+h1 em { font-style: italic; color: var(--gold-light); }
+header p { max-width: 62ch; opacity: .9; font-size: 16px; }
+
+.eyebrow { font: 600 12.5px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+h2 { font: 400 22px/1.25 var(--serif); margin: 0 0 12px; color: var(--heading); text-wrap: balance; }
+h2 em { font-style: italic; color: var(--gold); }
+h3 { font: 500 22px/1.2 var(--serif); margin: 0; color: var(--heading); }
+
+.pains { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.pain { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; font-size: 14.5px; min-width: 0; }
+
+.plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.plan { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 22px; display: grid; gap: 14px; align-content: start; min-width: 0; }
+.plan.featured { border: 1.5px solid var(--gold); }
+.plan .tag { justify-self: start; font: 600 12.5px/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--gold); }
+.plan ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 7px; font-size: 14.5px; }
+.plan li { display: grid; grid-template-columns: 16px 1fr; gap: 6px; }
+.plan li::before { content: "✦"; color: var(--gold); font-size: 12.5px; line-height: 1.9; }
+.price { display: grid; gap: 4px; border-top: 1px solid var(--line); padding-top: 14px; font-variant-numeric: tabular-nums; }
+.price .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.price .label { font-size: 14px; color: var(--muted); }
+.price .amount { font: 500 24px/1.1 var(--serif); color: var(--heading); }
+.price .amount small { font: 500 13px var(--sans); color: var(--muted); }
+.price .founder { font-size: 13.5px; color: var(--gold); font-weight: 600; }
+.price s { color: var(--muted); font-weight: 400; }
+
+.founder-box { background: var(--blush); border-radius: 20px; padding: 22px 24px; display: grid; gap: 8px; }
+.founder-box p { font-size: 15px; max-width: 66ch; }
+.founder-box .big { font: 400 20px/1.35 var(--serif); }
+.founder-box .big em { color: var(--gold); }
+
+.infra { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 20px 22px; display: grid; gap: 6px; }
+.infra p { font-size: 14.5px; max-width: 70ch; }
+
+.terms { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.box { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.box h4 { font: 600 12.5px/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 2px; }
+.box ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14.5px; }
+
+.next { background: var(--green); color: var(--on-green); border-radius: 20px; padding: 22px 24px; display: grid; gap: 6px; }
+.next .eyebrow { color: var(--gold-light); margin: 0; }
+.next p { font: 400 19px/1.4 var(--serif); max-width: 60ch; }
+
+.foot { font-size: 13px; color: var(--muted); }
+
+.annex { border-top: 1px solid var(--line); padding-top: 22px; display: grid; gap: 14px; }
+.annex .intro { font-size: 14.5px; color: var(--muted); max-width: 66ch; }
+.table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; }
+.breakdown { width: 100%; border-collapse: collapse; font-size: 14.5px; font-variant-numeric: tabular-nums; }
+.breakdown caption { text-align: left; padding: 14px 14px 4px; font: 500 18px/1.3 var(--serif); color: var(--heading); }
+.breakdown th, .breakdown td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.breakdown th { font: 600 12.5px/1.2 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.breakdown .num { text-align: right; white-space: nowrap; }
+.breakdown tr.total td { font-weight: 600; border-bottom: 0; }
+
+@media (max-width: 720px) {
+  .pains, .plans, .terms { grid-template-columns: 1fr; }
+  header { padding: 22px 20px 24px; }
+}
+</style>
+
+<div class="page">
+  <header>
+    <div class="brand"><b>Okio</b><span>Estética y Bienestar</span></div>
+    <h1>Una agenda ordenada y <em>más tiempo para recepción</em></h1>
+    <p>Propuesta para pasar los turnos, los recordatorios y los mensajes a un solo lugar, hecho a la medida de cómo trabaja Okio.</p>
+  </header>
+
+  <section>
+    <p class="eyebrow">Lo que hoy se hace a mano</p>
+    <div class="pains">
+      <div class="pain">Los recordatorios no dicen qué tratamiento es, y recepción lo aclara en mensajes aparte.</div>
+      <div class="pain">Los turnos están entre el Calendar, el Excel y el chat, y una reprogramación queda solo en WhatsApp.</div>
+      <div class="pain">Cuando una clienta cancela, el turno puede quedar sin fecha nueva y depende de que alguien se acuerde.</div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Dos paquetes</p>
+    <div class="plans">
+      <div class="plan">
+        <span class="tag">Esencial</span>
+        <h3>Agenda y recordatorios</h3>
+        <ul>
+          <li>Una sola agenda, con el tratamiento en cada turno</li>
+          <li>Recordatorios que dicen qué tratamiento es</li>
+          <li>Lista de turnos pendientes sin fecha, para no perder ninguno</li>
+          <li>Pasamos lo que hoy está en Calendar y Excel</li>
+          <li>Capacitación para recepción</li>
+        </ul>
+        <div class="price">
+          <div class="row"><span class="label">Puesta en marcha</span><span class="amount">US$300</span></div>
+          <div class="row"><span class="label">Precio clienta fundadora</span><span class="founder">US$210</span></div>
+          <div class="row"><span class="label">Abono mensual</span><span class="amount">US$40 <small>/ mes</small></span></div>
+        </div>
+      </div>
+      <div class="plan featured">
+        <span class="tag">Completo</span>
+        <h3>Todo lo anterior, más la IA</h3>
+        <ul>
+          <li>Todo lo del paquete Esencial</li>
+          <li>La IA redacta las respuestas de WhatsApp con la voz de recepción</li>
+          <li>Recepción revisa, edita y aprueba: nada se envía solo</li>
+          <li>"Enviar" abre WhatsApp con el mensaje listo, sin costo extra de WhatsApp</li>
+        </ul>
+        <div class="price">
+          <div class="row"><span class="label">Puesta en marcha</span><span class="amount">US$450</span></div>
+          <div class="row"><span class="label">Precio clienta fundadora</span><span class="founder">US$315</span></div>
+          <div class="row"><span class="label">Abono mensual</span><span class="amount">US$50 <small>/ mes</small></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="founder-box">
+    <p class="eyebrow">Precio de clienta fundadora</p>
+    <p class="big">30% menos en la puesta en marcha si arrancamos <em>antes del 31 de octubre</em>.</p>
+    <p>A cambio, Okio me autoriza a mostrar el proyecto en mi portfolio y me cuenta qué le pareció después del primer mes. El abono mensual no cambia.</p>
+  </div>
+
+  <div class="infra">
+    <p class="eyebrow">Sin costo de servidores</p>
+    <p>El sistema funciona en internet sin costo de alojamiento: el servicio que usamos (Cloudflare) es gratis para el tamaño de una clínica. Okio no paga nada aparte. El abono mensual cubre el mantenimiento, una copia de seguridad semanal de los datos y ajustes chicos de hasta 2 horas por mes.</p>
+  </div>
+
+  <section>
+    <p class="eyebrow">Condiciones</p>
+    <div class="terms">
+      <div class="box">
+        <h4>Cómo se paga</h4>
+        <ul>
+          <li>50% al arrancar y 50% al entregar la puesta en marcha.</li>
+          <li>Precios en dólares, cobrados en pesos al dólar oficial del Banco Nación del día de pago.</li>
+          <li>Ajustes de más de 2 horas en un mes se cotizan aparte.</li>
+          <li>La propuesta vale 15 días.</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h4>No incluido</h4>
+        <ul>
+          <li>Historia clínica y fotos de pacientes.</li>
+          <li>Cargar datos de clientas antes de firmar el acuerdo de privacidad.</li>
+          <li>Instagram y el envío automático de mensajes por WhatsApp (se cotizan aparte, y WhatsApp cobra esos envíos).</li>
+          <li>Soporte fuera del horario de la clínica.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="next">
+    <p class="eyebrow">Siguiente paso</p>
+    <p>Elegimos el paquete, firmamos el acuerdo de privacidad y acordamos juntas la fecha de arranque.</p>
+  </div>
+
+  <section class="annex">
+    <div>
+      <p class="eyebrow">Anexo</p>
+      <h2>Qué incluye <em>la puesta en marcha</em></h2>
+      <p class="intro">Cada monto sale de las horas de trabajo estimadas por tarea, a US$12 la hora.</p>
+    </div>
+    <div class="table-wrap">
+      <table class="breakdown">
+        <caption>Esencial</caption>
+        <thead><tr><th>Tarea</th><th class="num">Horas</th><th class="num">US$</th></tr></thead>
+        <tbody>
+          <tr><td>Charla con recepción para conocer cómo trabajan hoy</td><td class="num">3</td><td class="num">36</td></tr>
+          <tr><td>Agenda con el tratamiento en cada turno y lista de pendientes sin fecha</td><td class="num">6</td><td class="num">72</td></tr>
+          <tr><td>Recordatorios que nombran el tratamiento, con la voz de recepción</td><td class="num">3</td><td class="num">36</td></tr>
+          <tr><td>Dejar el sistema funcionando en internet, con copia de seguridad de los datos</td><td class="num">6</td><td class="num">72</td></tr>
+          <tr><td>Pasar los datos de Calendar y Excel</td><td class="num">4</td><td class="num">48</td></tr>
+          <tr><td>Capacitación a recepción y acompañamiento la primera semana</td><td class="num">3</td><td class="num">36</td></tr>
+          <tr class="total"><td>Total Esencial</td><td class="num">25</td><td class="num">300</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-wrap">
+      <table class="breakdown">
+        <caption>Completo: Esencial más la IA</caption>
+        <thead><tr><th>Tarea</th><th class="num">Horas</th><th class="num">US$</th></tr></thead>
+        <tbody>
+          <tr><td>Todo lo del paquete Esencial</td><td class="num">25</td><td class="num">300</td></tr>
+          <tr><td>Enseñarle a la IA a escribir como recepción, con mensajes de ejemplo sin datos personales</td><td class="num">4</td><td class="num">48</td></tr>
+          <tr><td>Sumar las respuestas sugeridas al sistema, con un botón que abre WhatsApp con el mensaje listo</td><td class="num">4</td><td class="num">48</td></tr>
+          <tr><td>Probar con mensajes reales y corregir lo que haga falta</td><td class="num">3</td><td class="num">36</td></tr>
+          <tr><td>Capacitación sobre la IA</td><td class="num">1,5</td><td class="num">18</td></tr>
+          <tr class="total"><td>Total Completo</td><td class="num">37,5</td><td class="num">450</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <p class="foot">✦ Los datos de las clientas se guardan protegidos, con acceso solo para el equipo de Okio, según la Ley 25.326.</p>
+</div>

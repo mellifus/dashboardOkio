@@ -2,7 +2,7 @@
 
 **Estado:** v1, 2026-10-08
 **Para:** la reunión con la dueña de Okio, después de la demo y de las tres preguntas. Dura unos dos minutos.
-**Relacionados:** `11_Carilla_Propuesta_Okio.html` (la propuesta por escrito), `12_Recordatorio_Esencial_vs_Completo.html` (cómo cambia el recordatorio en cada paquete), `Demo_octubre_unificada.md` (el guion de la demo).
+**Relacionados:** `11_Carilla_Propuesta_Okio.html` (la propuesta por escrito), `12_Recordatorio_Esencial_vs_Completo.html` (el recordatorio con mensaje fijo y la IA contestando una cancelación), `Demo_octubre_unificada.md` (el guion de la demo).
 
 ---
 
@@ -22,6 +22,8 @@
 
 > Los recordatorios no necesitan IA: un mensaje fijo con el tratamiento ya funciona perfecto, y eso viene en los dos paquetes.
 
+*Si quieren ver cómo contesta la IA, mostrá la cancelación de Sofía en la página de mensajes (`12_...`).*
+
 ## 3. El precio (30 segundos)
 
 > Esencial tiene una puesta en marcha de 300 dólares y después 40 por mes. Completo son 450 de puesta en marcha y 50 por mes. Se cobra en pesos, al dólar oficial del día.
@@ -32,7 +34,7 @@
 
 ## 4. Cierre
 
-> Te dejo la propuesta por escrito, con el detalle de cada cosa. Qué te parece si te escribo el jueves y lo vemos?
+> Te dejo la propuesta por escrito, con el detalle de cada cosa. Qué te parece si te escribo el lunes y lo vemos?
 
 ---
 
@@ -47,5 +49,8 @@
 **"Pero en la demo la IA escribía el recordatorio":**
 > Sí, la IA lo puede escribir, pero para eso alcanza con un mensaje fijo. Donde la IA ayuda de verdad es contestando los mensajes que cambian cada vez.
 
+**"Hay costos aparte, como servidores o WhatsApp?":**
+> No. El sistema funciona en un servicio que es gratis para el tamaño de una clínica, y los mensajes salen desde el WhatsApp de siempre, así que WhatsApp no cobra nada. Lo que cuesta la IA está dentro del abono.
+
 **"Lo tengo que pensar":**
-> Dale, obvio. Te escribo el jueves y lo hablamos.
+> Dale, obvio. Te escribo el lunes y lo hablamos.

@@ -896,7 +896,7 @@ function pintarSemana(){
   document.getElementById('titulo').textContent = 'Semana del ' + DIAS[lun].n + ' de ' + DIAS[lun].mes;
   document.getElementById('bajada').textContent = REPROG ? 'Reprogramando a ' + REPROG + ' · Tocá un espacio libre y el turno nuevo sale con sus datos'
     : n + (n === 1 ? ' turno' : ' turnos') + ' · Arrastrá un turno para moverlo · Tocalo para ver el detalle';
-  pasos(semana > 0, semana < ULT_SEM, 'Semana anterior', 'Semana siguiente', 'Volver a esta semana');
+  pasos(semana > 0, semana < ULT_SEM, 'Semana anterior', 'Semana siguiente', 'Hoy, volver a esta semana');
 }
 function pasos(ant, sig, lAnt, lSig, lHoy){
   document.getElementById('paso-ant').disabled = !ant; document.getElementById('paso-ant').setAttribute('aria-label', lAnt);
@@ -937,7 +937,7 @@ function pintarMes(){
   document.getElementById('titulo').textContent = MESES[m].charAt(0).toUpperCase() + MESES[m].slice(1) + ' ' + p.getFullYear();
   document.getElementById('bajada').textContent = REPROG ? 'Reprogramando a ' + REPROG + ' · Tocá + en un día para elegir el horario'
     : n + (n === 1 ? ' turno' : ' turnos') + ' · Tocá un día para ver su semana · Con + agendás un turno ese día';
-  pasos(mes > 0, mes < 1, 'Mes anterior', 'Mes siguiente', 'Volver a este mes');
+  pasos(mes > 0, mes < 1, 'Mes anterior', 'Mes siguiente', 'Hoy, volver a este mes');
 }
 // Reprogramar desde Mensajes: la Semana recuerda a la clienta hasta que se agenda o se sale de Agenda.
 var REPROG = null;
@@ -1103,24 +1103,12 @@ function pintarForm(){
     TRATAMIENTOS.map(function(t){ return '<option' + (t[0] === F.tx ? ' selected' : '') + '>' + t[0] + '</option>'; }).join('') + '</select></span>' +
     (F.tx ? '<small class="muted" style="font-size:11.5px">' + dur + ' min</small>' : ''), err.tx);
 
-  var dias = '';
-  // Los próximos 5 días hábiles, desde hoy (sábado y domingo no se ofrecen).
-  for (var d = HOY_D, hab = 0; d < DIAS.length && hab < 5; d++) {
-    if (finde(d)) continue;
-    hab++;
-    var n = F.tx ? libres(d, dur).length : null, cerradoTodo = false;
-    dias += '<button class="chip' + (F.d === d ? ' on' : '') + '" id="nt-d' + d + '" aria-pressed="' + (F.d === d) + '"' + (cerradoTodo ? ' disabled' : '') + ' onclick="F.d=' + d + ';pintarForm()">' + diaCorto(d) +
-      '<small>' + (cerradoTodo ? 'Cerrado' : n == null ? '&nbsp;' : n ? n + ' libres' : 'Completo') + '</small></button>';
-  }
   // Otra fecha, hasta el último día de DIAS (unas 9 semanas): para los tratamientos que se repiten cada mes.
-  dias += '</div><label class="otra"><span>Otra fecha</span><input class="field" type="date" id="nt-fecha" min="' + iso(HOY_D) + '" max="' + iso(DIAS.length - 1) + '"' +
-    ' value="' + iso(F.d) + '" onchange="elegirFecha(this.value)"></label>';
-  var horas = finde(F.d) ? '<p class="nt-vacio">Sábados y domingos Okio está cerrado. Elegí otro día.</p>'
-    : !F.tx ? '<p class="nt-vacio">Elegí un tratamiento para ver los horarios libres.</p>'
-    : !slots.length ? '<p class="nt-vacio">No hay horarios libres ese día. Probá otro día.</p>'
-    : '<div class="chips horas">' + slots.map(function(s){ return '<button class="chip' + (s === hora ? ' on' : '') + '" id="nt-h' + s.replace(':', '') + '" aria-pressed="' + (s === hora) + '" onclick="F.hora=\'' + s + '\';pintarForm()">' + s + '</button>'; }).join('') + '</div>';
-  html += seccion('Día y horario', '<div class="chips">' + dias + horas, err.hora,
-    hora ? '<b class="rango">' + hora + ' – ' + hhmm(minutos(hora) + dur) + '</b>' : '');
+  var dh = diaYHora(dur, slots, hora);
+  html += seccion('Día y horario', '<div class="chips" id="nt-dias">' + dh.dias + '</div>' +
+    '<label class="otra"><span>Otra fecha</span><input class="field" type="date" id="nt-fecha" min="' + iso(HOY_D) + '" max="' + iso(DIAS.length - 1) + '"' +
+    ' value="' + iso(F.d) + '" onchange="elegirFecha(this.value)"></label><div id="nt-horas">' + dh.horas + '</div>', err.hora,
+    '<b class="rango" id="nt-rango">' + dh.rango + '</b>');
 
   html += seccion('Confirmación', '<label class="check"><input type="checkbox" id="nt-wa"' + (F.wa ? ' checked' : '') + ' onchange="F.wa=this.checked;pintarForm()">' +
     '<span><b>Preparar confirmación por WhatsApp</b><small>Queda como borrador en Mensajes: lo revisás y lo aprobás antes de que salga.</small></span></label>');
@@ -1133,10 +1121,33 @@ function pintarForm(){
 }
 
 function iso(d){ var x = DIAS[d].f; return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0'); }
+// Chips de día, horarios y rango. Aparte de pintarForm para que elegirFecha no rehaga el campo de fecha mientras se escribe en él.
+function diaYHora(dur, slots, hora){
+  var dias = '';
+  // Los próximos 5 días hábiles, desde hoy (sábado y domingo no se ofrecen).
+  for (var d = HOY_D, hab = 0; d < DIAS.length && hab < 5; d++) {
+    if (finde(d)) continue;
+    hab++;
+    var n = F.tx ? libres(d, dur).length : null;
+    dias += '<button class="chip' + (F.d === d ? ' on' : '') + '" id="nt-d' + d + '" aria-pressed="' + (F.d === d) + '" onclick="F.d=' + d + ';pintarForm()">' + diaCorto(d) +
+      '<small>' + (n == null ? '&nbsp;' : n ? n + ' libres' : 'Completo') + '</small></button>';
+  }
+  var horas = finde(F.d) ? '<p class="nt-vacio">Sábados y domingos Okio está cerrado. Elegí otro día.</p>'
+    : !F.tx ? '<p class="nt-vacio">Elegí un tratamiento para ver los horarios libres.</p>'
+    : !slots.length ? '<p class="nt-vacio">No hay horarios libres ese día. Probá otro día.</p>'
+    : '<div class="chips horas">' + slots.map(function(s){ return '<button class="chip' + (s === hora ? ' on' : '') + '" id="nt-h' + s.replace(':', '') + '" aria-pressed="' + (s === hora) + '" onclick="F.hora=\'' + s + '\';pintarForm()">' + s + '</button>'; }).join('') + '</div>';
+  return {dias:dias, horas:horas, rango: hora ? hora + ' – ' + hhmm(minutos(hora) + dur) : ''};
+}
+// Mientras se escribe la fecha, cada parte cambia el valor: solo se repintan días y horarios, no el campo.
 function elegirFecha(v){
   var d = v ? indice(new Date(v + 'T12:00')) : -1;
-  if (d >= HOY_D && d < DIAS.length) F.d = d;
-  pintarForm();
+  if (d < HOY_D || d >= DIAS.length || d === F.d) return;
+  F.d = d;
+  var dur = durDe(F.tx), slots = F.tx ? libres(d, dur) : [], dh = diaYHora(dur, slots, slots.indexOf(F.hora) >= 0 ? F.hora : '');
+  document.getElementById('nt-dias').innerHTML = dh.dias;
+  document.getElementById('nt-horas').innerHTML = dh.horas;
+  document.getElementById('nt-rango').textContent = dh.rango;
+  pintarPie();
 }
 
 // Coincidencias de la búsqueda (hasta 5, sin acentos ni mayúsculas) + "Agregar como nueva". Solo clientas con ficha.
@@ -1183,7 +1194,7 @@ function agendar(){
   if (!err.ok || err.tel) {
     F.intentado = true; pintarForm();
     var hora = document.querySelector('#nt-body .chips.horas .chip');
-    var id = err.cliente ? 'nt-q' : err.tel ? 'nt-tel' : err.tx ? 'nt-tx' : hora ? hora.id : 'nt-d' + F.d;
+    var id = err.cliente ? 'nt-q' : err.tel ? 'nt-tel' : err.tx ? 'nt-tx' : hora ? hora.id : document.getElementById('nt-d' + F.d) ? 'nt-d' + F.d : 'nt-fecha';
     document.getElementById(id).focus();
     return;
   }
@@ -1405,7 +1416,7 @@ function pintarInicio(){
 }
 
 function ir(p){
-  REPROG = null; marcado = -1;
+  REPROG = null; marcado = -1; semana = 0; mes = 0;
   ['inicio','agenda','clientes','mensajes'].forEach(function(x){
     document.getElementById('pantalla-' + x).hidden = x !== p;
     document.getElementById('nav-' + x).classList.toggle('on', x === p);

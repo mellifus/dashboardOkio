@@ -28,44 +28,52 @@ addEventListener('DOMContentLoaded', function(){
 });
 </script>
 <style>
-/* Tokens por tema. Claro = institucional Okio. Oscuro = "verde noche": fondos verdosos, no negro neutro. */
+/* Tokens por tema. Paleta del local y de las redes de Okio (2026-10-08): marfil, rosa lino, rosa arcilla,
+   arena dorada, terracota profundo y ciruela carbón. Oscuro = "ciruela noche": fondos ciruela, no negro neutro.
+   Rosa arcilla (--brand) es la marca: bordes, puntos, menú activo. No lleva texto encima (3,3:1 sobre marfil).
+   Terracota profundo (--accent) lleva botones, títulos y el resumen (7,3:1 con texto claro). */
 :root{
-  --green:#003F36; --gold:#B99269; --gold-light:#C9A583;
-  --page:#F8F6F3; --surface:#FFFDFB; --line:#E8E3DD; --sidebar:#002A24;
-  --text:#3A3A3A; --muted:#6B6B6B; --gold-text:#8A6A45; --gold-big:#9A7550;
-  --accent:#003F36; --solid-bg:#003F36; --solid-text:#FFFFFF;
-  --ok:#003F36; --ok-bg:#E3ECE9; --ok-text:#003F36;
-  --pend:#9A7550; --pend-bg:#F4EADF; --pend-text:#6B4F33;
-  --alert:#8E5A5F; --alert-bg:#F2E4E3; --alert-text:#5D3A33; --alert-line:#E6CFCD; --why:#5A5A5A;
-  --ic-text:#FFFFFF; --done-bg:#ECE7E2;
-  --wk-ok-line:#C9DAD5; --wk-past-bg:#F1ECE8; --wk-past-line:#E6DED9; --today-head:#F8F5F1; --today-col:#FBF8F4; --hour-line:#EEE6E1;
+  --green:#352B30; --gold:#B99268; --gold-light:#C9A583;
+  --page:#F5F2EE; --surface:#FFFDFB; --line:#E4DAD5; --sidebar:#352B30;
+  --text:#352B30; --muted:#6E6266; --gold-text:#74532F; --gold-big:#8E6B45;
+  --accent:#793F35; --solid-bg:#793F35; --solid-text:#FFFFFF;
+  --brand:#AD7772; --brand-soft:#E4DAD5; --scrim:rgba(53,43,48,.34); --shadow:rgba(53,43,48,.10);
+  --hero:#793F35; --hero-text:#F5F2EE; --hero-label:#E4DAD5; --hero-sub:rgba(245,242,238,.8); --hero-line:rgba(245,242,238,.18);
+  --ok:#4F6B58; --ok-bg:#E2E7DF; --ok-text:#3E5444;
+  --pend:#9A7550; --pend-bg:#F1E6D6; --pend-text:#6E5030;
+  --alert:#A3392D; --alert-bg:#F6DEDA; --alert-text:#8F2D24; --alert-line:#EBC9C3; --why:#5A4E52;
+  --ic-text:#FFFFFF; --done-bg:#ECE6E2; --disabled:#A99FA1;
+  --wk-ok-line:#C5D0C1; --wk-past-bg:#EFE9E5; --wk-past-line:#E2D9D4; --today-head:#F3ECE8; --today-col:#FAF5F2; --hour-line:#ECE3DE;
   --serif:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,sans-serif;
   color-scheme:light;
 }
-/* Mismos valores oscuros dos veces: por el sistema (si nadie eligió claro) y por el switch. */
+/* Mismos valores oscuros dos veces: por el sistema (si nadie eligió claro) y por el switch.
+   El resumen (--hero) queda en terracota en los dos temas, como antes quedaba en verde. */
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --page:#0E1614; --surface:#15201D; --line:#26332F; --sidebar:#08110F;
-    --text:#E9E4DD; --muted:#A49D94; --gold-text:#D4B48C; --gold-big:#CFAE84;
-    --accent:#B5CFC6; --solid-bg:#E9E4DD; --solid-text:#002A24;
-    --ok:#6FA394; --ok-bg:#1C2E29; --ok-text:#CFE3DC;
-    --pend:#C9A583; --pend-bg:#2E271D; --pend-text:#EBD5B5;
-    --alert:#C08A8F; --alert-bg:#2F2023; --alert-text:#F0CFD1; --alert-line:#4A3236; --why:#C9C1BA;
-    --ic-text:#15201D; --done-bg:#1F2A27;
-  --wk-ok-line:#2E4A42; --wk-past-bg:#1A2421; --wk-past-line:#26332F; --today-head:#1B2925; --today-col:#18241F; --hour-line:#1F2B28;
+    --page:#1A1517; --surface:#241D20; --line:#3A3034; --sidebar:#120E10;
+    --text:#EFE8E4; --muted:#B5A9A7; --gold-text:#D9BB92; --gold-big:#D2B289;
+    --accent:#E2A99C; --solid-bg:#EFE3DC; --solid-text:#3A1E19;
+    --brand:#C9918A; --brand-soft:#3A2D30; --scrim:rgba(0,0,0,.5); --shadow:rgba(0,0,0,.35);
+    --ok:#8DAE97; --ok-bg:#22302A; --ok-text:#CFE2D4;
+    --pend:#C9A583; --pend-bg:#2F271E; --pend-text:#EBD5B5;
+    --alert:#E08A7E; --alert-bg:#3A2220; --alert-text:#F5C9C1; --alert-line:#55312D; --why:#CFC3C0;
+    --ic-text:#241D20; --done-bg:#2A2326; --disabled:#7C7174;
+    --wk-ok-line:#3C5244; --wk-past-bg:#211B1E; --wk-past-line:#3A3034; --today-head:#2A2124; --today-col:#221B1E; --hour-line:#2E2629;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --page:#0E1614; --surface:#15201D; --line:#26332F; --sidebar:#08110F;
-  --text:#E9E4DD; --muted:#A49D94; --gold-text:#D4B48C; --gold-big:#CFAE84;
-  --accent:#B5CFC6; --solid-bg:#E9E4DD; --solid-text:#002A24;
-  --ok:#6FA394; --ok-bg:#1C2E29; --ok-text:#CFE3DC;
-  --pend:#C9A583; --pend-bg:#2E271D; --pend-text:#EBD5B5;
-  --alert:#C08A8F; --alert-bg:#2F2023; --alert-text:#F0CFD1; --alert-line:#4A3236; --why:#C9C1BA;
-  --ic-text:#15201D; --done-bg:#1F2A27;
-  --wk-ok-line:#2E4A42; --wk-past-bg:#1A2421; --wk-past-line:#26332F; --today-head:#1B2925; --today-col:#18241F; --hour-line:#1F2B28;
-  color-scheme:dark;
+    --page:#1A1517; --surface:#241D20; --line:#3A3034; --sidebar:#120E10;
+    --text:#EFE8E4; --muted:#B5A9A7; --gold-text:#D9BB92; --gold-big:#D2B289;
+    --accent:#E2A99C; --solid-bg:#EFE3DC; --solid-text:#3A1E19;
+    --brand:#C9918A; --brand-soft:#3A2D30; --scrim:rgba(0,0,0,.5); --shadow:rgba(0,0,0,.35);
+    --ok:#8DAE97; --ok-bg:#22302A; --ok-text:#CFE2D4;
+    --pend:#C9A583; --pend-bg:#2F271E; --pend-text:#EBD5B5;
+    --alert:#E08A7E; --alert-bg:#3A2220; --alert-text:#F5C9C1; --alert-line:#55312D; --why:#CFC3C0;
+    --ic-text:#241D20; --done-bg:#2A2326; --disabled:#7C7174;
+    --wk-ok-line:#3C5244; --wk-past-bg:#211B1E; --wk-past-line:#3A3034; --today-head:#2A2124; --today-col:#221B1E; --hour-line:#2E2629;
+    color-scheme:dark;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--page);color:var(--text);font-family:var(--sans);font-size:16.5px;line-height:1.45}
@@ -84,13 +92,13 @@ body{margin:0;background:var(--page);color:var(--text);font-family:var(--sans);f
 .brand b{font-family:var(--serif);font-weight:400;font-size:20px;color:var(--gold);display:block;line-height:1}
 .brand small{font-size:8.5px;white-space:nowrap;letter-spacing:.24em;color:var(--gold-light);font-weight:600}
 nav a{display:block;padding:10px 12px;border-radius:8px;color:inherit;text-decoration:none;font-weight:500;font-size:16.5px}
-nav a.on{background:rgba(255,255,255,.1);color:#fff;font-weight:600}
+nav a.on{background:color-mix(in srgb,var(--brand) 32%,transparent);color:#fff;font-weight:600}
 nav a{display:flex;align-items:center} nav .count{margin-left:auto;background:var(--gold);color:var(--green);font-size:13.5px;font-weight:700;border-radius:999px;padding:1px 8px}
 main{padding:24px 28px;min-width:0}
 header{display:flex;align-items:end;gap:16px;margin-bottom:18px;flex-wrap:wrap}
 .eyebrow{font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 4px}
 h1{font-family:var(--serif);font-weight:400;font-size:32px;margin:0;letter-spacing:-.01em}
-h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para texto grande */
+h1 em{color:var(--gold-big)} /* la arena dorada da 2,5:1 sobre marfil; este tono pasa 3:1 para texto grande */
 .switch{margin-left:auto;display:flex;gap:6px}
 .pill{font:600 14.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:10px 18px;border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer;white-space:nowrap}
 .pill.solid{background:var(--solid-bg);border-color:var(--solid-bg);color:var(--solid-text)}
@@ -105,7 +113,7 @@ h1 em{color:var(--gold-big)} /* #B99269 da 2.5:1 sobre crema; este pasa 3:1 para
 .btn{font:600 15px var(--sans);border-radius:10px;padding:10px 16px;min-height:40px;cursor:pointer;white-space:nowrap;border:1px solid var(--line);background:var(--surface);color:var(--accent)}
 .btn.primary{background:var(--solid-bg);border-color:var(--solid-bg);color:var(--solid-text)}
 .link{font:600 14px var(--sans);color:var(--accent);background:none;border:0;padding:6px 0;cursor:pointer;white-space:nowrap}
-.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold);flex:none}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--brand);flex:none}
 .over{font-size:13.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 main{container-type:inline-size} /* Inicio y Agenda se acomodan al ancho del contenido, no de la ventana */
 
@@ -137,7 +145,7 @@ main{container-type:inline-size} /* Inicio y Agenda se acomodan al ancho del con
 .st{font-size:14px;color:var(--muted);display:flex;align-items:center;gap:6px;white-space:nowrap;justify-self:end}
 .st.flag{color:var(--text);font-weight:600}
 .st.sigue{color:var(--accent);font-weight:600}
-.resolver{background:var(--surface);border-radius:18px;box-shadow:0 1px 2px rgba(0,63,54,.05),0 10px 30px rgba(0,63,54,.06);overflow:hidden;min-width:0}
+.resolver{background:var(--surface);border-radius:18px;box-shadow:0 1px 2px var(--shadow),0 10px 30px var(--shadow);overflow:hidden;min-width:0}
 .resolver h2{display:flex;align-items:center;gap:10px;margin:0;padding:18px 24px 14px;font:400 22px var(--serif);color:var(--accent)}
 .resolver h2 .dot{width:8px;height:8px}
 .r-sub{display:flex;align-items:center;justify-content:space-between;padding:6px 24px;border-top:1px solid var(--line)}
@@ -154,21 +162,21 @@ main{container-type:inline-size} /* Inicio y Agenda se acomodan al ancho del con
 .r-empty{padding:8px 24px 18px;font-size:15px;color:var(--muted)}
 
 /* Agenda · Día: resumen en verde, "Requiere atención" y el calendario de hoy */
-.hero{background:#003F36;color:#F5F1EC;border-radius:18px;padding:26px 28px;display:flex;flex-direction:column;gap:22px;margin-bottom:18px}
+.hero{background:var(--hero);color:var(--hero-text);border-radius:18px;padding:26px 28px;display:flex;flex-direction:column;gap:22px;margin-bottom:18px}
 .hero-top{display:flex;align-items:flex-end;gap:24px}
 .hero-top>div{flex:1;min-width:0}
-.hero .over{color:var(--gold);margin-bottom:8px}
+.hero .over{color:var(--hero-label);margin-bottom:8px}
 .hero h2{margin:0;font:500 36px/1.1 var(--serif);letter-spacing:-.01em;text-wrap:pretty}
-.hero .btn{background:#fff;color:#003F36;border-color:#DED1CB}
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:rgba(245,241,236,.16);border-radius:12px;overflow:hidden}
-.stats>div{background:#003F36;padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
-.stats span,.stats small{font-size:13.5px;color:rgba(245,241,236,.78);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.3}
-.stats small{color:rgba(245,241,236,.72)}
+.hero .btn{background:#fff;color:var(--hero);border-color:var(--hero-label)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--hero-line);border-radius:12px;overflow:hidden}
+.stats>div{background:var(--hero);padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.stats span,.stats small{font-size:13.5px;color:var(--hero-sub);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.3}
+.stats small{color:var(--hero-sub)}
 .stats span{white-space:normal} /* con letra más grande, la etiqueta baja de renglón en vez de cortarse */
 .stats b{font:500 30px/1 var(--serif);font-variant-numeric:tabular-nums}
-.stats b.warn{color:var(--gold)}
-.need{background:var(--surface);border:1px solid var(--gold);border-radius:16px;overflow:hidden;margin-bottom:18px}
-.need-head{display:flex;align-items:center;gap:10px;padding:14px 20px;background:var(--pend-bg);border-bottom:1px solid var(--line)}
+.stats b.warn{color:var(--hero-label)}
+.need{background:var(--surface);border:1px solid var(--brand);border-radius:16px;overflow:hidden;margin-bottom:18px}
+.need-head{display:flex;align-items:center;gap:10px;padding:14px 20px;background:var(--brand-soft);border-bottom:1px solid var(--line)}
 .need-head h2{margin:0;font:500 18px var(--serif);color:var(--accent)}
 .need-head small{margin-left:auto;font-size:14px;font-weight:600;color:var(--gold-text)}
 .need-row{display:flex;align-items:center;gap:20px;padding:16px 20px}
@@ -233,15 +241,15 @@ main{container-type:inline-size} /* Inicio y Agenda se acomodan al ancho del con
 .legend.wk-legend i{display:inline-block;width:14px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;box-sizing:border-box}
 .sub{margin:6px 0 0;font-size:15px;color:var(--muted)}
 /* Toast de "Deshacer" (2d): se cierra solo a los 5 s */
-.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:20;display:flex;align-items:center;gap:14px;max-width:calc(100% - 32px);box-sizing:border-box;padding:10px 12px 10px 16px;border-radius:12px;background:#003F36;color:#F5F1EC;font-size:15px;box-shadow:0 8px 24px rgba(0,63,54,.25)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:20;display:flex;align-items:center;gap:14px;max-width:calc(100% - 32px);box-sizing:border-box;padding:10px 12px 10px 16px;border-radius:12px;background:var(--hero);color:var(--hero-text);font-size:15px;box-shadow:0 8px 24px var(--shadow)}
 .toast[hidden]{display:none}
-.toast button{font:600 14.5px var(--sans);color:#F5F1EC;background:rgba(245,241,236,.14);border:0;border-radius:8px;padding:6px 10px;cursor:pointer;white-space:nowrap}
+.toast button{font:600 14.5px var(--sans);color:var(--hero-text);background:var(--hero-line);border:0;border-radius:8px;padding:6px 10px;cursor:pointer;white-space:nowrap}
 
 /* Nuevo turno (2e): panel derecho de 460 px; en celular, hoja desde abajo */
 .nt{position:fixed;inset:0;z-index:30}
 .nt[hidden]{display:none}
-.nt-ov{position:absolute;inset:0;background:rgba(29,43,40,.32)}
-.nt-panel{position:absolute;top:0;right:0;bottom:0;width:460px;max-width:100%;display:flex;flex-direction:column;overflow:hidden;background:var(--page);box-shadow:0 10px 40px rgba(0,63,54,.18)}
+.nt-ov{position:absolute;inset:0;background:var(--scrim)}
+.nt-panel{position:absolute;top:0;right:0;bottom:0;width:460px;max-width:100%;display:flex;flex-direction:column;overflow:hidden;background:var(--page);box-shadow:0 10px 40px var(--shadow)}
 .nt-head{display:flex;align-items:flex-start;gap:12px;padding:22px 24px 16px;border-bottom:1px solid var(--line)}
 .nt-head>div{flex:1;min-width:0}
 .nt-head .over{margin:0}
@@ -278,7 +286,7 @@ textarea.field{resize:vertical;line-height:1.45}
 .chip small{font-size:12.5px;font-weight:400;color:var(--muted)}
 .chip.on{background:var(--solid-bg);border-color:var(--solid-bg);color:var(--solid-text)}
 .chip.on small{color:inherit;opacity:.78}
-.chip:disabled{background:transparent;color:#A9AFAC;opacity:.7;cursor:default}
+.chip:disabled{background:transparent;color:var(--disabled);opacity:.7;cursor:default}
 .nt-vacio{margin:0;padding:10px 0 2px;font-size:14.5px;color:var(--muted)}
 .check{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;cursor:pointer}
 .check input{width:18px;height:18px;margin:1px 0 0;flex:none;accent-color:var(--accent)}
@@ -432,7 +440,7 @@ textarea.field{resize:vertical;line-height:1.45}
 <div class="app">
   <aside class="sidebar">
     <div class="brand">
-      <svg width="26" height="20" viewBox="0 0 100 78" fill="none" stroke="#B99269" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M50 8C57 24 57 42 50 56C43 42 43 24 50 8Z"/><path d="M50 56C41 49 34 38 34 24C43 30 49 43 50 56Z"/><path d="M50 56C59 49 66 38 66 24C57 30 51 43 50 56Z"/><path d="M50 58C37 57 23 50 16 39C31 38 45 46 50 58Z"/><path d="M50 58C63 57 77 50 84 39C69 38 55 46 50 58Z"/></svg>
+      <svg width="26" height="20" viewBox="0 0 100 78" fill="none" stroke="#B99268" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M50 8C57 24 57 42 50 56C43 42 43 24 50 8Z"/><path d="M50 56C41 49 34 38 34 24C43 30 49 43 50 56Z"/><path d="M50 56C59 49 66 38 66 24C57 30 51 43 50 56Z"/><path d="M50 58C37 57 23 50 16 39C31 38 45 46 50 58Z"/><path d="M50 58C63 57 77 50 84 39C69 38 55 46 50 58Z"/></svg>
       <div><b>Okio</b><small>ESTÉTICA Y BIENESTAR</small></div>
     </div>
     <nav>

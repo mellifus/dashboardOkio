@@ -34,11 +34,19 @@ El rediseño se diseña para **recepción**. Los otros dos roles quedan para cua
 
 **Propuesta**
 - **El color dice una sola cosa: el estado del turno.**
-  - Verde Okio = confirmado
+  - Verde salvia apagado = confirmado (es un estado, no la marca)
   - Dorado = sin confirmar
-  - Rosa profundo = requiere atención (por ejemplo, la clienta avisó que no puede venir)
+  - Rojo ladrillo = requiere atención (por ejemplo, la clienta avisó que no puede venir). Antes era rosa profundo; desde que el rosa es la marca, la alerta pasó a rojo ladrillo para no confundirse.
+- **Paleta del local y de las redes (2026-10-08, elegida por Meli):** el dashboard dejó el verde de la web y Tienda Nube. Ahora usa los colores que Okio usa en Instagram y en las paredes del local, porque el equipo lo usa adentro del local y es lo que reconoce como Okio. Comparación: https://claude.ai/artifact/HQyKiutUoVRZtTnBNfLhxp
+  - Marfil cálido `#F5F2EE`: fondo.
+  - Ciruela carbón `#352B30`: texto y barra lateral (12,2:1 sobre marfil).
+  - Terracota profundo `#793F35`: botones, títulos y el resumen del día (7,3:1 con texto claro).
+  - Rosa arcilla `#AD7772`: la marca (bordes, puntos de aviso, menú activo). No lleva texto encima (3,3:1).
+  - Rosa lino `#E4DAD5`: encabezados de tarjetas y líneas.
+  - Arena dorada `#B99268`: logo y detalles (2,5:1, solo adorno).
+  - Los tonos salen de capturas y fotos del local: calibrar con el manual de marca o el logo en archivo cuando estén.
   - El tratamiento va **escrito**, nunca como color.
-- **Vista Día como calendario (2026-10-08, pedido de Meli)**: arriba un resumen en verde (turnos de hoy, confirmados, cuántos requieren atención y el próximo turno); abajo, a todo el ancho, la tarjeta "Requiere atención" con el botón para resolver cada uno. Debajo, en dos columnas: **el calendario de hoy**, igual al de la Semana pero con una sola columna (mismas horas, franjas cerradas, línea de "ahora", arrastrar para mover y tocar un espacio libre para agendar), y a la derecha el detalle del turno elegido. Como la columna es ancha, cada bloque muestra siempre hora, clienta y tratamiento, con letra más grande. Arranca mostrando la hora actual. Antes (2026-10-07): una lista "Turnos del día" en orden cronológico (diseño V1 "Tarjeta"), y antes de eso un calendario con una columna por profesional.
+- **Vista Día como calendario (2026-10-08, pedido de Meli)**: arriba un resumen en terracota (turnos de hoy, confirmados, cuántos requieren atención y el próximo turno); abajo, a todo el ancho, la tarjeta "Requiere atención" con el botón para resolver cada uno. Debajo, en dos columnas: **el calendario de hoy**, igual al de la Semana pero con una sola columna (mismas horas, franjas cerradas, línea de "ahora", arrastrar para mover y tocar un espacio libre para agendar), y a la derecha el detalle del turno elegido. Como la columna es ancha, cada bloque muestra siempre hora, clienta y tratamiento, con letra más grande. Arranca mostrando la hora actual. Antes (2026-10-07): una lista "Turnos del día" en orden cronológico (diseño V1 "Tarjeta"), y antes de eso un calendario con una columna por profesional.
 - **Nunca se nombra ni se cuenta a las profesionales (2026-10-07, pedido de Meli).** Importa qué se hace (tratamiento, horario, estado), no quién lo hace ni cuántas son. Vale para Agenda, Inicio, Clientes, Mensajes y los recordatorios.
 - **Ícono de estado solo si no está confirmado** (! o ?, delante del nombre). Confirmado es lo normal: alcanza con el color.
 - **Horario real:** lunes a viernes, 09–13 y 15–20. El corte de 13 a 15 es una franja rayada angosta, "Cerrado 13–15", no dos horas vacías. La línea "Ahora" separa los turnos que ya empezaron de los que vienen.
@@ -51,7 +59,7 @@ El rediseño se diseña para **recepción**. Los otros dos roles quedan para cua
 Pregunta que responde: **dónde hay lugar para agendar o reacomodar?**
 
 - **Calendario de lunes a sábado, 08 a 20 h, una columna por día (2026-10-07, sección 2b del handoff en `Dashboard - Claude Design/Redesign/`).** Escala de 1,2 px por minuto. Los turnos a la misma hora van lado a lado, sin decir de quién es cada uno. Arriba de cada día, cuántos turnos tiene; la columna de hoy va resaltada, con la línea de "ahora".
-- **Bloques:** confirmado en verde claro; sin confirmar en blanco con borde punteado dorado y un punto; ya atendido en gris. Si el bloque es bajo, va en una línea (hora y clienta); desde 58 px suma el tratamiento.
+- **Bloques:** confirmado en verde salvia claro; sin confirmar en blanco con borde punteado dorado y un punto; ya atendido en gris. Si el bloque es bajo, va en una línea (hora y clienta); desde 58 px suma el tratamiento.
 - **Arrastrar para mover**, de a 15 minutos, con mouse o con el dedo. Mientras se arrastra, un recuadro muestra adónde cae y a qué hora. No se puede mover un turno al pasado ni mover uno que ya pasó. Al soltar aparece "Turno movido" con **Deshacer** durante 5 segundos. El cambio se ve en todas las pantallas: Día, Inicio, Clientes y Mensajes.
 - Tocar un turno de hoy abre la vista Día con ese turno. Tocar un espacio libre (de hoy en adelante) arma un turno nuevo con día y hora.
 - **Toggle Día / Semana** en el encabezado de Agenda. La vista queda en la dirección (`?view=day` o `?view=week`): al recargar o compartir el link abre igual.
@@ -74,7 +82,7 @@ Pregunta que responde: **cómo agendo rápido sin pisar otro turno?** (sección 
 
 ## 2. Distribución y formato
 
-- **Arriba, a todo el ancho:** el resumen del día en verde y debajo "Requiere atención" (solo si hay algo pendiente).
+- **Arriba, a todo el ancho:** el resumen del día en terracota y debajo "Requiere atención" (solo si hay algo pendiente).
 - **Izquierda:** el calendario de hoy.
 - **Derecha:** el detalle del turno seleccionado.
 - **Marca, con lo que hoy no cumple:**
@@ -89,8 +97,8 @@ Pregunta que responde: **cómo agendo rápido sin pisar otro turno?** (sección 
   - **Línea de "ahora"** en la vista Día y **selector Día/Semana separado** del botón "+ Turno", que es el único botón sólido.
 - **Modo claro y oscuro (2026-10-03):**
   - El switch está al pie de la barra lateral. Recuerda la elección y, la primera vez, usa el modo del sistema.
-  - **Claro:** fondo `#F8F6F3`, más tenue que el crema anterior. Barra lateral `#002A24`.
-  - **Oscuro, "verde noche":** fondos verdosos (`#0E1614`, tarjetas `#15201D`), no negro neutro. El botón principal pasa a crema con texto verde, porque la marca no permite verdes brillantes y un verde oscuro se perdería sobre ese fondo. Estados y dorados en versiones más claras.
+  - **Claro (2026-10-08):** fondo marfil `#F5F2EE`, barra lateral ciruela `#352B30`. Antes: fondo `#F8F6F3` y barra verde `#002A24`.
+  - **Oscuro, "ciruela noche" (2026-10-08):** fondos ciruela (`#1A1517`, tarjetas `#241D20`), no negro neutro. El botón principal pasa a crema con texto terracota oscuro; el resumen del día queda en terracota en los dos temas. Estados y dorados en versiones más claras. Antes era "verde noche".
   - Todos los textos medidos pasan 4.5:1 en los dos temas.
 - **Tamaño de letra (2026-10-07):** texto base 15 px, nada por debajo de 12 px (antes había textos de 10 a 12 px). Se prefiere letra grande con scroll a que entre todo el día: el calendario hace scroll por dentro y arranca en la hora actual.
 

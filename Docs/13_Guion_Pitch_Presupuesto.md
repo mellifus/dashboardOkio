@@ -1,0 +1,46 @@
+# 13 · Guion del pitch del presupuesto
+
+**Estado:** v1, 2026-10-08
+**Para:** la reunión con la dueña de Okio, después de la demo y de las tres preguntas. Dura unos dos minutos.
+**Relacionados:** `11_Carilla_Propuesta_Okio.html` (la propuesta por escrito), `12_Recordatorio_Esencial_vs_Completo.html` (cómo cambia el recordatorio en cada paquete), `Demo_octubre_unificada.md` (el guion de la demo).
+
+---
+
+## 1. Conectar con lo que te contaron (30 segundos)
+
+> Bueno, por lo que me contaste, lo que más tiempo les lleva es [lo que hayan respondido: los turnos que quedan sin fecha / escribir los mensajes / tener todo disperso]. Eso es justo lo que quiero resolver primero.
+
+> Lo que vieron recién es una demo, con datos inventados. La versión de verdad la armo con sus tratamientos, sus turnos y lo que me contaron hoy.
+
+## 2. Los dos paquetes (45 segundos)
+
+> Pensé dos formas de arrancar.
+
+> La primera es Esencial: la agenda en un solo lugar, cada turno con su tratamiento, recordatorios que dicen qué tratamiento es, y una lista de los turnos que quedaron sin fecha para que no se pierda ninguno. Paso todo lo que hoy tienen en el Calendar y el Excel, y capacito a recepción.
+
+> La segunda es Completo, que suma la IA. Les escribe los recordatorios y las confirmaciones como escribe recepción, y ustedes los revisan antes de mandarlos. Les ahorra más tiempo en los mensajes que cambian cada vez, como las indicaciones antes de un tratamiento o un cambio de horario.
+
+## 3. El precio (30 segundos)
+
+> Esencial tiene una puesta en marcha de 300 dólares y después 40 por mes. Completo son 450 de puesta en marcha y 50 por mes. Se cobra en pesos, al dólar oficial del día.
+
+> Como son mi primera clienta, si arrancamos antes del 31 de octubre les hago un 30% menos en la puesta en marcha. A cambio les pido mostrar el proyecto en mi portfolio y que me cuenten qué les pareció después del primer mes.
+
+*Acá te callás y esperás a que hable ella.*
+
+## 4. Cierre
+
+> Te dejo la propuesta por escrito, con el detalle de cada cosa. Qué te parece si te escribo el jueves y lo vemos?
+
+---
+
+## Si te dice algo de esto
+
+**"Está caro" o "hay sistemas más baratos":**
+> Sí, hay sistemas genéricos de unos 30 dólares por mes. La diferencia es que este está hecho para cómo trabajan ustedes, la IA escribe como escribe recepción y yo estoy cerca para ajustarlo. Si les queda alto, podemos arrancar con Esencial y sumar la IA más adelante.
+
+**"Qué pasa con los mensajes que mandan las clientas?":**
+> Por ahora siguen llegando a WhatsApp como hoy. Que lleguen solos al sistema es el paso siguiente, cuando la agenda ya esté funcionando.
+
+**"Lo tengo que pensar":**
+> Dale, obvio. Te escribo el jueves y lo hablamos.

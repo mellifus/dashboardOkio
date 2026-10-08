@@ -1,0 +1,230 @@
+<title>Recordatorio Esencial y Completo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: mismo lenguaje que la demo (paleta de la clínica). Arriba, selector de paquete; abajo, turno a la izquierda y borrador a la derecha; al pie, la comparación. Se apila en celular. */
+:root {
+  --page: #F5F2EE; --surface: #FFFDFB; --line: #E4DAD5; --text: #352B30; --muted: #6E6266;
+  --gold: #B99268; --gold-text: #74532F; --accent: #793F35; --solid-text: #FFFFFF;
+  --brand-soft: #E4DAD5; --fill: #F1E6D6; --fill-text: #6E5030;
+  --ok-bg: #E2E7DF; --ok-text: #3E5444; --ai-bg: #EFE3E9; --ai-text: #6A3C55;
+  --serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --page: #1A1517; --surface: #241D20; --line: #3A3034; --text: #EFE8E4; --muted: #B5A9A7;
+    --gold: #C9A583; --gold-text: #D9BB92; --accent: #E2A99C; --solid-text: #3A1E19;
+    --brand-soft: #3A2D30; --fill: #2F271E; --fill-text: #EBD5B5;
+    --ok-bg: #22302A; --ok-text: #CFE2D4; --ai-bg: #33242D; --ai-text: #E6C3D6; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --page: #1A1517; --surface: #241D20; --line: #3A3034; --text: #EFE8E4; --muted: #B5A9A7;
+  --gold: #C9A583; --gold-text: #D9BB92; --accent: #E2A99C; --solid-text: #3A1E19;
+  --brand-soft: #3A2D30; --fill: #2F271E; --fill-text: #EBD5B5;
+  --ok-bg: #22302A; --ok-text: #CFE2D4; --ai-bg: #33242D; --ai-text: #E6C3D6; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--page); color: var(--text); font: 400 16px/1.5 var(--sans); padding-inline: 16px; padding-block: 24px 40px; margin: 0; }
+.page { max-width: 980px; margin: 0 auto; display: grid; gap: 20px; }
+p { margin: 0; }
+h1 { font: 400 clamp(26px, 4vw, 34px)/1.15 var(--serif); margin: 0; text-wrap: balance; }
+h1 em { font-style: italic; color: var(--gold); }
+.lead { color: var(--muted); max-width: 64ch; }
+.eyebrow { font: 600 12.5px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--gold-text); }
+
+.tabs { display: inline-flex; gap: 4px; background: var(--brand-soft); padding: 4px; border-radius: 999px; justify-self: start; flex-wrap: wrap; }
+.tab { border: 0; background: transparent; color: var(--text); font: 600 14px/1 var(--sans); padding: 11px 18px; border-radius: 999px; cursor: pointer; }
+.tab[aria-selected="true"] { background: var(--accent); color: var(--solid-text); }
+.tab:focus-visible, .btn:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.stage { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 16px; align-items: start; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: grid; gap: 12px; min-width: 0; }
+.card h2 { font: 400 22px/1.2 var(--serif); margin: 0; }
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font-size: 14.5px; }
+.kv dt { color: var(--muted); }
+.kv dd { margin: 0; font-weight: 500; }
+.chip { justify-self: start; font: 600 12.5px/1 var(--sans); padding: 7px 11px; border-radius: 999px; background: var(--fill); color: var(--fill-text); }
+
+.label { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13.5px; color: var(--muted); }
+.badge { font: 600 12.5px/1 var(--sans); padding: 6px 10px; border-radius: 999px; }
+.badge.fixed { background: var(--fill); color: var(--fill-text); }
+.badge.ai { background: var(--ai-bg); color: var(--ai-text); }
+textarea { width: 100%; min-height: 150px; resize: vertical; border: 1px solid var(--line); border-radius: 12px; padding: 14px; font: 400 15.5px/1.5 var(--sans); color: var(--text); background: var(--page); }
+textarea:disabled { color: var(--muted); font-style: italic; }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.btn { border: 0; border-radius: 999px; padding: 12px 20px; font: 600 14px/1 var(--sans); cursor: pointer; background: var(--accent); color: var(--solid-text); }
+.btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
+.btn:disabled { opacity: .5; cursor: default; }
+.sent { background: var(--ok-bg); color: var(--ok-text); border-radius: 12px; padding: 12px 14px; font-size: 14.5px; }
+
+.template { background: var(--page); border: 1px dashed var(--line); border-radius: 12px; padding: 14px; font-size: 15px; line-height: 1.7; }
+.slot { background: var(--fill); color: var(--fill-text); border-radius: 6px; padding: 1px 6px; font-weight: 600; white-space: nowrap; }
+.how { font-size: 14px; color: var(--muted); }
+table.ind { width: 100%; border-collapse: collapse; font-size: 14px; }
+table.ind th, table.ind td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.ind th { font: 600 12.5px/1.2 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.table-wrap { overflow-x: auto; }
+
+.compare { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.compare .card h3 { font: 500 18px/1.3 var(--serif); margin: 0; }
+.compare ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14.5px; }
+.note { font-size: 13px; color: var(--muted); }
+
+@media (max-width: 760px) {
+  .stage, .compare { grid-template-columns: 1fr; }
+}
+</style>
+
+<div class="page">
+  <header style="display:grid;gap:10px">
+    <p class="eyebrow">Okio · Recordatorio de turno</p>
+    <h1>El mismo recordatorio, <em>en los dos paquetes</em></h1>
+    <p class="lead">La demo muestra el recordatorio de Completo, porque lo redacta la IA. Acá se ve cómo sería en Esencial, con un mensaje fijo que se completa solo. Elegí un paquete y tocá "Preparar recordatorio".</p>
+  </header>
+
+  <div class="tabs" role="tablist" aria-label="Paquete">
+    <button class="tab" role="tab" id="tab-esencial" aria-selected="true" aria-controls="panel">Esencial · mensaje fijo</button>
+    <button class="tab" role="tab" id="tab-completo" aria-selected="false" aria-controls="panel">Completo · redacta la IA</button>
+  </div>
+
+  <div class="stage" id="panel" role="tabpanel">
+    <aside class="card" aria-label="Turno">
+      <p class="eyebrow">Turno de hoy</p>
+      <h2>Luciana Pérez</h2>
+      <dl class="kv">
+        <dt>Hora</dt><dd>16:00 a 17:15</dd>
+        <dt>Tratamientos</dt><dd>Peeling facial y depilación definitiva</dd>
+        <dt>Teléfono</dt><dd>351 555-0142</dd>
+      </dl>
+      <span class="chip" id="estado">Recordatorio sin enviar</span>
+      <button class="btn" id="btn-preparar">Preparar recordatorio</button>
+    </aside>
+
+    <section class="card" aria-label="Borrador">
+      <div class="label" id="label"><span class="badge fixed">Mensaje fijo</span><span>Tocá "Preparar recordatorio" para ver el borrador</span></div>
+      <textarea id="borrador" aria-label="Borrador del recordatorio" disabled>El borrador aparece acá.</textarea>
+      <div class="actions">
+        <button class="btn" id="btn-enviar" disabled>Aprobar y enviar</button>
+        <button class="btn ghost" id="btn-reset">Volver a empezar</button>
+      </div>
+      <p class="sent" id="sent" hidden>Listo. En la versión real, esto abre WhatsApp con el mensaje escrito y recepción toca enviar. El turno queda como "Recordatorio enviado".</p>
+
+      <div id="detalle-esencial" style="display:grid;gap:10px">
+        <p class="eyebrow">Cómo se arma</p>
+        <p class="how">Okio escribe el texto una sola vez. El sistema completa los huecos con los datos del turno:</p>
+        <div class="template">Hola <span class="slot">nombre</span>! Te recordamos tu turno de <span class="slot">día</span> a las <span class="slot">hora</span> para <span class="slot">tratamientos</span>. Para ese día: <span class="slot">indicaciones</span>. Nos confirmás si venís? Saludos!</div>
+        <p class="how">Las indicaciones salen de una tabla que también escribe Okio, una por tratamiento. Si el turno tiene dos tratamientos, se suman las dos.</p>
+        <div class="table-wrap">
+          <table class="ind">
+            <thead><tr><th>Tratamiento</th><th>Indicación para el día del turno</th></tr></thead>
+            <tbody>
+              <tr><td>Peeling facial</td><td>venir con la cara limpia y sin maquillaje</td></tr>
+              <tr><td>Depilación definitiva</td><td>venir rasurada y sin cremas</td></tr>
+              <tr><td>Peeling corporal</td><td>traer una toalla</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="detalle-completo" style="display:none;gap:10px">
+        <p class="eyebrow">Cómo se arma</p>
+        <p class="how">La IA mira el turno y las mismas indicaciones, y escribe el mensaje de cero, con la voz de recepción. Junta los dos tratamientos en una frase y resume las indicaciones. Tarda unos segundos y cuesta centavos por mensaje.</p>
+      </div>
+    </section>
+  </div>
+
+  <section style="display:grid;gap:12px">
+    <p class="eyebrow">La diferencia</p>
+    <div class="compare">
+      <div class="card">
+        <h3>Esencial · mensaje fijo</h3>
+        <ul>
+          <li>Ya dice el tratamiento y las indicaciones, que es lo que hoy falta.</li>
+          <li>Sale al instante y siempre igual. Solo cambian los datos.</li>
+          <li>Con dos tratamientos queda más largo, porque suma las dos indicaciones.</li>
+          <li>No tiene costo por mensaje.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Completo · redacta la IA</h3>
+        <ul>
+          <li>Suena como escribe recepción y une los tratamientos en una frase.</li>
+          <li>Se adapta a cada caso: dos tratamientos, primera visita, cambio de horario.</li>
+          <li>Sirve también para confirmaciones y mensajes que cambian cada vez.</li>
+          <li>Cuesta centavos por mensaje.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="note">En los dos paquetes recepción lee el mensaje, lo puede editar y recién ahí lo envía. Datos de ejemplo. El texto de la IA es un ejemplo fijo; en la demo lo escribe la IA en el momento.</p>
+  </section>
+</div>
+
+<script>
+var MENSAJES = {
+  esencial: "Hola Luciana! Te recordamos tu turno de hoy a las 16:00 para peeling facial y depilación definitiva. Para ese día: venir con la cara limpia y sin maquillaje. Venir rasurada y sin cremas. Nos confirmás si venís? Saludos!",
+  completo: "Hola Luciana! Te esperamos hoy a las 16 hs para peeling facial y depilación definitiva. Vení sin maquillaje y con la zona rasurada. Nos confirmás si venís? Saludos!"
+};
+var plan = "esencial", timer = null;
+var $ = function (id) { return document.getElementById(id); };
+
+function reset() {
+  clearTimeout(timer);
+  $("borrador").value = "El borrador aparece acá.";
+  $("borrador").disabled = true;
+  $("btn-enviar").disabled = true;
+  $("btn-preparar").disabled = false;
+  $("sent").hidden = true;
+  $("estado").textContent = "Recordatorio sin enviar";
+  setLabel(plan === "esencial" ? "Tocá \"Preparar recordatorio\" para ver el borrador" : "Tocá \"Preparar recordatorio\" para ver el borrador");
+}
+
+function setLabel(texto) {
+  var badge = plan === "esencial" ? '<span class="badge fixed">Mensaje fijo</span>' : '<span class="badge ai">Redactado por la IA</span>';
+  $("label").innerHTML = badge + "<span>" + texto + "</span>";
+}
+
+function elegir(p) {
+  plan = p;
+  $("tab-esencial").setAttribute("aria-selected", p === "esencial");
+  $("tab-completo").setAttribute("aria-selected", p === "completo");
+  $("detalle-esencial").style.display = p === "esencial" ? "grid" : "none";
+  $("detalle-completo").style.display = p === "completo" ? "grid" : "none";
+  reset();
+}
+
+function preparar() {
+  $("btn-preparar").disabled = true;
+  $("sent").hidden = true;
+  if (plan === "esencial") {
+    $("borrador").value = MENSAJES.esencial;
+    $("borrador").disabled = false;
+    $("btn-enviar").disabled = false;
+    setLabel("Completado con los datos del turno · Revisalo antes de enviar");
+    return;
+  }
+  $("borrador").value = "Redactando con IA…";
+  setLabel("Redactando…");
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  timer = setTimeout(function () {
+    $("borrador").value = MENSAJES.completo;
+    $("borrador").disabled = false;
+    $("btn-enviar").disabled = false;
+    setLabel("Borrador redactado por la IA · Revisalo antes de enviar");
+  }, reduce ? 200 : 1800);
+}
+
+function enviar() {
+  $("btn-enviar").disabled = true;
+  $("borrador").disabled = true;
+  $("sent").hidden = false;
+  $("estado").textContent = "Recordatorio enviado · esperando respuesta";
+}
+
+$("tab-esencial").addEventListener("click", function () { elegir("esencial"); });
+$("tab-completo").addEventListener("click", function () { elegir("completo"); });
+$("btn-preparar").addEventListener("click", preparar);
+$("btn-enviar").addEventListener("click", enviar);
+$("btn-reset").addEventListener("click", reset);
+</script>

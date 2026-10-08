@@ -678,7 +678,7 @@ function elegirConversacion(i){
     humano: '<div class="next alert notice"><span class="ic" role="img" aria-label="Requiere atención">!</span>' +
       '<div class="grow"><strong>Lo resuelve recepción, no el copiloto</strong>' +
       '<span>' + nombre + ' avisó que no puede venir. Respondele y ofrecele otro horario. El turno sigue sin confirmar: no se canceló.</span></div>' +
-      '<button class="pill sm" onclick="ir(\'agenda\');ver(\'semana\')">Ver huecos en la semana</button></div>' +
+      '<button class="pill sm" onclick="huecosPara(\'' + conv.nombre + '\')">Ver huecos en la semana</button></div>' +
       // Respuesta escrita por recepción: borde liso, porque no es un borrador del copiloto.
       '<div class="draft reply"><label for="respuesta">Tu respuesta por WhatsApp</label>' +
       '<textarea id="respuesta" rows="3" placeholder="Ej.: No pasa nada, ' + nombre + '! Te puedo ofrecer el ' + DIAS[SIG].largo + ' a las 18:00, te sirve?"></textarea>' +
@@ -843,8 +843,12 @@ function pintarCal(id, dias){
 
 function pintarSemana(){
   pintarCal('cal-semana', [0, 1, 2, 3, 4, 5]);
-  document.getElementById('bajada').textContent = TURNOS.length + ' turnos · Arrastrá un turno para moverlo · Tocalo para ver el detalle';
+  document.getElementById('bajada').textContent = REPROG ? 'Reprogramando a ' + REPROG + ' · Tocá un espacio libre y el turno nuevo sale con sus datos'
+    : TURNOS.length + ' turnos · Arrastrá un turno para moverlo · Tocalo para ver el detalle';
 }
+// Reprogramar desde Mensajes: la Semana recuerda a la clienta hasta que se agenda o se sale de Agenda.
+var REPROG = null;
+function huecosPara(nombre){ ir('agenda'); REPROG = nombre; ver('semana'); }
 
 // Arrastre con Pointer Events: anda con mouse y con el dedo. El fantasma muestra adónde cae y a qué hora.
 // sinClick: el click que el navegador manda al soltar un arrastre no abre el turno. Cada pointerdown lo limpia.
@@ -936,7 +940,9 @@ function iniciales(n){ return n.split(' ').map(function(w){ return w[0]; }).slic
 // pre: {d, hora} desde un espacio libre de la Semana, o {cliente} desde una ficha.
 function abrirNuevo(pre){
   pre = pre || {};
-  F = {q:'', cliente: pre.cliente ? {nombre:pre.cliente} : null, tel:'', tx:'', d: pre.d != null && pre.d >= HOY_D ? pre.d : HOY_D,
+  var r = !pre.cliente && REPROG && clientaDe(REPROG), tx = r && r.prox && durDe(r.prox.tx) ? r.prox.tx : '';
+  if (r) pre.cliente = r.nombre;
+  F = {q:'', cliente: pre.cliente ? {nombre:pre.cliente} : null, tel:'', tx:tx, d: pre.d != null && pre.d >= HOY_D ? pre.d : HOY_D,
        hora: pre.hora || '', wa:true, notas:'', intentado:false};
   F.inicial = cargado();
   F.volver = document.activeElement;
@@ -1081,10 +1087,13 @@ function agendar(){
   var t = {d:F.d, ini:F.hora, fin:hhmm(minutos(F.hora) + dur), c:nombre, tx:F.tx, estado:'pend',
            rec: F.wa ? 'Confirmación en borrador · falta aprobarla' : 'Todavía no enviado', notas:F.notas.trim(), reserva:F.wa};
   TURNOS.push(t);
+  // Reprogramación: el turno viejo (el que avisó que no puede) se libera; con Deshacer vuelve a su lugar.
+  var viejo = REPROG === nombre && TURNOS.filter(function(x){ return x.c === nombre && x !== t && !fue(x); })[0], iViejo = TURNOS.indexOf(viejo);
+  if (viejo) quitarTurno(iViejo);
   // Ficha: la clienta nueva se suma a Clientes; a una existente sin turno se le anota este como próximo.
   var c = clientaDe(nombre), nuevaFicha = !c, proxAntes = c && c.prox;
   if (!c) { c = {nombre:nombre, tel:F.tel.trim(), desde:MESES[HOY_FECHA.getMonth()] + ' ' + HOY_FECHA.getFullYear(), ultima:'Todavía no vino', prox:null}; CLIENTAS.push(c); }
-  if (!c.prox) c.prox = {tx:F.tx, estado:'pend'};
+  if (!c.prox || viejo) c.prox = {tx:F.tx, estado:'pend'};
   // Confirmación por WhatsApp: borrador en Mensajes. No sale hasta que recepción lo aprueba.
   var conv = null, convNueva = false, convAntes = null;
   if (F.wa) {
@@ -1096,15 +1105,22 @@ function agendar(){
     conv.resumen = 'Confirmación lista para revisar'; conv.borrador = mensajeReserva(t);
   }
   cerrarNuevo(true);
+  REPROG = null;
   refrescar();
-  avisarConDeshacer('Turno agendado: ' + nombre + ' · ' + diaCorto(t.d) + ', ' + t.ini, function(){
+  avisarConDeshacer((viejo ? 'Turno reprogramado: ' : 'Turno agendado: ') + nombre + ' · ' + diaCorto(t.d) + ', ' + t.ini, function(){
     var j = TURNOS.indexOf(t);
-    if (j >= 0) { TURNOS.splice(j, 1); if (turnoSel === j) turnoSel = proximo() != null ? proximo() : 0; else if (turnoSel > j) turnoSel--; }
+    if (j >= 0) quitarTurno(j);
+    if (viejo) { TURNOS.splice(iViejo, 0, viejo); if (turnoSel >= iViejo) turnoSel++; }
     if (nuevaFicha) CLIENTAS.splice(CLIENTAS.indexOf(c), 1); else c.prox = proxAntes;
     if (convNueva) CONVERSACIONES.splice(CONVERSACIONES.indexOf(conv), 1);
     else if (conv) Object.keys(convAntes).forEach(function(key){ conv[key] = convAntes[key]; });
     refrescar();
   });
+}
+
+function quitarTurno(j){
+  TURNOS.splice(j, 1);
+  if (turnoSel === j) turnoSel = proximo() != null ? proximo() : 0; else if (turnoSel > j) turnoSel--;
 }
 
 // Repinta lo que esté a la vista después de crear, mover o deshacer.
@@ -1272,6 +1288,7 @@ function pintarInicio(){
 }
 
 function ir(p){
+  REPROG = null;
   ['inicio','agenda','clientes','mensajes'].forEach(function(x){
     document.getElementById('pantalla-' + x).hidden = x !== p;
     document.getElementById('nav-' + x).classList.toggle('on', x === p);

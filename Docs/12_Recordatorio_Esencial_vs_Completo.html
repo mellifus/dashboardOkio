@@ -2,7 +2,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&display=swap">
 <style>
-/* Layout: mismo lenguaje que la demo (paleta de la clínica). Dos columnas lado a lado, cada una con su propio caso y su borrador: el recordatorio con mensaje fijo y la IA contestando una cancelación. Se apila en celular. */
+/* Layout: mismo lenguaje que la demo (paleta de la clínica). Dos casos uno debajo del otro, cada uno con su borrador: el recordatorio con mensaje fijo y la IA contestando una cancelación. */
 :root {
   --page: #F5F2EE; --surface: #FFFDFB; --line: #E4DAD5; --text: #352B30; --muted: #6E6266;
   --gold: #B99268; --gold-text: #74532F; --accent: #793F35; --solid-text: #FFFFFF;
@@ -30,14 +30,14 @@
 }
 * { box-sizing: border-box; }
 body { background: var(--page); color: var(--text); font: 400 16px/1.5 var(--sans); padding-inline: 16px; padding-block: 24px 40px; margin: 0; }
-.page { max-width: 1080px; margin: 0 auto; display: grid; gap: 20px; }
+.page { max-width: 820px; margin: 0 auto; display: grid; gap: 20px; }
 p { margin: 0; }
 h1 { font: 400 clamp(26px, 4vw, 34px)/1.15 var(--serif); margin: 0; text-wrap: balance; }
 h1 em { font-style: italic; color: var(--gold); }
 .lead { color: var(--muted); max-width: 72ch; }
 .eyebrow { font: 600 12.5px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--gold-text); }
 
-.cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; }
+.cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: grid; gap: 12px; min-width: 0; align-content: start; }
 .col-head { display: grid; gap: 6px; }
 .col-head h2 { font: 400 22px/1.2 var(--serif); margin: 0; }

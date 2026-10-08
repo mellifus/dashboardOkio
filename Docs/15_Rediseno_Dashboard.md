@@ -38,7 +38,7 @@ El rediseño se diseña para **recepción**. Los otros dos roles quedan para cua
   - Dorado = sin confirmar
   - Rosa profundo = requiere atención (por ejemplo, la clienta avisó que no puede venir)
   - El tratamiento va **escrito**, nunca como color.
-- **Vista Día como tarjeta (2026-10-07, diseño V1 "Tarjeta" de `Dashboard - Claude Design/Redesign/`)**: arriba un resumen en verde (turnos de hoy, confirmados, cuántos requieren atención y el próximo turno); abajo, a todo el ancho, la tarjeta "Requiere atención" con el botón para resolver cada uno. Debajo, en dos columnas: la lista "Turnos del día" en orden cronológico, con el próximo marcado, y a la derecha el detalle del turno elegido. Antes: un calendario con una columna por profesional.
+- **Vista Día como calendario (2026-10-08, pedido de Meli)**: arriba un resumen en verde (turnos de hoy, confirmados, cuántos requieren atención y el próximo turno); abajo, a todo el ancho, la tarjeta "Requiere atención" con el botón para resolver cada uno. Debajo, en dos columnas: **el calendario de hoy**, igual al de la Semana pero con una sola columna (mismas horas, franjas cerradas, línea de "ahora", arrastrar para mover y tocar un espacio libre para agendar), y a la derecha el detalle del turno elegido. Como la columna es ancha, cada bloque muestra siempre hora, clienta y tratamiento, con letra más grande. Arranca mostrando la hora actual. Antes (2026-10-07): una lista "Turnos del día" en orden cronológico (diseño V1 "Tarjeta"), y antes de eso un calendario con una columna por profesional.
 - **Nunca se nombra ni se cuenta a las profesionales (2026-10-07, pedido de Meli).** Importa qué se hace (tratamiento, horario, estado), no quién lo hace ni cuántas son. Vale para Agenda, Inicio, Clientes, Mensajes y los recordatorios.
 - **Ícono de estado solo si no está confirmado** (! o ?, delante del nombre). Confirmado es lo normal: alcanza con el color.
 - **Horario real:** lunes a viernes, 09–13 y 15–20. El corte de 13 a 15 es una franja rayada angosta, "Cerrado 13–15", no dos horas vacías. La línea "Ahora" separa los turnos que ya empezaron de los que vienen.
@@ -61,7 +61,7 @@ Pregunta que responde: **dónde hay lugar para agendar o reacomodar?**
 
 Pregunta que responde: **cómo agendo rápido sin pisar otro turno?** (sección 2e del handoff, 2026-10-07)
 
-- Se abre desde cada "+ Nuevo turno" (Inicio, Agenda Día y Semana), desde "+ Turno para…" en una ficha (con la clienta ya elegida) y al tocar un espacio libre de la Semana (con el día y la hora ya elegidos). Panel a la derecha; en celular, hoja desde abajo.
+- Se abre desde cada "+ Nuevo turno" (Inicio, Agenda Día y Semana), desde "+ Turno para…" en una ficha (con la clienta ya elegida) y al tocar un espacio libre del calendario, en Día o Semana (con el día y la hora ya elegidos). Panel a la derecha; en celular, hoja desde abajo.
 - **Clienta:** se busca por nombre (sin importar acentos). Si no existe, se agrega como nueva con su WhatsApp, y queda con ficha en Clientes.
 - **Tratamiento:** los de la demo, con su duración. **Sin precios**: Okio es real y un precio inventado se puede leer como verdadero.
 - **Sin elegir profesional.** El diseño traía chips con el nombre de cada una; se sacaron por la regla de no nombrarlas ni contarlas. Un horario está libre mientras haya menos turnos a la vez que el cupo de la clínica. El cupo no se muestra en ninguna pantalla.
@@ -74,7 +74,7 @@ Pregunta que responde: **cómo agendo rápido sin pisar otro turno?** (sección 
 ## 2. Distribución y formato
 
 - **Arriba, a todo el ancho:** el resumen del día en verde y debajo "Requiere atención" (solo si hay algo pendiente).
-- **Izquierda:** la lista de turnos del día.
+- **Izquierda:** el calendario de hoy.
 - **Derecha:** el detalle del turno seleccionado.
 - **Marca, con lo que hoy no cumple:**
   - Botones en **pill** (999px) con texto en mayúsculas, no los de 7px que hay ahora.

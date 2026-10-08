@@ -153,7 +153,7 @@ main{container-type:inline-size} /* Inicio y Agenda se acomodan al ancho del con
 .r-fu small{font-size:14.5px;color:var(--muted);text-wrap:pretty}
 .r-empty{padding:8px 24px 18px;font-size:15px;color:var(--muted)}
 
-/* Agenda · Día (V1 Tarjeta): resumen en verde, "Requiere atención" y la lista del día */
+/* Agenda · Día: resumen en verde, "Requiere atención" y el calendario de hoy */
 .hero{background:#003F36;color:#F5F1EC;border-radius:18px;padding:26px 28px;display:flex;flex-direction:column;gap:22px;margin-bottom:18px}
 .hero-top{display:flex;align-items:flex-end;gap:24px}
 .hero-top>div{flex:1;min-width:0}
@@ -177,25 +177,6 @@ main{container-type:inline-size} /* Inicio y Agenda se acomodan al ancho del con
 .need-row b{font-size:16px;font-weight:600}
 .need-row b span{font-weight:500;color:var(--muted)}
 .need-row p{margin:0;font-size:15px;line-height:1.45;text-wrap:pretty}
-.dlist{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
-.dlist-head{display:flex;align-items:baseline;gap:10px;padding:14px 20px;border-bottom:1px solid var(--line)}
-.dlist-head h2{margin:0;font:500 18px var(--serif);color:var(--accent)}
-.dlist-head small{font-size:14px;color:var(--muted)}
-.d-row{display:grid;grid-template-columns:72px minmax(0,1fr) auto;align-items:center;column-gap:18px;row-gap:8px;width:100%;padding:14px 20px;border:0;background:var(--surface);color:var(--text);font:inherit;text-align:left;cursor:pointer}
-.d-row+.d-row{border-top:1px solid var(--line)}
-.d-row:hover{background:var(--page)}
-.d-row.sig{background:var(--page);box-shadow:inset 3px 0 0 var(--accent)}
-.d-row.fue{opacity:.62}
-.d-row.sel{outline:2px solid var(--text);outline-offset:-2px}
-.d-row .hora{align-self:start;display:flex;flex-direction:column;gap:2px}
-.d-row .hora time{font:500 20px/1.1 var(--serif);color:var(--accent);font-variant-numeric:tabular-nums}
-.d-row .hora small{font-size:13px;color:var(--muted)}
-.d-row .who{min-width:0;display:flex;flex-direction:column;gap:3px}
-.d-row .who>span{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.d-row .who b{font-size:16.5px;font-weight:600}
-.d-row .who em{font-style:normal;font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
-.d-row .who .dot{width:7px;height:7px}
-.d-row .who small{font-size:15px;text-wrap:pretty}
 .st-pill{justify-self:end;font-size:13.5px;font-weight:600;padding:4px 10px;border-radius:999px;white-space:nowrap}
 .st-pill.donep{background:var(--done-bg);color:var(--muted)}
 
@@ -241,6 +222,14 @@ main{container-type:inline-size} /* Inicio y Agenda se acomodan al ancho del con
 .bl.lev{opacity:.4}
 .ghost{position:absolute;left:3px;right:3px;z-index:5;box-sizing:border-box;padding:3px 6px;border:2px solid var(--accent);border-radius:8px;background:color-mix(in srgb,var(--accent) 6%,transparent);pointer-events:none}
 .ghost span{font-size:12.5px;font-weight:700;padding:1px 6px;border-radius:4px;background:var(--solid-bg);color:var(--solid-text);font-variant-numeric:tabular-nums}
+/* Día: el mismo calendario con una sola columna (hoy). Más ancho, así que letra más grande y el tratamiento siempre visible. */
+.wk-1 .wk-in{min-width:0}
+.wk-1 .wk-top,.wk-1 .wk-body{grid-template-columns:52px minmax(0,1fr)}
+.wk-1 .bl{padding:3px 12px;line-height:1.25} /* un turno de 40 min (45 px) entra en dos líneas */
+.wk-1 .bl .fila{display:flex;align-items:center;gap:8px;min-width:0}
+.wk-1 .bl .h{font-size:14px} .wk-1 .bl b{font-size:15.5px} .wk-1 .bl .tx{font-size:14.5px}
+.wk-1 .bl.una .tx{flex:1;min-width:0}
+.bl.sel{outline:2px solid var(--text);outline-offset:1px;z-index:3}
 .legend.wk-legend i{display:inline-block;width:14px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;box-sizing:border-box}
 .sub{margin:6px 0 0;font-size:15px;color:var(--muted)}
 /* Toast de "Deshacer" (2d): se cierra solo a los 5 s */
@@ -413,9 +402,9 @@ textarea.field{resize:vertical;line-height:1.45}
   .metrics div{padding:14px 10px 14px 12px}
   .metrics b{font-size:34px}
   .metrics span{font-size:14px}
-  .h-row,.d-row{grid-template-columns:52px minmax(0,1fr);column-gap:12px}
-  .h-row time,.d-row .hora time{font-size:18px}
-  .h-row .st,.d-row .st-pill{grid-column:2;justify-self:start}
+  .h-row{grid-template-columns:52px minmax(0,1fr);column-gap:12px}
+  .h-row time{font-size:18px}
+  .h-row .st{grid-column:2;justify-self:start}
   .r-sub,.r-item{padding-left:16px;padding-right:16px}
   .r-item .btn{align-self:stretch}
   .hero{padding:20px 18px}
@@ -423,7 +412,7 @@ textarea.field{resize:vertical;line-height:1.45}
   .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
   .stats span,.stats small{white-space:normal}
   .stats b{font-size:26px}
-  .d-row,.need-row,.need-head,.dlist-head{padding-left:16px;padding-right:16px}
+  .need-row,.need-head{padding-left:16px;padding-right:16px}
 }
 </style>
 </head>
@@ -473,12 +462,12 @@ textarea.field{resize:vertical;line-height:1.45}
       </div>
     </header>
 
-    <!-- Día: resumen, lo que requiere atención y la lista del día. Maqueta: hora fija 15:20. -->
+    <!-- Día: resumen, lo que requiere atención y el calendario de hoy. Maqueta: hora fija 15:20. -->
     <div id="vista-dia">
       <section class="hero" id="hero" aria-label="Resumen del día"></section>
       <section class="need" id="attn" aria-label="Requiere atención"></section>
       <div class="layout">
-        <section class="dlist" id="lista-dia" aria-label="Turnos del día"></section>
+        <section class="wk wk-1" id="lista-dia" aria-label="Turnos del día"></section>
         <aside class="card detail" id="detalle" aria-live="polite"></aside>
       </div>
     </div>
@@ -547,12 +536,7 @@ var OTROS = [
   '2|17:00|18:00|Rocío Benítez|Radiofrecuencia facial'
 ].map(function(s){ var x = s.split('|'); return {d:+x[0], ini:x[1], fin:x[2], c:x[3], tx:x[4], estado:x[5] || 'past'}; });
 
-// Escala del calendario: 64 px por hora; el corte 13–15 ocupa una franja de 34 px.
-var PX = 64 / 60, CORTE = 34;
-function y(m){ return m <= 780 ? (m - 540) * PX : 240 * PX + CORTE + (Math.max(m, 900) - 900) * PX; }
-function minDeY(px){ return px <= 240 * PX ? 540 + px / PX : 900 + (px - 240 * PX - CORTE) / PX; }
 function hhmm(m){ return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'); }
-function corto(nombre){ var p = nombre.split(' '); return p[0] + ' ' + p[1][0] + '.'; }
 
 // Clientas ficticias. estado: ok = confirmado, pend = sin confirmar, alert = requiere atención.
 var ESTADOS = {
@@ -743,7 +727,7 @@ function pendientesHoy(){
   }).filter(Boolean);
 }
 
-// Agenda · Día (V1 Tarjeta): resumen, requiere atención y la lista en orden cronológico.
+// Agenda · Día: resumen, requiere atención y el calendario de hoy.
 function pintarDia(){
   var hoy = deHoy(), sig = proximo(), pend = pendientesHoy(), porHacer = pend.filter(function(x){ return x.accion; }).length;
   var conf = hoy.filter(function(i){ return TURNOS[i].estado === 'ok'; }).length;
@@ -769,15 +753,7 @@ function pintarDia(){
       return '<div class="need-row"><div><b>' + t.c + ' <span>· ' + t.ini + ' · ' + t.tx + '</span></b><p>' + x.texto + '</p></div>' + x.accion + '</div>';
     }).join('');
 
-  document.getElementById('lista-dia').innerHTML =
-    '<div class="dlist-head"><h2>Turnos del día</h2><small>Orden cronológico</small></div>' +
-    hoy.map(function(i){
-      var t = TURNOS[i], s = estadoHoy(t), marca = s === 'alert' || s === 'pend' || s === 'sent';
-      return '<button class="d-row' + (i === sig ? ' sig' : '') + (s === 'done' ? ' fue' : '') + (i === turnoSel ? ' sel" aria-current="true' : '') + '" onclick="verTurno(' + i + ')">' +
-        '<span class="hora"><time>' + t.ini + '</time><small>' + duracion(t) + '</small></span>' +
-        '<span class="who"><span><b>' + t.c + '</b>' + (i === sig ? '<em>Próximo</em>' : '') + (marca ? '<i class="dot" role="img" aria-label="Requiere atención"></i>' : '') + '</span>' +
-        '<small>' + t.tx + '</small></span>' + pillEstado(s) + '</button>';
-    }).join('');
+  pintarCal('lista-dia', [HOY_D]);
 }
 
 // Semana (2b): lunes a sábado, 08–20 h, 1,2 px por minuto. Los turnos que se pisan van lado a lado
@@ -810,30 +786,39 @@ function carriles(ids){
   return ids;
 }
 
-function bloque(i){
+// dia: en la vista Día el bloque es ancho, así que va hora + clienta en una línea y el tratamiento siempre.
+function bloque(i, dia){
   var t = TURNOS[i], a = minutos(t.ini), alto = (minutos(t.fin) - a) * WPX - 3, pasado = fue(t);
   var sinConf = !pasado && t.estado !== 'ok', tipo = pasado ? 'past' : sinConf ? 'pend' : 'ok';
   var estado = pasado ? 'Atendido' : ESTADOS[t.estado].texto;
   var hora = '<span class="h">' + t.ini + (sinConf ? '<i class="dot"></i>' : '') + '</span>';
-  return '<button class="bl bl-' + tipo + (alto < 44 ? ' una' : '') + '" data-i="' + i + '"' +
+  var dentro = dia
+    ? '<span class="fila">' + hora + '<b>' + t.c + '</b></span><span class="tx">' + t.tx + '</span>'
+    : hora + '<b>' + t.c + '</b>' + (alto > 58 ? '<span class="tx">' + t.tx + '</span>' : '');
+  return '<button class="bl bl-' + tipo + (alto < 44 ? ' una' : '') + (dia && i === turnoSel ? ' sel' : '') + '" data-i="' + i + '"' +
     ' style="top:' + (yS(a) + 1) + 'px;height:' + alto + 'px;left:calc(' + (100 * t.k / t.n) + '% + 3px);width:calc(' + (100 / t.n) + '% - 6px)"' +
     ' title="' + t.ini + '–' + t.fin + ' · ' + t.c + ' — ' + t.tx + ' · ' + estado + '"' +
     (pasado ? '' : ' onpointerdown="agarrar(event,' + i + ')" onpointermove="arrastrar(event)" onpointerup="soltar()" onpointercancel="cancelar()"') +
-    ' onclick="tocar(' + i + ')">' + hora + '<b>' + t.c + '</b>' + (alto > 58 ? '<span class="tx">' + t.tx + '</span>' : '') + '</button>';
+    ' onclick="tocar(' + i + ')">' + dentro + '</button>';
 }
 
-function pintarSemana(){
-  var dias = [0, 1, 2, 3, 4, 5], top = '<div></div>', body = '<div class="wk-horas" style="height:' + yS(WK1) + 'px">';
+// Calendario de uno o más días: Semana (lunes a sábado) y Día (solo hoy) usan el mismo.
+function pintarCal(id, dias){
+  var dia = dias.length === 1, top = '<div></div>', body = '<div class="wk-horas" style="height:' + yS(WK1) + 'px">';
   for (var m = WK0 + 60; m < WK1; m += 60) body += '<span style="top:' + yS(m) + 'px">' + hhmm(m) + '</span>';
   body += '</div>';
   dias.forEach(function(d){
     var x = DIAS[d], ids = delDia(d), hoy = d === HOY_D;
-    top += '<div' + (hoy ? ' class="hoy"' : '') + '><b>' + x.d + ' ' + x.n + '</b>' + (hoy ? '<em>Hoy</em>' : '') + '<small>' + ids.length + '</small></div>';
+    top += '<div' + (hoy ? ' class="hoy"' : '') + '><b>' + x.d + ' ' + x.n + '</b>' + (hoy ? '<em>Hoy</em>' : '') + '<small>' + ids.length + (dia ? ' turnos' : '') + '</small></div>';
     body += '<div class="wk-dia' + (hoy ? ' hoy' : '') + (d < HOY_D ? ' pasado' : '') + '" data-d="' + d + '" style="height:' + yS(WK1) + 'px" onclick="nuevoEn(event,this)">' +
-      franjasCerradas(d) + carriles(ids).map(bloque).join('') +
+      franjasCerradas(d) + carriles(ids).map(function(i){ return bloque(i, dia); }).join('') +
       (hoy ? '<div class="wk-now" style="top:' + yS(minutos(AHORA)) + 'px"></div>' : '') + '</div>';
   });
-  document.getElementById('cal-semana').innerHTML = '<div class="wk-in"><div class="wk-top">' + top + '</div><div class="wk-body">' + body + '</div></div>';
+  document.getElementById(id).innerHTML = '<div class="wk-in"><div class="wk-top">' + top + '</div><div class="wk-body">' + body + '</div></div>';
+}
+
+function pintarSemana(){
+  pintarCal('cal-semana', [0, 1, 2, 3, 4, 5]);
   document.getElementById('bajada').textContent = TURNOS.length + ' turnos · Arrastrá un turno para moverlo · Tocalo para ver el detalle';
 }
 
@@ -853,7 +838,7 @@ function arrastrar(e){
   a.mov = true; a.el.classList.add('lev');
   var g = document.getElementById('ghost'); if (g) g.remove();
   a.dest = null;
-  var col = [].filter.call(document.querySelectorAll('#cal-semana .wk-dia'), function(c){
+  var col = [].filter.call(document.querySelectorAll('.wk-dia'), function(c){ // Día o Semana: la oculta mide 0
     var r = c.getBoundingClientRect(); return e.clientX >= r.left && e.clientX < r.right;
   })[0];
   if (!col) return;
@@ -1267,6 +1252,7 @@ function ir(p){
     else document.getElementById('nav-' + x).removeAttribute('aria-current');
   });
   if (p === 'inicio') pintarInicio();
+  if (p === 'agenda') mostrarAhora();
   if (p === 'clientes') { pintarListaClientas(); filtrarClientas(document.getElementById('buscar').value); }
   urlVista();
 }
@@ -1289,10 +1275,12 @@ function ver(v){
   document.getElementById('eyebrow').textContent = dia ? 'Agenda · Día' : 'Agenda · Semana';
   document.getElementById('titulo').textContent = dia ? 'Agenda' : 'Semana del 14 de septiembre';
   urlVista();
-  if (dia) return;
-  pintarSemana();
-  var cal = document.getElementById('cal-semana');
-  cal.scrollTop = Math.max(0, yS(minutos(AHORA)) - 200); // arranca mostrando la hora actual
+  if (!dia) pintarSemana();
+  mostrarAhora();
+}
+// El calendario arranca mostrando la hora actual. Solo funciona con la Agenda visible, por eso lo llaman ver() e ir().
+function mostrarAhora(){
+  document.getElementById(vista === 'dia' ? 'lista-dia' : 'cal-semana').scrollTop = Math.max(0, yS(minutos(AHORA)) - 200);
 }
 
 pintarListaClientas();

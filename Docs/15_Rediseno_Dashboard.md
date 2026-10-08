@@ -38,28 +38,44 @@ El rediseño se diseña para **recepción**. Los otros dos roles quedan para cua
   - Dorado = sin confirmar
   - Rosa profundo = requiere atención (por ejemplo, la clienta avisó que no puede venir)
   - El tratamiento va **escrito**, nunca como color.
-- **Vista Día como calendario (2026-10-07)**: filas por hora y **una columna por profesional**; cada turno es un bloque del alto de su duración, con la clienta en negrita y abajo el horario y el tratamiento. Los huecos libres se ven solos, y **un click en un horario libre arma el turno nuevo** con esa profesional y esa hora (pensado para cuando la recepcionista agenda en persona). Arranca mostrando la hora actual. Antes (2026-10-04): una lista única con las dos profesionales mezcladas; Meli pidió volver a un calendario común porque es más cómodo para recepción.
-- **"Requiere atención" arriba de la columna derecha**, encima del detalle. Lista los turnos sin confirmar y los avisos. Arriba de la grilla le quitaba altura y el día no entraba en una notebook.
+- **Vista Día como tarjeta (2026-10-07, diseño V1 "Tarjeta" de `Dashboard - Claude Design/Redesign/`)**: arriba un resumen en verde (turnos de hoy, confirmados, cuántos requieren atención y el próximo turno); abajo, a todo el ancho, la tarjeta "Requiere atención" con el botón para resolver cada uno. Debajo, en dos columnas: la lista "Turnos del día" en orden cronológico, con el próximo marcado, y a la derecha el detalle del turno elegido. Antes: un calendario con una columna por profesional.
+- **Nunca se nombra ni se cuenta a las profesionales (2026-10-07, pedido de Meli).** Importa qué se hace (tratamiento, horario, estado), no quién lo hace ni cuántas son. Vale para Agenda, Inicio, Clientes, Mensajes y los recordatorios.
 - **Ícono de estado solo si no está confirmado** (! o ?, delante del nombre). Confirmado es lo normal: alcanza con el color.
 - **Horario real:** lunes a viernes, 09–13 y 15–20. El corte de 13 a 15 es una franja rayada angosta, "Cerrado 13–15", no dos horas vacías. La línea "Ahora" separa los turnos que ya empezaron de los que vienen.
-- **Vista por defecto:** Día.
+- **Vista por defecto:** Día. La demo abre en **Inicio** (diseño V3 "Editorial"): "Hoy" en grande, tres números, los turnos de hoy y "Para resolver ahora" (conversaciones que esperan respuesta y clientas sin turno para volver a contactar).
 - **Dispositivo principal:** la notebook de recepción.
-- **Una sola agenda** para todas las profesionales (Ingrid, Eliana; máximo 3); cada turno dice de quién es.
 
 ### Vista Semana
 
 Pregunta que responde: **dónde hay lugar para agendar o reacomodar?**
 
-- **El mismo calendario que la vista Día (2026-10-07)**, de lunes a viernes: cada día se divide en **una subcolumna por profesional**. Así los turnos simultáneos de Ingrid y Eliana no se pisan y se ve de quién es cada hueco. **[confirmá con recepción]** si agendan eligiendo primero la profesional o el horario; si la profesional no importa, se puede pasar a una sola columna por día.
-- En Semana los nombres van cortos ("Valentina S.") y los turnos de menos de 50 min muestran solo la clienta.
-- **Días pasados** en gris neutro ("Ya pasó"), sin color de estado.
-- Click en un turno de hoy abre la vista Día con ese turno; click en el encabezado de hoy abre el día. Click en un horario libre arma un turno nuevo.
+- **Calendario de lunes a sábado, 08 a 20 h, una columna por día (2026-10-07, sección 2b del handoff en `Dashboard - Claude Design/Redesign/`).** Escala de 1,2 px por minuto. Los turnos a la misma hora van lado a lado, sin decir de quién es cada uno. Arriba de cada día, cuántos turnos tiene; la columna de hoy va resaltada, con la línea de "ahora".
+- **Bloques:** confirmado en verde claro; sin confirmar en blanco con borde punteado dorado y un punto; ya atendido en gris. Si el bloque es bajo, va en una línea (hora y clienta); desde 58 px suma el tratamiento.
+- **Arrastrar para mover**, de a 15 minutos, con mouse o con el dedo. Mientras se arrastra, un recuadro muestra adónde cae y a qué hora. No se puede mover un turno al pasado ni mover uno que ya pasó. Al soltar aparece "Turno movido" con **Deshacer** durante 5 segundos. El cambio se ve en todas las pantallas: Día, Inicio, Clientes y Mensajes.
+- Tocar un turno de hoy abre la vista Día con ese turno. Tocar un espacio libre (de hoy en adelante) arma un turno nuevo con día y hora.
+- **Toggle Día / Semana** en el encabezado de Agenda. La vista queda en la dirección (`?view=day` o `?view=week`): al recargar o compartir el link abre igual.
+- **Horario cerrado marcado (2026-10-07, pedido de Meli):** el diseño pide sábado y 08–20 h, pero Okio atiende de lunes a viernes, 09–13 y 15–20. El sábado entero y las franjas de 08–09 y 13–15 se ven rayadas con "Cerrado": no se puede soltar un turno ahí ni agendar uno nuevo.
 - Antes (2026-10-03): una tabla con horas libres, barra de ocupación y hueco más largo por celda. Se reemplazó porque no se parecía a una agenda.
+
+### Nuevo turno
+
+Pregunta que responde: **cómo agendo rápido sin pisar otro turno?** (sección 2e del handoff, 2026-10-07)
+
+- Se abre desde cada "+ Nuevo turno" (Inicio, Agenda Día y Semana), desde "+ Turno para…" en una ficha (con la clienta ya elegida) y al tocar un espacio libre de la Semana (con el día y la hora ya elegidos). Panel a la derecha; en celular, hoja desde abajo.
+- **Clienta:** se busca por nombre (sin importar acentos). Si no existe, se agrega como nueva con su WhatsApp, y queda con ficha en Clientes.
+- **Tratamiento:** los de la demo, con su duración. **Sin precios**: Okio es real y un precio inventado se puede leer como verdadero.
+- **Sin elegir profesional.** El diseño traía chips con el nombre de cada una; se sacaron por la regla de no nombrarlas ni contarlas. Un horario está libre mientras haya menos turnos a la vez que el cupo de la clínica. El cupo no se muestra en ninguna pantalla.
+- **Día y horario:** desde hoy, cada 30 minutos, solo horarios abiertos y con lugar. Si es hoy, desde ahora + 20 minutos.
+- **Confirmación por WhatsApp:** no sale sola. Queda como borrador en Mensajes con fecha, hora, tratamiento y las indicaciones de "días antes" (las sirve el servidor desde `ai-triage/generadores.mjs`), y recepción la aprueba. Mismo principio que el recordatorio: nada sale solo.
+- **Notas internas** opcionales: se ven en el detalle del turno.
+- **Cerrar con algo cargado pregunta antes:** "Descartar el turno?" con "Seguir editando" o "Descartar". Si el formulario está como se abrió, cierra directo. La pregunta va dentro del panel y no en una ventana del navegador, porque el visor de la maqueta publicada bloquea esas ventanas.
+- Al agendar: el turno aparece sin confirmar en Agenda e Inicio, y un aviso "Turno agendado" con **Deshacer** por 5 segundos.
 
 ## 2. Distribución y formato
 
-- **Izquierda:** la grilla del día, una columna por profesional.
-- **Derecha:** "Requiere atención" (solo si hay algo pendiente) y debajo el detalle del turno seleccionado.
+- **Arriba, a todo el ancho:** el resumen del día en verde y debajo "Requiere atención" (solo si hay algo pendiente).
+- **Izquierda:** la lista de turnos del día.
+- **Derecha:** el detalle del turno seleccionado.
 - **Marca, con lo que hoy no cumple:**
   - Botones en **pill** (999px) con texto en mayúsculas, no los de 7px que hay ahora.
   - **Nada de azul.** El kit usa azul (oklch hue 230) para "info", la categoría Corporal y algunos hilos. La marca lo prohíbe. En v2 quedan restos de esos tokens, así que hay que revisarlos.
@@ -93,7 +109,7 @@ Regla: **una tarjeta, una pregunta.** Si un dato no ayuda a responderla, va al d
 | Catálogo (post-MVP) | Cuánto cuesta y cuánto dura? | nombre, duración, precio | descripción, editar | Hoy tiene dos botones (Editar + Ver). Que la tarjeta entera sea clickeable. |
 
 **Clientes y Mensajes (maqueta, 2026-10-03):** misma estructura en las dos pantallas, con la lista a la izquierda y el detalle a la derecha.
-- **Clientes:** cada fila de la lista muestra el nombre y el próximo turno, más el ícono ! o ? cuando hace falta. La ficha muestra el WhatsApp, el próximo turno (con tratamiento y profesional), la última visita y el historial clínico detrás de un acceso restringido.
+- **Clientes:** cada fila de la lista muestra el nombre y el próximo turno, más el ícono ! o ? cuando hace falta. La ficha muestra el WhatsApp, el próximo turno (con tratamiento), la última visita y el historial clínico detrás de un acceso restringido.
 - **Mensajes:** el turno vinculado va en una sola línea arriba del chat. El borrador del copiloto tiene **borde punteado dorado**, igual que los huecos libres de la Agenda. En toda la app, punteado significa "todavía no es real".
 - El menú muestra un contador de mensajes sin leer.
 - **Recordatorios (2026-10-07):** llevan solo fecha y horario, tratamiento e indicaciones para venir, en 280 caracteres como máximo. Las indicaciones se separan por momento: las de **días antes** (ej. no usar retinol) van en el mensaje de reserva; las del **mismo día** (ej. venir sin maquillaje) van en el recordatorio. No nombran a la profesional: a la clienta no le cambia nada. Las indicaciones salen de una lista fija por tratamiento (`ai-triage/generadores.mjs`, hoy de ejemplo ficticio); la IA las redacta pero no inventa otras.
@@ -112,7 +128,7 @@ Regla: **una tarjeta, una pregunta.** Si un dato no ayuda a responderla, va al d
 ## Decidido (2026-10-03)
 
 1. Vista por defecto: **Día**. Dispositivo: **notebook de recepción**.
-2. **Una columna por profesional:** hoy Ingrid y Eliana, con espacio para una tercera. La recepcionista no tiene columna.
+2. ~~Una columna por profesional.~~ Reemplazado el 2026-10-07: la pantalla no nombra ni cuenta a las profesionales.
 3. **Estados: solo tres** (confirmado / sin confirmar / requiere atención). Hoy Okio no usa "llegó" ni "ausente". "Llegó" le agrega un click por clienta sin resolver un dolor observado. "Ausente" se agrega cuando quieran medir el ausentismo o mandar un mensaje después de una ausencia.
 
 ## Relacionados

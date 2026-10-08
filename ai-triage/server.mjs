@@ -12,7 +12,7 @@ import express from "express";
 import Anthropic from "@anthropic-ai/sdk";
 import { fileURLToPath } from "url";
 import path from "path";
-import { generarRecordatorios, plantillaAntes } from "./generadores.mjs";
+import { generarRecordatorios, plantillaAntes, INDICACIONES } from "./generadores.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -49,6 +49,10 @@ function getClient() {
   if (!client) client = new Anthropic(); // lee ANTHROPIC_API_KEY del entorno
   return client;
 }
+
+// Indicaciones por tratamiento (fuente única en generadores.mjs). La página arma con las de "antes"
+// el mensaje de reserva de un turno nuevo, sin copiarlas.
+app.get("/api/indicaciones", (req, res) => res.json(INDICACIONES));
 
 // La página le pide acá los borradores de recordatorio.
 app.post("/api/recordatorio", async (req, res) => {

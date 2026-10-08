@@ -1,0 +1,79 @@
+:root {
+  /* Base neutrals (blue-tinted gray, hue 260) */
+  --gray-1: oklch(100% 0 0);
+  --gray-2: oklch(99.5% 0.002 240);
+  --gray-3: oklch(98.5% 0.003 250);
+  --gray-4: oklch(98% 0.003 240);
+  --gray-5: oklch(97% 0.003 250);
+  --gray-6: oklch(96% 0.003 260);
+  --gray-7: oklch(94% 0.003 260);
+  --gray-8: oklch(93% 0.004 260);
+  --gray-9: oklch(91% 0.004 260);
+  --gray-10: oklch(90% 0.004 260);
+  --gray-11: oklch(88% 0.004 260);
+  --gray-12: oklch(62% 0.006 260);
+  --gray-13: oklch(58% 0.006 260);
+  --gray-14: oklch(55% 0.006 260);
+  --gray-15: oklch(52% 0.006 260);
+  --gray-16: oklch(50% 0.006 260);
+  --gray-17: oklch(45% 0.008 260);
+  --gray-18: oklch(30% 0.01 260);
+  --gray-19: oklch(18% 0.01 260);
+  --ink-sidebar: oklch(13% 0.015 260);
+  --ink-sidebar-text: oklch(65% 0.015 260);
+  --ink-sidebar-text-strong: oklch(97% 0.005 260);
+  --ink-sidebar-border: oklch(24% 0.015 260);
+  --ink-sidebar-muted: oklch(50% 0.015 260);
+
+  /* Brand accent — indigo/blue, used for primary actions, active states, links, AI */
+  --accent: oklch(56% 0.19 264);
+  --accent-strong: oklch(45% 0.14 264);
+  --accent-tint: oklch(93% 0.02 264);
+  --accent-tint-soft: oklch(97% 0.014 264);
+  --accent-tint-border: oklch(88% 0.03 264);
+  --accent-tint-border-2: oklch(90% 0.02 264);
+  --accent-dot-inactive: oklch(40% 0.01 260);
+  --accent-shadow: oklch(56% 0.19 264 / 0.35);
+
+  /* Semantic — status & category colors */
+  --warning: oklch(58% 0.16 55);
+  --warning-soft: oklch(58% 0.15 55);
+  --warning-bg: oklch(96% 0.03 55);
+  --warning-bg-strong: oklch(97.5% 0.02 55);
+  --warning-border: oklch(88% 0.05 55);
+  --warning-text: oklch(35% 0.13 45);
+  --warning-text-strong: oklch(40% 0.13 45);
+  --warning-text-body: oklch(32% 0.05 45);
+
+  --danger: oklch(56% 0.18 25);
+  --danger-bg: oklch(94% 0.03 25);
+  --danger-text: oklch(45% 0.16 25);
+
+  --success: oklch(58% 0.14 145);
+  --success-bg: oklch(58% 0.14 145 / 0.12);
+
+  --info: oklch(56% 0.15 230);
+
+  /* Links */
+  --link: var(--accent);
+  --link-hover: var(--accent-strong);
+
+  /* Surfaces */
+  --surface-page: var(--gray-4);
+  --surface-card: var(--gray-1);
+  --surface-sidebar: var(--ink-sidebar);
+  --surface-input: var(--gray-5);
+
+  /* Text */
+  --text-primary: var(--gray-19);
+  --text-secondary: var(--gray-17);
+  --text-muted: var(--gray-14);
+  --text-faint: var(--gray-12);
+  --text-on-accent: var(--gray-1);
+  --text-on-dark: var(--ink-sidebar-text);
+
+  /* Borders */
+  --border-subtle: var(--gray-7);
+  --border-default: var(--gray-9);
+  --border-strong: var(--gray-11);
+}

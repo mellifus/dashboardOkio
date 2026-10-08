@@ -15,6 +15,7 @@ Reemplaza la demo del 16/09 (`Clinic Platform UX v2.dc.html`), que queda como re
 - Para volver al inicio, recargá la página.
 - La IA tarda unos 4 segundos. Mientras dice "Redactando con IA…", aprovechá para hablar.
 - Datos ficticios. No se manda nada a ningún teléfono.
+- **La fecha es la real** (hoy, esta semana, los días de los mensajes). **La hora queda fija en 15:20**, porque el recorrido depende de ella: Sofía (15:00) y Luciana (16:00) tienen que estar pendientes. Sábado y domingo la demo muestra el lunes siguiente.
 
 ## Guion de cinco minutos
 
@@ -26,7 +27,7 @@ Reemplaza la demo del 16/09 (`Clinic Platform UX v2.dc.html`), que queda como re
 | 2:00–2:45 | Leer el borrador. Editar una palabra. | "Lo escribe en el tono de ustedes por WhatsApp, cortito para leer de un vistazo. Lo que hay que hacer los días previos, como no usar retinol, va antes, en la confirmación de la reserva. Y es un borrador: recepción lo lee, lo cambia si quiere y recién ahí lo aprueba. Nada sale solo." |
 | 2:45–3:15 | **Aprobar y enviar** → volver a Agenda | "El turno ahora dice que el recordatorio se mandó, y sigue sin confirmar hasta que Luciana conteste." |
 | 3:15–3:45 | Mensajes → Sofía → **Ver huecos en la semana** | "Cuando alguien cancela, esto no lo resuelve la IA: lo resuelve recepción, y la semana le muestra dónde hay lugar para reacomodar." |
-| 3:45–4:15 | Tocá un hueco del viernes. Se abre **Nuevo turno** con el día y la hora. Elegí a Sofía y un tratamiento. | "Tocás un hueco y el turno ya viene con día y hora. Solo ofrece horarios en que hay lugar. La confirmación por WhatsApp queda como borrador, igual que el recordatorio, y ya trae lo que tiene que hacer los días previos. Nada sale solo." Después, **Cancelar** y **Descartar**: la pregunta 3 importa más que agendarlo. |
+| 3:45–4:15 | En Semana, tocá un hueco libre de hoy más tarde (por ejemplo, a las 18:00). Se abre **Nuevo turno** con el día y la hora. Elegí a Sofía y un tratamiento. | "Tocás un hueco y el turno ya viene con día y hora. Solo ofrece horarios en que hay lugar. La confirmación por WhatsApp queda como borrador, igual que el recordatorio, y ya trae lo que tiene que hacer los días previos. Nada sale solo." Después, **Cancelar** y **Descartar**: la pregunta 3 importa más que agendarlo. |
 | 4:15–5:00 | Dejar de navegar | Las preguntas de abajo. |
 
 ## Si la dueña quiere tocar por su cuenta

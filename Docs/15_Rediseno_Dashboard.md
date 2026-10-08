@@ -100,7 +100,7 @@ Pregunta que responde: **cómo agendo rápido sin pisar otro turno?** (sección 
   - **Claro (2026-10-08):** fondo marfil `#F5F2EE`, barra lateral ciruela `#352B30`. Antes: fondo `#F8F6F3` y barra verde `#002A24`.
   - **Oscuro, "ciruela noche" (2026-10-08):** fondos ciruela (`#1A1517`, tarjetas `#241D20`), no negro neutro. El botón principal pasa a crema con texto terracota oscuro; el resumen del día queda en terracota en los dos temas. Estados y dorados en versiones más claras. Antes era "verde noche".
   - Todos los textos medidos pasan 4.5:1 en los dos temas.
-- **Tamaño de letra (2026-10-07):** texto base 15 px, nada por debajo de 12 px (antes había textos de 10 a 12 px). Se prefiere letra grande con scroll a que entre todo el día: el calendario hace scroll por dentro y arranca en la hora actual.
+- **Tamaño de letra (2026-10-08, elegido por Meli):** cuerpo de unos 13 px, etiquetas de 10 a 11,5 px y nada por debajo de 10 px (el texto del logo queda en 8,5). Es lo que se veía con el navegador al 80% después de haber subido todo a 16,5 px (2026-10-07); Meli lo probó así y le gustó más. Se prefiere letra legible con scroll a que entre todo el día: el calendario hace scroll por dentro y arranca en la hora actual.
 
 ---
 
